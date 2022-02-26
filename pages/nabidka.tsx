@@ -1,8 +1,8 @@
 import type { NextPage, GetStaticProps } from 'next'
-import { Meta } from './layout';
-import Header from './templates/header'
+import { Meta } from '../components/Meta'
+import Header from '../components/header'
 import {RegisterForm} from "../components/RegisterForm";
-import Footer from './templates/footer';
+import Footer from '../components/footer';
 
 const Home: NextPage = ({ offerTypes, districts }: any) => {
 	return (

@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
-import {Meta} from "./layout";
-import Header from "./templates/header";
-import {RegisterForm} from "../components/RegisterForm";
-import Footer from "./templates/footer";
+import {Meta} from "../components/Meta";
+import Header from "../components/header";
+import Footer from "../components/footer";
 import {VerifyForm} from "../components/VerifyForm";
 
 const Verify: NextPage = ({  }) => {

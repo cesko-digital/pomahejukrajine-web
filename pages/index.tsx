@@ -1,7 +1,7 @@
 import type {NextPage, GetStaticProps} from 'next'
-import {Meta} from './layout';
-import Header from './templates/header'
-import Footer from './templates/footer';
+import {Meta} from '../components/Meta'
+import Header from '../components/header'
+import Footer from '../components/footer';
 import Link from 'next/link'
 import Image from 'next/image'
 
