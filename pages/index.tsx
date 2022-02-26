@@ -16,7 +16,7 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 						Pomozme Ukrajincům
 					</p>
 					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
-						Neziskové organizace v ČR se spojili a toto je centrální místo, kde můžete nabídnout svou pomoc. Na tu vám
+						Neziskové organizace v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Na tu vám
 						pak mohou zareagovat buď naši kolegové v terénu nebo sami Ukrajinci.
 					</p>
 					<div className="mt-10 space-x-4 hidden">
