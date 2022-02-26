@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import {FormEvent, memo, useCallback, useState} from "react";
 
 interface RegisterFormProps {
@@ -201,4 +202,3 @@ export const RegisterForm = memo<RegisterFormProps>(
 		)
 	}
 )
-

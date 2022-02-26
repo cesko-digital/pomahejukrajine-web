@@ -1,16 +1,21 @@
 import type { NextPage, GetStaticProps } from 'next'
-import styles from '../styles/Home.module.css'
+import { Meta } from './layout';
+import Header from './templates/header'
 import {RegisterForm} from "../components/RegisterForm";
 
 const Home: NextPage = ({ offerTypes, districts }: any) => {
 	return (
-		<div className={styles.container}>
-			<main className={styles.main}>
-				<h1 className={styles.title}>
-					OPU: Dobrovolníci
-				</h1>
-				<RegisterForm offerTypes={offerTypes} districts={districts} />
-			</main>
+		<div className="antialiased text-gray-600">
+			<Meta title="Pomoc Ukrajině" description="Pomoc Ukrajině" />
+			<Header />
+			<div className="">
+				<main className="">
+					<h1 className="">
+						OPU: Dobrovolníci
+					</h1>
+					<RegisterForm offerTypes={offerTypes} districts={districts} />
+				</main>
+			</div>
 		</div>
 	)
 }
