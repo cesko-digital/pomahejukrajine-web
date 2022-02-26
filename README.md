@@ -19,4 +19,4 @@ NEXT_PUBLIC_CONTEMBER_CONTENT_URL="http://localhost:1481/content/ukrajina-contem
 NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
-Public token can be generated in Contember using command `npm run contember tenant:create-api-key` (role: `pulic`).
+Public token can be generated in Contember using command `npm run contember tenant:create-api-key` (role: `public`).
