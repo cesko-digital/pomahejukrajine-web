@@ -19,7 +19,7 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 						Neziskové organizace v ČR se spojili a toto je centrální místo, kde můžete nabídnout svou pomoc. Na tu vám
 						pak mohou zareagovat buď naši kolegové v terénu nebo sami Ukrajinci.
 					</p>
-					<div className="mt-10 space-x-4">
+					<div className="mt-10 space-x-4 hidden">
 						<Link href="/nabidka">
 							<a
 								className="inline-block bg-blue-600 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
