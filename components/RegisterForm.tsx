@@ -91,54 +91,58 @@ export const RegisterForm = memo<RegisterFormProps>(
 		}, [state])
 
 		if (submitting === 'success') {
-			return <p>Odesláno. Za chvíli Vám přijde ověřovací email, postupujte podle instrukce tam.</p>
+			return (
+				<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+					<p className="mx-3 font-medium text-white">Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, pro zobrazení vaší nabídky jej potřebujeme ověřit.</p>
+				</div>
+			)
 		}
 
 		const disabled = submitting === 'loading'
 		return (
-			<form style={{ display: 'flex', flexDirection: 'column' }} onSubmit={submit}>
-				{submitting === 'error' && <p>Něco se pokazilo. Zkuste to znovu.</p>}
-				<label>
-					Email:
-					<input
-						disabled={disabled}
-						type="email"
-						required
-						value={state.email}
-						onChange={(e) => setState({ ...state, email: e.target.value })}
-					/>
-				</label>
-				<label>
-					Telefon:
-					<input
-						disabled={disabled}
-						type="text"
-						required
-						value={state.phone}
-						onChange={(e) => setState({ ...state, phone: e.target.value })}
-					/>
-				</label>
-				<label>
-					Poznámka:
-					<textarea
-						disabled={disabled}
-						value={state.userNote}
-						onChange={(e) => setState({ ...state, userNote: e.target.value })}
-					/>
-				</label>
-				<label>
-					Specifická odbornost:
-					<input
-						disabled={disabled}
-						type="text"
-						value={state.expertise}
-						onChange={(e) => setState({ ...state, expertise: e.target.value })}
-					/>
-				</label>
-
+			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
+				<div>
+					{submitting === 'error' && <p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>}
+				</div>
+				<div>
+					<label htmlFor="email" className="block text-sm font-medium text-gray-700">
+						Email
+					</label>
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="email"
+							name="email"
+							required
+							value={state.email}
+							onChange={(e) => setState({ ...state, email: e.target.value })}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
+				</div>
+				<div>
+					<label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+						Telefon:
+					</label>
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="text"
+							name="phone"
+							required
+							value={state.phone}
+							onChange={(e) => setState({ ...state, phone: e.target.value })}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
+				</div>
+				<div className="mt-1">
+					<label className="block text-sm font-medium text-gray-700">
+						Co mohu nabídnout:
+					</label>
 				{offerTypes.map(offerType => (
-					<div key={offerType.id}>
-						<h3>
+					<div key={offerType.id} className="mt-1">
+						<div>
 							<label>
 								<input
 									disabled={disabled}
@@ -157,47 +161,95 @@ export const RegisterForm = memo<RegisterFormProps>(
 										setState({ ...state, offers })
 									}}
 								/>
-								{offerType.name}
+								<span className="pl-2 text-sm font-medium text-gray-700">{offerType.name}</span>
 							</label>
-						</h3>
+						</div>
 						{!!state.offers[offerType.id] && (
-							<>
-								<label>
+							<div className="mt-2">
+								<label className="block text-sm font-medium text-gray-700">
 									{offerType.noteLabel || (offerType.noteRequired ? 'Poznámka:' : 'Poznámka (nepovinná):')}
+								</label>
+								<div className="mt-1">
 									<textarea
 										disabled={disabled}
 										required={offerType.noteRequired}
 										value={state.offers[offerType.id].note}
+										className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
 										onChange={(e) => {
 											const offers = { ...state.offers }
 											offers[offerType.id].note = e.target.value
 											setState({ ...state, offers })
 										}}
 									/>
-								</label>
+								</div>
+
 								{offerType.hasCapacity && (
-									<label>
-										Kapacita:
+									<div className="mt-1">
+									<label className="block text-sm font-medium text-gray-700">
+										Kapacita
+									</label>
 										<input
 											disabled={disabled}
 											type="number"
 											required
 											value={state.offers[offerType.id].capacity}
+											className="py-3 px-4 block w-20 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 											onChange={(e) => {
 												const offers = { ...state.offers }
 												offers[offerType.id].capacity = parseInt(e.target.value)
 												setState({ ...state, offers })
 											}}
 										/>
-									</label>
+
+									</div>
 								)}
-							</>
+							</div>
 						)}
 					</div>
 				))}
+				</div>
+
+				<div>
+					<label htmlFor="specific" className="block text-sm font-medium text-gray-700">
+						Specifická odbornost (lékař, psycholog, právník, ...):
+					</label>
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="text"
+							name="specific"
+							value={state.expertise}
+							onChange={(e) => setState({ ...state, expertise: e.target.value })}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
+				</div>
+
+				<div>
+					<label htmlFor="note" className="block text-sm font-medium text-gray-700">
+						Poznámka
+					</label>
+					<div className="mt-1">
+						<textarea
+							disabled={disabled}
+							value={state.userNote}
+							name="note"
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+							onChange={(e) => setState({ ...state, userNote: e.target.value })}
+						/>
+					</div>
+				</div>
 
 				{/*<button onClick={submit}>Odeslat</button>*/}
-				<button type="submit" disabled={disabled}>Odeslat</button>
+				<div>
+					<button
+						type="submit"
+						disabled={disabled}
+						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+					>
+						Odeslat
+					</button>
+				</div>
 			</form>
 		)
 	}
