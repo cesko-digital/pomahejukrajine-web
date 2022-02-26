@@ -1,100 +1,34 @@
 import type { NextPage } from "next";
-import {FormEvent, useCallback, useState} from "react";
-
-interface VerifyState {
-	password: string;
-	passwordSecond: string;
-}
+import {Meta} from "./layout";
+import Header from "./templates/header";
+import {RegisterForm} from "../components/RegisterForm";
+import Footer from "./templates/footer";
+import {VerifyForm} from "../components/VerifyForm";
 
 const Verify: NextPage = ({  }) => {
-	const [submitting, setSubmitting] = useState<false | 'notSame' | 'submitting' | 'success' | 'error'>(false);
-	const [error, setError] = useState<string | null>(null);
-	const [state, setState] = useState<VerifyState>({
-		password: "",
-		passwordSecond: ""
-	});
-
-	const submit = useCallback(async (e: FormEvent) => {
-		e.preventDefault()
-		setSubmitting('submitting')
-
-		if (state.password !== state.passwordSecond) {
-			setSubmitting('notSame')
-			return
-		}
-
-		const urlSearchParams = new URLSearchParams(window.location.search);
-
-		const response = await fetch("/api/verify", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				password: state.password,
-				secretCode: urlSearchParams.get("secretCode"),
-				id: urlSearchParams.get("id"),
-			})
-		});
-
-		if (response.ok) {
-			setSubmitting('success')
-		} else {
-			let message = 'Chyba při odesílání formuláře'
-			try {
-				const json = await response.json()
-				if (typeof json.error === 'string') {
-					message = json.error
-				}
-			} catch (e) {}
-			setError(message)
-			setSubmitting('error')
-		}
-	}, [state]);
-
-
-	if (submitting === 'success') {
-		return <div>
-			<h1>Úspěch</h1>
-			<p>Vaše heslo bylo nastaveno</p>
-		</div>
-	}
-
-	const disabled = submitting === 'submitting'
-
 	return (
-		<div>
-			<h1>Nastav si heslo</h1>
-
-			<form onSubmit={submit}>
-				{submitting === 'notSame' && <p>Hesla se neshodují</p>}
-				{submitting === 'error' && <p>Nastala chyba</p>}
-				{error && <p>{error}</p>}
-				<label>
-					Heslo:
-					<input
-						disabled={disabled}
-						type="password"
-						required
-						value={state.password}
-						onChange={(e) => setState({ ...state, password: e.target.value })}
-					/>
-				</label>
-				<label>
-					Heslo pro kontrolu:
-					<input
-						disabled={disabled}
-						type="password"
-						required
-						value={state.passwordSecond}
-						onChange={(e) => setState({ ...state, passwordSecond: e.target.value })}
-					/>
-				</label>
-				<button disabled={disabled} type="submit">Nastavit</button>
-			</form>
-
+		<div className="antialiased text-gray-600">
+			<Meta title="Pomoc Ukrajině" description="Pomoc Ukrajině" noIndex />
+			<Header />
+			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+				<div className="relative max-w-xl mx-auto">
+					<main className="mt-2">
+						<div className="text-center">
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Nastavte si heslo</h2>
+							<p className="mt-4 text-lg leading-6 text-gray-500">
+								Toto je nutný krok, aby byla registrace dokončena.
+							</p>
+						</div>
+						<div className="mt-12">
+							<VerifyForm />
+						</div>
+					</main>
+				</div>
+			</div>
+			<Footer />
 		</div>
-	);
+	)
+		;
 }
 
 export default Verify;

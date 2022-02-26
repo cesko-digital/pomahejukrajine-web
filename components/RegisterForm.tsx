@@ -112,7 +112,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 						<input
 							disabled={disabled}
 							type="email"
-							name="email"
+							id="email"
 							required
 							value={state.email}
 							onChange={(e) => setState({ ...state, email: e.target.value })}
@@ -128,7 +128,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 						<input
 							disabled={disabled}
 							type="text"
-							name="phone"
+							id="phone"
 							required
 							value={state.phone}
 							onChange={(e) => setState({ ...state, phone: e.target.value })}
@@ -165,7 +165,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 							</label>
 						</div>
 						{!!state.offers[offerType.id] && (
-							<div className="mt-2 mb-4">
+							<div className="mt-2 mb-4 ml-4">
 								{offerType.hasCapacity && (
 									<div className="mt-1">
 									<label className="block text-sm font-medium text-gray-700">
