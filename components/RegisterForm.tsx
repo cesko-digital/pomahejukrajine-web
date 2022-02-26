@@ -106,7 +106,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 				</div>
 				<div>
 					<label htmlFor="email" className="block text-sm font-medium text-gray-700">
-						Email
+						Email (povinný)
 					</label>
 					<div className="mt-1">
 						<input
@@ -122,7 +122,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 				</div>
 				<div>
 					<label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-						Telefon:
+						Telefon (nepovinný)
 					</label>
 					<div className="mt-1">
 						<input
@@ -138,7 +138,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 				</div>
 				<div className="mt-1">
 					<label className="block text-sm font-medium text-gray-700">
-						Co mohu nabídnout:
+						Co mohu nabídnout (můžete vybrat více možností):
 					</label>
 				{offerTypes.map(offerType => (
 					<div key={offerType.id} className="mt-1">
@@ -165,24 +165,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 							</label>
 						</div>
 						{!!state.offers[offerType.id] && (
-							<div className="mt-2">
-								<label className="block text-sm font-medium text-gray-700">
-									{offerType.noteLabel || (offerType.noteRequired ? 'Poznámka:' : 'Poznámka (nepovinná):')}
-								</label>
-								<div className="mt-1">
-									<textarea
-										disabled={disabled}
-										required={offerType.noteRequired}
-										value={state.offers[offerType.id].note}
-										className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-										onChange={(e) => {
-											const offers = { ...state.offers }
-											offers[offerType.id].note = e.target.value
-											setState({ ...state, offers })
-										}}
-									/>
-								</div>
-
+							<div className="mt-2 mb-4">
 								{offerType.hasCapacity && (
 									<div className="mt-1">
 									<label className="block text-sm font-medium text-gray-700">
@@ -203,6 +186,23 @@ export const RegisterForm = memo<RegisterFormProps>(
 
 									</div>
 								)}
+
+								<label className="block text-sm font-medium text-gray-700">
+									{offerType.noteLabel || (offerType.noteRequired ? 'Poznámka:' : 'Poznámka (nepovinná):')}
+								</label>
+								<div className="mt-1">
+									<textarea
+										disabled={disabled}
+										required={offerType.noteRequired}
+										value={state.offers[offerType.id].note}
+										className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+										onChange={(e) => {
+											const offers = { ...state.offers }
+											offers[offerType.id].note = e.target.value
+											setState({ ...state, offers })
+										}}
+									/>
+								</div>
 							</div>
 						)}
 					</div>
@@ -211,7 +211,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 
 				<div>
 					<label htmlFor="specific" className="block text-sm font-medium text-gray-700">
-						Specifická odbornost (lékař, psycholog, právník, ...):
+						Máte specifickou odbornost? (lékař, psycholog, právník, ...)
 					</label>
 					<div className="mt-1">
 						<input
@@ -245,7 +245,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 					<button
 						type="submit"
 						disabled={disabled}
-						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 					>
 						Odeslat
 					</button>
