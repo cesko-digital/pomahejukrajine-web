@@ -44,6 +44,7 @@ export interface PublicQueryResult {
 	districts: Districts;
 	languages: Languages;
 }
+
 export interface RegisterFormState {
 	name: string;
 	organization: string,
