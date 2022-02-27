@@ -15,7 +15,7 @@ const Verify: NextPage = ({  }) => {
 						<div className="text-center">
 							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Nastavte si heslo</h2>
 							<p className="mt-4 text-lg leading-6 text-gray-500">
-								Toto je nutný krok, aby byla registrace dokončena.
+								Toto je nutný krok, aby byla vaše nabídka pomoci řádně zaregistrována.
 							</p>
 						</div>
 						<div className="mt-12">

@@ -55,7 +55,7 @@ export const VerifyForm = () => {
 	if (submitting === 'success') {
 		return (
 			<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
-				<p className="mx-3 font-medium text-white">Heslo nastaveno. Ozveme se Vám, jakmile bude Vaše pomoc potřeba.</p>
+				<p className="mx-3 font-medium text-white">Heslo nastaveno. Vaše nabídka byla uložena. V nejbližší době Vaši nabídku zpracujeme a ozveme se Vám pro případná upřesnění nebojakmile bude Vaše pomoc potřeba.</p>
 			</div>
 		)
 	}
@@ -103,4 +103,3 @@ export const VerifyForm = () => {
 		</form>
 	);
 }
-
