@@ -5,6 +5,8 @@ import Footer from '../components/footer';
 import {Fragment, useCallback, useMemo, useState} from "react";
 import {publicQuery, PublicQueryResult, QuestionType} from '../lib/shared'
 
+const SHOW_LIMIT = 44;
+
 type QuestionFilter = { [questionId: string]: string[] };
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerTypes, districts }) => {
 	const filterOffers = useCallback((base: Offers, filter: QuestionFilter) => {
@@ -23,6 +25,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 	const [typeFilter, setTypeFilter] = useState<string | null>(null)
 	const [questionFilter, setQuestionFilter] = useState<QuestionFilter>({})
 	const [showAllFilters, setShowAllFilters] = useState(false)
+	const [showLimit, setShowLimit] = useState(SHOW_LIMIT)
 
 	const typeFilteredOffers = offers.filter(offer => {
 		if (typeFilter === null) {
@@ -114,6 +117,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 						<button
 							className={`${typeFilter === null ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white borde-gray-200'} text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md`}
 							onClick={() => {
+								setShowLimit(SHOW_LIMIT)
 								setTypeFilter(null);
 								setQuestionFilter({})
 							}}
@@ -126,6 +130,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 							<button
 								className={`${typeFilter === type ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md`}
 								onClick={() => {
+									setShowLimit(SHOW_LIMIT)
 									setTypeFilter(type)
 									setQuestionFilter({})
 								}}
@@ -187,16 +192,16 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					)
 				})}
 
-				{filters.length !== lessFilters.length &&
-				<div className="flex justify-center mt-4">
-					<button onClick={() => setShowAllFilters(it => !it)} className="text-lg shadow-sm bg-white text-blue-800 border border-gray-200 rounded-md px-4 py-2">
-						{showAllFilters ? 'Méně filtrů' : 'Více filtrů'}
-					</button>
-				</div>
-				}
+				{filters.length !== lessFilters.length && (
+					<div className="flex justify-center mt-4">
+						<button onClick={() => setShowAllFilters(it => !it)} className="text-lg shadow-sm bg-white text-blue-800 border border-gray-200 rounded-md px-4 py-2">
+							{showAllFilters ? 'Méně filtrů' : 'Více filtrů'}
+						</button>
+					</div>
+				)}
 
 				<div className="mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-					{offersToShow.map(offer => {
+					{offersToShow.slice(0, showLimit).map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
 						return (
 							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4">
@@ -245,6 +250,17 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 						);
 					})}
 				</div>
+
+				{showLimit < offersToShow.length && (
+					<div className="flex justify-center mt-4">
+						<button
+							onClick={() => setShowLimit(showLimit => showLimit + SHOW_LIMIT)}
+							className="text-lg shadow-sm bg-white text-blue-800 border border-gray-200 rounded-md px-4 py-2"
+						>
+							Zobrazit další nabídky
+						</button>
+					</div>
+				)}
 			</div>
 			<Footer />
 		</div>
