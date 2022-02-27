@@ -73,7 +73,8 @@ export const QuestionControl = memo<{
 	value: QuestionValue,
 	onChange: (value: QuestionValue) => void,
 	districts: Districts,
-}>(({ definition, disabled, value, onChange, districts }) => {
+	error?: string | undefined,
+}>(({ definition, disabled, value, onChange, districts, error }) => {
 
 	return (
 		<div className="mt-4">
@@ -81,6 +82,7 @@ export const QuestionControl = memo<{
 				{definition.question}
 				{definition.required && <span className="text-red-500">*</span>}
 			</div>
+			{error && <div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{error}</div></div>}
 			<div className="mt-1">
 				{(definition.type === "text" || definition.type === "date" || definition.type === "number") && (
 					<input
@@ -207,6 +209,7 @@ export const QuestionControl = memo<{
 export const RegisterForm = memo<RegisterFormProps>(
 	({ offerTypes, districts, languages }) => {
 		const [submitting, setSubmitting] = useState<false |'loading' | 'error' | 'success'>(false);
+		const [errors, setErrors] = useState<{ questionId: string; message: string }[]>([])
 		const [state, setState] = useState<RegisterFormState>({
 			name: '',
 			email: '',
@@ -234,11 +237,18 @@ export const RegisterForm = memo<RegisterFormProps>(
 					}),
 				},
 			)
-			const ok = response.ok ? (await response.json())?.ok : null
+			const ok = response.ok
+			let json: any = { ok: false }
+			try {
+				json = await response.json()
+			} catch (e) {}
 
-			if (ok) {
+			if (ok && json.ok === true) {
 				setSubmitting('success')
 			} else {
+				if (json.ok === false && Array.isArray(json.errors)) {
+					setErrors(json.errors)
+				}
 				setSubmitting('error')
 			}
 		}, [state])
@@ -359,9 +369,12 @@ export const RegisterForm = memo<RegisterFormProps>(
 									disabled={disabled}
 									type="checkbox"
 									checked={state.languages.includes(language.id)}
-									onChange={(e) => setState(state => {
-										return ({...state, languages: e.target.checked ? [...state.languages, language.id] : state.languages.filter(it => it !== language.id)});
-									})}
+									onChange={(e) => {
+										setState(state => ({
+											...state,
+											languages: e.target.checked ? [...state.languages, language.id] : state.languages.filter(it => it !== language.id)
+										}));
+									}}
 									className="mr-2"
 								/>
 								<span>{language.name}</span>
@@ -405,9 +418,13 @@ export const RegisterForm = memo<RegisterFormProps>(
 										key={question.id}
 										definition={question}
 										value={state.offers[offerType.id].questions[question.id] ?? {}}
-										onChange={newValue => setState(state => ({ ...state, offers: { ...state.offers, [offerType.id]: { ...state.offers[offerType.id], questions: { ...state.offers[offerType.id].questions, [question.id]: newValue } } } }))}
+										onChange={newValue => {
+											setErrors(errors => errors.filter(it => it.questionId !== question.id))
+											setState(state => ({ ...state, offers: { ...state.offers, [offerType.id]: { ...state.offers[offerType.id], questions: { ...state.offers[offerType.id].questions, [question.id]: newValue } } } }))
+										}}
 										disabled={disabled}
 										districts={districts}
+										error={errors.find(it => it.questionId === question.id)?.message}
 									/>
 								))}
 							</div>
@@ -459,6 +476,9 @@ export const RegisterForm = memo<RegisterFormProps>(
 					>
 						Odeslat
 					</button>
+				</div>
+				<div>
+					{errors.length > 0 && <p className="text-center">Zkontrolujte, zda jste vše vyplnili správně.</p>}
 				</div>
 			</form>
 		)

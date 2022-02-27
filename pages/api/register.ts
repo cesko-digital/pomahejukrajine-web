@@ -14,7 +14,7 @@ interface QuestionDefinition {
 	}[]
 }
 
-type QuestionType = 'radio' | 'checkbox' | 'text' | 'textarea' | 'number' | 'date'
+type QuestionType = 'radio' | 'checkbox' | 'text' | 'textarea' | 'number' | 'date' | 'district'
 
 interface QuestionValue {
 	value?: string;
@@ -56,6 +56,54 @@ interface RegisterFormState {
 	}
 }
 
+const fetchTypes = async (): Promise<RegisterFormProps> => {
+	const response = await fetch(
+		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN}`,
+			},
+			body: JSON.stringify({
+				query: `{
+					offerTypes: listOfferType(orderBy: [{ order: asc }]) {
+						id
+						name
+						infoText
+
+						questions {
+							id
+							question
+							type
+							required
+							options {
+								id
+								value
+								label
+								requireSpecification
+							}
+						}
+					}
+
+					languages: listLanguage(orderBy: [{ order: asc }]) {
+						id
+						name
+					}
+
+					districts: listDistrict(orderBy: [{name: asc}]) {
+						id
+						name
+					}
+				}`
+			}),
+		},
+	)
+
+	const { data, errors } = await response.json()
+	return data
+}
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -63,8 +111,53 @@ export default async function handler(
 ) {
 	const data = req.body.data as RegisterFormState
 
-
+	const { offerTypes } = await fetchTypes()
 	// TODO: Validation
+
+	let errors: { questionId: string; message: string }[] = []
+
+	for (const [offerTypeId, offer] of Object.entries(data.offers)) {
+		const offerType = offerTypes.find(({ id }) => id === offerTypeId)
+
+		if (!offerType) {
+			throw new Error(`Offer type ${offerTypeId} not found`)
+		}
+
+		for (const question of offerType.questions) {
+			const value = offer.questions[question.id];
+			if (question.required && !value) {
+				errors.push({ questionId: question.id, message: 'Povinná otázka' })
+				continue
+			}
+
+			switch (question.type) {
+				case 'district':
+				case 'checkbox':
+					if (question.required && (!value.values || value.values.filter(it => it.value).length === 0)) {
+						errors.push({ questionId: question.id, message: 'Povinná otázka' })
+					}
+					break
+				case 'radio':
+				case 'text':
+				case 'textarea':
+				case 'number':
+				case 'date':
+					if (question.required && !value.value) {
+						errors.push({ questionId: question.id, message: 'Povinná otázka' })
+					}
+					break
+				default:
+					throw new Error(`Unknown question type ${question.type}`)
+			}
+
+		}
+	}
+
+	if (errors.length) {
+		res.status(400).json({ ok: false, errors })
+		return
+	}
+
 
 	const createInput = {
 		name: data.name,
