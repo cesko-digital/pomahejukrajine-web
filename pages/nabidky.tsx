@@ -101,10 +101,10 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="text-center mt-2">
-					<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Pomozte Ukrajincům</h2>
-					<p className="mt-4 text-lg leading-6 text-gray-500">
-						Přehled pomoci
-					</p>
+					<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Nabídky pomoci</h2>
+				</div>
+				<div className="p-2 max-w-3xl mx-auto rounded-lg bg-blue-600 shadow-lg sm:p-3 mt-6 text-center text-base">
+					<p className="mx-3 font-medium text-white">Zatím jsou nabídky pouze k náhledu (a přístup k nim mají neziskové organizace Konsorcia). Nejpozději v úterý ráno zprovozníme možnost reagovat přímo na poptávku zde na portále.</p>
 				</div>
 
 				<ul className="mt-8 flex flex-wrap justify-center">
