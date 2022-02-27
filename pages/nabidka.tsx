@@ -18,7 +18,7 @@ const Home: NextPage = ({ offerTypes, districts }: any) => {
 								Nabídněte svou pomoc
 							</p>
 						</div>
-						<div className="mt-12 hidden">
+						<div className={`mt-12 hidden ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
 							<RegisterForm offerTypes={offerTypes} districts={districts} />
 						</div>
 					</main>

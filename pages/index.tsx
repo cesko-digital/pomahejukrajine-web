@@ -13,13 +13,13 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 			<div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
 				<div className="text-center">
 					<p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-						Pomozme Ukrajincům
+						Pomáhej Ukrajině
 					</p>
 					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
 						Neziskové organizace v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Na tu vám
 						pak mohou zareagovat buď naši kolegové v terénu nebo sami Ukrajinci.
 					</p>
-					<div className="mt-10 space-x-4 hidden">
+					<div className={`mt-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
 						<Link href="/nabidka">
 							<a
 								className="inline-block bg-blue-600 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"

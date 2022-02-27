@@ -14,7 +14,7 @@ export default function Header() {
                             </a>
                         </Link>
                     </div>
-                    <div className="ml-10 space-x-4 hidden">
+                    <div className={`ml-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
                         <Link href="/nabidka">
                         <a
                             className="inline-block bg-blue-600 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
