@@ -449,6 +449,9 @@ export const RegisterForm = memo<RegisterFormProps>(
 
 				{/*<button onClick={submit}>Odeslat</button>*/}
 				<div>
+					Odesláním souhlasím se <a href="/privacypolicy.pdf">zpracováním údajů za účelem koordinace a organizace pomoci</a>
+				</div>
+				<div>
 					<button
 						type="submit"
 						disabled={disabled}
