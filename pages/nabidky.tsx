@@ -104,7 +104,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Nabídky pomoci</h2>
 				</div>
 				<div className="p-2 max-w-3xl mx-auto rounded-lg bg-blue-600 shadow-lg sm:p-3 mt-6 text-center text-base">
-					<p className="mx-3 font-medium text-white">Zatím jsou nabídky pouze k náhledu (a přístup k nim mají neziskové organizace Konsorcia). Nejpozději v úterý ráno zprovozníme možnost reagovat přímo na poptávku zde na portále.</p>
+					<p className="mx-3 font-medium text-white">Zatím jsou nabídky pouze k náhledu. Nejpozději v úterý ráno zprovozníme možnost reagovat na nabídku přímo zde na portále.</p>
 				</div>
 
 				<ul className="mt-8 flex flex-wrap justify-center">
