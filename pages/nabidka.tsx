@@ -41,13 +41,30 @@ export const getStaticProps: GetStaticProps = async () => {
 			},
 			body: JSON.stringify({
 				query: `{
-					offerTypes: listOfferType(orderBy: [{order: asc}]) {
+					offerTypes: listOfferType(orderBy: [{ order: asc }]) {
 						id
 						name
-						hasCapacity
-						noteRequired
-						noteLabel
+						infoText
+
+						questions {
+							id
+							question
+							type
+							required
+							options {
+								id
+								value
+								label
+								requireSpecification
+							}
+						}
 					}
+
+					languages: listLanguage(orderBy: [{ order: asc }]) {
+						id
+						name
+					}
+
 					districts: listDistrict(orderBy: [{name: asc}]) {
 						id
 						name

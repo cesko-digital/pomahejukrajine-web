@@ -1,16 +1,42 @@
 /* eslint-disable react/display-name */
 import {FormEvent, memo, useCallback, useState} from "react";
+import Select, { components } from "react-select";
+
+const SelectInput = (props: any) => <components.Input {...props} inputClassName="outline-none border-none shadow-none focus:ring-transparent" />
+
+interface QuestionDefinition {
+	id: string
+	question: string;
+	type: QuestionType;
+	required: boolean;
+	options: {
+		id: string;
+		value: string;
+		label: string;
+		requireSpecification: boolean;
+	}[]
+}
+
+type QuestionType = 'radio' | 'checkbox' | 'text' | 'textarea' | 'number' | 'date'
+
+interface QuestionValue {
+	value?: string;
+	specification?: string;
+	values?: {
+		value: string;
+		specification?: string;
+	}[];
+}
 
 interface RegisterFormProps {
 	offerTypes: {
-		id: number;
+		id: string;
 		name: string;
-		hasCapacity: boolean;
-		noteRequired: boolean;
-		noteLabel: string;
+		infoText: string;
+		questions: QuestionDefinition[];
 	}[];
 	districts: {
-		id: number;
+		id: string;
 		name: string;
 	}[];
 }
@@ -23,14 +49,133 @@ interface RegisterFormState {
 	districts: string[]
 	offers: {
 		[id: string]: {
-			note: string
-			capacity?: number
+			questions: {
+				[id: string]: QuestionValue
+			}
 		}
 	}
 }
 
+export const QuestionControl = memo<{
+	definition: QuestionDefinition,
+	disabled: boolean,
+	value: QuestionValue,
+	onChange: (value: QuestionValue) => void,
+}>(({ definition, disabled, value, onChange }) => {
+
+	return (
+		<div className="mt-4">
+			<div className="block text-sm font-medium text-gray-700">
+				{definition.question}
+				{definition.required && <span className="text-red-500">*</span>}
+			</div>
+			<div className="mt-1">
+				{(definition.type === "text" || definition.type === "date" || definition.type === "number") && (
+					<input
+						disabled={disabled}
+						type={definition.type === "date" ? "date" : definition.type === "number" ? "number" : "text"}
+						{...(definition.type === "number" ? { min: 0 } : {})}
+						required={definition.required}
+						value={value.value ?? ''}
+						onChange={(e) => onChange({ ...value, value: e.target.value })}
+						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+					/>
+				)}
+				{(definition.type === "textarea") && (
+					<textarea
+						disabled={disabled}
+						required={definition.required}
+						value={value.value ?? ''}
+						onChange={(e) => onChange({ ...value, value: e.target.value })}
+						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+					/>
+				)}
+				{(definition.type === "radio") && (
+					<div>
+						<div className="flex flex-col">
+							{definition.options.map(option => (
+								<div>
+									<label key={option.id} className="inline-flex items-center">
+										<input
+											disabled={disabled}
+											type="radio"
+											name={definition.id}
+											value={option.value}
+											checked={value.value === option.value}
+											onChange={(e) => onChange({ ...value, value: e.target.value })}
+											className="mr-2"
+										/>
+										<span>{option.label}</span>
+									</label>
+									{value.value === option.value && definition.options.find(it => it.value === value.value)?.requireSpecification && (
+										<input
+											disabled={disabled}
+											type="text"
+											required={true}
+											value={value.specification ?? ''}
+											onChange={(e) => onChange({ ...value, specification: e.target.value })}
+											className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6"
+										/>
+									)}
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+				{(definition.type === "checkbox") && (
+					<div>
+						{definition.options.map(option => {
+							const relevantValue = value.values?.find(it => it.value === option.value);
+							const checked = relevantValue !== undefined;
+							return (
+								<div>
+									<label key={option.id} className="inline-flex items-center">
+										<input
+											disabled={disabled}
+											type="checkbox"
+											name={definition.id}
+											// value={option.value}
+											checked={checked}
+											onChange={(e) => {
+												const values = value.values ?? [];
+												if (e.target.checked) {
+													values.push({value: option.value});
+												} else {
+													values.splice(values.findIndex(it => it.value === option.value), 1);
+												}
+												onChange({...value, values});
+											}}
+											className="mr-2"
+										/>
+										<span>{option.label}</span>
+									</label>
+									{checked && option.requireSpecification && (
+										<input
+											disabled={disabled}
+											type="text"
+											required
+											value={relevantValue.specification ?? ''}
+											onChange={(e) => {
+												const values = value.values ?? [];
+												const currentItemIndex = values.findIndex(it => it.value === option.value)
+												values[currentItemIndex] = { ...values[currentItemIndex], specification: e.target.value }
+												onChange({ ...value, values })
+											}}
+											className="py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6 mb-1"
+										/>
+									)}
+								</div>
+							);
+						})}
+					</div>
+				)}
+			</div>
+		</div>
+	)
+})
+
 export const RegisterForm = memo<RegisterFormProps>(
-	({ offerTypes }) => {
+	({ offerTypes, districts }) => {
 		const [submitting, setSubmitting] = useState<false |'loading' | 'error' | 'success'>(false);
 		const [state, setState] = useState<RegisterFormState>({
 			email: '',
@@ -49,7 +194,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 				phone: state.phone,
 				userNote: state.userNote,
 				expertise: state.expertise,
-				districts: state.districts.map(id => ({ connect: { id } })),
+				districts: state.districts.map(id => ({ create: { district: { connect: { id } } } })),
 				offers: Object.entries(state.offers).map(([id, offer]) => ({
 					create: {
 						type: { connect: { id } },
@@ -136,6 +281,23 @@ export const RegisterForm = memo<RegisterFormProps>(
 						/>
 					</div>
 				</div>
+				{/*<div>*/}
+				{/*<label className="block text-sm font-medium text-gray-700">*/}
+				{/*	Okres*/}
+				{/*</label>*/}
+				{/*<div className="mt-1">*/}
+				{/*	<Select*/}
+				{/*		isMulti*/}
+				{/*		isClearable={false}*/}
+				{/*		isDisabled={disabled}*/}
+				{/*		filterOption={(candidate, input) => candidate.label.toLowerCase().includes(input.toLowerCase())}*/}
+				{/*		options={districts.map(it => ({ value: it.id, label: it.name }))}*/}
+				{/*		components={{ Input: SelectInput }}*/}
+				{/*		value={districts.filter(it => state.districts.includes(it.id)).map(it => ({ value: it.id, label: it.name }))}*/}
+				{/*		onChange={values => setState(state => ({ ...state, districts: values.map(it => it.value) }))}*/}
+				{/*	/>*/}
+				{/*</div>*/}
+			{/*</div>*/}
 				<div className="mt-1">
 					<label className="block text-sm font-medium text-gray-700">
 						Co mohu nabídnout (můžete vybrat více možností):
@@ -152,8 +314,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 										const offers = { ...state.offers }
 										if (e.target.checked) {
 											offers[offerType.id] = {
-												note: '',
-												capacity: offerType.hasCapacity ? 1 : undefined,
+												questions: {}
 											}
 										} else {
 											delete offers[offerType.id]
@@ -165,44 +326,16 @@ export const RegisterForm = memo<RegisterFormProps>(
 							</label>
 						</div>
 						{!!state.offers[offerType.id] && (
-							<div className="mt-2 mb-4 ml-4">
-								{offerType.hasCapacity && (
-									<div className="mt-1">
-									<label className="block text-sm font-medium text-gray-700">
-										Kapacita
-									</label>
-										<input
-											disabled={disabled}
-											type="number"
-											required
-											value={state.offers[offerType.id].capacity}
-											className="py-3 px-4 block w-20 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-											onChange={(e) => {
-												const offers = { ...state.offers }
-												offers[offerType.id].capacity = parseInt(e.target.value)
-												setState({ ...state, offers })
-											}}
-										/>
-
-									</div>
-								)}
-
-								<label className="block text-sm font-medium text-gray-700">
-									{offerType.noteLabel || (offerType.noteRequired ? 'Poznámka:' : 'Poznámka (nepovinná):')}
-								</label>
-								<div className="mt-1">
-									<textarea
+							<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
+								{offerType.questions.map(question => (
+									<QuestionControl
+										key={question.id}
+										definition={question}
+										value={state.offers[offerType.id].questions[question.id] ?? {}}
+										onChange={newValue => setState(state => ({ ...state, offers: { ...state.offers, [offerType.id]: { ...state.offers[offerType.id], questions: { ...state.offers[offerType.id].questions, [question.id]: newValue } } } }))}
 										disabled={disabled}
-										required={offerType.noteRequired}
-										value={state.offers[offerType.id].note}
-										className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-										onChange={(e) => {
-											const offers = { ...state.offers }
-											offers[offerType.id].note = e.target.value
-											setState({ ...state, offers })
-										}}
 									/>
-								</div>
+								))}
 							</div>
 						)}
 					</div>

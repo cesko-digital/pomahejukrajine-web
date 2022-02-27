@@ -21,7 +21,6 @@ NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 CONTEMBER_ADMIN_TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 NEXT_PUBLIC_CONTEMBER_TENANT_URL="http://localhost:1481/tenant"
 CONTEMBER_PROJECT_SLUG="ukrajina"
-
 ```
 
 Public token can be generated in Contember using command `npm run contember tenant:create-api-key` (role: `public`).
