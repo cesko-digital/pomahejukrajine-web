@@ -17,7 +17,7 @@ interface QuestionDefinition {
 	}[]
 }
 
-type QuestionType = 'radio' | 'checkbox' | 'text' | 'textarea' | 'number' | 'date'
+type QuestionType = 'radio' | 'checkbox' | 'text' | 'textarea' | 'number' | 'date' | 'district'
 
 interface QuestionValue {
 	value?: string;
@@ -28,6 +28,11 @@ interface QuestionValue {
 	}[];
 }
 
+type Districts = {
+	id: string;
+	name: string;
+}[];
+
 interface RegisterFormProps {
 	offerTypes: {
 		id: string;
@@ -35,10 +40,7 @@ interface RegisterFormProps {
 		infoText: string;
 		questions: QuestionDefinition[];
 	}[];
-	districts: {
-		id: string;
-		name: string;
-	}[];
+	districts: Districts;
 }
 
 interface RegisterFormState {
@@ -64,7 +66,8 @@ export const QuestionControl = memo<{
 	disabled: boolean,
 	value: QuestionValue,
 	onChange: (value: QuestionValue) => void,
-}>(({ definition, disabled, value, onChange }) => {
+	districts: Districts,
+}>(({ definition, disabled, value, onChange, districts }) => {
 
 	return (
 		<div className="mt-4">
@@ -170,6 +173,23 @@ export const QuestionControl = memo<{
 								</div>
 							);
 						})}
+					</div>
+				)}
+
+				{(definition.type === "district") && (
+					<div>
+						<div className="mt-1">
+							<Select
+								isMulti
+								isClearable={false}
+								isDisabled={disabled}
+								filterOption={(candidate, input) => candidate.label.toLowerCase().includes(input.toLowerCase())}
+								options={districts.map(it => ({ value: it.id, label: it.name }))}
+								components={{ Input: SelectInput }}
+								value={districts.filter(it => value.values?.find(value => value.value === it.name) !== undefined).map(it => ({ value: it.id, label: it.name }))}
+								onChange={values => onChange({...value, values: values.map(it => ({value: it.label}))})}
+							/>
+						</div>
 					</div>
 				)}
 			</div>
@@ -321,23 +341,6 @@ export const RegisterForm = memo<RegisterFormProps>(
 						)}
 					</div>
 				</div>
-				{/*<div>*/}
-				{/*<label className="block text-sm font-medium text-gray-700">*/}
-				{/*	Okres*/}
-				{/*</label>*/}
-				{/*<div className="mt-1">*/}
-				{/*	<Select*/}
-				{/*		isMulti*/}
-				{/*		isClearable={false}*/}
-				{/*		isDisabled={disabled}*/}
-				{/*		filterOption={(candidate, input) => candidate.label.toLowerCase().includes(input.toLowerCase())}*/}
-				{/*		options={districts.map(it => ({ value: it.id, label: it.name }))}*/}
-				{/*		components={{ Input: SelectInput }}*/}
-				{/*		value={districts.filter(it => state.districts.includes(it.id)).map(it => ({ value: it.id, label: it.name }))}*/}
-				{/*		onChange={values => setState(state => ({ ...state, districts: values.map(it => it.value) }))}*/}
-				{/*	/>*/}
-				{/*</div>*/}
-			{/*</div>*/}
 				<div className="mt-1">
 					<label className="block text-sm font-medium text-gray-700">
 						Co mohu nabídnout (můžete vybrat více možností):
@@ -374,6 +377,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 										value={state.offers[offerType.id].questions[question.id] ?? {}}
 										onChange={newValue => setState(state => ({ ...state, offers: { ...state.offers, [offerType.id]: { ...state.offers[offerType.id], questions: { ...state.offers[offerType.id].questions, [question.id]: newValue } } } }))}
 										disabled={disabled}
+										districts={districts}
 									/>
 								))}
 							</div>
