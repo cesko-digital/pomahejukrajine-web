@@ -205,8 +205,7 @@ export const QuestionControl = memo<{
 	)
 })
 
-type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string }
-
+type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string } | { input: 'languages'; message: string }
 export const RegisterForm = memo<RegisterFormProps>(
 	({ offerTypes, districts, languages }) => {
 		const [submitting, setSubmitting] = useState<false |'loading' | 'error' | 'success'>(false);
