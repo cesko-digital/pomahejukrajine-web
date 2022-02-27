@@ -6,7 +6,7 @@ export default function Header() {
     return (
         <header className="bg-white">
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
-                <div className="w-full py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
+                <div className="w-full sm:py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
                     <div className="flex items-center">
                         <Link href="/">
                             <a>
@@ -14,12 +14,19 @@ export default function Header() {
                             </a>
                         </Link>
                     </div>
-                    <div className={`ml-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
+                    <div className={`hidden sm:block ml-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
                         <Link href="/nabidka">
                         <a
                             className="inline-block bg-blue-600 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
                         >
                             Nabídnout pomoc
+                        </a>
+                        </Link>
+                        <Link href="/faq">
+                        <a
+                            className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-50"
+                        >
+                            Často kladené otázky
                         </a>
                         </Link>
                         <a

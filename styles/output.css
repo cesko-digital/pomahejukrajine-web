@@ -666,10 +666,6 @@ select {
   margin-top: 0.5rem;
 }
 
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
 .mt-5 {
   margin-top: 1.25rem;
 }
@@ -688,6 +684,10 @@ select {
 
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
 }
 
 .mr-2 {
@@ -906,11 +906,6 @@ select {
   padding-right: 2rem;
 }
 
-.py-6 {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
 .pl-2 {
   padding-left: 0.5rem;
 }
@@ -1108,6 +1103,10 @@ select {
 }
 
 @media (min-width: 640px) {
+  .sm\:block {
+    display: block;
+  }
+
   .sm\:gap-x-8 {
     -moz-column-gap: 2rem;
          column-gap: 2rem;
@@ -1127,18 +1126,14 @@ select {
     padding-bottom: 6rem;
   }
 
-  .sm\:text-5xl {
-    font-size: 3rem;
-    line-height: 1;
+  .sm\:py-6 {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .sm\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
-  }
-
-  .sm\:tracking-tight {
-    letter-spacing: -0.025em;
   }
 }
 
@@ -1160,10 +1155,5 @@ select {
   .lg\:py-8 {
     padding-top: 2rem;
     padding-bottom: 2rem;
-  }
-
-  .lg\:text-6xl {
-    font-size: 3.75rem;
-    line-height: 1;
   }
 }
