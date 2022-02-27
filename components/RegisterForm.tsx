@@ -56,7 +56,6 @@ interface RegisterFormState {
 	email: string
 	contactHours: string,
 	expertise: string
-	userNote: string
 	languages: string[],
 	offers: {
 		[id: string]: {
@@ -216,7 +215,6 @@ export const RegisterForm = memo<RegisterFormProps>(
 			name: '',
 			email: '',
 			phone: '+420',
-			userNote: '',
 			expertise: '',
 			offers: {},
 			languages: [],
@@ -457,22 +455,6 @@ export const RegisterForm = memo<RegisterFormProps>(
 					</div>
 				</div>
 
-				<div>
-					<label htmlFor="note" className="block text-sm font-medium text-gray-700">
-						Poznámka
-					</label>
-					<div className="mt-1">
-						<textarea
-							disabled={disabled}
-							value={state.userNote}
-							name="note"
-							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-							onChange={(e) => setState({ ...state, userNote: e.target.value })}
-						/>
-					</div>
-				</div>
-
-				{/*<button onClick={submit}>Odeslat</button>*/}
 				<div>
 					Odesláním souhlasím se <a className="underline underline-offset-2 hover:no-underline" target="_blank" href="/privacypolicy.pdf">zpracováním údajů za účelem koordinace a organizace pomoci</a>
 				</div>

@@ -45,7 +45,6 @@ interface RegisterFormState {
 	email: string
 	contactHours: string,
 	expertise: string
-	userNote: string
 	languages: string[],
 	offers: {
 		[id: string]: {
@@ -178,7 +177,6 @@ export default async function handler(
 		name: data.name,
 		email: data.email,
 		phone: data.phone === '+420' ? '' : data.phone,
-		userNote: data.userNote,
 		organization: data.organization,
 		contactHours: data.contactHours,
 		languages: data.languages.map(id => ({ create: { language: { connect: { id } } } })),
