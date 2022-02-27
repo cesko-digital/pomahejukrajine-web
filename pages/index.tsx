@@ -28,7 +28,7 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 						</Link>
 						<a
 							href="#"
-							className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium bg-blue-50 text-blue-600 hover:bg-blue-100"
+							className="hidden bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium bg-blue-50 text-blue-600 hover:bg-blue-100"
 						>
 							Vyhledat pomoc
 						</a>
