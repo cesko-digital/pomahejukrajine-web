@@ -103,7 +103,7 @@ const fetchTypes = async (): Promise<RegisterFormProps> => {
 	return data
 }
 
-type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string }
+type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string } | { input: 'languages'; message: string }
 
 export default async function handler(
   req: NextApiRequest,
@@ -120,6 +120,13 @@ export default async function handler(
 		errors.push({
 			input: 'email',
 			message: 'Neplatný email',
+		})
+	}
+
+	if (data.languages.length === 0) {
+		errors.push({
+			input: 'languages',
+			message: 'Musíte vybrat alespoň jeden jazyk',
 		})
 	}
 

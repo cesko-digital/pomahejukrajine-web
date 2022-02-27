@@ -365,6 +365,9 @@ export const RegisterForm = memo<RegisterFormProps>(
 					<div className="block text-sm font-medium text-gray-700">
 						Hovořím těmito jazyky
 					</div>
+					{errors.find(it => it.input === 'languages') !== undefined && (
+						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'languages')!.message}</div></div>
+					)}
 					<div className="mt-1 flex flex-col">
 						{languages.map(language => (
 							<label key={language.id} className="flex items-center">
@@ -425,12 +428,12 @@ export const RegisterForm = memo<RegisterFormProps>(
 										definition={question}
 										value={state.offers[offerType.id].questions[question.id] ?? {}}
 										onChange={newValue => {
-											setErrors(errors => errors.filter(it => it.questionId !== question.id))
+											setErrors(errors => errors.filter(it => it.input === "question" && it.questionId !== question.id))
 											setState(state => ({ ...state, offers: { ...state.offers, [offerType.id]: { ...state.offers[offerType.id], questions: { ...state.offers[offerType.id].questions, [question.id]: newValue } } } }))
 										}}
 										disabled={disabled}
 										districts={districts}
-										error={errors.find(it => it.questionId === question.id)?.message}
+										error={errors.find(it => it.input === "question" && it.questionId === question.id)?.message}
 									/>
 								))}
 							</div>
