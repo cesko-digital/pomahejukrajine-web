@@ -1,61 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import {PublicQueryResult, RegisterFormState, Error, publicQuery} from '../../lib/shared'
 
-
-interface QuestionDefinition {
-	id: string
-	question: string;
-	type: QuestionType;
-	required: boolean;
-	options: {
-		id: string;
-		value: string;
-		label: string;
-		requireSpecification: boolean;
-	}[]
-}
-
-type QuestionType = 'radio' | 'checkbox' | 'text' | 'textarea' | 'number' | 'date' | 'district'
-
-interface QuestionValue {
-	value?: string;
-	specification?: string;
-	values?: {
-		value: string;
-		specification?: string;
-	}[];
-}
-
-interface RegisterFormProps {
-	offerTypes: {
-		id: string;
-		name: string;
-		infoText: string;
-		questions: QuestionDefinition[];
-	}[];
-	districts: {
-		id: string;
-		name: string;
-	}[];
-}
-
-interface RegisterFormState {
-	name: string;
-	organization: string,
-	phone: string
-	email: string
-	contactHours: string,
-	expertise: string
-	languages: string[],
-	offers: {
-		[id: string]: {
-			questions: {
-				[id: string]: QuestionValue
-			}
-		}
-	}
-}
-
-const fetchTypes = async (): Promise<RegisterFormProps> => {
+const fetchTypes = async (): Promise<PublicQueryResult> => {
 	const response = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
 		{
@@ -65,36 +11,7 @@ const fetchTypes = async (): Promise<RegisterFormProps> => {
 				'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN}`,
 			},
 			body: JSON.stringify({
-				query: `{
-					offerTypes: listOfferType(orderBy: [{ order: asc }]) {
-						id
-						name
-						infoText
-
-						questions {
-							id
-							question
-							type
-							required
-							options {
-								id
-								value
-								label
-								requireSpecification
-							}
-						}
-					}
-
-					languages: listLanguage(orderBy: [{ order: asc }]) {
-						id
-						name
-					}
-
-					districts: listDistrict(orderBy: [{name: asc}]) {
-						id
-						name
-					}
-				}`
+				query: `{ ${publicQuery} }`
 			}),
 		},
 	)
@@ -103,7 +20,7 @@ const fetchTypes = async (): Promise<RegisterFormProps> => {
 	return data
 }
 
-type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string } | { input: 'languages'; message: string }
+
 
 export default async function handler(
   req: NextApiRequest,

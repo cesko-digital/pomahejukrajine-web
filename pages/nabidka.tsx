@@ -3,8 +3,9 @@ import { Meta } from '../components/Meta'
 import Header from '../components/header'
 import {RegisterForm} from "../components/RegisterForm";
 import Footer from '../components/footer';
+import {publicQuery, PublicQueryResult} from "../lib/shared";
 
-const Home: NextPage = ({ offerTypes, districts, languages }: any) => {
+const Home: NextPage<PublicQueryResult> = ({ offerTypes, districts, languages }) => {
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta title="Pomáhej Ukrajině" description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí." />
@@ -40,36 +41,7 @@ export const getStaticProps: GetStaticProps = async () => {
 				'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN}`,
 			},
 			body: JSON.stringify({
-				query: `{
-					offerTypes: listOfferType(orderBy: [{ order: asc }]) {
-						id
-						name
-						infoText
-
-						questions {
-							id
-							question
-							type
-							required
-							options {
-								id
-								value
-								label
-								requireSpecification
-							}
-						}
-					}
-
-					languages: listLanguage(orderBy: [{ order: asc }]) {
-						id
-						name
-					}
-
-					districts: listDistrict(orderBy: [{name: asc}]) {
-						id
-						name
-					}
-				}`
+				query: `{ ${publicQuery} }`
 			}),
 		},
 	)
@@ -79,6 +51,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 	return {
 		props: { ...data },
+		revalidate: 10,
 	}
 }
 

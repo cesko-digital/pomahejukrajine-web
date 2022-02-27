@@ -1,70 +1,9 @@
 /* eslint-disable react/display-name */
 import {FormEvent, memo, useCallback, useState} from "react";
 import Select, { components } from "react-select";
+import { Districts, QuestionDefinition, QuestionValue, PublicQueryResult, RegisterFormState, Error } from "../lib/shared";
 
 const SelectInput = (props: any) => <components.Input {...props} inputClassName="outline-none border-none shadow-none focus:ring-transparent" />
-
-interface QuestionDefinition {
-	id: string
-	question: string;
-	type: QuestionType;
-	required: boolean;
-	options: {
-		id: string;
-		value: string;
-		label: string;
-		requireSpecification: boolean;
-	}[]
-}
-
-type QuestionType = 'radio' | 'checkbox' | 'text' | 'textarea' | 'number' | 'date' | 'district'
-
-interface QuestionValue {
-	value?: string;
-	specification?: string;
-	values?: {
-		value: string;
-		specification?: string;
-	}[];
-}
-
-type Districts = {
-	id: string;
-	name: string;
-}[];
-
-type Languages = {
-	id: string;
-	name: string;
-}[];
-
-interface RegisterFormProps {
-	offerTypes: {
-		id: string;
-		name: string;
-		infoText: string;
-		questions: QuestionDefinition[];
-	}[];
-	districts: Districts;
-	languages: Languages;
-}
-
-interface RegisterFormState {
-	name: string;
-	organization: string,
-	phone: string
-	email: string
-	contactHours: string,
-	expertise: string
-	languages: string[],
-	offers: {
-		[id: string]: {
-			questions: {
-				[id: string]: QuestionValue
-			}
-		}
-	}
-}
 
 export const QuestionControl = memo<{
 	definition: QuestionDefinition,
@@ -205,8 +144,7 @@ export const QuestionControl = memo<{
 	)
 })
 
-type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string } | { input: 'languages'; message: string }
-export const RegisterForm = memo<RegisterFormProps>(
+export const RegisterForm = memo<PublicQueryResult>(
 	({ offerTypes, districts, languages }) => {
 		const [submitting, setSubmitting] = useState<false |'loading' | 'error' | 'success'>(false);
 		const [errors, setErrors] = useState<Error[]>([])
