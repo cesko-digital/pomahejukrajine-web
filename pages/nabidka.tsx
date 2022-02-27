@@ -4,7 +4,7 @@ import Header from '../components/header'
 import {RegisterForm} from "../components/RegisterForm";
 import Footer from '../components/footer';
 
-const Home: NextPage = ({ offerTypes, districts }: any) => {
+const Home: NextPage = ({ offerTypes, districts, languages }: any) => {
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta title="Pomoc Ukrajině" description="Pomoc Ukrajině" />
@@ -19,7 +19,7 @@ const Home: NextPage = ({ offerTypes, districts }: any) => {
 							</p>
 						</div>
 						<div className={`mt-12 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
-							<RegisterForm offerTypes={offerTypes} districts={districts} />
+							<RegisterForm offerTypes={offerTypes} districts={districts} languages={languages} />
 						</div>
 					</main>
 				</div>

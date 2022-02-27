@@ -33,6 +33,11 @@ type Districts = {
 	name: string;
 }[];
 
+type Languages = {
+	id: string;
+	name: string;
+}[];
+
 interface RegisterFormProps {
 	offerTypes: {
 		id: string;
@@ -41,6 +46,7 @@ interface RegisterFormProps {
 		questions: QuestionDefinition[];
 	}[];
 	districts: Districts;
+	languages: Languages;
 }
 
 interface RegisterFormState {
@@ -198,7 +204,7 @@ export const QuestionControl = memo<{
 })
 
 export const RegisterForm = memo<RegisterFormProps>(
-	({ offerTypes, districts }) => {
+	({ offerTypes, districts, languages }) => {
 		const [submitting, setSubmitting] = useState<false |'loading' | 'error' | 'success'>(false);
 		const [state, setState] = useState<RegisterFormState>({
 			name: '',
@@ -339,6 +345,27 @@ export const RegisterForm = memo<RegisterFormProps>(
 								/>
 							</div>
 						)}
+					</div>
+				</div>
+				<div>
+					<div className="block text-sm font-medium text-gray-700">
+						Hovořím těmito jazyky
+					</div>
+					<div className="mt-1 flex flex-col">
+						{languages.map(language => (
+							<label className="flex items-center">
+								<input
+									disabled={disabled}
+									type="checkbox"
+									checked={state.languages.includes(language.id)}
+									onChange={(e) => setState(state => {
+										return ({...state, languages: e.target.checked ? [...state.languages, language.id] : state.languages.filter(it => it !== language.id)});
+									})}
+									className="mr-2"
+								/>
+								<span>{language.name}</span>
+							</label>
+						))}
 					</div>
 				</div>
 				<div className="mt-1">
