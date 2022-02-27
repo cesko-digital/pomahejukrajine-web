@@ -111,6 +111,7 @@ export const QuestionControl = memo<{
 										<input
 											disabled={disabled}
 											type="radio"
+											required={definition.required}
 											name={definition.id}
 											value={option.value}
 											checked={value.value === option.value}
@@ -353,7 +354,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 					</div>
 					<div className="mt-1 flex flex-col">
 						{languages.map(language => (
-							<label className="flex items-center">
+							<label key={language.id} className="flex items-center">
 								<input
 									disabled={disabled}
 									type="checkbox"
