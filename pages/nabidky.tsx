@@ -89,12 +89,13 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					options: options
 				}
 			})
+			.filter(it => it.options.length > 0)
 	}, [offerTypes, typeFilter, districts, filterOffers, typeFilteredOffers])
 
 	const filteredOffers = filterOffers(typeFilteredOffers, questionFilter)
 	const lessFilters = filters.filter(it => it.type === "district");
 	const shownFilters = showAllFilters ? filters : lessFilters
-	const notShownTypes = ['2d297469-d504-4c1f-ac68-6ee1c498ca8d', '56df271a-e683-4cf2-b7c5-0122dd8ce217', '3231d144-fb23-4f9c-af5c-afd76e7dc880', '7f0806ac-3c14-4e9e-9081-729bb1799944', 'f072e37b-881f-4d80-82ef-717e38b50f4c']
+	const offersToShow = filteredOffers.filter(it => it.parameters.length > 0)
 
 	return (
 		<div className="antialiased text-gray-600">
@@ -135,7 +136,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					))}
 				</ul>
 
-				{typeFilter && notShownTypes.includes(typeFilter) && (
+				{typeFilter && offersToShow.length === 0 && (
 					<div className="p-2 max-w-4xl mx-auto rounded-lg bg-yellow-50 shadow-sm sm:p-3 mt-6 text-center text-base">
 						<p className="mx-3 text-lg text-gray-900">Z důvody ochrany osobních údajů zveřejňujeme pouze některé parametry nabídek. Tato kategorie nemá žádné veřejné parametry a proto zveřejňujeme pouze jejich celkový počet.</p>
 					</div>
@@ -195,55 +196,53 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				}
 
 				<div className="mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-					{filteredOffers.map(offer => {
+					{offersToShow.map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
-						if(offer.parameters.length != 0) {
-							return (
-								<div key={offer.id} className="p-4 rounded-md border shadow-md m-4">
-									<h3 className="text-lg font-bold">{offerType.name}</h3>
-									{offer.parameters.map(parameter => {
-										const question = offerType.questions.find(it => it.id === parameter.question.id)!
-										return (
-											<div key={parameter.id} className="flex flex-col mt-2">
-												<p className="text-sm font-bold">{question.question}</p>
-												<p className="text-sm">
-													{(question.type === "district" || question.type === "checkbox") ? (
-														<>
-															{parameter.values.map((value, i) => {
-																const isLast = i === parameter.values.length - 1
-																const requiresSpecification = question.type === "checkbox" && (question.options.find(it => it.value === value.value)?.requireSpecification ?? false)
-																return (
-																	<Fragment key={value.id}>
-																		<span>
-																			{value.value}
-																			{requiresSpecification && ` (${value.specification})`}
-																		</span>
-																		{!isLast && ', '}
-																	</Fragment>
-																)
-															})}
-														</>
-													) : question.type === "radio" ? (
-														<>
-															{parameter.value}
-															{(question.options.find(it => it.value === parameter.value)?.requireSpecification ?? false) && ` (${parameter.specification})`}
-														</>
-													) : question.type === "date" ? (
-														<>
-															{parameter.value} {/* TODO */}
-														</>
-													) : (
-														<>
-															{parameter.value}
-														</>
-													)}
-												</p>
-											</div>
-										);
-									})}
-								</div>
-							);
-						}
+						return (
+							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4">
+								<h3 className="text-lg font-bold">{offerType.name}</h3>
+								{offer.parameters.map(parameter => {
+									const question = offerType.questions.find(it => it.id === parameter.question.id)!
+									return (
+										<div key={parameter.id} className="flex flex-col mt-2">
+											<p className="text-sm font-bold">{question.question}</p>
+											<p className="text-sm">
+												{(question.type === "district" || question.type === "checkbox") ? (
+													<>
+														{parameter.values.map((value, i) => {
+															const isLast = i === parameter.values.length - 1
+															const requiresSpecification = question.type === "checkbox" && (question.options.find(it => it.value === value.value)?.requireSpecification ?? false)
+															return (
+																<Fragment key={value.id}>
+																	<span>
+																		{value.value}
+																		{requiresSpecification && ` (${value.specification})`}
+																	</span>
+																	{!isLast && ', '}
+																</Fragment>
+															)
+														})}
+													</>
+												) : question.type === "radio" ? (
+													<>
+														{parameter.value}
+														{(question.options.find(it => it.value === parameter.value)?.requireSpecification ?? false) && ` (${parameter.specification})`}
+													</>
+												) : question.type === "date" ? (
+													<>
+														{parameter.value} {/* TODO */}
+													</>
+												) : (
+													<>
+														{parameter.value}
+													</>
+												)}
+											</p>
+										</div>
+									);
+								})}
+							</div>
+						);
 					})}
 				</div>
 			</div>
