@@ -24,12 +24,13 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 								Nabídnout pomoc
 							</a>
 						</Link>
+						<Link href="/nabidky">
 						<a
-							href="#"
-							className="hidden bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium bg-blue-50 text-blue-600 hover:bg-blue-100"
+							className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100"
 						>
-							Vyhledat pomoc
+							Nabídky pomoci
 						</a>
+						</Link>
 					</div>
 				</div>
 				<p className="mt-24 text-center text-base text-gray-400">Tento projekt provozuje Konsorcium nevládních

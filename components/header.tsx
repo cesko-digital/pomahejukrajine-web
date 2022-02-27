@@ -22,19 +22,20 @@ export default function Header() {
                             Nabídnout pomoc
                         </a>
                         </Link>
+                        <Link href="/nabidky">
+                        <a
+                            className="inline-block bg-blue-50 py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100"
+                        >
+                            Nabídky pomoci
+                        </a>
+                        </Link>
                         <Link href="/faq">
                         <a
-                            className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-50"
+                            className="inline-block bg-blue-50 py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100"
                         >
                             Často kladené otázky
                         </a>
                         </Link>
-                        <a
-                        href="#"
-                        className="hidden bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-50"
-                        >
-                        Vyhledat pomoc
-                        </a>
                     </div>
                 </div>
             </nav>
