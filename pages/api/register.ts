@@ -104,6 +104,7 @@ const fetchTypes = async (): Promise<RegisterFormProps> => {
 	return data
 }
 
+type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string }
 
 export default async function handler(
   req: NextApiRequest,
@@ -114,7 +115,21 @@ export default async function handler(
 	const { offerTypes } = await fetchTypes()
 	// TODO: Validation
 
-	let errors: { questionId: string; message: string }[] = []
+	let errors: Error[] = []
+
+	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
+		errors.push({
+			input: 'email',
+			message: 'Neplatný email',
+		})
+	}
+
+	if (Object.keys(data.offers).length === 0) {
+		errors.push({
+			input: 'offer',
+			message: 'Musíte vybrat alespoň jednu možnost',
+		})
+	}
 
 	for (const [offerTypeId, offer] of Object.entries(data.offers)) {
 		const offerType = offerTypes.find(({ id }) => id === offerTypeId)
@@ -126,7 +141,7 @@ export default async function handler(
 		for (const question of offerType.questions) {
 			const value = offer.questions[question.id];
 			if (question.required && !value) {
-				errors.push({ questionId: question.id, message: 'Povinná otázka' })
+				errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
 				continue
 			}
 
@@ -134,7 +149,7 @@ export default async function handler(
 				case 'district':
 				case 'checkbox':
 					if (question.required && (!value.values || value.values.filter(it => it.value).length === 0)) {
-						errors.push({ questionId: question.id, message: 'Povinná otázka' })
+						errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
 					}
 					break
 				case 'radio':
@@ -143,7 +158,7 @@ export default async function handler(
 				case 'number':
 				case 'date':
 					if (question.required && !value.value) {
-						errors.push({ questionId: question.id, message: 'Povinná otázka' })
+						errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
 					}
 					break
 				default:

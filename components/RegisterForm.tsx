@@ -206,10 +206,12 @@ export const QuestionControl = memo<{
 	)
 })
 
+type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string }
+
 export const RegisterForm = memo<RegisterFormProps>(
 	({ offerTypes, districts, languages }) => {
 		const [submitting, setSubmitting] = useState<false |'loading' | 'error' | 'success'>(false);
-		const [errors, setErrors] = useState<{ questionId: string; message: string }[]>([])
+		const [errors, setErrors] = useState<Error[]>([])
 		const [state, setState] = useState<RegisterFormState>({
 			name: '',
 			email: '',
@@ -315,6 +317,9 @@ export const RegisterForm = memo<RegisterFormProps>(
 					<label htmlFor="email" className="block text-sm font-medium text-gray-700">
 						Email (povinný)
 					</label>
+					{errors.find(it => it.input === 'email') !== undefined && (
+						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'email')!.message}</div></div>
+					)}
 					<div className="mt-1">
 						<input
 							disabled={disabled}
@@ -386,6 +391,9 @@ export const RegisterForm = memo<RegisterFormProps>(
 					<label className="block text-sm font-medium text-gray-700">
 						Co mohu nabídnout (můžete vybrat více možností):
 					</label>
+					{errors.find(it => it.input === 'offer') !== undefined && (
+						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'offer')!.message}</div></div>
+					)}
 				{offerTypes.map(offerType => (
 					<div key={offerType.id} className="mt-1">
 						<div>
