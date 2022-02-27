@@ -27,6 +27,10 @@ export interface QuestionValue {
 export type Districts = {
 	id: string;
 	name: string;
+	region: {
+		id: string;
+		name: string;
+	}
 }[];
 
 export type Languages = {
@@ -92,5 +96,10 @@ export const publicQuery = `
 	districts: listDistrict(orderBy: [{name: asc}]) {
 		id
 		name
+
+		region {
+			id
+			name
+		}
 	}
 `

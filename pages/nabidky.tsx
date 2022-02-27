@@ -7,8 +7,28 @@ import {publicQuery, PublicQueryResult, QuestionType} from '../lib/shared'
 
 const SHOW_LIMIT = 44;
 
+interface Filter {
+	id: string
+	type: QuestionType
+	question: string
+	optionGroups?: { id: string, label: string, options: string[] }[]
+	options: { id: string, label: string }[]
+}
+
+interface FilterWithCount {
+	id: string
+	type: QuestionType
+	question: string
+	optionGroups?: { id: string, label: string, options: string[], count: number }[]
+	options: { id: string, label: string, count: number }[]
+}
+
 type QuestionFilter = { [questionId: string]: string[] };
+
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerTypes, districts }) => {
+	const questions = useMemo(() => {
+		return Object.fromEntries(offerTypes.flatMap(it => it.questions).map(it => [it.id, it]))
+	}, [offerTypes])
 	const filterOffers = useCallback((base: Offers, filter: QuestionFilter) => {
 		return base.filter(offer => {
 			return Object.entries(filter).every(([questionId, options]) => {
@@ -17,10 +37,14 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				}
 				const parameter = offer.parameters.find(it => it.question.id === questionId)
 				const values = [...(parameter?.values || []).map(it => it.value), ...(parameter?.value ? [parameter.value] : [])]
-				return options.some(optionId => values.includes(optionId))
+				const question = questions[questionId];
+				const valueIds = question.type !== 'district'
+					? values.map(it => question.options.find(option => option.value === it)?.id)
+					: values.map(it => districts.find(district => district.name === it)?.id)
+				return options.some(optionId => valueIds.includes(optionId))
 			})
 		})
-	}, [])
+	}, [offerTypes])
 
 	const [typeFilter, setTypeFilter] = useState<string | null>(null)
 	const [questionFilter, setQuestionFilter] = useState<QuestionFilter>({})
@@ -52,21 +76,39 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 
 		return offerType.questions
 			.filter(it => ['checkbox', 'radio', 'district'].includes(it.type))
-			.flatMap(question => {
+			.map((question): Filter => {
 				if (question.type === "district") {
-					return [
-						{
-							id: question.id,
-							type: question.type as QuestionType,
-							question: question.question,
-							options: districts.map(it =>({
-								id: it.id,
-								label: it.name,
-							}))
-						},
-					]
+					return {
+						id: question.id,
+						type: question.type as QuestionType,
+						question: question.question,
+						optionGroups:
+							Object.entries(
+								districts.reduce<{[regionId: string]: { options: string[]; label: string }}>(
+									(acc, district) => {
+										return {
+											...acc,
+											[district.region.id]: {
+												label: district.region.name,
+												options: [...(acc[district.region.id]?.options ?? []), district.id],
+											},
+										}
+									},
+									{},
+									)
+							)
+							.map(([id, { options, label }]) => ({
+								id,
+								label,
+								options,
+							})),
+						options: districts.map(it =>({
+							id: it.id,
+							label: it.name,
+						}))
+					}
 				} else {
-					return [{
+					return {
 						id: question.id,
 						type: question.type as QuestionType,
 						question: question.question,
@@ -74,22 +116,31 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 							id: it.id,
 							label: it.label,
 						}))
-					}]
+					}
 				}
 			})
-			.map(question => {
+			.map((question): FilterWithCount => {
+				const optionGroups = question.optionGroups
+					?.map(option => ({
+						...option,
+						count: filterOffers(typeFilteredOffers, { [question.id]: option.options }).length,
+					}))
+					.filter(it => it.count > 0)
+				optionGroups?.sort((a, b) => b.count - a.count)
+
 				const options = question.options
 					.map(option => {
 						return {
 							...option,
-							count: filterOffers(typeFilteredOffers, { [question.id]: [option.label] }).length,
+							count: filterOffers(typeFilteredOffers, { [question.id]: [option.id] }).length,
 						}
 					})
 					.filter(it => it.count > 0)
 				options.sort((a, b) => b.count - a.count)
 				return {
 					...question,
-					options: options
+					optionGroups,
+					options,
 				}
 			})
 			.filter(it => it.options.length > 0)
@@ -120,6 +171,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 								setShowLimit(SHOW_LIMIT)
 								setTypeFilter(null);
 								setQuestionFilter({})
+								setShowAllFilters(false)
 							}}
 						>
 							Vše ({offers.length})
@@ -133,6 +185,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 									setShowLimit(SHOW_LIMIT)
 									setTypeFilter(type)
 									setQuestionFilter({})
+									setShowAllFilters(false)
 								}}
 							>
 								{offerTypes.find(it => it.id === type)!.name} ({count})
@@ -148,46 +201,94 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				)}
 
 				{shownFilters.map(filter => {
+					const selectedGroups = filter.optionGroups?.filter(group => group.options.some(option => (questionFilter[filter.id] ?? []).includes(option)))
+					const selectedGroupsOptions = selectedGroups?.flatMap(it => it.options)
+					const shownOptions = selectedGroupsOptions !== undefined
+						? filter.options.filter(it => selectedGroupsOptions.includes(it.id))
+						: filter.options
+
 					return (
 						<div key={filter.id} className="mt-4">
 							<h3 className="text-center">{filter.question}</h3>
-							<ul className="mt-1 flex flex-wrap justify-center">
-								<li>
-									<button
-										className={`${(questionFilter[filter.id] ?? []).length === 0 ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
-										onClick={() => {
-											setQuestionFilter(state => ({...state, [filter.id]: []}))
-										}}
-									>
-										Nezáleží
-									</button>
-								</li>
-								{filter.options.map(option => {
-									const selected = (questionFilter[filter.id] ?? []).includes(option.label)
-									return (
-										<li key={option.id}>
-											<button
-												className={`${selected ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-3 border rounded-3xl m-1 text-sm`}
-												onClick={() => {
-													if (selected) {
-														setQuestionFilter((state) => ({
-															...state,
-															[filter.id]: state[filter.id]!.filter(it => it !== option.label)
-														}))
-													} else {
-														setQuestionFilter((state) => ({
-															...state,
-															[filter.id]: [...state[filter.id] ?? [], option.label]
-														}))
-													}
-												}}
-											>
-												{option.label} ({option.count})
-											</button>
-										</li>
-									);
-								})}
-							</ul>
+							{filter.optionGroups && (
+								<ul className="mt-1 flex flex-wrap justify-center">
+									<li>
+										<button
+											className={`${(questionFilter[filter.id] ?? []).length === 0 ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
+											onClick={() => {
+												setQuestionFilter(state => ({...state, [filter.id]: []}))
+											}}
+										>
+											Nezáleží
+										</button>
+									</li>
+									{filter.optionGroups.map(option => {
+										const selected = selectedGroups!.includes(option)
+										return (
+											<li key={option.id}>
+												<button
+													className={`${selected ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-3 border rounded-3xl m-1 text-sm`}
+													onClick={() => {
+														if (selected) {
+															setQuestionFilter((state) => ({
+																...state,
+																[filter.id]: state[filter.id]!.filter(it => !option.options.includes(it))
+															}))
+														} else {
+															setQuestionFilter((state) => ({
+																...state,
+																[filter.id]: [...state[filter.id] ?? [], ...option.options]
+															}))
+														}
+													}}
+												>
+													{option.label} ({option.count})
+												</button>
+											</li>
+										);
+									})}
+								</ul>
+							)}
+
+							{shownOptions.length > 0 && (
+								<ul className="mt-1 flex flex-wrap justify-center">
+									{!filter.optionGroups && <li>
+										<button
+											className={`${(questionFilter[filter.id] ?? []).length === 0 ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
+											onClick={() => {
+												setQuestionFilter(state => ({...state, [filter.id]: []}))
+											}}
+										>
+											Nezáleží
+										</button>
+									</li>}
+									{shownOptions.map(option => {
+										const selected = (questionFilter[filter.id] ?? []).includes(option.id)
+										return (
+											<li key={option.id}>
+												<button
+													className={`${selected ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-3 border rounded-3xl m-1 text-sm`}
+													onClick={() => {
+														if (selected) {
+															setQuestionFilter((state) => ({
+																...state,
+																[filter.id]: state[filter.id]!.filter(it => it !== option.id)
+															}))
+														} else {
+															setQuestionFilter((state) => ({
+																...state,
+																[filter.id]: [...state[filter.id] ?? [], option.id]
+															}))
+														}
+													}}
+												>
+													{option.label} ({option.count})
+												</button>
+											</li>
+										);
+									})}
+								</ul>
+							)}
 						</div>
 					)
 				})}
