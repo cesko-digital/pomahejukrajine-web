@@ -7,7 +7,7 @@ import Footer from '../components/footer';
 const Home: NextPage = ({ offerTypes, districts, languages }: any) => {
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta title="Pomoc Ukrajině" description="Pomoc Ukrajině" />
+			<Meta title="Pomáhej Ukrajině" description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí." />
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="relative max-w-xl mx-auto">

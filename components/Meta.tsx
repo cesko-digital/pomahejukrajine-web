@@ -57,7 +57,7 @@ const Meta = (props: IMetaProps) => {
           description: props.description,
           url: props.canonical,
           locale: "cs",
-          site_name: "Pomoc Ukrajině",
+          site_name: "Pomáhej Ukrajině",
         }}
       />
     </>
