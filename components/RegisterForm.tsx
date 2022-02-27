@@ -215,7 +215,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 			expertise: '',
 			offers: {},
 			languages: [],
-			contactHours: '',
+			contactHours: 'kdykoliv',
 			organization: '',
 		})
 
@@ -398,6 +398,8 @@ export const RegisterForm = memo<RegisterFormProps>(
 						</div>
 						{!!state.offers[offerType.id] && (
 							<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
+
+
 								{offerType.questions.map(question => (
 									<QuestionControl
 										key={question.id}
