@@ -53,6 +53,14 @@ const Meta = (props: IMetaProps) => {
           url: props.canonical,
           locale: "cs",
           site_name: "Pomáhej Ukrajině",
+          images: [
+            {
+              url: 'https://www.pomahejukrajine.cz/og_image_1200x630.jpg',
+              width: 1200,
+              height: 630,
+              alt: 'Pomáhej Ukrajině',
+            }
+          ],
         }}
       />
     </>
