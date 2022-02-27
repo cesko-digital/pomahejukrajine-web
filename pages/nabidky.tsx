@@ -110,7 +110,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				<ul className="mt-8 flex flex-wrap justify-center">
 					<li>
 						<button
-							className={`${typeFilter === null ? 'bg-gray-200' : 'bg-white'} text-gray-900 font-medium py-1 px-2 border border-gray-300 rounded-3xl m-1 text-sm`}
+							className={`${typeFilter === null ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white borde-gray-200'} text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md`}
 							onClick={() => {
 								setTypeFilter(null);
 								setQuestionFilter({})
@@ -122,7 +122,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					{Object.entries(availableTypes).map(([type, count]) => (
 						<li key={type}>
 							<button
-								className={`${typeFilter === type ? 'bg-gray-200' : 'bg-white'} text-gray-900 font-medium py-1 px-2 border border-gray-300 rounded-3xl m-1 text-sm`}
+								className={`${typeFilter === type ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md`}
 								onClick={() => {
 									setTypeFilter(type)
 									setQuestionFilter({})
@@ -141,7 +141,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 							<ul className="mt-1 flex flex-wrap justify-center">
 								<li>
 									<button
-										className={`${(questionFilter[filter.id] ?? []).length === 0 ? 'bg-gray-200' : 'bg-white'} text-gray-900 font-medium py-1 px-2 border border-gray-300 rounded-3xl m-1 text-sm`}
+										className={`${(questionFilter[filter.id] ?? []).length === 0 ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
 										onClick={() => {
 											setQuestionFilter(state => ({...state, [filter.id]: []}))
 										}}
@@ -154,7 +154,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 									return (
 										<li key={option.id}>
 											<button
-												className={`${selected ? 'bg-gray-200' : 'bg-white'} text-gray-900 font-medium py-1 px-2 border border-gray-300 rounded-3xl m-1 text-sm`}
+												className={`${selected ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-3 border rounded-3xl m-1 text-sm`}
 												onClick={() => {
 													if (selected) {
 														setQuestionFilter((state) => ({
@@ -180,7 +180,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				})}
 
 				{filters.length !== lessFilters.length && <div className="flex justify-center mt-4">
-					<button onClick={() => setShowAllFilters(it => !it)} className="text-sm border rounded-md px-2 py-1">
+					<button onClick={() => setShowAllFilters(it => !it)} className="text-lg shadow-sm bg-white text-blue-800 border border-gray-200 rounded-md px-4 py-2">
 						{showAllFilters ? 'Méně filtrů' : 'Více filtrů'}
 					</button>
 				</div>}
@@ -189,14 +189,14 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					{filteredOffers.map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
 						return (
-							<div key={offer.id} className="p-2 rounded-md border border-gray-300 m-4">
+							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4">
 								<h3 className="text-lg font-bold">{offerType.name}</h3>
 								{offer.parameters.map(parameter => {
 									const question = offerType.questions.find(it => it.id === parameter.question.id)!
 									return (
 										<div key={parameter.id} className="flex flex-col mt-2">
-											<p className="font-bold">{question.question}</p>
-											<p className="ml-4">
+											<p className="text-sm font-bold">{question.question}</p>
+											<p className="text-sm">
 												{(question.type === "district" || question.type === "checkbox") ? (
 													<>
 														{parameter.values.map((value, i) => {
