@@ -42,11 +42,14 @@ interface RegisterFormProps {
 }
 
 interface RegisterFormState {
-	email: string
+	name: string;
+	organization: string,
 	phone: string
-	userNote: string
+	email: string
+	contactHours: string,
 	expertise: string
-	districts: string[]
+	userNote: string
+	languages: string[],
 	offers: {
 		[id: string]: {
 			questions: {
@@ -94,8 +97,8 @@ export const QuestionControl = memo<{
 					<div>
 						<div className="flex flex-col">
 							{definition.options.map(option => (
-								<div>
-									<label key={option.id} className="inline-flex items-center">
+								<div key={option.id}>
+									<label className="inline-flex items-center">
 										<input
 											disabled={disabled}
 											type="radio"
@@ -128,8 +131,8 @@ export const QuestionControl = memo<{
 							const relevantValue = value.values?.find(it => it.value === option.value);
 							const checked = relevantValue !== undefined;
 							return (
-								<div>
-									<label key={option.id} className="inline-flex items-center">
+								<div key={option.id}>
+									<label className="inline-flex items-center">
 										<input
 											disabled={disabled}
 											type="checkbox"
@@ -178,55 +181,33 @@ export const RegisterForm = memo<RegisterFormProps>(
 	({ offerTypes, districts }) => {
 		const [submitting, setSubmitting] = useState<false |'loading' | 'error' | 'success'>(false);
 		const [state, setState] = useState<RegisterFormState>({
+			name: '',
 			email: '',
 			phone: '+420',
 			userNote: '',
 			expertise: '',
-			districts: [],
 			offers: {},
+			languages: [],
+			contactHours: '',
+			organization: '',
 		})
 
 		const submit = useCallback(async (e: FormEvent) => {
 			e.preventDefault()
 			setSubmitting('loading')
-			const data = {
-				email: state.email,
-				phone: state.phone,
-				userNote: state.userNote,
-				expertise: state.expertise,
-				districts: state.districts.map(id => ({ create: { district: { connect: { id } } } })),
-				offers: Object.entries(state.offers).map(([id, offer]) => ({
-					create: {
-						type: { connect: { id } },
-						capacity: offer.capacity,
-						userNote: offer.note,
-					},
-				})),
-			}
 			const response = await fetch(
-				process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
+				'/api/register',
 				{
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
-						'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN}`,
 					},
 					body: JSON.stringify({
-						query: `
-							mutation ($data: VolunteerCreateInput!) {
-								createVolunteer(data: $data) {
-									ok
-									errorMessage
-								}
-							}
-						`,
-						variables: {
-							data,
-						},
+						data: state
 					}),
 				},
 			)
-			const ok = response.ok ? (await response.json())?.data?.createVolunteer?.ok : null
+			const ok = response.ok ? (await response.json())?.ok : null
 
 			if (ok) {
 				setSubmitting('success')
@@ -250,17 +231,30 @@ export const RegisterForm = memo<RegisterFormProps>(
 					{submitting === 'error' && <p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>}
 				</div>
 				<div>
-					<label htmlFor="email" className="block text-sm font-medium text-gray-700">
-						Email (povinný)
+					<label className="block text-sm font-medium text-gray-700">
+						Jméno (povinné)
 					</label>
 					<div className="mt-1">
 						<input
 							disabled={disabled}
-							type="email"
-							id="email"
+							type="text"
 							required
-							value={state.email}
-							onChange={(e) => setState({ ...state, email: e.target.value })}
+							value={state.name}
+							onChange={(e) => setState({ ...state, name: e.target.value })}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
+				</div>
+				<div>
+					<label className="block text-sm font-medium text-gray-700">
+						Organizace (nepovinné)
+					</label>
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="text"
+							value={state.organization}
+							onChange={(e) => setState({ ...state, organization: e.target.value })}
 							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 						/>
 					</div>
@@ -278,6 +272,53 @@ export const RegisterForm = memo<RegisterFormProps>(
 							onChange={(e) => setState({ ...state, phone: e.target.value })}
 							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 						/>
+					</div>
+				</div>
+				<div>
+					<label htmlFor="email" className="block text-sm font-medium text-gray-700">
+						Email (povinný)
+					</label>
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="email"
+							id="email"
+							required
+							value={state.email}
+							onChange={(e) => setState({ ...state, email: e.target.value })}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
+				</div>
+				<div>
+					<div className="block text-sm font-medium text-gray-700">
+						Můžete mne kontaktovat
+					</div>
+					<div className="mt-1 flex flex-col">
+						<label className="flex items-center">
+							<input
+								disabled={disabled}
+								type="checkbox"
+								checked={state.contactHours === "kdykoliv"}
+								onChange={(e) => setState({ ...state, contactHours: e.target.checked ? "kdykoliv" : "" })}
+								className="mr-2"
+							/>
+							<span>Kdykoliv</span>
+						</label>
+						{state.contactHours !== "kdykoliv" && (
+							<div>
+								<input
+									disabled={disabled}
+									required
+									type="text"
+									name="contactHours"
+									value={state.contactHours}
+									onChange={(e) => setState({ ...state, contactHours: e.target.value })}
+									placeholder="Kdy?"
+									className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+								/>
+							</div>
+						)}
 					</div>
 				</div>
 				{/*<div>*/}
