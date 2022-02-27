@@ -147,8 +147,9 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 	}, [offerTypes, typeFilter, districts, filterOffers, typeFilteredOffers])
 
 	const filteredOffers = filterOffers(typeFilteredOffers, questionFilter)
-	const lessFilters = filters.filter(it => it.type === "district");
-	const shownFilters = showAllFilters ? filters : lessFilters
+	const lessFilters = filters.filter(it => it.type === "district")
+	const additionalFilters = filters.filter(it => !lessFilters.includes(it))
+	const shownFilters = showAllFilters ? [...lessFilters, ...additionalFilters] : lessFilters
 	const offersToShow = filteredOffers.filter(it => it.parameters.length > 0)
 
 	return (
