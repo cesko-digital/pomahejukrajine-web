@@ -726,6 +726,10 @@ select {
   margin-left: 2.5rem;
 }
 
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
 .block {
   display: block;
 }
@@ -768,6 +772,10 @@ select {
 
 .max-w-4xl {
   max-width: 56rem;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .grid-cols-1 {
@@ -952,6 +960,11 @@ select {
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
 
 .pl-2 {

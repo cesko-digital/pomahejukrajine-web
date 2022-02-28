@@ -1,9 +1,10 @@
-import type { NextPage, GetStaticProps } from 'next'
-import { Meta } from '../components/Meta'
+import type {GetStaticProps, NextPage} from 'next'
+import {Meta} from '../components/Meta'
 import Header from '../components/header'
 import Footer from '../components/footer';
 import {Fragment, useCallback, useMemo, useState} from "react";
 import {publicQuery, PublicQueryResult, QuestionType} from '../lib/shared'
+import Link from 'next/link';
 
 const SHOW_LIMIT = 44;
 
@@ -29,7 +30,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 	const questions = useMemo(() => {
 		return Object.fromEntries(offerTypes.flatMap(it => it.questions).map(it => [it.id, it]))
 	}, [offerTypes])
-	const filterOffers = useCallback((base: Offers, filter: QuestionFilter) => {
+	const filterOffers = useCallback(<T extends Offer>(base: T[], filter: QuestionFilter): T[] => {
 		return base.filter(offer => {
 			return Object.entries(filter).every(([questionId, options]) => {
 				if (options.length === 0) {
@@ -44,7 +45,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				return options.some(optionId => valueIds.includes(optionId))
 			})
 		})
-	}, [offerTypes])
+	}, [offerTypes, questions, districts])
 
 	const [typeFilter, setTypeFilter] = useState<string | null>(null)
 	const [questionFilter, setQuestionFilter] = useState<QuestionFilter>({})
@@ -159,9 +160,6 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="text-center mt-2">
 					<h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Nabídky pomoci</h1>
-				</div>
-				<div className="p-2 max-w-4xl mx-auto rounded-lg bg-blue-600 shadow-lg sm:p-3 mt-6 text-center text-lg">
-					<p className="mx-3 font-medium text-white">Zatím jsou nabídky pouze k náhledu. Nejpozději v úterý ráno zprovozníme možnost reagovat na nabídku přímo zde na portále.</p>
 				</div>
 
 				<ul className="mt-8 flex flex-wrap justify-center">
@@ -306,7 +304,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					{offersToShow.slice(0, showLimit).map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
 						return (
-							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4">
+							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4 flex flex-col">
 								<h3 className="text-lg font-bold">{offerType.name}</h3>
 								{offer.parameters.map(parameter => {
 									const question = offerType.questions.find(it => it.id === parameter.question.id)!
@@ -348,6 +346,17 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 										</div>
 									);
 								})}
+
+								{offer.allowReaction && (
+									<>
+										<div className="grow"></div>
+										<div className="mt-3">
+											<Link href={{ pathname: '/reagovat/[id]', query: { id: offer.id } }}>
+												<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Potřebuji tuto pomoc</a>
+											</Link>
+										</div>
+									</>
+								)}
 							</div>
 						);
 					})}
@@ -369,8 +378,33 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 	)
 }
 
-type Offers = {
+type OfferResponse = {
 	id: string
+	type: {
+		id: string
+	}
+	assignee: {
+		id: string
+	}
+	parameters: {
+		id: string
+		question: {
+			id: string
+		}
+		value: string
+		specification?: string
+		values: {
+			id: string
+			value: string
+			specification: string
+		}[]
+	}[]
+};
+type OffersResponse = OfferResponse[]
+
+type Offer = {
+	id: string
+	allowReaction: boolean
 	type: {
 		id: string
 	}
@@ -387,7 +421,9 @@ type Offers = {
 			specification: string
 		}[]
 	}[]
-}[]
+}
+
+type Offers = Offer[]
 
 export const getStaticProps: GetStaticProps = async () => {
 	const response = await fetch(
@@ -416,6 +452,7 @@ export const getStaticProps: GetStaticProps = async () => {
 						type {
 							id
 						}
+						assignee { id }
 						parameters (
 							filter: {
 								question: {
@@ -444,10 +481,24 @@ export const getStaticProps: GetStaticProps = async () => {
 	)
 
 	const json = await response.json()
-	const { data } = json
+	const data = json.data as PublicQueryResult & { offers: OffersResponse }
+
+	const offers: Offers = data.offers.map(offer => {
+		const offerType = data.offerTypes.find(it => it.id === offer.type.id)!
+		return ({
+			id: offer.id,
+			type: offer.type,
+			parameters: offer.parameters,
+			allowReaction: !offerType.needsVerification && offer.assignee === null,
+		});
+	})
+
 
 	return {
-		props: { ...data },
+		props: {
+			...data,
+			offers,
+		},
 		revalidate: 60,
 	}
 }
