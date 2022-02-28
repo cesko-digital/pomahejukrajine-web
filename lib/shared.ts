@@ -44,6 +44,7 @@ export interface PublicQueryResult {
 		name: string;
 		infoText: string;
 		questions: QuestionDefinition[];
+		needsVerification: boolean;
 	}[];
 	districts: Districts;
 	languages: Languages;
@@ -73,6 +74,7 @@ export const publicQuery = `
 		id
 		name
 		infoText
+		needsVerification
 
 		questions {
 			id

@@ -4,6 +4,7 @@ import Header from '../components/header'
 import Footer from '../components/footer';
 import {Fragment, useCallback, useMemo, useState} from "react";
 import {publicQuery, PublicQueryResult, QuestionType} from '../lib/shared'
+import Link from 'next/link';
 
 const SHOW_LIMIT = 44;
 
@@ -29,7 +30,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 	const questions = useMemo(() => {
 		return Object.fromEntries(offerTypes.flatMap(it => it.questions).map(it => [it.id, it]))
 	}, [offerTypes])
-	const filterOffers = useCallback((base: Offers, filter: QuestionFilter) => {
+	const filterOffers = useCallback(<T extends Offer>(base: T[], filter: QuestionFilter): T[] => {
 		return base.filter(offer => {
 			return Object.entries(filter).every(([questionId, options]) => {
 				if (options.length === 0) {
@@ -44,7 +45,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				return options.some(optionId => valueIds.includes(optionId))
 			})
 		})
-	}, [offerTypes])
+	}, [offerTypes, questions, districts])
 
 	const [typeFilter, setTypeFilter] = useState<string | null>(null)
 	const [questionFilter, setQuestionFilter] = useState<QuestionFilter>({})
@@ -306,7 +307,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					{offersToShow.slice(0, showLimit).map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
 						return (
-							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4">
+							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4 flex flex-col">
 								<h3 className="text-lg font-bold">{offerType.name}</h3>
 								{offer.parameters.map(parameter => {
 									const question = offerType.questions.find(it => it.id === parameter.question.id)!
@@ -348,6 +349,17 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 										</div>
 									);
 								})}
+
+								{offer.allowReaction && (
+									<>
+										<div className="grow"></div>
+										<div className="mt-3">
+											<Link href={{ pathname: '/reagovat/[id]', query: { id: offer.id } }}>
+												<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Potřebuji tuto pomoc</a>
+											</Link>
+										</div>
+									</>
+								)}
 							</div>
 						);
 					})}
@@ -369,7 +381,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 	)
 }
 
-type Offers = {
+type OfferResponse = {
 	id: string
 	type: {
 		id: string
@@ -387,7 +399,12 @@ type Offers = {
 			specification: string
 		}[]
 	}[]
-}[]
+};
+type OffersResponse = OfferResponse[]
+
+type Offer = OfferResponse & { allowReaction: boolean }
+
+type Offers = Offer[]
 
 export const getStaticProps: GetStaticProps = async () => {
 	const response = await fetch(
@@ -444,10 +461,22 @@ export const getStaticProps: GetStaticProps = async () => {
 	)
 
 	const json = await response.json()
-	const { data } = json
+	const data = json.data as PublicQueryResult & { offers: OffersResponse }
+
+	const offers: Offers = data.offers.map(offer => {
+		const offerType = data.offerTypes.find(it => it.id === offer.type.id)!
+		return ({
+			...offer,
+			allowReaction: !offerType.needsVerification,
+		});
+	})
+
 
 	return {
-		props: { ...data },
+		props: {
+			...data,
+			offers,
+		},
 		revalidate: 60,
 	}
 }
