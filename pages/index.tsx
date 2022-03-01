@@ -17,7 +17,7 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 						Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí. Kolegové se vám ozvou a domluvíte se na konkrétní spolupráci.
 					</p>
 					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
-						Pokud nás potřebujete kontaktovat, napište na <a className='underline underline-offset-2' href="mailto:pomahejukrajine@migracnikonscorcium.cz?subject=PomáhejUkrajině">pomahejukrajine@migracnikonscorcium.cz</a>.
+						Pokud nás potřebujete kontaktovat, napište na <a className='underline underline-offset-2' href="mailto:pomahejukrajine@migracnikonsorcium.cz?subject=PomáhejUkrajině">pomahejukrajine@migracnikonsorcium.cz</a>.
 					</p>
 					<div className={`mt-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
 						<Link href="/nabidka">
