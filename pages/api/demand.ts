@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PublicQueryResult, HelpFormState, Error, publicQuery } from '../../lib/shared'
+import { PublicQueryResult, HelpFormState, publicQuery, ErrorMultilingual } from '../../lib/shared'
 
 const fetchTypes = async (): Promise<PublicQueryResult> => {
 	const response = await fetch(
@@ -27,24 +27,22 @@ export default async function handler(
 ) {
 	const data = req.body.data as HelpFormState
 
-	console.log('data', data)
-
 	const { offerTypes } = await fetchTypes()
 	// TODO: Validation
 
-	let errors: Error[] = []
+	let errors: ErrorMultilingual[] = []
 
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({
 			input: 'email',
-			message: 'Neplatný email',
+			message: { cs: 'Neplatný email', uk: 'Недійсна електронна адреса' },
 		})
 	}
 
 	if (Object.keys(data.types).length === 0 && data.otherType === '') {
 		errors.push({
 			input: 'offer',
-			message: 'Musíte vybrat alespoň jednu možnost',
+			message: { cs: 'Musíte vybrat alespoň jednu možnost', uk: 'Ви повинні вибрати принаймні один варіант' },
 		})
 	}
 
