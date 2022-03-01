@@ -46,6 +46,7 @@ export interface PublicQueryResult {
 		infoText: string
 		questions: QuestionDefinition[]
 		needsVerification: boolean
+		hideInDemand: boolean
 	}[]
 	districts?: Districts
 	languages?: Languages
@@ -79,6 +80,7 @@ export interface HelpFormState {
 }
 
 export type Error = { input: 'question'; questionId: string; message: string } | { input: 'email'; message: string } | { input: 'offer'; message: string } | { input: 'languages'; message: string }
+export type ErrorMultilingual = { input: 'email'; message: {cs: string, uk: string} } | { input: 'offer'; message: {cs: string, uk: string} }
 
 export const publicQuery = `
 	offerTypes: listOfferType(orderBy: [{ order: asc }]) {
@@ -87,6 +89,7 @@ export const publicQuery = `
 		nameUK
 		infoText
 		needsVerification
+		hideInDemand
 
 		questions {
 			id

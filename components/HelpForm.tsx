@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import { FormEvent, memo, useCallback, useState } from "react"
 import Select, { components } from "react-select"
-import { Districts, QuestionDefinition, QuestionValue, PublicQueryResult, RegisterFormState, Error, HelpFormState } from "../lib/shared"
+import { Districts, QuestionDefinition, QuestionValue, PublicQueryResult, RegisterFormState, Error, HelpFormState, ErrorMultilingual } from "../lib/shared"
 
 const SelectInput = (props: any) => <components.Input {...props} inputClassName="outline-none border-none shadow-none focus:ring-transparent" />
 
@@ -147,7 +147,7 @@ export const QuestionControl = memo<{
 export const HelpForm = memo<PublicQueryResult>(
 	({ offerTypes, uk }) => {
 		const [submitting, setSubmitting] = useState<false | 'loading' | 'error' | 'success'>(false)
-		const [errors, setErrors] = useState<Error[]>([])
+		const [errors, setErrors] = useState<ErrorMultilingual[]>([])
 		const [state, setState] = useState<HelpFormState>({
 			name: '',
 			email: '',
@@ -238,7 +238,7 @@ export const HelpForm = memo<PublicQueryResult>(
 						{uk ? 'Електронна адреса (обовязково)' : 'Email (povinný)'}
 					</label>
 					{errors.find(it => it.input === 'email') !== undefined && (
-						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'email')!.message}</div></div>
+						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'email')!.message[uk ? 'uk' : 'cs']}</div></div>
 					)}
 					<div className="mt-1">
 						<input
@@ -289,9 +289,9 @@ export const HelpForm = memo<PublicQueryResult>(
 						{uk ? 'З чим мені потрібна допомога (ви можете вибрати більше варіантів)' : 'S čím potřebuji pomoci (můžete vybrat více možností)'}
 					</label>
 					{errors.find(it => it.input === 'offer') !== undefined && (
-						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'offer')!.message}</div></div>
+						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'offer')!.message[uk ? 'uk' : 'cs']}</div></div>
 					)}
-					{offerTypes.map(offerType => (
+					{offerTypes?.filter(type => !type.hideInDemand)?.map(offerType => (
 						<div key={offerType.id} className="mt-1">
 							<div>
 								<label>
