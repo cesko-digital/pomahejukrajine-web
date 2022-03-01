@@ -1,12 +1,12 @@
-import type {GetStaticProps, NextPage} from 'next'
-import {Meta} from '../components/Meta'
+import type { GetStaticProps, NextPage } from 'next'
+import { Meta } from '../components/Meta'
 import Header from '../components/header'
-import Footer from '../components/footer';
-import {Fragment, useCallback, useMemo, useState} from "react";
-import {publicQuery, PublicQueryResult, QuestionType} from '../lib/shared'
-import Link from 'next/link';
+import Footer from '../components/footer'
+import { Fragment, useCallback, useMemo, useState } from "react"
+import { publicQuery, PublicQueryResult, QuestionType } from '../lib/shared'
+import Link from 'next/link'
 
-const SHOW_LIMIT = 44;
+const SHOW_LIMIT = 44
 
 interface Filter {
 	id: string
@@ -24,7 +24,7 @@ interface FilterWithCount {
 	options: { id: string, label: string, count: number }[]
 }
 
-type QuestionFilter = { [questionId: string]: string[] };
+type QuestionFilter = { [questionId: string]: string[] }
 
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerTypes, districts }) => {
 	const questions = useMemo(() => {
@@ -38,10 +38,10 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 				}
 				const parameter = offer.parameters.find(it => it.question.id === questionId)
 				const values = [...(parameter?.values || []).map(it => it.value), ...(parameter?.value ? [parameter.value] : [])]
-				const question = questions[questionId];
+				const question = questions[questionId]
 				const valueIds = question.type !== 'district'
 					? values.map(it => question.options.find(option => option.value === it)?.id)
-					: values.map(it => districts.find(district => district.name === it)?.id)
+					: values.map(it => districts?.find(district => district.name === it)?.id)
 				return options.some(optionId => valueIds.includes(optionId))
 			})
 		})
@@ -84,8 +84,8 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 						type: question.type as QuestionType,
 						question: question.question,
 						optionGroups:
-							Object.entries(
-								districts.reduce<{[regionId: string]: { options: string[]; label: string }}>(
+							Object.entries(districts ?
+								districts.reduce<{ [regionId: string]: { options: string[]; label: string } }>(
 									(acc, district) => {
 										return {
 											...acc,
@@ -96,17 +96,17 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 										}
 									},
 									{},
-									)
+								) : []
 							)
-							.map(([id, { options, label }]) => ({
-								id,
-								label,
-								options,
-							})),
-						options: districts.map(it =>({
+								.map(([id, { options, label }]) => ({
+									id,
+									label,
+									options,
+								})),
+						options: districts ? districts.map(it => ({
 							id: it.id,
 							label: it.name,
-						}))
+						})) : []
 					}
 				} else {
 					return {
@@ -168,7 +168,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 							className={`${typeFilter === null ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white borde-gray-200'} text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md`}
 							onClick={() => {
 								setShowLimit(SHOW_LIMIT)
-								setTypeFilter(null);
+								setTypeFilter(null)
 								setQuestionFilter({})
 								setShowAllFilters(false)
 							}}
@@ -215,7 +215,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 										<button
 											className={`${(questionFilter[filter.id] ?? []).length === 0 ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
 											onClick={() => {
-												setQuestionFilter(state => ({...state, [filter.id]: []}))
+												setQuestionFilter(state => ({ ...state, [filter.id]: [] }))
 											}}
 										>
 											Nezáleží
@@ -244,7 +244,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 													{option.label} ({option.count})
 												</button>
 											</li>
-										);
+										)
 									})}
 								</ul>
 							)}
@@ -255,7 +255,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 										<button
 											className={`${(questionFilter[filter.id] ?? []).length === 0 ? 'bg-blue-600 text-white border-blue-800 shadow-sm' : 'bg-white border-gray-200'} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
 											onClick={() => {
-												setQuestionFilter(state => ({...state, [filter.id]: []}))
+												setQuestionFilter(state => ({ ...state, [filter.id]: [] }))
 											}}
 										>
 											Nezáleží
@@ -284,7 +284,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 													{option.label} ({option.count})
 												</button>
 											</li>
-										);
+										)
 									})}
 								</ul>
 							)}
@@ -344,7 +344,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 												)}
 											</p>
 										</div>
-									);
+									)
 								})}
 
 								{offer.allowReaction && (
@@ -358,7 +358,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 									</>
 								)}
 							</div>
-						);
+						)
 					})}
 				</div>
 
@@ -399,7 +399,7 @@ type OfferResponse = {
 			specification: string
 		}[]
 	}[]
-};
+}
 type OffersResponse = OfferResponse[]
 
 type Offer = {
@@ -490,7 +490,7 @@ export const getStaticProps: GetStaticProps = async () => {
 			type: offer.type,
 			parameters: offer.parameters,
 			allowReaction: !offerType.needsVerification && offer.assignee === null,
-		});
+		})
 	})
 
 

@@ -306,7 +306,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 						<div className="flex"><div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">{errors.find(it => it.input === 'languages')!.message}</div></div>
 					)}
 					<div className="mt-1 flex flex-col">
-						{languages.map(language => (
+						{languages?.map(language => (
 							<label key={language.id} className="flex items-center">
 								<input
 									disabled={disabled}
@@ -369,7 +369,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 											setState(state => ({ ...state, offers: { ...state.offers, [offerType.id]: { ...state.offers[offerType.id], questions: { ...state.offers[offerType.id].questions, [question.id]: newValue } } } }))
 										}}
 										disabled={disabled}
-										districts={districts}
+										districts={districts ? districts : []}
 										error={errors.find(it => it.input === "question" && it.questionId === question.id)?.message}
 									/>
 								))}
