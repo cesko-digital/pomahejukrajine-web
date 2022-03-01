@@ -1,9 +1,9 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import { Meta } from '../components/Meta'
 import Header from '../components/header'
 import Footer from '../components/footer'
-import { Fragment, useCallback, useMemo, useState } from "react"
-import { publicQuery, PublicQueryResult, QuestionType } from '../lib/shared'
+import { Fragment, useEffect, useState } from 'react'
+import { PublicQueryResult, QuestionType } from '../lib/shared'
 import Link from 'next/link'
 
 const SHOW_LIMIT = 44
@@ -24,138 +24,45 @@ interface FilterWithCount {
 	options: { id: string, label: string, count: number }[]
 }
 
-type QuestionFilter = { [questionId: string]: string[] }
+type QuestionFilter = { [questionId: string]: string[] };
 
-const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerTypes, districts }) => {
-	const questions = useMemo(() => {
-		return Object.fromEntries(offerTypes.flatMap(it => it.questions).map(it => [it.id, it]))
-	}, [offerTypes])
-	const filterOffers = useCallback(<T extends Offer>(base: T[], filter: QuestionFilter): T[] => {
-		return base.filter(offer => {
-			return Object.entries(filter).every(([questionId, options]) => {
-				if (options.length === 0) {
-					return true
-				}
-				const parameter = offer.parameters.find(it => it.question.id === questionId)
-				const values = [...(parameter?.values || []).map(it => it.value), ...(parameter?.value ? [parameter.value] : [])]
-				const question = questions[questionId]
-				const valueIds = question.type !== 'district'
-					? values.map(it => question.options.find(option => option.value === it)?.id)
-					: values.map(it => districts?.find(district => district.name === it)?.id)
-				return options.some(optionId => valueIds.includes(optionId))
-			})
-		})
-	}, [offerTypes, questions, districts])
+type Data = {
+	totalOfferCount: number
+	offerTypes: PublicQueryResult['offerTypes'],
+	availableTypes: { [name: string]: number }
+	filters: FilterWithCount[]
+	lessFilters: FilterWithCount[]
+	shownFilters: FilterWithCount[]
+	offersToShow: Offer[]
+	offersToShowTotalCount: number
+}
 
+const Home: NextPage<Data> = (props) => {
+	const [data, setData] = useState<Data | null>(null)
 	const [typeFilter, setTypeFilter] = useState<string | null>(null)
 	const [questionFilter, setQuestionFilter] = useState<QuestionFilter>({})
 	const [showAllFilters, setShowAllFilters] = useState(false)
 	const [showLimit, setShowLimit] = useState(SHOW_LIMIT)
 
-	const typeFilteredOffers = offers.filter(offer => {
-		if (typeFilter === null) {
-			return true
-		}
-		return offer.type.id === typeFilter
-	})
+	useEffect(
+		() => {
+			(async () => {
+				setData(await fetchData(typeFilter, questionFilter, showAllFilters, showLimit))
+			})()
+		},
+		[typeFilter, questionFilter, showAllFilters, showLimit],
+	)
 
-	const availableTypes = offers.reduce<{ [name: string]: number }>((acc, offer) => {
-		if (offer.type.id in acc) {
-			acc[offer.type.id]++
-		} else {
-			acc[offer.type.id] = 1
-		}
-		return acc
-	}, {})
+	if (!data) {
+		return null
+	}
 
-	const filters = useMemo(() => {
-		if (typeFilter === null) {
-			return []
-		}
-
-		const offerType = offerTypes.find(it => it.id === typeFilter)!
-
-		return offerType.questions
-			.filter(it => ['checkbox', 'radio', 'district'].includes(it.type))
-			.map((question): Filter => {
-				if (question.type === "district") {
-					return {
-						id: question.id,
-						type: question.type as QuestionType,
-						question: question.question,
-						optionGroups:
-							Object.entries(districts ?
-								districts.reduce<{ [regionId: string]: { options: string[]; label: string } }>(
-									(acc, district) => {
-										return {
-											...acc,
-											[district.region.id]: {
-												label: district.region.name,
-												options: [...(acc[district.region.id]?.options ?? []), district.id],
-											},
-										}
-									},
-									{},
-								) : []
-							)
-								.map(([id, { options, label }]) => ({
-									id,
-									label,
-									options,
-								})),
-						options: districts ? districts.map(it => ({
-							id: it.id,
-							label: it.name,
-						})) : []
-					}
-				} else {
-					return {
-						id: question.id,
-						type: question.type as QuestionType,
-						question: question.question,
-						options: question.options.map(it => ({
-							id: it.id,
-							label: it.label,
-						}))
-					}
-				}
-			})
-			.map((question): FilterWithCount => {
-				const optionGroups = question.optionGroups
-					?.map(option => ({
-						...option,
-						count: filterOffers(typeFilteredOffers, { [question.id]: option.options }).length,
-					}))
-					.filter(it => it.count > 0)
-				optionGroups?.sort((a, b) => b.count - a.count)
-
-				const options = question.options
-					.map(option => {
-						return {
-							...option,
-							count: filterOffers(typeFilteredOffers, { [question.id]: [option.id] }).length,
-						}
-					})
-					.filter(it => it.count > 0)
-				options.sort((a, b) => b.count - a.count)
-				return {
-					...question,
-					optionGroups,
-					options,
-				}
-			})
-			.filter(it => it.options.length > 0)
-	}, [offerTypes, typeFilter, districts, filterOffers, typeFilteredOffers])
-
-	const filteredOffers = filterOffers(typeFilteredOffers, questionFilter)
-	const lessFilters = filters.filter(it => it.type === "district")
-	const additionalFilters = filters.filter(it => !lessFilters.includes(it))
-	const shownFilters = showAllFilters ? [...lessFilters, ...additionalFilters] : lessFilters
-	const offersToShow = filteredOffers.filter(it => it.parameters.length > 0)
+	let { totalOfferCount, offerTypes, availableTypes, filters, lessFilters, shownFilters, offersToShow, offersToShowTotalCount } = data
 
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta title="Nabídky pomoci - Pomáhej Ukrajině" description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí." />
+			<Meta title="Nabídky pomoci - Pomáhej Ukrajině"
+			      description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí." />
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="text-center mt-2">
@@ -173,7 +80,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 								setShowAllFilters(false)
 							}}
 						>
-							Vše ({offers.length})
+							Vše ({totalOfferCount})
 						</button>
 					</li>
 					{Object.entries(availableTypes).map(([type, count]) => (
@@ -195,7 +102,8 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 
 				{typeFilter && offersToShow.length === 0 && (
 					<div className="p-2 max-w-4xl mx-auto rounded-lg bg-yellow-50 shadow-sm sm:p-3 mt-6 text-center text-base">
-						<p className="mx-3 text-lg text-gray-900">Z důvody ochrany osobních údajů zveřejňujeme pouze některé parametry nabídek. Tato kategorie nemá žádné veřejné parametry a proto zveřejňujeme pouze jejich celkový počet.</p>
+						<p className="mx-3 text-lg text-gray-900">Z důvody ochrany osobních údajů zveřejňujeme pouze některé parametry nabídek. Tato kategorie nemá žádné
+							veřejné parametry a proto zveřejňujeme pouze jejich celkový počet.</p>
 					</div>
 				)}
 
@@ -231,12 +139,12 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 														if (selected) {
 															setQuestionFilter((state) => ({
 																...state,
-																[filter.id]: state[filter.id]!.filter(it => !option.options.includes(it))
+																[filter.id]: state[filter.id]!.filter(it => !option.options.includes(it)),
 															}))
 														} else {
 															setQuestionFilter((state) => ({
 																...state,
-																[filter.id]: [...state[filter.id] ?? [], ...option.options]
+																[filter.id]: [...state[filter.id] ?? [], ...option.options],
 															}))
 														}
 													}}
@@ -271,12 +179,12 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 														if (selected) {
 															setQuestionFilter((state) => ({
 																...state,
-																[filter.id]: state[filter.id]!.filter(it => it !== option.id)
+																[filter.id]: state[filter.id]!.filter(it => it !== option.id),
 															}))
 														} else {
 															setQuestionFilter((state) => ({
 																...state,
-																[filter.id]: [...state[filter.id] ?? [], option.id]
+																[filter.id]: [...state[filter.id] ?? [], option.id],
 															}))
 														}
 													}}
@@ -294,14 +202,15 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 
 				{filters.length !== lessFilters.length && (
 					<div className="flex justify-center mt-4">
-						<button onClick={() => setShowAllFilters(it => !it)} className="text-lg shadow-sm bg-white text-blue-800 border border-gray-200 rounded-md px-4 py-2">
+						<button onClick={() => setShowAllFilters(it => !it)}
+						        className="text-lg shadow-sm bg-white text-blue-800 border border-gray-200 rounded-md px-4 py-2">
 							{showAllFilters ? 'Méně filtrů' : 'Více filtrů'}
 						</button>
 					</div>
 				)}
 
 				<div className="mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-					{offersToShow.slice(0, showLimit).map(offer => {
+					{offersToShow.map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
 						return (
 							<div key={offer.id} className="p-4 rounded-md border shadow-md m-4 flex flex-col">
@@ -312,11 +221,11 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 										<div key={parameter.id} className="flex flex-col mt-2">
 											<p className="text-sm font-bold">{question.question}</p>
 											<p className="text-sm">
-												{(question.type === "district" || question.type === "checkbox") ? (
+												{(question.type === 'district' || question.type === 'checkbox') ? (
 													<>
 														{parameter.values.map((value, i) => {
 															const isLast = i === parameter.values.length - 1
-															const requiresSpecification = question.type === "checkbox" && (question.options.find(it => it.value === value.value)?.requireSpecification ?? false)
+															const requiresSpecification = question.type === 'checkbox' && (question.options.find(it => it.value === value.value)?.requireSpecification ?? false)
 															return (
 																<Fragment key={value.id}>
 																	<span>
@@ -328,12 +237,12 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 															)
 														})}
 													</>
-												) : question.type === "radio" ? (
+												) : question.type === 'radio' ? (
 													<>
 														{parameter.value}
 														{(question.options.find(it => it.value === parameter.value)?.requireSpecification ?? false) && ` (${parameter.specification})`}
 													</>
-												) : question.type === "date" ? (
+												) : question.type === 'date' ? (
 													<>
 														{parameter.value} {/* TODO */}
 													</>
@@ -362,7 +271,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					})}
 				</div>
 
-				{showLimit < offersToShow.length && (
+				{showLimit < offersToShowTotalCount && (
 					<div className="flex justify-center mt-4">
 						<button
 							onClick={() => setShowLimit(showLimit => showLimit + SHOW_LIMIT)}
@@ -377,30 +286,6 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 		</div>
 	)
 }
-
-type OfferResponse = {
-	id: string
-	type: {
-		id: string
-	}
-	assignee: {
-		id: string
-	}
-	parameters: {
-		id: string
-		question: {
-			id: string
-		}
-		value: string
-		specification?: string
-		values: {
-			id: string
-			value: string
-			specification: string
-		}[]
-	}[]
-}
-type OffersResponse = OfferResponse[]
 
 type Offer = {
 	id: string
@@ -423,84 +308,21 @@ type Offer = {
 	}[]
 }
 
-type Offers = Offer[]
-
-export const getStaticProps: GetStaticProps = async () => {
-	const response = await fetch(
-		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
-			},
-			body: JSON.stringify({
-				query: `{
-					${publicQuery}
-
-					offers: listOffer(
-						filter: {
-							exhausted: { eq: false }
-							volunteer: {
-								verified: { eq: true }
-								banned: { eq: false }
-							}
-						}
-						orderBy: { volunteer: { createdAt: desc } }
-					) {
-						id
-						type {
-							id
-						}
-						assignee { id }
-						parameters (
-							filter: {
-								question: {
-									public: { eq: true }
-								}
-							}
-							orderBy: [{ question: { order: asc } }]
-						) {
-							id
-							question {
-								id
-							}
-							value
-							specification
-							values {
-								id
-								value
-								specification
-							}
-						}
-					}
-				}
-				`
-			}),
+async function fetchData(typeFilter: string | null, questionFilter: QuestionFilter, showAllFilters: boolean, showLimit: number) {
+	const response = await fetch(process.env.NEXT_PUBLIC_SERVER_URL!, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
 		},
-	)
-
-	const json = await response.json()
-	const data = json.data as PublicQueryResult & { offers: OffersResponse }
-
-	const offers: Offers = data.offers.map(offer => {
-		const offerType = data.offerTypes.find(it => it.id === offer.type.id)!
-		return ({
-			id: offer.id,
-			type: offer.type,
-			parameters: offer.parameters,
-			allowReaction: !offerType.needsVerification && offer.assignee === null,
-		})
+		body: JSON.stringify({
+			typeFilter,
+			questionFilter,
+			showAllFilters,
+			showLimit,
+		}),
 	})
 
-
-	return {
-		props: {
-			...data,
-			offers,
-		},
-		revalidate: 60,
-	}
+	return await response.json()
 }
 
 export default Home
