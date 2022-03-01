@@ -324,3 +324,5 @@ async function fetchData(typeFilter: string | null, questionFilter: QuestionFilt
 
 	return await response.json()
 }
+
+export default Home
