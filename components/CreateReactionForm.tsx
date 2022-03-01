@@ -52,7 +52,7 @@ export const CreateReactionForm = memo<{ offerId: string }>(
 		if (submitting === 'success') {
 			return (
 				<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
-					<p className="mx-3 font-medium text-white">Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, předání Vašich kontaktů jej potřebujeme ověřit.</p>
+					<p className="mx-3 font-medium text-white">Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email. Před předáním vašich kontaktních údajů jej potřebujeme ověřit.</p>
 				</div>
 			)
 		}

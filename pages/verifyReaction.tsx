@@ -13,7 +13,10 @@ const VerifyReaction: NextPage = ({  }) => {
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Ověření emailu</h2>
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Můžeme předat vaše údaje člověku, který nabízí pomoc?</h2>
+							<p className="mt-4 text-lg leading-6 text-gray-500">
+								Prosím potvrďte, že můžeme předat vaše kontaktní údaje. Ihned poté je odešleme člověku, který pomoc nabízí, abyste se mohli spojit.
+							</p>
 							{/*<p className="mt-4 text-lg leading-6 text-gray-500">*/}
 							{/*	*/}
 							{/*</p>*/}
