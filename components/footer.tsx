@@ -28,7 +28,7 @@ export default function Footer() {
              <p className="mt-4 text-center text-base text-gray-400">Provozuje Konsorcium nevládních organizací pracujících s migranty v ČR, z.s. <br />
                 Havlíčkovo náměstí 2, 130 00 Praha 3-Žižkov, IČO: 266 20 553</p>
             <p className="mt-4 text-center text-base text-gray-400">
-                Vytvořeno za pomoci <a href="https://www.contember.com/">vývojářské platformě Contember</a>.
+                Vytvořeno za pomoci <a href="https://www.contember.com/">vývojářské platformy Contember</a>.
             </p>
         </footer>
     )
