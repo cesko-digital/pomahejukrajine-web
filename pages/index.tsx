@@ -14,7 +14,7 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 				<div className="text-center">
 					<Image src="/pomahej-ukrajine.png" width={434} height={64} alt="Pomáhej Ukrajině" />
 					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
-						Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí. Kolegové se vám ozvou a domluvíte se na konkrétní spolupráci.
+						Toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegyněmi a kolegy z místních neziskových organizací nebo obcí. Pro využití těchto nabídek se tedy obracejte na pomáhající organizace nebo regionální koordinační centra pomoci.
 					</p>
 					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
 						Jste organizace a potřebujete přístup k datům? <a className='underline underline-offset-2 hover:no-underline' target="_blank" rel="noreferrer" href="https://docs.google.com/forms/d/1YmKGhZgUAlq1zNBmBKHQeToaOpl41fCcXXA1uLCBGSk/viewform?edit_requested=true">Vyplňte prosím formulář a domluvíme se</a>.

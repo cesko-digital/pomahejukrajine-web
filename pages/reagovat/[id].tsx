@@ -13,10 +13,7 @@ const Reagovat: NextPage<any> = ({ offerId }) => {
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Pomozte Ukrajincům</h2>
-							<p className="mt-4 text-lg leading-6 text-gray-500">
-								Poptat pomoc
-							</p>
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Zde vložte svou poptávku</h2>
 						</div>
 						<div className={`mt-12`}>
 							<CreateReactionForm offerId={offerId} />

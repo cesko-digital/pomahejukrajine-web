@@ -14,10 +14,7 @@ const Home: NextPage<PublicQueryResult> = ({ offerTypes, districts, languages })
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Pomozte Ukrajincům</h2>
-							<p className="mt-4 text-lg leading-6 text-gray-500">
-								Nabídněte svou pomoc
-							</p>
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Zde vložte svou nabídku</h2>
 						</div>
 						<div className={`mt-12 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
 							<RegisterForm offerTypes={offerTypes} districts={districts} languages={languages} />

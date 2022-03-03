@@ -24,6 +24,18 @@ const faqs = [
 		answer: 'Vyplněním <a class="underline" href="/nabidka">jednoduchého dotazníku</a>, kde popíšete, co nabízíte, a vyplníte základní kontakt a po ověření se vaše nabídka zobrazí v databázi nabídek. Tu mohou využívat potřební i jednotlivé organizace. Prosíme, nabízejte kapacity a služby, o kterých víte, že jsou zcela reálné. Svou nabídku pomoci můžete kdykoliv změnit, nebo zrušit.',
 	},
 	{
+		question: 'Nechcete nic nabídnout, naopak potřebujete pomoci?',
+		answer: 'Pokud potřebujete pomoci, na část nabídek můžete reagovat přímo. Ostatní jsou uzavřené k přímému kontaktu z důvodu bezpečnosti a ověřování nabídek. Pokud potřebujete pomoci, kontaktujte své regionální koordinační centrum, obec nebo pomáhající organizaci. Více viz rozcestník <a class="underline" href="https://www.stojimezaukrajinou.cz/">Stojíme za Ukrajinou</a>, který aktualizují dobrovolníci z <a class="underline" href="https://cesko.digital/">Česko.digital</a>.'
+	},
+	{
+		question: 'Proč jsou celé části nabídek skryté a nemohu na ně reagovat?',
+		answer: 'Část nabídek je otevřená, veřejně přístupná a může na ně reagovat kdokoli. Část nabídek je zpřístupněna pouze registrovaným organizacím a institucím. V tuto chvíli jsou již registrovaných organizací desítky a na nabídky reagují. <br /><br />Důvodem pro toto rozdělení je bezpečnost. Bohužel se již nyní objevují případy, kdy jsou příchozí a jejich křehká situace zneužívána. Dalším důvodem u tohoto typu nabídek je udržitelnost - hledáme zejména dlouhodobá, stabilní řešení. Děkujeme za pochopení.'
+	},
+	{
+		question: 'Jste organizace, obec nebo organizační složka státu?',
+		answer: 'Zaregistrujte se prostřednictvím <a class="underline" href="https://forms.gle/nTQMvytLBukhkycM9">formuláře</a>. Po jednoduchém ověření vás přiřadíme do systému a vy tak dostanete plný přístup a možnost reagovat na všechny nabídky pomoci.',
+	},
+	{
 		question: 'Co mohu nabídnout?',
 		answer: 'Potřeby se budou během času měnit a můžete kdykoliv upravit i to, co nabízíte ve vašem profilu. Děkujeme za každou smysluplnou nabídku pomoci, dobrovolnictví. ',
 	},
