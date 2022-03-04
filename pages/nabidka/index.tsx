@@ -1,11 +1,15 @@
-import type { NextPage, GetStaticProps } from 'next'
-import { Meta } from '../components/Meta'
-import Header from '../components/header'
-import {RegisterForm} from "../components/RegisterForm";
-import Footer from '../components/footer';
-import {publicQuery, PublicQueryResult} from "../lib/shared";
+import type { NextPage, GetStaticProps, GetServerSidePropsContext } from 'next'
+import { Meta } from '../../components/Meta'
+import Header from '../../components/header'
+import { RegisterForm } from "../../components/RegisterForm"
+import Footer from '../../components/footer'
+import { publicQuery, PublicQueryResult } from "../../lib/shared"
 
-const Home: NextPage<PublicQueryResult> = ({ offerTypes, districts, languages }) => {
+interface HomeProps extends PublicQueryResult {
+	token: string,
+}
+
+const Home: NextPage<HomeProps> = ({ offerTypes, districts, languages, token }) => {
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta title="Pomáhej Ukrajině" description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí." />
@@ -27,8 +31,9 @@ const Home: NextPage<PublicQueryResult> = ({ offerTypes, districts, languages })
 	)
 }
 
+export default Home
 
-export const getStaticProps: GetStaticProps = async () => {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const response = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
 		{
@@ -47,9 +52,9 @@ export const getStaticProps: GetStaticProps = async () => {
 	const { data } = json
 
 	return {
-		props: { ...data },
-		revalidate: 60,
+		props: {
+			...data,
+			token: context.req.cookies.token || '',
+		}
 	}
 }
-
-export default Home
