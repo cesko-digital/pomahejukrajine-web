@@ -166,7 +166,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 						type {
 							id
 						}
-						assignee { id }
 						parameters (
 							filter: {
 								question: {
@@ -203,7 +202,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			id: offer.id,
 			type: offer.type,
 			parameters: offer.parameters,
-			allowReaction: !offerType.needsVerification && offer.assignee === null,
+			allowReaction: !offerType.needsVerification,
 		})
 	})
 
