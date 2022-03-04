@@ -18,7 +18,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					<h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Moje nabídky pomoci</h1>
 				</div>
 
-				<div className="mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
+				<div className="mt-8 max-w-3xl mx-auto grid md:grid-cols-2 sm:grid-cols-1">
 					{offers.map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
 						return (
@@ -67,7 +67,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 								<div className="grow"></div>
 								<div className="mt-3">
 									<Link href={{ pathname: '/nabidka/[id]', query: { id: offer.id } }}>
-										<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Upravit</a>
+										<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Upravit nabídku</a>
 									</Link>
 								</div>
 							</div>
