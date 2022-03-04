@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import {PublicQueryResult, RegisterFormState, Error, publicQuery} from '../../lib/shared'
+import type {NextApiRequest, NextApiResponse} from 'next'
+import {Error, publicQuery, PublicQueryResult, RegisterFormState} from '../../lib/shared'
+import {validateOffer} from "../../lib/validateOffer";
 
 const fetchTypes = async (): Promise<PublicQueryResult> => {
 	const response = await fetch(
@@ -21,7 +22,6 @@ const fetchTypes = async (): Promise<PublicQueryResult> => {
 }
 
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
@@ -29,9 +29,8 @@ export default async function handler(
 	const data = req.body.data as RegisterFormState
 
 	const { offerTypes } = await fetchTypes()
-	// TODO: Validation
 
-	let errors: Error[] = []
+	const errors: Error[] = []
 
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({
@@ -60,35 +59,7 @@ export default async function handler(
 		if (!offerType) {
 			throw new Error(`Offer type ${offerTypeId} not found`)
 		}
-
-		for (const question of offerType.questions) {
-			const value = offer.questions[question.id];
-			if (question.required && !value) {
-				errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
-				continue
-			}
-
-			switch (question.type) {
-				case 'district':
-				case 'checkbox':
-					if (question.required && (!value.values || value.values.filter(it => it.value).length === 0)) {
-						errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
-					}
-					break
-				case 'radio':
-				case 'text':
-				case 'textarea':
-				case 'number':
-				case 'date':
-					if (question.required && !value.value) {
-						errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
-					}
-					break
-				default:
-					throw new Error(`Unknown question type ${question.type}`)
-			}
-
-		}
+		errors.push(...validateOffer(offerType, offer))
 	}
 
 	if (errors.length) {

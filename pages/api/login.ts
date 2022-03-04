@@ -62,7 +62,7 @@ export default async function handler(
 		return
 	}
 
-	cookies.set('token', String(token), {
+	cookies.set('token', token, {
 		httpOnly: true, // true by default
 		maxAge: 60 * 60 * 24 * 100
 	})

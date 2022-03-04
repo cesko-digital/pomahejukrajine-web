@@ -38,20 +38,26 @@ export type Languages = {
 	name: string
 }[]
 
+export type OfferType = {
+	id: string
+	name: string
+	nameUK: string
+	infoText: string
+	questions: QuestionDefinition[]
+	needsVerification: boolean
+	hideInDemand: boolean
+};
+
 export interface PublicQueryResult {
-	offerTypes: {
-		id: string
-		name: string
-		nameUK: string
-		infoText: string
-		questions: QuestionDefinition[]
-		needsVerification: boolean
-		hideInDemand: boolean
-	}[]
-	districts?: Districts
-	languages?: Languages
+	offerTypes: OfferType[]
+	districts: Districts
+	languages: Languages
 	uk?: boolean
 }
+
+export type OfferParameters = {
+	[id: string]: QuestionValue
+};
 
 export interface RegisterFormState {
 	name: string
@@ -63,9 +69,7 @@ export interface RegisterFormState {
 	languages: string[],
 	offers: {
 		[id: string]: {
-			questions: {
-				[id: string]: QuestionValue
-			}
+			questions: OfferParameters
 		}
 	}
 }

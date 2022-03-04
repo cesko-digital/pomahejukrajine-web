@@ -7,10 +7,32 @@ import { publicQuery, PublicQueryResult } from "../../lib/shared"
 
 interface HomeProps extends PublicQueryResult {
 	token: string,
-	offer: {}
+	offer?: {
+		id: string
+		type: {
+			id: string
+		}
+		parameters: {
+			id: string
+			value?: string
+			specification?: string
+			values: {
+				id: string
+				value?: string
+				specification?: string
+			}[]
+			question: {
+				id: string
+			}
+		}[]
+		volunteer: unknown
+	}
 }
 
 const Home: NextPage<HomeProps> = ({ offerTypes, districts, languages, offer }) => {
+	if (!offer) {
+		return <p>Nepodařilo se načíst nabídku</p>
+	}
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta title="Pomáhej Ukrajině" description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí." />
@@ -25,7 +47,23 @@ const Home: NextPage<HomeProps> = ({ offerTypes, districts, languages, offer }) 
 							</p>
 						</div>
 						<div className={`mt-12 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
-							<EditForm offerTypes={offerTypes} districts={districts} languages={languages} offer={offer} />
+							<EditForm
+								offerTypes={offerTypes}
+								districts={districts}
+								languages={languages}
+								uk={false}
+								offerTypeId={offer.type.id}
+								offerId={offer.id}
+								questions={Object.fromEntries(offer.parameters.map(item => [item.question.id, {
+									id: item.id,
+									value: item.value ?? '',
+									specification: item.specification ?? '',
+									values: item.values.map(value => ({
+										value: value.value ?? '',
+										specification: value.specification,
+									}))
+								}]))}
+							/>
 						</div>
 					</main>
 				</div>
@@ -54,7 +92,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 							id
 							type {
 								id
-								name
 							}
 							parameters {
 								id
@@ -66,15 +103,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 								}
 								question {
 									id
-									type
-									label
-									question
-									required
-									options {
-										id
-										value
-										label
-									}
 								}
 							}
 							volunteer {

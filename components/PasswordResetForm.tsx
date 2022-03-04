@@ -44,7 +44,13 @@ export const PasswordResetForm = () => {
 
 
 	if (submitting === 'success') {
-		return null
+		return (
+			<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+				<p className="mx-3 font-medium text-white">
+					Na zadanou emailovou adresu byl odeslán email s instrukcemi jak obnovit heslo.
+				</p>
+			</div>
+		)
 	}
 
 	const disabled = submitting === 'submitting'

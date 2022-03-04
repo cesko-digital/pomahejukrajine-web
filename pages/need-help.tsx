@@ -5,7 +5,7 @@ import { HelpForm } from "../components/HelpForm"
 import Footer from '../components/footer'
 import { publicQuery, PublicQueryResult } from "../lib/shared"
 
-const Page: NextPage<PublicQueryResult> = ({ offerTypes }) => {
+const Page: NextPage<PublicQueryResult> = ({ offerTypes, districts, languages }) => {
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta title="Pomáhej Ukrajině" description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí." />
@@ -17,7 +17,7 @@ const Page: NextPage<PublicQueryResult> = ({ offerTypes }) => {
 							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Шукаю допомоги</h2>
 						</div>
 						<div className={`mt-12 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
-							<HelpForm offerTypes={offerTypes} uk />
+							<HelpForm offerTypes={offerTypes} uk={true} districts={districts} languages={languages} />
 						</div>
 					</main>
 				</div>

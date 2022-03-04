@@ -36,6 +36,13 @@ export default function Header() {
                             Často kladené otázky
                         </a>
                         </Link>
+											<Link href="/moje-nabidky">
+												<a
+													className="inline-block bg-blue-50 py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100"
+												>
+													Můj profil
+												</a>
+											</Link>
                     </div>
                 </div>
             </nav>

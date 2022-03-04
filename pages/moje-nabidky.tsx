@@ -1,4 +1,5 @@
 import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
+import Cookies from 'cookies'
 import { Meta } from '../components/Meta'
 import Header from '../components/header'
 import Footer from '../components/footer'
@@ -46,8 +47,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 														})}
 													</>
 												) : question.type === "radio" ? (
-													<>
-														{parameter.value}
+													<>														{parameter.value}
 														{(question.options.find(it => it.value === parameter.value)?.requireSpecification ?? false) && ` (${parameter.specification})`}
 													</>
 												) : question.type === "date" ? (
@@ -64,16 +64,12 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 									)
 								})}
 
-								{offer.allowReaction && (
-									<>
-										<div className="grow"></div>
-										<div className="mt-3">
-											<Link href={{ pathname: '/nabidka/[id]', query: { id: offer.id } }}>
-												<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Upravit</a>
-											</Link>
-										</div>
-									</>
-								)}
+								<div className="grow"></div>
+								<div className="mt-3">
+									<Link href={{ pathname: '/nabidka/[id]', query: { id: offer.id } }}>
+										<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Upravit</a>
+									</Link>
+								</div>
 							</div>
 						)
 					})}
@@ -132,13 +128,25 @@ type Offer = {
 type Offers = Offer[]
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	const cookies = new Cookies(context.req, context.res)
+	const token = cookies.get('token')
+
+	if (!token) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/login",
+			},
+		};
+	}
+
 	const response = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
 		{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+				'Authorization': `Bearer ${token}`,
 			},
 			body: JSON.stringify({
 				query: `{
@@ -198,9 +206,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			allowReaction: !offerType.needsVerification && offer.assignee === null,
 		})
 	})
-
-	console.log('offers', offers)
-
 
 	return {
 		props: {

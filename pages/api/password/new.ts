@@ -44,6 +44,7 @@ export default async function handler(
 		PERSON_NOT_FOUND: 'E-mail neexistuje',
 		UNKNOWN_EMAIL: 'E-mail neexistuje',
 		INVALID_PASSWORD: 'Neplatné heslo',
+		PASSWORD_TOO_WEAK: 'Heslo je příliš slabé (musí mít alespoň 6 znaků)',
 	}
 
 	if (ok !== true) {
