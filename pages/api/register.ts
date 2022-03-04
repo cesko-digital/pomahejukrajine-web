@@ -59,7 +59,7 @@ export default async function handler(
 		if (!offerType) {
 			throw new Error(`Offer type ${offerTypeId} not found`)
 		}
-		errors.push(...validateOffer(offerType, offer))
+		errors.push(...validateOffer(offerType, offer.questions))
 	}
 
 	if (errors.length) {
