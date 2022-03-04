@@ -18,7 +18,7 @@ export default async function handler(
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+				'Authorization': `Bearer ${process.env.CONTEMBER_LOGIN_TOKEN}`,
 			},
 			body: JSON.stringify({
 				query: `
