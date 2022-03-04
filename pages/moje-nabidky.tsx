@@ -18,6 +18,14 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 					<h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Moje nabídky pomoci</h1>
 				</div>
 
+				<div className="text-center mt-4">
+					<Link href="/logout" prefetch={false}>
+						<a className="underline">
+							Odhlásit se
+						</a>
+					</Link>
+				</div>
+
 				<div className="mt-8 max-w-3xl mx-auto grid md:grid-cols-2 sm:grid-cols-1">
 					{offers.map(offer => {
 						const offerType = offerTypes.find(it => it.id === offer.type.id)!
