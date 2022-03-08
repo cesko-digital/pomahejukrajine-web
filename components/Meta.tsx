@@ -1,6 +1,7 @@
 import { NextSeo } from 'next-seo';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 
 type IMetaProps = {
   title: string;
@@ -41,6 +42,7 @@ const Meta = (props: IMetaProps) => {
           key="icon16"
         />
       </Head>
+			<Script strategy='afterInteractive' data-domain='pomahejukrajine.cz' src='https://plausible.io/js/plausible.js' />
       <NextSeo
         title={props.title}
         description={props.description}
