@@ -19,9 +19,6 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
 						Jste organizace a potřebujete přístup k datům? <a className='underline underline-offset-2 hover:no-underline' target="_blank" rel="noreferrer" href="https://docs.google.com/forms/d/1YmKGhZgUAlq1zNBmBKHQeToaOpl41fCcXXA1uLCBGSk/viewform?edit_requested=true">Vyplňte prosím formulář a domluvíme se</a>.
 					</p>
-					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
-						Pokud nás potřebujete kontaktovat, napište na <a className='underline underline-offset-2 hover:no-underline' href="mailto:pomahejukrajine@migracnikonsorcium.cz?subject=PomáhejUkrajině">pomahejukrajine@migracnikonsorcium.cz</a>.
-					</p>
 					<div className={`mt-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
 						<Link href="/nabidka">
 							<a
@@ -32,12 +29,15 @@ const Home: NextPage = ({offerTypes, districts}: any) => {
 						</Link>
 						<Link href="/nabidky">
 						<a
-							className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100"
+							className="inline-block py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 bg-blue-50 hover:bg-blue-100"
 						>
 							Nabídky pomoci
 						</a>
 						</Link>
 					</div>
+					<p className="max-w-xl mt-10 mx-auto text-xl text-gray-500">
+					Kontakt <br /><a className='underline underline-offset-2 hover:no-underline' href="mailto:pomahejukrajine@migracnikonsorcium.cz?subject=PomáhejUkrajině">pomahejukrajine@migracnikonsorcium.cz</a>, <a href="tel:+420910921931">+420 910 921 931</a>.
+					</p>
 				</div>
 				<p className="mt-24 text-center text-base text-gray-400">Tento projekt provozuje Konsorcium nevládních
 					organizací pracujících s migranty v ČR. Členy jsou:</p>
