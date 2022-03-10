@@ -1,6 +1,7 @@
-import type {NextApiRequest, NextApiResponse} from 'next'
-import {Error, publicQuery, PublicQueryResult, RegisterFormState} from '../../lib/shared'
-import {validateOffer} from "../../lib/validateOffer";
+import type { NextApiRequest, NextApiResponse } from 'next'
+import generateUniqueCode from '../../lib/generateUniqueCode'
+import { PublicQueryResult, RegisterFormState, Error, publicQuery } from '../../lib/shared'
+import { validateOffer } from "../../lib/validateOffer"
 
 const fetchTypes = async (): Promise<PublicQueryResult> => {
 	const response = await fetch(
@@ -23,8 +24,8 @@ const fetchTypes = async (): Promise<PublicQueryResult> => {
 
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
+	req: NextApiRequest,
+	res: NextApiResponse<any>
 ) {
 	const data = req.body.data as RegisterFormState
 
@@ -67,78 +68,92 @@ export default async function handler(
 		return
 	}
 
+	const sendRegisterRequest = async (attempt: number): Promise<any> => {
+		if (attempt > 10) {
+			res.status(400).json({
+				ok: false,
+				error: 'Nepodařilo se uložit',
+			})
+			return
+		}
 
-	const createInput = {
-		name: data.name,
-		email: data.email,
-		phone: data.phone === '+420' ? '' : data.phone,
-		organization: data.organization,
-		contactHours: data.contactHours,
-		languages: data.languages.map(id => ({ create: { language: { connect: { id } } } })),
-		expertise: data.expertise,
-		offers: Object.entries(data.offers).map(([offerTypeId, offer]) => {
-			const parameters = Object.entries(offer.questions).map(([questionId, question]) => {
+		const createInput = {
+			name: data.name,
+			email: data.email,
+			phone: data.phone === '+420' ? '' : data.phone,
+			organization: data.organization,
+			contactHours: data.contactHours,
+			languages: data.languages.map(id => ({ create: { language: { connect: { id } } } })),
+			expertise: data.expertise,
+			offers: Object.entries(data.offers).map(([offerTypeId, offer]) => {
+				const parameters = Object.entries(offer.questions).map(([questionId, question]) => {
+					return {
+						create: {
+							question: { connect: { id: questionId } },
+							value: question.value,
+							specification: question.specification,
+							values: question.values?.map(value => ({
+								create: {
+									value: value.value,
+									specification: value.specification,
+								}
+							}))
+						},
+					}
+				})
 				return {
 					create: {
-						question: { connect: { id: questionId } },
-						value: question.value,
-						specification: question.specification,
-						values: question.values?.map(value => ({
-							create: {
-								value: value.value,
-								specification: value.specification,
-							}
-						}))
-					},
+						type: { connect: { id: offerTypeId } },
+						code: generateUniqueCode(6),
+						parameters,
+					}
 				}
-			})
-			return {
-				create: {
-					type: { connect: { id: offerTypeId } },
-					parameters,
-				}
-			}
-		}),
-	}
-
-	const response = await fetch(
-		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
-			},
-			body: JSON.stringify({
-				query: `
-							mutation ($data: VolunteerCreateInput!) {
-								createVolunteer(data: $data) {
-									ok
-									errorMessage
-								}
-							}
-						`,
-				variables: {
-					data: createInput,
-				},
 			}),
-		},
-	)
+		}
 
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+				},
+				body: JSON.stringify({
+					query: `
+								mutation ($data: VolunteerCreateInput!) {
+									createVolunteer(data: $data) {
+										ok
+										errorMessage
+									}
+								}
+							`,
+					variables: {
+						data: createInput,
+					},
+				}),
+			},
+		)
 
-	const json = await response.json()
-	const ok: boolean | undefined = response.ok && json?.data?.createVolunteer?.ok
-	if (ok !== true) {
-		console.warn('Failed to create volunteer', json)
-		console.log(json?.data?.createVolunteer?.error)
-		res.status(400).json({
-			ok: false,
-			error: 'Nepodařilo se uložit',
+		const json = await response.json()
+		const ok: boolean | undefined = response.ok && json?.data?.createVolunteer?.ok
+		if (ok !== true) {
+			console.warn('Failed to create volunteer', json)
+			if (json?.data?.createVolunteer?.errorMessage.includes('offers.0.code: UniqueConstraintViolation')) {
+				return await sendRegisterRequest(attempt + 1)
+			}
+			res.status(400).json({
+				ok: false,
+				error: 'Nepodařilo se uložit',
+			})
+			return
+		}
+
+		res.status(200).json({
+			ok: true,
+			createInput
 		})
-		return
 	}
 
-	res.status(200).json({
-		ok: true,
-	})
+	return await sendRegisterRequest(1)
 }
