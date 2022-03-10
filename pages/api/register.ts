@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import generateUniqueCode from '../../lib/generateUniqueCode'
 import { PublicQueryResult, RegisterFormState, Error, publicQuery } from '../../lib/shared'
-import {validateOffer} from "../../lib/validateOffer";
+import { validateOffer } from "../../lib/validateOffer"
 
 const fetchTypes = async (): Promise<PublicQueryResult> => {
 	const response = await fetch(
@@ -60,35 +61,6 @@ export default async function handler(
 			throw new Error(`Offer type ${offerTypeId} not found`)
 		}
 		errors.push(...validateOffer(offerType, offer.questions))
-
-		for (const question of offerType.questions) {
-			const value = offer.questions[question.id]
-			if (question.required && !value) {
-				errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
-				continue
-			}
-
-			switch (question.type) {
-				case 'district':
-				case 'checkbox':
-					if (question.required && (!value.values || value.values.filter(it => it.value).length === 0)) {
-						errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
-					}
-					break
-				case 'radio':
-				case 'text':
-				case 'textarea':
-				case 'number':
-				case 'date':
-					if (question.required && !value.value) {
-						errors.push({ input: "question", questionId: question.id, message: 'Povinná otázka' })
-					}
-					break
-				default:
-					throw new Error(`Unknown question type ${question.type}`)
-			}
-
-		}
 	}
 
 	if (errors.length) {
@@ -96,18 +68,16 @@ export default async function handler(
 		return
 	}
 
-	function generateUniqueCode(length: number) {
-		let result = ''
-		const characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'
-		const charactersLength = characters.length
-		for (let i = 0; i < length; i++) {
-			result += characters.charAt(Math.floor(Math.random() * charactersLength))
+	const sendRegisterRequest = async (attempt: number): Promise<any> => {
+		if (attempt > 10) {
+			res.status(400).json({
+				ok: false,
+				error: 'Nepodařilo se uložit',
+			})
+			return
 		}
-		return result
-	}
 
-	const createInput = (code: string) => {
-		return {
+		const createInput = {
 			name: data.name,
 			email: data.email,
 			phone: data.phone === '+420' ? '' : data.phone,
@@ -134,21 +104,11 @@ export default async function handler(
 				return {
 					create: {
 						type: { connect: { id: offerTypeId } },
-						code,
+						code: generateUniqueCode(6),
 						parameters,
 					}
 				}
 			}),
-		}
-	}
-
-	const sendRegisterRequest = async (attempt: number) => {
-		if (attempt > 10) {
-			res.status(400).json({
-				ok: false,
-				error: 'Nepodařilo se uložit',
-			})
-			return
 		}
 
 		const response = await fetch(
@@ -169,7 +129,7 @@ export default async function handler(
 								}
 							`,
 					variables: {
-						data: createInput(generateUniqueCode(6)),
+						data: createInput,
 					},
 				}),
 			},
@@ -180,7 +140,7 @@ export default async function handler(
 		if (ok !== true) {
 			console.warn('Failed to create volunteer', json)
 			if (json?.data?.createVolunteer?.errorMessage.includes('offers.0.code: UniqueConstraintViolation')) {
-				await sendRegisterRequest(attempt + 1)
+				return await sendRegisterRequest(attempt + 1)
 			}
 			res.status(400).json({
 				ok: false,
