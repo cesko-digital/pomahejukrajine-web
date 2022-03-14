@@ -1,14 +1,15 @@
 /* eslint-disable react/display-name */
 import Link from "next/link"
-import { FormEvent, memo, useCallback, useState } from "react"
+import { FormEvent, memo, useCallback, useEffect, useState } from "react"
 import { Districts, QuestionValue, PublicQueryResult, RegisterFormState, Error } from "../lib/shared"
 import { QuestionControl } from "./QuestionControl"
+import { default as Select } from "react-select"
 
 
 interface RegisterFormProps extends PublicQueryResult {
 	offerId: string
 	offerTypeId: string
-	offerStatusType: 'outdated' | 'capacity_exhausted' | 'bad_experience'
+	offerStatusType: 'outdated' | 'capacity_exhausted' | 'active'
 	questions: {
 		[id: string]: QuestionValue
 	}
@@ -20,12 +21,12 @@ export const EditForm = memo<RegisterFormProps>(
 		const [submitting, setSubmitting] = useState<false | 'loading' | 'error' | 'success'>(false)
 		const [errors, setErrors] = useState<Error[]>([])
 		const [state, setState] = useState(questions)
-		const [statusState, setStatusState] = useState(offerStatusType)
+		const [statusState, setStatusState] = useState<any>(offerStatusType)
 
 		const submit = useCallback(async (e: FormEvent) => {
 			e.preventDefault()
-			setSubmitting('loading')
 
+			console.log('statusState', statusState)
 			const responseStatus = await fetch("/api/updateOfferStatus", {
 				method: "POST",
 				headers: {
@@ -80,12 +81,20 @@ export const EditForm = memo<RegisterFormProps>(
 							</a>
 						</Link>
 					</div>
-
 				</>
 			)
 		}
 
 		const disabled = submitting === 'loading'
+		const statusLable: any = {
+			outdated: 'Není aktivní',
+			capacity_exhausted: 'Vyrčerpané kapacity'
+		}
+
+		function onChange(option: any) {
+			setStatusState(option?.value ? option.value : 'active')
+		}
+
 		return (
 			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
 				<div>
@@ -103,13 +112,17 @@ export const EditForm = memo<RegisterFormProps>(
 							<div>
 								<div className="mt-1">
 									<label>Stav</label>
-									<select className="text-sm" onChange={(e) => {
-										setStatusState(e.target.value as 'outdated' | 'capacity_exhausted' | 'bad_experience')
-									}} >
-										<option value="null">Aktivní</option>
-										<option value="outdated" selected={offerStatusType === 'outdated'}>Není aktuální</option>
-										<option value="capacity_exhausted" selected={offerStatusType === 'capacity_exhausted'}>Vyčerpané kapacity</option>
-									</select>
+									<Select
+										isClearable={false}
+										options={[
+											{ value: 'active', label: 'Aktivní' },
+											{ value: 'outdated', label: 'Není aktivní' },
+											{ value: 'capacity_exhausted', label: 'Vyrčerpané kapacity' },
+										]}
+										defaultValue={Object.keys(statusLable).includes(offerStatusType) ? { value: offerStatusType, label: statusLable[offerStatusType] } : { value: offerStatusType, label: 'Aktivní' }}
+										onChange={option => onChange(option)}
+
+									/>
 								</div>
 							</div>
 

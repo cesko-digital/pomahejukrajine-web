@@ -10,9 +10,26 @@ export default async function handler(
 		offerStatus,
 	} = req.body
 	const cookies = new Cookies(req, res)
+	console.log('offerStatus', offerStatus)
+
+	const query = offerStatus === 'active'
+		? `
+					mutation UpdateOffer($offerId: UUID!, $offerStatus: OfferStatusEnum!) {
+						updateOffer(by: {id: $offerId}, data: {status: {disconnect: true}}){
+							ok
+						}
+					}
+				`
+		: `
+					mutation UpdateOffer($offerId: UUID!, $offerStatus: OfferStatusEnum!) {
+						updateOffer(by: {id: $offerId}, data: {status: {connect: {type: $offerStatus}}}){
+							ok
+						}
+					}
+				`
 
 	const UpdateOfferResponse = await fetch(
-		process.env.NEXT_PUBLIC_CONTEMBER_TENANT_URL!,
+		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
 		{
 			method: 'POST',
 			headers: {
@@ -20,13 +37,7 @@ export default async function handler(
 				'Authorization': `Bearer ${cookies.get('token')}`,
 			},
 			body: JSON.stringify({
-				query: `
-					mutation UpdateOffer($offerId: UUID!, $offerStatus: OfferStatusEnum!) {
-						updateOffer(by: {id: $offerId}, data: {status: {connect: {type: $offerStatus}}}){
-							ok
-						}
-					}
-				`,
+				query,
 				variables: {
 					offerId,
 					offerStatus,
@@ -36,7 +47,7 @@ export default async function handler(
 	)
 
 	const json = await UpdateOfferResponse.json()
-	const ok: boolean | undefined = json?.data?.signIn?.ok
+	const ok: boolean | undefined = json?.data?.updateOffer?.ok
 
 	if (ok !== true) {
 		console.warn('Failed to update offer status', json)

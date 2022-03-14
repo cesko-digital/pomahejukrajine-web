@@ -4,7 +4,6 @@ import Header from '../../components/header'
 import { EditForm } from "../../components/EditForm"
 import Footer from '../../components/footer'
 import { publicQuery, PublicQueryResult } from "../../lib/shared"
-import { UpdateOfferStatusForm } from '../../components/UpdateOfferStatusForm'
 
 interface HomeProps extends PublicQueryResult {
 	token: string,
