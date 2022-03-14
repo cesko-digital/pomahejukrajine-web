@@ -8,21 +8,35 @@ import { QuestionControl } from "./QuestionControl"
 interface RegisterFormProps extends PublicQueryResult {
 	offerId: string
 	offerTypeId: string
+	offerStatusType: 'outdated' | 'capacity_exhausted' | 'bad_experience'
 	questions: {
 		[id: string]: QuestionValue
 	}
 }
 
 export const EditForm = memo<RegisterFormProps>(
-	({ districts, languages, offerId, offerTypeId, questions, offerTypes }) => {
+	({ districts, languages, offerId, offerTypeId, questions, offerTypes, offerStatusType }) => {
 		const offerType = offerTypes.find(o => o.id === offerTypeId)!
 		const [submitting, setSubmitting] = useState<false | 'loading' | 'error' | 'success'>(false)
 		const [errors, setErrors] = useState<Error[]>([])
 		const [state, setState] = useState(questions)
+		const [statusState, setStatusState] = useState(offerStatusType)
 
 		const submit = useCallback(async (e: FormEvent) => {
 			e.preventDefault()
 			setSubmitting('loading')
+
+			const responseStatus = await fetch("/api/updateOfferStatus", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					offerId,
+					offerStatus: statusState,
+				})
+			})
+
 			const response = await fetch(
 				'/api/updateOffer/',
 				{
@@ -36,13 +50,14 @@ export const EditForm = memo<RegisterFormProps>(
 					}),
 				},
 			)
+			const okStatus = responseStatus.ok
 			const ok = response.ok
 			let json: any = { ok: false }
 			try {
 				json = await response.json()
 			} catch (e) { }
 
-			if (ok && json.ok === true) {
+			if (ok && okStatus && json.ok === true) {
 				setSubmitting('success')
 			} else {
 				if (json.ok === false && Array.isArray(json.errors)) {
@@ -85,8 +100,20 @@ export const EditForm = memo<RegisterFormProps>(
 							<span className="block text-sm font-medium text-gray-700">{offerType.name}</span>
 						</div>
 						<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
-							{offerType.infoText && <p>{offerType.infoText}</p>}
+							<div>
+								<div className="mt-1">
+									<label>Stav</label>
+									<select className="text-sm" onChange={(e) => {
+										setStatusState(e.target.value as 'outdated' | 'capacity_exhausted' | 'bad_experience')
+									}} >
+										<option value="null">Aktivní</option>
+										<option value="outdated" selected={offerStatusType === 'outdated'}>Není aktuální</option>
+										<option value="capacity_exhausted" selected={offerStatusType === 'capacity_exhausted'}>Vyčerpané kapacity</option>
+									</select>
+								</div>
+							</div>
 
+							{offerType.infoText && <p>{offerType.infoText}</p>}
 							{offerType.questions.map(question => (
 								<QuestionControl
 									key={question.id}
@@ -117,7 +144,7 @@ export const EditForm = memo<RegisterFormProps>(
 				<div>
 					{errors.length > 0 && <p className="text-center">Zkontrolujte, zda jste vše vyplnili správně.</p>}
 				</div>
-			</form>
+			</form >
 		)
 	}
 )

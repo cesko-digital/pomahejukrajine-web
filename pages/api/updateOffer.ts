@@ -1,11 +1,11 @@
 import Cookies from 'cookies'
-import type {NextApiRequest, NextApiResponse} from 'next'
-import {Error, OfferParameters, publicQuery, PublicQueryResult, RegisterFormState} from '../../lib/shared'
-import {validateOffer} from "../../lib/validateOffer";
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { Error, OfferParameters, publicQuery, PublicQueryResult, RegisterFormState } from '../../lib/shared'
+import { validateOffer } from "../../lib/validateOffer"
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
+	req: NextApiRequest,
+	res: NextApiResponse<any>
 ) {
 	const cookies = new Cookies(req, res)
 	const offerId = req.body.offerId as string
@@ -34,7 +34,9 @@ export default async function handler(
 		},
 	)
 
-	const baseDataJson = await baseDataResponse.json();
+
+
+	const baseDataJson = await baseDataResponse.json()
 	if (baseDataJson.errors) {
 		console.log(baseDataJson.errors)
 		throw new Error('Unable to fetch base data')
@@ -88,7 +90,7 @@ export default async function handler(
 				return {
 					update: {
 						by: {
-							question: {id: questionId},
+							question: { id: questionId },
 						},
 						data,
 					},

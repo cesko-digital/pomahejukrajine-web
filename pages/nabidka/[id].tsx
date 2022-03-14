@@ -4,6 +4,7 @@ import Header from '../../components/header'
 import { EditForm } from "../../components/EditForm"
 import Footer from '../../components/footer'
 import { publicQuery, PublicQueryResult } from "../../lib/shared"
+import { UpdateOfferStatusForm } from '../../components/UpdateOfferStatusForm'
 
 interface HomeProps extends PublicQueryResult {
 	token: string,
@@ -12,6 +13,7 @@ interface HomeProps extends PublicQueryResult {
 		type: {
 			id: string
 		}
+		status: any
 		parameters: {
 			id: string
 			value?: string
@@ -54,6 +56,7 @@ const Home: NextPage<HomeProps> = ({ offerTypes, districts, languages, offer }) 
 								uk={false}
 								offerTypeId={offer.type.id}
 								offerId={offer.id}
+								offerStatusType={offer.status?.type}
 								questions={Object.fromEntries(offer.parameters.map(item => [item.question.id, {
 									id: item.id,
 									value: item.value ?? '',
@@ -92,6 +95,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 							id
 							type {
 								id
+							}
+							status {
+								id
+								order
+								name
+								type
 							}
 							parameters {
 								id
