@@ -99,7 +99,7 @@ export const EditForm = memo<RegisterFormProps>(
 		const disabled = submitting === 'loading'
 		const statusLable: any = {
 			outdated: 'Není aktivní',
-			capacity_exhausted: 'Vyrčerpané kapacity'
+			capacity_exhausted: 'Vyčerpaná kapacita'
 		}
 
 		return (
@@ -117,14 +117,14 @@ export const EditForm = memo<RegisterFormProps>(
 						</div>
 						<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
 							<div>
-								<div className="mt-1">
+								<div className="mt-1 mb-4">
 									<label>Stav</label>
 									<Select
 										isClearable={false}
 										options={[
 											{ value: 'active', label: 'Aktivní' },
 											{ value: 'outdated', label: 'Není aktivní' },
-											{ value: 'capacity_exhausted', label: 'Vyrčerpané kapacity' },
+											{ value: 'capacity_exhausted', label: 'Vyčerpaná kapacita' },
 										]}
 										defaultValue={Object.keys(statusLable).includes(offerStatusType) ? { value: offerStatusType, label: statusLable[offerStatusType] } : { value: offerStatusType, label: 'Aktivní' }}
 										onChange={option => setStatusState(option?.value ? option.value : 'active')}
