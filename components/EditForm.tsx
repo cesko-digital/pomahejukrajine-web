@@ -21,22 +21,34 @@ export const EditForm = memo<RegisterFormProps>(
 		const [submitting, setSubmitting] = useState<false | 'loading' | 'error' | 'success'>(false)
 		const [errors, setErrors] = useState<Error[]>([])
 		const [state, setState] = useState(questions)
-		const [statusState, setStatusState] = useState<any>(offerStatusType)
+		const [statusState, setStatusState] = useState(offerStatusType)
 
 		const submit = useCallback(async (e: FormEvent) => {
 			e.preventDefault()
 
-			console.log('statusState', statusState)
-			const responseStatus = await fetch("/api/updateOfferStatus", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify({
-					offerId,
-					offerStatus: statusState,
+			if (offerStatusType === 'outdated' || offerStatusType === 'capacity_exhausted') {
+				await fetch("/api/updateOfferStatus", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						offerId,
+						offerStatus: statusState,
+					})
 				})
-			})
+			} else if (statusState === 'outdated' || statusState === 'capacity_exhausted') {
+				await fetch("/api/updateOfferStatus", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						offerId,
+						offerStatus: statusState,
+					})
+				})
+			}
 
 			const response = await fetch(
 				'/api/updateOffer/',
@@ -51,14 +63,13 @@ export const EditForm = memo<RegisterFormProps>(
 					}),
 				},
 			)
-			const okStatus = responseStatus.ok
 			const ok = response.ok
 			let json: any = { ok: false }
 			try {
 				json = await response.json()
 			} catch (e) { }
 
-			if (ok && okStatus && json.ok === true) {
+			if (ok && json.ok === true) {
 				setSubmitting('success')
 			} else {
 				if (json.ok === false && Array.isArray(json.errors)) {
@@ -66,7 +77,7 @@ export const EditForm = memo<RegisterFormProps>(
 				}
 				setSubmitting('error')
 			}
-		}, [state, offerId])
+		}, [state, offerId, statusState])
 
 		if (submitting === 'success') {
 			return (
@@ -89,10 +100,6 @@ export const EditForm = memo<RegisterFormProps>(
 		const statusLable: any = {
 			outdated: 'Není aktivní',
 			capacity_exhausted: 'Vyrčerpané kapacity'
-		}
-
-		function onChange(option: any) {
-			setStatusState(option?.value ? option.value : 'active')
 		}
 
 		return (
@@ -120,7 +127,7 @@ export const EditForm = memo<RegisterFormProps>(
 											{ value: 'capacity_exhausted', label: 'Vyrčerpané kapacity' },
 										]}
 										defaultValue={Object.keys(statusLable).includes(offerStatusType) ? { value: offerStatusType, label: statusLable[offerStatusType] } : { value: offerStatusType, label: 'Aktivní' }}
-										onChange={option => onChange(option)}
+										onChange={option => setStatusState(option?.value ? option.value : 'active')}
 
 									/>
 								</div>
