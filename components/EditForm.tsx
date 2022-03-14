@@ -1,28 +1,55 @@
 /* eslint-disable react/display-name */
 import Link from "next/link"
-import { FormEvent, memo, useCallback, useState } from "react"
+import { FormEvent, memo, useCallback, useEffect, useState } from "react"
 import { Districts, QuestionValue, PublicQueryResult, RegisterFormState, Error } from "../lib/shared"
 import { QuestionControl } from "./QuestionControl"
+import { default as Select } from "react-select"
 
 
 interface RegisterFormProps extends PublicQueryResult {
 	offerId: string
 	offerTypeId: string
+	offerStatusType: 'outdated' | 'capacity_exhausted' | 'active'
 	questions: {
 		[id: string]: QuestionValue
 	}
 }
 
 export const EditForm = memo<RegisterFormProps>(
-	({ districts, languages, offerId, offerTypeId, questions, offerTypes }) => {
+	({ districts, languages, offerId, offerTypeId, questions, offerTypes, offerStatusType }) => {
 		const offerType = offerTypes.find(o => o.id === offerTypeId)!
 		const [submitting, setSubmitting] = useState<false | 'loading' | 'error' | 'success'>(false)
 		const [errors, setErrors] = useState<Error[]>([])
 		const [state, setState] = useState(questions)
+		const [statusState, setStatusState] = useState(offerStatusType)
 
 		const submit = useCallback(async (e: FormEvent) => {
 			e.preventDefault()
-			setSubmitting('loading')
+
+			if (offerStatusType === 'outdated' || offerStatusType === 'capacity_exhausted') {
+				await fetch("/api/updateOfferStatus", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						offerId,
+						offerStatus: statusState,
+					})
+				})
+			} else if (statusState === 'outdated' || statusState === 'capacity_exhausted') {
+				await fetch("/api/updateOfferStatus", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						offerId,
+						offerStatus: statusState,
+					})
+				})
+			}
+
 			const response = await fetch(
 				'/api/updateOffer/',
 				{
@@ -50,7 +77,7 @@ export const EditForm = memo<RegisterFormProps>(
 				}
 				setSubmitting('error')
 			}
-		}, [state, offerId])
+		}, [state, offerId, statusState])
 
 		if (submitting === 'success') {
 			return (
@@ -65,12 +92,16 @@ export const EditForm = memo<RegisterFormProps>(
 							</a>
 						</Link>
 					</div>
-
 				</>
 			)
 		}
 
 		const disabled = submitting === 'loading'
+		const statusLable: any = {
+			outdated: 'Není aktivní',
+			capacity_exhausted: 'Vyrčerpané kapacity'
+		}
+
 		return (
 			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
 				<div>
@@ -85,8 +116,24 @@ export const EditForm = memo<RegisterFormProps>(
 							<span className="block text-sm font-medium text-gray-700">{offerType.name}</span>
 						</div>
 						<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
-							{offerType.infoText && <p>{offerType.infoText}</p>}
+							<div>
+								<div className="mt-1">
+									<label>Stav</label>
+									<Select
+										isClearable={false}
+										options={[
+											{ value: 'active', label: 'Aktivní' },
+											{ value: 'outdated', label: 'Není aktivní' },
+											{ value: 'capacity_exhausted', label: 'Vyrčerpané kapacity' },
+										]}
+										defaultValue={Object.keys(statusLable).includes(offerStatusType) ? { value: offerStatusType, label: statusLable[offerStatusType] } : { value: offerStatusType, label: 'Aktivní' }}
+										onChange={option => setStatusState(option?.value ? option.value : 'active')}
 
+									/>
+								</div>
+							</div>
+
+							{offerType.infoText && <p>{offerType.infoText}</p>}
 							{offerType.questions.map(question => (
 								<QuestionControl
 									key={question.id}
@@ -117,7 +164,7 @@ export const EditForm = memo<RegisterFormProps>(
 				<div>
 					{errors.length > 0 && <p className="text-center">Zkontrolujte, zda jste vše vyplnili správně.</p>}
 				</div>
-			</form>
+			</form >
 		)
 	}
 )

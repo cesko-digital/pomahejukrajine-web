@@ -74,9 +74,11 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({ offers, offerT
 
 								<div className="grow"></div>
 								<div className="mt-3">
-									<Link href={{ pathname: '/nabidka/[id]', query: { id: offer.id } }}>
-										<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Upravit nabídku</a>
-									</Link>
+									<div>
+										<Link href={{ pathname: '/nabidka/[id]', query: { id: offer.id } }}>
+											<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">Upravit nabídku</a>
+										</Link>
+									</div>
 								</div>
 							</div>
 						)
@@ -96,6 +98,7 @@ type OfferResponse = {
 	assignee: {
 		id: string
 	}
+	status: OfferStatus
 	parameters: {
 		id: string
 		question: {
@@ -112,12 +115,21 @@ type OfferResponse = {
 }
 type OffersResponse = OfferResponse[]
 
+type OfferStatus = {
+	id: string
+	order: number
+	name: string
+	offers: Offer[]
+	type: 'capacity_exhausted' | 'bad_experience' | 'outdated'
+}
+
 type Offer = {
 	id: string
 	allowReaction: boolean
 	type: {
 		id: string
 	}
+	status: OfferStatus
 	parameters: {
 		id: string
 		question: {
@@ -145,7 +157,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				permanent: false,
 				destination: "/login",
 			},
-		};
+		}
 	}
 
 	const response = await fetch(
@@ -173,6 +185,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 						id
 						type {
 							id
+						}
+						status {
+							id
+							order
+							name
+							type
 						}
 						parameters (
 							filter: {
@@ -210,6 +228,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			id: offer.id,
 			type: offer.type,
 			parameters: offer.parameters,
+			status: offer.status,
 			allowReaction: !offerType.needsVerification,
 		})
 	})
