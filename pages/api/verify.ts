@@ -1,28 +1,22 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-
+import type { NextApiRequest, NextApiResponse } from "next";
 
 // 1. Check secret code and get email
 // 2. Create user in tenant database
 // 3. Save identityId to content database
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
+	req: NextApiRequest,
+	res: NextApiResponse<any>
 ) {
-	const {
-		password,
-		secretCode,
-		id,
-	} = req.body
-
+	const { password, secretCode, id } = req.body;
 
 	// 1. Check secret code and get email
 	const volunteerResponse = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
 		{
-			method: 'POST',
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
 			},
 			body: JSON.stringify({
 				query: `
@@ -38,25 +32,27 @@ export default async function handler(
 				},
 			}),
 		}
-	)
+	);
 
-	const volunteerEmail: string | undefined = volunteerResponse.ok ? (await volunteerResponse.json())?.data?.volunteer?.email : undefined
+	const volunteerEmail: string | undefined = volunteerResponse.ok
+		? (await volunteerResponse.json())?.data?.volunteer?.email
+		: undefined;
 	if (!volunteerEmail) {
 		res.status(400).json({
 			ok: false,
-			error: 'Neplatný odkaz',
-		})
-		return
+			error: "Neplatný odkaz",
+		});
+		return;
 	}
 
 	// 2. Create user in tenant database
 	const userResponse = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_TENANT_URL!,
 		{
-			method: 'POST',
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
 			},
 			body: JSON.stringify({
 				query: `
@@ -83,29 +79,31 @@ export default async function handler(
 				},
 			}),
 		}
-	)
-	const json = await userResponse.json()
-	const ok: boolean | undefined = userResponse.ok && json?.data?.unmanagedInvite?.ok
-	const identityId: string | undefined = json?.data?.unmanagedInvite?.result?.person?.identity?.id
+	);
+	const json = await userResponse.json();
+	const ok: boolean | undefined =
+		userResponse.ok && json?.data?.unmanagedInvite?.ok;
+	const identityId: string | undefined =
+		json?.data?.unmanagedInvite?.result?.person?.identity?.id;
 	if (ok !== true || !identityId) {
-		console.warn('Failed to create user', json)
-		console.log(json?.data?.unmanagedInvite?.error?.code)
-		console.log(json?.data?.unmanagedInvite?.error)
+		console.warn("Failed to create user", json);
+		console.log(json?.data?.unmanagedInvite?.error?.code);
+		console.log(json?.data?.unmanagedInvite?.error);
 		res.status(400).json({
 			ok: false,
-			error: 'Nepodařilo se nastavit heslo',
-		})
-		return
+			error: "Nepodařilo se nastavit heslo",
+		});
+		return;
 	}
 
 	// 3. Save identityId to content database
 	const contentResponse = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
 		{
-			method: 'POST',
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
 			},
 			body: JSON.stringify({
 				query: `
@@ -121,19 +119,21 @@ export default async function handler(
 				},
 			}),
 		}
-	)
+	);
 
-	const contentOk: boolean | undefined = contentResponse.ok ? (await contentResponse.json())?.data?.volunteer?.ok : undefined
+	const contentOk: boolean | undefined = contentResponse.ok
+		? (await contentResponse.json())?.data?.volunteer?.ok
+		: undefined;
 	if (contentOk !== true) {
-		console.log(await contentResponse.json())
+		console.log(await contentResponse.json());
 		res.status(400).json({
 			ok: false,
-			error: 'Nepodařilo se propojit uživatele',
-		})
-		return
+			error: "Nepodařilo se propojit uživatele",
+		});
+		return;
 	}
 
 	res.status(200).json({
 		ok: true,
-	})
+	});
 }

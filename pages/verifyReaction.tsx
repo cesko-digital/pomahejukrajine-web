@@ -1,10 +1,10 @@
-import type {GetServerSideProps, NextPage } from "next";
-import {Meta} from "../components/Meta";
+import type { GetServerSideProps, NextPage } from "next";
+import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { VerifyReactionForm } from "../components/VerifyReactionForm";
 
-const VerifyReaction: NextPage = ({  }) => {
+const VerifyReaction: NextPage = ({}) => {
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta title="Pomoc Ukrajině" description="Pomoc Ukrajině" noIndex />
@@ -13,9 +13,13 @@ const VerifyReaction: NextPage = ({  }) => {
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Můžeme předat vaše údaje člověku, který nabízí pomoc?</h2>
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+								Můžeme předat vaše údaje člověku, který nabízí pomoc?
+							</h2>
 							<p className="mt-4 text-lg leading-6 text-gray-500">
-								Prosím potvrďte, že můžeme předat vaše kontaktní údaje. Ihned poté je odešleme člověku, který pomoc nabízí, abyste se mohli spojit.
+								Prosím potvrďte, že můžeme předat vaše kontaktní údaje. Ihned
+								poté je odešleme člověku, který pomoc nabízí, abyste se mohli
+								spojit.
 							</p>
 							{/*<p className="mt-4 text-lg leading-6 text-gray-500">*/}
 							{/*	*/}
@@ -29,15 +33,13 @@ const VerifyReaction: NextPage = ({  }) => {
 			</div>
 			<Footer />
 		</div>
-	)
-}
-
-
+	);
+};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	return {
 		props: {},
-	}
-}
+	};
+};
 
 export default VerifyReaction;

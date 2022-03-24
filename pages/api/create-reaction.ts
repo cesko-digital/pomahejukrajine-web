@@ -1,46 +1,43 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import {Error} from '../../lib/shared'
-import {ReactionPayload} from "../../lib/reaction";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { Error } from "../../lib/shared";
+import { ReactionPayload } from "../../lib/reaction";
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<any>
 ) {
-	const data = req.body.data as ReactionPayload
+	const data = req.body.data as ReactionPayload;
 
 	// TODO: Validation
 
-	let errors: Error[] = []
+	let errors: Error[] = [];
 
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({
-			input: 'email',
-			message: 'Neplatný email',
-		})
+			input: "email",
+			message: "Neplatný email",
+		});
 	}
 
 	if (errors.length) {
-		res.status(400).json({ ok: false, errors })
-		return
+		res.status(400).json({ ok: false, errors });
+		return;
 	}
-
 
 	const createInput = {
 		offer: { connect: { id: data.offerId } },
 		email: data.email,
-		phone: data.phone === '+420' ? '' : data.phone,
-	}
+		phone: data.phone === "+420" ? "" : data.phone,
+	};
 
-	const response = await fetch(
-		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
-			},
-			body: JSON.stringify({
-				query: `
+	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+		},
+		body: JSON.stringify({
+			query: `
 					mutation ($data: ReactionCreateInput!) {
 						createReaction(data: $data) {
 							ok
@@ -48,27 +45,25 @@ export default async function handler(
 						}
 					}
 				`,
-				variables: {
-					data: createInput,
-				},
-			}),
-		},
-	)
+			variables: {
+				data: createInput,
+			},
+		}),
+	});
 
-
-	const json = await response.json()
-	const ok: boolean | undefined = response.ok && json?.data?.createReaction?.ok
+	const json = await response.json();
+	const ok: boolean | undefined = response.ok && json?.data?.createReaction?.ok;
 	if (ok !== true) {
-		console.warn('Failed to create reaction', json)
-		console.log(json?.data?.createReaction?.error)
+		console.warn("Failed to create reaction", json);
+		console.log(json?.data?.createReaction?.error);
 		res.status(400).json({
 			ok: false,
-			error: 'Nepodařilo se uložit',
-		})
-		return
+			error: "Nepodařilo se uložit",
+		});
+		return;
 	}
 
 	res.status(200).json({
 		ok: true,
-	})
+	});
 }
