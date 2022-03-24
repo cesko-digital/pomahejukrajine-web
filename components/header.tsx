@@ -7,7 +7,7 @@ export default function Header() {
         <header className="bg-white">
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
                 <div className="w-full sm:py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
-                    <div className="flex items-center">
+                    <div className="flex items-center" data-testid="logo">
                         <Link href="/">
                             <a>
 															<svg
@@ -28,7 +28,7 @@ export default function Header() {
                             </a>
                         </Link>
                     </div>
-                    <div className={`hidden sm:block ml-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`}>
+                    <div className={`hidden sm:block ml-10 space-x-4 ${process.env.NEXT_TEMPORARY == 'TEMPORARY' ? 'hidden' : ''}`} data-testid="menu">
                         <Link href="/nabidka">
                         <a
                             className="inline-block bg-blue-600 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
