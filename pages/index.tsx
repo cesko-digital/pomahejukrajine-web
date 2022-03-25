@@ -32,7 +32,7 @@ const Logos = [
 
 const Home: NextPage = () => {
 	return (
-		<div className="antialiased text-gray-600">
+		<div className="antialiased text-gray-600" data-testid="page-home">
 			<Meta
 				title="Pomáhej Ukrajině"
 				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
