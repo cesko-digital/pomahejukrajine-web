@@ -1,8 +1,8 @@
-import type { GetServerSidePropsContext, NextPage } from "next"
-import { Meta } from "../components/Meta"
-import Header from "../components/header"
-import Footer from "../components/footer"
-import { LoginForm } from "../components/LoginForm"
+import type { GetServerSidePropsContext, NextPage } from "next";
+import { Meta } from "../components/Meta";
+import Header from "../components/header";
+import Footer from "../components/footer";
+import { LoginForm } from "../components/LoginForm";
 
 const Login: NextPage = () => {
 	return (
@@ -13,7 +13,9 @@ const Login: NextPage = () => {
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Přihlásit se</h2>
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+								Přihlásit se
+							</h2>
 						</div>
 						<div className="mt-12">
 							<LoginForm />
@@ -23,23 +25,22 @@ const Login: NextPage = () => {
 			</div>
 			<Footer />
 		</div>
-	)
+	);
+};
 
-}
-
-export default Login
+export default Login;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	if (context.req.cookies.token) {
 		return {
 			redirect: {
 				permanent: false,
-				destination: "/moje-nabidky"
-			}
-		}
+				destination: "/moje-nabidky",
+			},
+		};
 	} else {
 		return {
-			props: {}
-		}
+			props: {},
+		};
 	}
 }

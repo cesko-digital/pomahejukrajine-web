@@ -1,8 +1,8 @@
-import type { GetServerSidePropsContext, NextPage } from "next"
-import { Meta } from "../../components/Meta"
-import Header from "../../components/header"
-import Footer from "../../components/footer"
-import { PasswordNewForm } from "../../components/PasswordNewForm"
+import type { GetServerSidePropsContext, NextPage } from "next";
+import { Meta } from "../../components/Meta";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import { PasswordNewForm } from "../../components/PasswordNewForm";
 
 const Login = ({ token }: { token: string }) => {
 	return (
@@ -13,7 +13,9 @@ const Login = ({ token }: { token: string }) => {
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Nastavení hesla</h2>
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+								Nastavení hesla
+							</h2>
 						</div>
 						<div className="mt-12">
 							<PasswordNewForm token={token} />
@@ -23,10 +25,10 @@ const Login = ({ token }: { token: string }) => {
 			</div>
 			<Footer />
 		</div>
-	)
-}
+	);
+};
 
-export default Login
+export default Login;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	if (context.req.cookies.token) {
@@ -34,13 +36,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			redirect: {
 				permanent: false,
 				destination: "/moje-nabidky",
-			}
-		}
+			},
+		};
 	} else {
 		return {
 			props: {
-				token: context?.query?.token || '',
-			}
-		}
+				token: context?.query?.token || "",
+			},
+		};
 	}
 }
