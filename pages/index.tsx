@@ -1,11 +1,36 @@
-import type { NextPage, GetStaticProps } from "next";
+import type { NextPage } from "next";
 import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import Link from "next/link";
 import Image from "next/image";
 
-const Home: NextPage = ({ offerTypes, districts }: any) => {
+const Logos = [
+	{ href: "https://www.opu.cz/cs/", path: "/logos/opu.jpg" },
+	{ href: "https://adra.cz", path: "/logos/adra.jpg" },
+	{ href: "https://mostpro.cz/", path: "/logos/mostpro.jpg" },
+	{ href: "https://www.charita.cz/", path: "/logos/charita.jpg" },
+	{ href: "https://mkc.cz/", path: "/logos/multikulturnicentrumpraha.jpg" },
+	{
+		href: "https://www.migrace.com/",
+		path: "/logos/sdruzeniprointegraciamigraci.jpg",
+	},
+	{ href: "https://inbaze.cz/", path: "/logos/inbaze.jpg" },
+	{ href: "https://meta-ops.eu/", path: "/logos/meta.jpg" },
+	{ href: "https://www.amnesty.cz/", path: "/logos/amnestyinternational.jpg" },
+	{ href: "https://www.facebook.com/spolek.Amiga", path: "/logos/amiga.jpg" },
+	{ href: "https://nesehnuti.cz/", path: "/logos/nesehnuti.jpg" },
+	{ href: "https://www.diakonie.cz/", path: "/logos/diakonie.jpg" },
+	{ href: "https://www.strada.cz/", path: "/logos/lastrada.jpg" },
+	{ href: "https://www.clovekvtisni.cz/", path: "/logos/clovekvtisni.jpg" },
+	{ href: "https://plnu.cz/", path: "/logos/pomahamelidemnauteku.jpg" },
+	{
+		href: "https://www.facebook.com/atlasoftodaysworld",
+		path: "/logos/atlasmigrace.jpg",
+	},
+] as const;
+
+const Home: NextPage = () => {
 	return (
 		<div className="antialiased text-gray-600" data-testid="page-home">
 			<Meta
@@ -88,13 +113,19 @@ const Home: NextPage = ({ offerTypes, districts }: any) => {
 					Tento projekt provozuje Konsorcium nevládních organizací pracujících s
 					migranty v ČR. Členy jsou:
 				</p>
-				<div className="mt-8 text-center">
-					<Image
-						src="/clenove.png"
-						width={1134}
-						height={365}
-						alt="Členové Konsorcia"
-					/>
+				<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mt-8">
+					{Logos.map((logo) => (
+						<Link key={logo.path} href={logo.href}>
+							<a>
+								<Image
+									src={logo.path}
+									width={360}
+									height={199}
+									alt={logo.href}
+								/>
+							</a>
+						</Link>
+					))}
 				</div>
 			</div>
 			<Footer />
