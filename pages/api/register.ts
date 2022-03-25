@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import generateUniqueCode from "../../lib/generateUniqueCode";
 import {
-	PublicQueryResult,
-	RegisterFormState,
 	Error,
 	publicQuery,
+	PublicQueryResult,
+	RegisterFormState,
 } from "../../lib/shared";
 import { validateOffer } from "../../lib/validateOffer";
 
@@ -30,7 +30,7 @@ export default async function handler(
 ) {
 	const data = req.body.data as RegisterFormState;
 
-	const { offerTypes } = await fetchTypes();
+	const { offerTypes = [] } = (await fetchTypes()) || {};
 
 	const errors: Error[] = [];
 
@@ -38,6 +38,13 @@ export default async function handler(
 		errors.push({
 			input: "email",
 			message: "Neplatný email",
+		});
+	}
+
+	if (data.phone === "" || data.phone === "+420") {
+		errors.push({
+			input: "phone",
+			message: "Vyplňte prosím telefonní číslo",
 		});
 	}
 

@@ -88,11 +88,14 @@ export interface HelpFormState {
 	types: string[];
 }
 
+//FIXME https://github.com/cesko-digital/pomahejukrajine-web/issues/19
 export type Error =
 	| { input: "question"; questionId: string; message: string }
 	| { input: "email"; message: string }
 	| { input: "offer"; message: string }
-	| { input: "languages"; message: string };
+	| { input: "languages"; message: string }
+	| { input: "phone"; message: string };
+
 export type ErrorMultilingual =
 	| { input: "email"; message: { cs: string; uk: string } }
 	| { input: "offer"; message: { cs: string; uk: string } };

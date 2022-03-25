@@ -1,18 +1,14 @@
 /* eslint-disable react/display-name */
 import { FormEvent, memo, useCallback, useState } from "react";
-import { components } from "react-select";
 import { Error, PublicQueryResult, RegisterFormState } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 
-const SelectInput = (props: any) => (
-	<components.Input
-		{...props}
-		inputClassName="outline-none border-none shadow-none focus:ring-transparent"
-	/>
-);
+const Required = () => {
+	return <span className="text-red-700 font-bold">*</span>;
+};
 
 export const RegisterForm = memo<PublicQueryResult>(
-	({ offerTypes, districts, languages }) => {
+	({ offerTypes = [], districts, languages }) => {
 		const [submitting, setSubmitting] = useState<
 			false | "loading" | "error" | "success"
 		>(false);
@@ -73,14 +69,18 @@ export const RegisterForm = memo<PublicQueryResult>(
 		const disabled = submitting === "loading";
 		return (
 			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
-				<div>
-					{submitting === "error" && (
+				<p>
+					Položky označené <strong className="text-red-700 font-bold">*</strong>{" "}
+					jsou povinné.
+				</p>
+				{submitting === "error" && (
+					<div>
 						<p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>
-					)}
-				</div>
+					</div>
+				)}
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Jméno (povinné)
+						Jméno <Required />
 					</label>
 					<div className="mt-1">
 						<input
@@ -95,7 +95,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Organizace (nepovinné)
+						Organizace
 					</label>
 					<div className="mt-1">
 						<input
@@ -114,25 +114,33 @@ export const RegisterForm = memo<PublicQueryResult>(
 						htmlFor="phone"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Telefon (nepovinný)
+						Telefon <Required />
 					</label>
 					<div className="mt-1">
 						<input
 							disabled={disabled}
 							type="text"
 							id="phone"
+							required
 							value={state.phone}
 							onChange={(e) => setState({ ...state, phone: e.target.value })}
 							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 						/>
 					</div>
+					{errors.find((it) => it.input === "phone") !== undefined && (
+						<div className="flex">
+							<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+								{errors.find((it) => it.input === "phone")!.message}
+							</div>
+						</div>
+					)}
 				</div>
 				<div>
 					<label
 						htmlFor="email"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Email (povinný)
+						Email <Required />
 					</label>
 					{errors.find((it) => it.input === "email") !== undefined && (
 						<div className="flex">
