@@ -22,8 +22,8 @@ export default function Header() {
 			>
 				<div className="flex justify-end space-x-4" data-testid="social-links">
 					{socialLinks.map((link) => (
-						<Link href={link.href}>
-							<a className="">
+						<Link href={link.href} key={link.href}>
+							<a>
 								<Image src={link.icon} width={22} height={22} />
 							</a>
 						</Link>
