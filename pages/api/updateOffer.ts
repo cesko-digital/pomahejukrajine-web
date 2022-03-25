@@ -1,23 +1,29 @@
-import Cookies from 'cookies'
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { Error, OfferParameters, publicQuery, PublicQueryResult, RegisterFormState } from '../../lib/shared'
-import { validateOffer } from "../../lib/validateOffer"
+import Cookies from "cookies";
+import type { NextApiRequest, NextApiResponse } from "next";
+import {
+	Error,
+	OfferParameters,
+	publicQuery,
+	PublicQueryResult,
+	RegisterFormState,
+} from "../../lib/shared";
+import { validateOffer } from "../../lib/validateOffer";
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<any>
 ) {
-	const cookies = new Cookies(req, res)
-	const offerId = req.body.offerId as string
-	const data = req.body.data as OfferParameters
+	const cookies = new Cookies(req, res);
+	const offerId = req.body.offerId as string;
+	const data = req.body.data as OfferParameters;
 
 	const baseDataResponse = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
 		{
-			method: 'POST',
+			method: "POST",
 			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${cookies.get('token')}`,
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${cookies.get("token")}`,
 			},
 			body: JSON.stringify({
 				query: `query ($id: UUID!) {
@@ -31,42 +37,49 @@ export default async function handler(
 					id: offerId,
 				},
 			}),
-		},
-	)
+		}
+	);
 
-
-
-	const baseDataJson = await baseDataResponse.json()
+	const baseDataJson = await baseDataResponse.json();
 	if (baseDataJson.errors) {
-		console.log(baseDataJson.errors)
-		throw new Error('Unable to fetch base data')
+		console.log(baseDataJson.errors);
+		throw new Error("Unable to fetch base data");
 	}
-	const { offerTypes, offer } = baseDataJson.data as PublicQueryResult & { offer?: { type: { id: string }, parameters: { question: { id: string }, values: { id: string }[] }[] } }
+	const { offerTypes, offer } = baseDataJson.data as PublicQueryResult & {
+		offer?: {
+			type: { id: string };
+			parameters: { question: { id: string }; values: { id: string }[] }[];
+		};
+	};
 
 	if (!offer) {
-		throw new Error(`Offer not found`)
+		throw new Error(`Offer not found`);
 	}
 
-	const offerTypeId = offer.type.id
-	const offerType = offerTypeId !== undefined ? offerTypes.find(type => type.id === offerTypeId) : undefined
+	const offerTypeId = offer.type.id;
+	const offerType =
+		offerTypeId !== undefined
+			? offerTypes.find((type) => type.id === offerTypeId)
+			: undefined;
 
-	const errors: Error[] = []
-
+	const errors: Error[] = [];
 
 	if (!offerType) {
-		throw new Error(`Offer type ${offerTypeId} not found`)
+		throw new Error(`Offer type ${offerTypeId} not found`);
 	}
-	errors.push(...validateOffer(offerType, data))
+	errors.push(...validateOffer(offerType, data));
 
 	if (errors.length) {
-		res.status(400).json({ ok: false, errors })
-		return
+		res.status(400).json({ ok: false, errors });
+		return;
 	}
-
 
 	const updateInput = {
 		parameters: Object.entries(data).map(([questionId, question]) => {
-			const prevValues = offer.parameters.find(parameter => parameter.question.id === questionId)?.values.map(value => value.id) ?? []
+			const prevValues =
+				offer.parameters
+					.find((parameter) => parameter.question.id === questionId)
+					?.values.map((value) => value.id) ?? [];
 			const data = {
 				question: {
 					connect: {
@@ -76,15 +89,15 @@ export default async function handler(
 				value: question.value,
 				specification: question.specification,
 				values: [
-					...prevValues.map(value => ({ delete: { id: value } })),
-					...(question.values?.map(value => ({
+					...prevValues.map((value) => ({ delete: { id: value } })),
+					...(question.values?.map((value) => ({
 						create: {
 							value: value.value,
 							specification: value.specification,
-						}
+						},
 					})) ?? []),
 				],
-			}
+			};
 
 			if (prevValues.length > 0) {
 				return {
@@ -94,7 +107,7 @@ export default async function handler(
 						},
 						data,
 					},
-				}
+				};
 			}
 
 			return {
@@ -105,22 +118,20 @@ export default async function handler(
 					update: data,
 					create: data,
 				},
-			}
+			};
 		}),
-	}
+	};
 
-	console.log(JSON.stringify({ offerId, data: updateInput }))
+	console.log(JSON.stringify({ offerId, data: updateInput }));
 
-	const response = await fetch(
-		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
-			},
-			body: JSON.stringify({
-				query: `
+	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+		},
+		body: JSON.stringify({
+			query: `
 							mutation ($offerId: UUID!, $data: OfferUpdateInput!) {
 								updateOffer(by: { id: $offerId }, data: $data) {
 									ok
@@ -128,28 +139,26 @@ export default async function handler(
 								}
 							}
 						`,
-				variables: {
-					offerId,
-					data: updateInput,
-				},
-			}),
-		},
-	)
+			variables: {
+				offerId,
+				data: updateInput,
+			},
+		}),
+	});
 
-
-	const json = await response.json()
-	const ok: boolean | undefined = response.ok && json?.data?.updateOffer?.ok
+	const json = await response.json();
+	const ok: boolean | undefined = response.ok && json?.data?.updateOffer?.ok;
 	if (ok !== true) {
-		console.warn('Failed to update offer', json)
-		console.log(json?.data?.updateOffer?.error)
+		console.warn("Failed to update offer", json);
+		console.log(json?.data?.updateOffer?.error);
 		res.status(400).json({
 			ok: false,
-			error: 'Nepodařilo se uložit',
-		})
-		return
+			error: "Nepodařilo se uložit",
+		});
+		return;
 	}
 
 	res.status(200).json({
 		ok: true,
-	})
+	});
 }

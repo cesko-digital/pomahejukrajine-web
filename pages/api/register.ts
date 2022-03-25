@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import generateUniqueCode from "../../lib/generateUniqueCode";
 import {
-	PublicQueryResult,
-	RegisterFormState,
 	Error,
 	publicQuery,
+	PublicQueryResult,
+	RegisterFormState,
 } from "../../lib/shared";
 import { validateOffer } from "../../lib/validateOffer";
 

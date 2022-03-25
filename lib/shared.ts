@@ -95,6 +95,7 @@ export type Error =
 	| { input: "offer"; message: string }
 	| { input: "languages"; message: string }
 	| { input: "phone"; message: string };
+
 export type ErrorMultilingual =
 	| { input: "email"; message: { cs: string; uk: string } }
 	| { input: "offer"; message: { cs: string; uk: string } };
