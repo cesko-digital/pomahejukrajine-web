@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Error } from "../../lib/shared";
+import { FormError } from "../../lib/shared";
 import { ReactionPayload } from "../../lib/reaction";
 
 export default async function handler(
@@ -10,7 +10,7 @@ export default async function handler(
 
 	// TODO: Validation
 
-	let errors: Error[] = [];
+	let errors: FormError[] = [];
 
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({

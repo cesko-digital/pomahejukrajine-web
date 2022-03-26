@@ -1,13 +1,13 @@
 /* eslint-disable react/display-name */
 import { FormEvent, memo, useCallback, useState } from "react";
 import { ReactionForm, ReactionPayload } from "../lib/reaction";
-import { Error } from "../lib/shared";
+import { FormError } from "../lib/shared";
 
 export const CreateReactionForm = memo<{ offerId: string }>(({ offerId }) => {
 	const [submitting, setSubmitting] = useState<
 		false | "loading" | "error" | "success"
 	>(false);
-	const [errors, setErrors] = useState<Error[]>([]);
+	const [errors, setErrors] = useState<FormError[]>([]);
 	const [state, setState] = useState<ReactionForm>({
 		email: "",
 		phone: "+420",
