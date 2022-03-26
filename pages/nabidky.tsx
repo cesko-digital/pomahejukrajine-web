@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
-import { Meta } from "../components/Meta";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import { Fragment, useEffect, useState } from "react";
-import { PublicQueryResult, QuestionType } from "../lib/shared";
 import Link from "next/link";
+import { Fragment, useEffect, useState } from "react";
+import Footer from "../components/footer";
+import Header from "../components/header";
+import { Meta } from "../components/Meta";
+import { PublicQueryResult, QuestionType } from "../lib/shared";
 
 const SHOW_LIMIT = 44;
 
@@ -350,14 +350,14 @@ const Home: NextPage<Data> = (props) => {
 								{offer.allowReaction && (
 									<>
 										<div className="grow"></div>
-										<div className="mt-3">
+										<div className="my-3">
 											<Link
 												href={{
 													pathname: "/reagovat/[id]",
 													query: { id: offer.id },
 												}}
 											>
-												<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">
+												<a className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
 													Potřebuji tuto pomoc
 												</a>
 											</Link>
