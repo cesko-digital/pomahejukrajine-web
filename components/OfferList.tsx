@@ -70,7 +70,11 @@ const OfferList: React.FC<{
 								(it) => it.id === parameter.question.id
 							)!;
 							return (
-								<OfferParameter parameter={parameter} question={question} />
+								<OfferParameter
+									key={parameter.id}
+									parameter={parameter}
+									question={question}
+								/>
 							);
 						})}
 
