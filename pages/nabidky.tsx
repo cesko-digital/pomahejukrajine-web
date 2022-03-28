@@ -1,35 +1,16 @@
 import type { NextPage } from "next";
-import Link from "next/link";
-import { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import { Meta } from "../components/Meta";
-import { PublicQueryResult, QuestionType } from "../lib/shared";
+import Filter from "../components/OfferFilter";
+import OfferList from "../components/OfferList";
+import OfferSubFilter from "../components/OfferSubFilter";
+import { FilterWithCount, QuestionFilter } from "../lib/model/FilterModel";
+import { Offer } from "../lib/model/Offer";
+import { PublicQueryResult } from "../lib/shared";
 
 const SHOW_LIMIT = 44;
-
-interface Filter {
-	id: string;
-	type: QuestionType;
-	question: string;
-	optionGroups?: { id: string; label: string; options: string[] }[];
-	options: { id: string; label: string }[];
-}
-
-interface FilterWithCount {
-	id: string;
-	type: QuestionType;
-	question: string;
-	optionGroups?: {
-		id: string;
-		label: string;
-		options: string[];
-		count: number;
-	}[];
-	options: { id: string; label: string; count: number }[];
-}
-
-type QuestionFilter = { [questionId: string]: string[] };
 
 type Data = {
 	totalOfferCount: number;
@@ -42,7 +23,7 @@ type Data = {
 	offersToShowTotalCount: number;
 };
 
-const Home: NextPage<Data> = (props) => {
+const Home: NextPage = () => {
 	const [data, setData] = useState<Data | null>(null);
 	const [typeFilter, setTypeFilter] = useState<string | null>(null);
 	const [questionFilter, setQuestionFilter] = useState<QuestionFilter>({});
@@ -86,44 +67,18 @@ const Home: NextPage<Data> = (props) => {
 					</h1>
 				</div>
 
-				<ul className="mt-8 flex flex-wrap justify-center">
-					<li>
-						<button
-							className={`${
-								typeFilter === null
-									? "bg-blue-600 text-white border-blue-800 shadow-sm"
-									: "bg-white borde-gray-200"
-							} text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md`}
-							onClick={() => {
-								setShowLimit(SHOW_LIMIT);
-								setTypeFilter(null);
-								setQuestionFilter({});
-								setShowAllFilters(false);
-							}}
-						>
-							Vše ({totalOfferCount})
-						</button>
-					</li>
-					{Object.entries(availableTypes).map(([type, count]) => (
-						<li key={type}>
-							<button
-								className={`${
-									typeFilter === type
-										? "bg-blue-600 text-white border-blue-800 shadow-sm"
-										: "bg-white border-gray-200"
-								} text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md`}
-								onClick={() => {
-									setShowLimit(SHOW_LIMIT);
-									setTypeFilter(type);
-									setQuestionFilter({});
-									setShowAllFilters(false);
-								}}
-							>
-								{offerTypes.find((it) => it.id === type)!.name} ({count})
-							</button>
-						</li>
-					))}
-				</ul>
+				<Filter
+					onFilterApply={(type) => {
+						setShowLimit(SHOW_LIMIT);
+						setTypeFilter(type);
+						setQuestionFilter({});
+						setShowAllFilters(false);
+					}}
+					availableTypes={availableTypes}
+					typeFilter={typeFilter}
+					totalOfferCount={totalOfferCount}
+					offerTypes={offerTypes}
+				/>
 
 				{typeFilter && offersToShow.length === 0 && (
 					<div className="p-2 max-w-4xl mx-auto rounded-lg bg-yellow-50 shadow-sm sm:p-3 mt-6 text-center text-base">
@@ -137,143 +92,11 @@ const Home: NextPage<Data> = (props) => {
 					</div>
 				)}
 
-				{shownFilters.map((filter) => {
-					const selectedGroups = filter.optionGroups?.filter((group) =>
-						group.options.some((option) =>
-							(questionFilter[filter.id] ?? []).includes(option)
-						)
-					);
-					const selectedGroupsOptions = selectedGroups?.flatMap(
-						(it) => it.options
-					);
-					const shownOptions =
-						selectedGroupsOptions !== undefined
-							? filter.options.filter((it) =>
-									selectedGroupsOptions.includes(it.id)
-							  )
-							: filter.options;
-
-					return (
-						<div key={filter.id} className="mt-4">
-							<h3 className="text-center">{filter.question}</h3>
-							{filter.optionGroups && (
-								<ul className="mt-1 flex flex-wrap justify-center">
-									<li>
-										<button
-											className={`${
-												(questionFilter[filter.id] ?? []).length === 0
-													? "bg-blue-600 text-white border-blue-800 shadow-sm"
-													: "bg-white border-gray-200"
-											} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
-											onClick={() => {
-												setQuestionFilter((state) => ({
-													...state,
-													[filter.id]: [],
-												}));
-											}}
-										>
-											Nezáleží
-										</button>
-									</li>
-									{filter.optionGroups.map((option) => {
-										const selected = selectedGroups!.includes(option);
-										return (
-											<li key={option.id}>
-												<button
-													className={`${
-														selected
-															? "bg-blue-600 text-white border-blue-800 shadow-sm"
-															: "bg-white border-gray-200"
-													} text-gray-900 font-medium py-1 px-3 border rounded-3xl m-1 text-sm`}
-													onClick={() => {
-														if (selected) {
-															setQuestionFilter((state) => ({
-																...state,
-																[filter.id]: state[filter.id]!.filter(
-																	(it) => !option.options.includes(it)
-																),
-															}));
-														} else {
-															setQuestionFilter((state) => ({
-																...state,
-																[filter.id]: [
-																	...(state[filter.id] ?? []),
-																	...option.options,
-																],
-															}));
-														}
-													}}
-												>
-													{option.label} ({option.count})
-												</button>
-											</li>
-										);
-									})}
-								</ul>
-							)}
-
-							{shownOptions.length > 0 && (
-								<ul className="mt-1 flex flex-wrap justify-center">
-									{!filter.optionGroups && (
-										<li>
-											<button
-												className={`${
-													(questionFilter[filter.id] ?? []).length === 0
-														? "bg-blue-600 text-white border-blue-800 shadow-sm"
-														: "bg-white border-gray-200"
-												} text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm`}
-												onClick={() => {
-													setQuestionFilter((state) => ({
-														...state,
-														[filter.id]: [],
-													}));
-												}}
-											>
-												Nezáleží
-											</button>
-										</li>
-									)}
-									{shownOptions.map((option) => {
-										const selected = (questionFilter[filter.id] ?? []).includes(
-											option.id
-										);
-										return (
-											<li key={option.id}>
-												<button
-													className={`${
-														selected
-															? "bg-blue-600 text-white border-blue-800 shadow-sm"
-															: "bg-white border-gray-200"
-													} text-gray-900 font-medium py-1 px-3 border rounded-3xl m-1 text-sm`}
-													onClick={() => {
-														if (selected) {
-															setQuestionFilter((state) => ({
-																...state,
-																[filter.id]: state[filter.id]!.filter(
-																	(it) => it !== option.id
-																),
-															}));
-														} else {
-															setQuestionFilter((state) => ({
-																...state,
-																[filter.id]: [
-																	...(state[filter.id] ?? []),
-																	option.id,
-																],
-															}));
-														}
-													}}
-												>
-													{option.label} ({option.count})
-												</button>
-											</li>
-										);
-									})}
-								</ul>
-							)}
-						</div>
-					);
-				})}
+				<OfferSubFilter
+					shownFilters={shownFilters}
+					questionFilter={questionFilter}
+					setQuestionFilter={setQuestionFilter}
+				/>
 
 				{filters.length !== lessFilters.length && (
 					<div className="flex justify-center mt-4">
@@ -286,88 +109,7 @@ const Home: NextPage<Data> = (props) => {
 					</div>
 				)}
 
-				<div className="mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-					{offersToShow.map((offer) => {
-						const offerType = offerTypes.find((it) => it.id === offer.type.id)!;
-						return (
-							<div
-								key={offer.id}
-								className="p-4 rounded-md border shadow-md m-4 flex flex-col"
-							>
-								<h3 className="text-lg font-bold">{offerType.name}</h3>
-								{offer.parameters.map((parameter) => {
-									const question = offerType.questions.find(
-										(it) => it.id === parameter.question.id
-									)!;
-									return (
-										<div key={parameter.id} className="flex flex-col mt-2">
-											<p className="text-sm font-bold">{question.question}</p>
-											<p className="text-sm">
-												{question.type === "district" ||
-												question.type === "checkbox" ? (
-													<>
-														{parameter.values.map((value, i) => {
-															const isLast = i === parameter.values.length - 1;
-															const requiresSpecification =
-																question.type === "checkbox" &&
-																(question.options.find(
-																	(it) => it.value === value.value
-																)?.requireSpecification ??
-																	false);
-															return (
-																<Fragment key={value.id}>
-																	<span>
-																		{value.value}
-																		{requiresSpecification &&
-																			` (${value.specification})`}
-																	</span>
-																	{!isLast && ", "}
-																</Fragment>
-															);
-														})}
-													</>
-												) : question.type === "radio" ? (
-													<>
-														{parameter.value}
-														{(question.options.find(
-															(it) => it.value === parameter.value
-														)?.requireSpecification ??
-															false) &&
-															` (${parameter.specification})`}
-													</>
-												) : question.type === "date" ? (
-													<>
-														{parameter.value} {/* TODO */}
-													</>
-												) : (
-													<>{parameter.value}</>
-												)}
-											</p>
-										</div>
-									);
-								})}
-
-								{offer.allowReaction && (
-									<>
-										<div className="grow"></div>
-										<div className="my-3">
-											<Link
-												href={{
-													pathname: "/reagovat/[id]",
-													query: { id: offer.id },
-												}}
-											>
-												<a className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
-													Potřebuji tuto pomoc
-												</a>
-											</Link>
-										</div>
-									</>
-								)}
-							</div>
-						);
-					})}
-				</div>
+				<OfferList offerTypes={offerTypes} offersToShow={offersToShow} />
 
 				{showLimit < offersToShowTotalCount && (
 					<div className="flex justify-center mt-4">
@@ -385,27 +127,6 @@ const Home: NextPage<Data> = (props) => {
 			<Footer />
 		</div>
 	);
-};
-
-type Offer = {
-	id: string;
-	allowReaction: boolean;
-	type: {
-		id: string;
-	};
-	parameters: {
-		id: string;
-		question: {
-			id: string;
-		};
-		value: string;
-		specification?: string;
-		values: {
-			id: string;
-			value: string;
-			specification: string;
-		}[];
-	}[];
 };
 
 async function fetchData(
