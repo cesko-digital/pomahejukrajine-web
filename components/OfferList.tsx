@@ -69,13 +69,15 @@ const OfferList: React.FC<{
 						{offer.parameters.map((parameter) => {
 							const question = offerType.questions.find(
 								(it) => it.id === parameter.question.id
-							)!;
+							);
 							return (
-								<OfferParameter
-									key={parameter.id}
-									parameter={parameter}
-									question={question}
-								/>
+								question && (
+									<OfferParameter
+										key={parameter.id}
+										parameter={parameter}
+										question={question}
+									/>
+								)
 							);
 						})}
 

@@ -1,5 +1,6 @@
 import { OfferType } from "../lib/shared";
 import cx from "classnames";
+import { useCallback } from "react";
 
 const styles = {
 	defaultButton:
@@ -20,31 +21,44 @@ const Filter: React.FC<{
 	typeFilter,
 	totalOfferCount,
 	offerTypes,
-}) => (
-	<ul className="mt-8 flex flex-wrap justify-center">
-		<li>
-			<button
-				className={cx(styles.defaultButton, !typeFilter && styles.activeButton)}
-				onClick={() => onFilterApply(null)}
-			>
-				Vše ({totalOfferCount})
-			</button>
-		</li>
+}) => {
+	const applyFilter = useCallback(
+		(event) => {
+			onFilterApply(event.target.value || null);
+		},
+		[onFilterApply]
+	);
 
-		{Object.entries(availableTypes).map(([type, count]) => (
-			<li key={type}>
+	return (
+		<ul className="mt-8 flex flex-wrap justify-center">
+			<li>
 				<button
-					onClick={() => onFilterApply(type)}
 					className={cx(
 						styles.defaultButton,
-						typeFilter === type && styles.activeButton
+						!typeFilter && styles.activeButton
 					)}
+					onClick={applyFilter}
 				>
-					{offerTypes.find((it) => it.id === type)?.name || ""} ({count})
+					Vše ({totalOfferCount})
 				</button>
 			</li>
-		))}
-	</ul>
-);
+
+			{Object.entries(availableTypes).map(([type, count]) => (
+				<li key={type}>
+					<button
+						onClick={applyFilter}
+						value={type}
+						className={cx(
+							styles.defaultButton,
+							typeFilter === type && styles.activeButton
+						)}
+					>
+						{offerTypes.find((it) => it.id === type)?.name || ""} ({count})
+					</button>
+				</li>
+			))}
+		</ul>
+	);
+};
 
 export default Filter;
