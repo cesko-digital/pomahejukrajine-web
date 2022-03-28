@@ -58,7 +58,8 @@ const OfferList: React.FC<{
 	return (
 		<div className="mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
 			{offersToShow.map((offer) => {
-				const offerType = offerTypes.find((it) => it.id === offer.type.id)!;
+				const offerType = offerTypes.find((it) => it.id === offer.type.id);
+				if (!offerType) return null;
 				return (
 					<div
 						key={offer.id}

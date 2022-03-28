@@ -40,7 +40,7 @@ const Filter: React.FC<{
 						typeFilter === type && styles.activeButton
 					)}
 				>
-					{offerTypes.find((it) => it.id === type)!.name} ({count})
+					{offerTypes.find((it) => it.id === type)?.name || ""} ({count})
 				</button>
 			</li>
 		))}

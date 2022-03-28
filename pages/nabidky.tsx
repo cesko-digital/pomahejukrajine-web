@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import { Meta } from "../components/Meta";
@@ -38,6 +38,16 @@ const Home: NextPage = () => {
 		})();
 	}, [typeFilter, questionFilter, showAllFilters, showLimit]);
 
+	const onFilterApply = useCallback(
+		(type) => {
+			setShowLimit(SHOW_LIMIT);
+			setTypeFilter(type);
+			setQuestionFilter({});
+			setShowAllFilters(false);
+		},
+		[setShowLimit, setTypeFilter, setQuestionFilter, setShowAllFilters]
+	);
+
 	if (!data) {
 		return null;
 	}
@@ -68,12 +78,7 @@ const Home: NextPage = () => {
 				</div>
 
 				<Filter
-					onFilterApply={(type) => {
-						setShowLimit(SHOW_LIMIT);
-						setTypeFilter(type);
-						setQuestionFilter({});
-						setShowAllFilters(false);
-					}}
+					onFilterApply={onFilterApply}
 					availableTypes={availableTypes}
 					typeFilter={typeFilter}
 					totalOfferCount={totalOfferCount}
