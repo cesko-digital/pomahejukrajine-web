@@ -6,7 +6,7 @@ import {
 	QuestionValue,
 	PublicQueryResult,
 	RegisterFormState,
-	Error,
+	FormError,
 } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 import { default as Select } from "react-select";
@@ -34,7 +34,7 @@ export const EditForm = memo<RegisterFormProps>(
 		const [submitting, setSubmitting] = useState<
 			false | "loading" | "error" | "success"
 		>(false);
-		const [errors, setErrors] = useState<Error[]>([]);
+		const [errors, setErrors] = useState<FormError[]>([]);
 		const [state, setState] = useState(questions);
 		const [statusState, setStatusState] = useState(offerStatusType);
 

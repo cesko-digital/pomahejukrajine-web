@@ -88,8 +88,7 @@ export interface HelpFormState {
 	types: string[];
 }
 
-//FIXME https://github.com/cesko-digital/pomahejukrajine-web/issues/19
-export type Error =
+export type FormError =
 	| { input: "question"; questionId: string; message: string }
 	| { input: "email"; message: string }
 	| { input: "offer"; message: string }

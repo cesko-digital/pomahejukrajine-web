@@ -1,7 +1,7 @@
 import Cookies from "cookies";
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
-	Error,
+	FormError,
 	OfferParameters,
 	publicQuery,
 	PublicQueryResult,
@@ -62,7 +62,7 @@ export default async function handler(
 			? offerTypes.find((type) => type.id === offerTypeId)
 			: undefined;
 
-	const errors: Error[] = [];
+	const errors: FormError[] = [];
 
 	if (!offerType) {
 		throw new Error(`Offer type ${offerTypeId} not found`);

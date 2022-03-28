@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { FormEvent, memo, useCallback, useState } from "react";
-import { Error, PublicQueryResult, RegisterFormState } from "../lib/shared";
+import { FormError, PublicQueryResult, RegisterFormState } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 
 const Required = () => {
@@ -12,7 +12,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 		const [submitting, setSubmitting] = useState<
 			false | "loading" | "error" | "success"
 		>(false);
-		const [errors, setErrors] = useState<Error[]>([]);
+		const [errors, setErrors] = useState<FormError[]>([]);
 		const [state, setState] = useState<RegisterFormState>({
 			name: "",
 			email: "",

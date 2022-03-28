@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import generateUniqueCode from "../../lib/generateUniqueCode";
 import {
-	Error,
+	FormError,
 	publicQuery,
 	PublicQueryResult,
 	RegisterFormState,
@@ -32,7 +32,7 @@ export default async function handler(
 
 	const { offerTypes = [] } = (await fetchTypes()) || {};
 
-	const errors: Error[] = [];
+	const errors: FormError[] = [];
 
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({

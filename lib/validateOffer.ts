@@ -1,10 +1,10 @@
-import { Error, OfferType, QuestionValue } from "./shared";
+import { FormError, OfferType, QuestionValue } from "./shared";
 
 export function validateOffer(
 	offerType: OfferType,
 	parameters: { [p: string]: QuestionValue }
-): Error[] {
-	const errors: Error[] = [];
+): FormError[] {
+	const errors: FormError[] = [];
 
 	for (const question of offerType.questions) {
 		const value = parameters[question.id];

@@ -6,8 +6,6 @@ import {
 	QuestionDefinition,
 	QuestionValue,
 	PublicQueryResult,
-	RegisterFormState,
-	Error,
 	HelpFormState,
 	ErrorMultilingual,
 } from "../lib/shared";
