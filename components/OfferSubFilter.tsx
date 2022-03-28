@@ -1,12 +1,6 @@
 import { FilterWithCount, QuestionFilter } from "../lib/model/FilterModel";
 import cx from "classnames";
-
-const styles = {
-	defaultButton:
-		"text-gray-900 font-medium py-1 px-2 border rounded-3xl m-1 text-sm bg-white border-gray-200 hover:bg-blue-50",
-	activeButton:
-		"bg-blue-600 text-white border-blue-800 shadow-sm hover:bg-blue-600",
-};
+import styles from "./OfferSubFilter.module.css";
 
 const OfferSubFilter: React.FC<{
 	shownFilters: Array<FilterWithCount>;
