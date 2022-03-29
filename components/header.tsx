@@ -1,11 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const socialLinks = [
+	{ href: "https://twitter.com/pomahejukrajine", icon: "/twitter.svg" },
+	{
+		href: "https://www.instagram.com/pomahejukrajine.cz",
+		icon: "/instagram.svg",
+	},
+	{
+		href: "https://www.facebook.com/PomahejUkrajine.cz",
+		icon: "/facebook.svg",
+	},
+];
+
 export default function Header() {
 	return (
 		<header className="bg-white">
-			<nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
-				<div className="w-full sm:py-6 flex items-center justify-between border-b border-indigo-500 lg:border-none">
+			<nav
+				className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 border-b border-indigo-500 lg:border-none"
+				aria-label="Top"
+			>
+				<div className="flex justify-end space-x-4" data-testid="social-links">
+					{socialLinks.map((link) => (
+						<Link href={link.href} key={link.href}>
+							<a>
+								<Image src={link.icon} width={22} height={22} />
+							</a>
+						</Link>
+					))}
+				</div>
+				<div className="w-full flex items-center justify-between">
 					<div className="flex items-center" data-testid="logo">
 						<Link href="/">
 							<a>
