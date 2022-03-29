@@ -1,0 +1,20 @@
+.defaultButton {
+	@apply text-gray-900
+    font-medium
+    py-2
+    px-4
+    border
+    rounded-3xl
+    m-1
+    bg-white
+    border-gray-200
+    hover:bg-blue-50;
+}
+
+.activeButton {
+	@apply bg-blue-600
+    text-white
+    border-blue-800
+    shadow-sm
+    hover:bg-blue-600;
+}

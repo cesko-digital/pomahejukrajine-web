@@ -1,13 +1,7 @@
 import { OfferType } from "../lib/shared";
 import cx from "classnames";
 import { useCallback } from "react";
-
-const styles = {
-	defaultButton:
-		"text-gray-900 font-medium py-2 px-4 border rounded-3xl m-1 text-md bg-white border-gray-200 hover:bg-blue-50",
-	activeButton:
-		"bg-blue-600 text-white border-blue-800 shadow-sm hover:bg-blue-600",
-};
+import styles from "./OfferFilter.module.css";
 
 const Filter: React.FC<{
 	availableTypes: { [name: string]: number };
