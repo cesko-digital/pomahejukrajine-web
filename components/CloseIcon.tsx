@@ -1,4 +1,4 @@
-export default () => (
+const CloseIcon = () => (
 	<svg
 		width="20"
 		height="22"
@@ -22,3 +22,4 @@ export default () => (
 		/>
 	</svg>
 );
+export default CloseIcon;

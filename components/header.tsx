@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
 import SocialLinksNav from "./SocialLinksNav";
@@ -10,10 +11,12 @@ export default function Header() {
 				aria-label="Top"
 			>
 				<div className="w-full flex items-center lg:items-start justify-between">
-					<div className="flex items-center" data-testid="logo">
-						<a href="/" className="block w-60 md:w-80 h-30">
-							<Logo />
-						</a>
+					<div className="flex items-center md:mt-2" data-testid="logo">
+						<Link href="/">
+							<a className="block w-60 md:w-80 h-30">
+								<Logo />
+							</a>
+						</Link>
 					</div>
 					<div>
 						<div
