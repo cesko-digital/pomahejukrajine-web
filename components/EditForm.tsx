@@ -1,13 +1,7 @@
 /* eslint-disable react/display-name */
 import Link from "next/link";
-import { FormEvent, memo, useCallback, useEffect, useState } from "react";
-import {
-	Districts,
-	QuestionValue,
-	PublicQueryResult,
-	RegisterFormState,
-	FormError,
-} from "../lib/shared";
+import { FormEvent, memo, useCallback, useState } from "react";
+import { QuestionValue, PublicQueryResult, FormError } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 import { default as Select } from "react-select";
 
@@ -23,7 +17,6 @@ interface RegisterFormProps extends PublicQueryResult {
 export const EditForm = memo<RegisterFormProps>(
 	({
 		districts,
-		languages,
 		offerId,
 		offerTypeId,
 		questions,
@@ -180,6 +173,7 @@ export const EditForm = memo<RegisterFormProps>(
 									definition={question}
 									value={state[question.id] ?? {}}
 									onChange={(newValue) => {
+										newValue.type = question.type;
 										setErrors((errors) =>
 											errors.filter(
 												(it) =>

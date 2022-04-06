@@ -90,12 +90,36 @@ export default async function handler(
 				specification: question.specification,
 				values: [
 					...prevValues.map((value) => ({ delete: { id: value } })),
-					...(question.values?.map((value) => ({
-						create: {
-							value: value.value,
-							specification: value.specification,
-						},
-					})) ?? []),
+					...(question.values?.map((value) => {
+						if (question.type === "district") {
+							return {
+								create: {
+									value: value.value,
+									specification: value.specification,
+									district: { connect: { name: value.value } },
+								},
+							};
+						} else if (
+							question.type === "number" &&
+							question.value &&
+							!isNaN(parseInt(question.value))
+						) {
+							return {
+								create: {
+									value: value.value,
+									numericValue: parseInt(question.value),
+									specification: value.specification,
+								},
+							};
+						} else {
+							return {
+								create: {
+									value: value.value,
+									specification: value.specification,
+								},
+							};
+						}
+					}) ?? []),
 				],
 			};
 
