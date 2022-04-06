@@ -18,6 +18,6 @@
 
 @layer base {
 	body {
-		@apply font-nuckle text-black text-xs sm:text-base;
+		@apply font-nuckle text-black;
 	}
 }
