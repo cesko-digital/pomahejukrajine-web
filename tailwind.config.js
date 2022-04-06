@@ -9,6 +9,9 @@ module.exports = {
 				"ua-blue": "#005BBB",
 				"ua-yellow": "#FFD500",
 			},
+			fontFamily: {
+				nuckle: ["Nuckle", "sans-serif"],
+			},
 		},
 	},
 	plugins: [require("@tailwindcss/forms")],
