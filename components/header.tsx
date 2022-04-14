@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
-import { myOffersDesktop } from "./MainNav.module.css";
+import styles from "./MainNav.module.css";
 import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
 
@@ -26,7 +26,7 @@ export default function Header() {
 							data-testid="social-links"
 						>
 							<Link href="/moje-nabidky" key="/moje-nabidky">
-								<a className={myOffersDesktop}>
+								<a className={styles.myOffersDesktop}>
 									<UserIcon />
 									Moje nabídky
 								</a>
