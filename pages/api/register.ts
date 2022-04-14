@@ -98,19 +98,55 @@ export default async function handler(
 			offers: Object.entries(data.offers).map(([offerTypeId, offer]) => {
 				const parameters = Object.entries(offer.questions).map(
 					([questionId, question]) => {
-						return {
-							create: {
-								question: { connect: { id: questionId } },
-								value: question.value,
-								specification: question.specification,
-								values: question.values?.map((value) => ({
-									create: {
-										value: value.value,
-										specification: value.specification,
-									},
-								})),
-							},
-						};
+						if (question.type === "district") {
+							return {
+								create: {
+									question: { connect: { id: questionId } },
+									value: question.value,
+									specification: question.specification,
+									values: question.values?.map((value) => ({
+										create: {
+											value: value.value,
+											specification: value.specification,
+											district: { connect: { name: value.value } },
+										},
+									})),
+								},
+							};
+						} else if (
+							question.type === "number" &&
+							question.value &&
+							!isNaN(parseInt(question.value))
+						) {
+							return {
+								create: {
+									question: { connect: { id: questionId } },
+									value: question.value,
+									numericValue: parseInt(question.value),
+									specification: question.specification,
+									values: question.values?.map((value) => ({
+										create: {
+											value: value.value,
+											specification: value.specification,
+										},
+									})),
+								},
+							};
+						} else {
+							return {
+								create: {
+									question: { connect: { id: questionId } },
+									value: question.value,
+									specification: question.specification,
+									values: question.values?.map((value) => ({
+										create: {
+											value: value.value,
+											specification: value.specification,
+										},
+									})),
+								},
+							};
+						}
 					}
 				);
 				return {

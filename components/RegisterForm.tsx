@@ -271,47 +271,50 @@ export const RegisterForm = memo<PublicQueryResult>(
 							{!!state.offers[offerType.id] && (
 								<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
 									{offerType.infoText && <p>{offerType.infoText}</p>}
-
-									{offerType.questions.map((question) => (
-										<QuestionControl
-											key={question.id}
-											definition={question}
-											value={
-												state.offers[offerType.id].questions[question.id] ?? {}
-											}
-											onChange={(newValue) => {
-												setErrors((errors) =>
-													errors.filter(
-														(it) =>
-															it.input === "question" &&
-															it.questionId !== question.id
-													)
-												);
-												setState((state) => ({
-													...state,
-													offers: {
-														...state.offers,
-														[offerType.id]: {
-															...state.offers[offerType.id],
-															questions: {
-																...state.offers[offerType.id].questions,
-																[question.id]: newValue,
+									{offerType.questions.map((question) => {
+										return (
+											<QuestionControl
+												key={question.id}
+												definition={question}
+												value={
+													state.offers[offerType.id].questions[question.id] ??
+													{}
+												}
+												onChange={(newValue) => {
+													newValue.type = question.type;
+													setErrors((errors) =>
+														errors.filter(
+															(it) =>
+																it.input === "question" &&
+																it.questionId !== question.id
+														)
+													);
+													setState((state) => ({
+														...state,
+														offers: {
+															...state.offers,
+															[offerType.id]: {
+																...state.offers[offerType.id],
+																questions: {
+																	...state.offers[offerType.id].questions,
+																	[question.id]: newValue,
+																},
 															},
 														},
-													},
-												}));
-											}}
-											disabled={disabled}
-											districts={districts ? districts : []}
-											error={
-												errors.find(
-													(it) =>
-														it.input === "question" &&
-														it.questionId === question.id
-												)?.message
-											}
-										/>
-									))}
+													}));
+												}}
+												disabled={disabled}
+												districts={districts ? districts : []}
+												error={
+													errors.find(
+														(it) =>
+															it.input === "question" &&
+															it.questionId === question.id
+													)?.message
+												}
+											/>
+										);
+									})}
 								</div>
 							)}
 						</div>

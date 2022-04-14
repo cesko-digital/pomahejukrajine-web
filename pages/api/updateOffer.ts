@@ -81,23 +81,45 @@ export default async function handler(
 					.find((parameter) => parameter.question.id === questionId)
 					?.values.map((value) => value.id) ?? [];
 			const data = {
-				question: {
-					connect: {
-						id: questionId,
-					},
-				},
+				question: { connect: { id: questionId } },
 				value: question.value,
 				specification: question.specification,
-				values: [
-					...prevValues.map((value) => ({ delete: { id: value } })),
-					...(question.values?.map((value) => ({
-						create: {
-							value: value.value,
-							specification: value.specification,
-						},
-					})) ?? []),
-				],
 			};
+
+			if (question.type === "district") {
+				Object.assign(data, {
+					values: [
+						...prevValues.map((value) => ({ delete: { id: value } })),
+						...(question.values?.map((value) => ({
+							create: {
+								value: value.value,
+								specification: value.specification,
+								district: { connect: { name: value.value } },
+							},
+						})) ?? []),
+					],
+				});
+			} else if (
+				question.type === "number" &&
+				question.value &&
+				!isNaN(parseInt(question.value))
+			) {
+				Object.assign(data, {
+					numericValue: parseInt(question.value),
+				});
+			} else {
+				Object.assign(data, {
+					values: [
+						...prevValues.map((value) => ({ delete: { id: value } })),
+						...(question.values?.map((value) => ({
+							create: {
+								value: value.value,
+								specification: value.specification,
+							},
+						})) ?? []),
+					],
+				});
+			}
 
 			if (prevValues.length > 0) {
 				return {

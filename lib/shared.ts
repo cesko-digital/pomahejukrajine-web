@@ -22,6 +22,7 @@ export type QuestionType =
 
 export interface QuestionValue {
 	value?: string;
+	type?: string;
 	specification?: string;
 	values?: {
 		value: string;
