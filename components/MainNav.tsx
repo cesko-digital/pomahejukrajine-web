@@ -6,18 +6,24 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { useState } from "react";
 import CloseIcon from "./CloseIcon";
 import SocialLinksNav from "./SocialLinksNav";
+import UserIcon from "./userIcon";
 
 const NavLinks: React.FC<{
 	normalStyle: string;
 	activeStyle: string;
-}> = ({ normalStyle, activeStyle }) => {
+	showHome?: boolean;
+	showMyOffers?: boolean;
+	myOffersStyle?: string;
+}> = ({ normalStyle, activeStyle, showHome, showMyOffers, myOffersStyle }) => {
 	const router = useRouter();
 	const isHomepage = router.route === "/";
 
 	const links: Record<string, string> = {
+		"/": "Úvod",
 		"/nabidka": "Nabízím pomoc",
 		"/nabidky": "Sháním pomoc",
 		"/faq": "Časté otázky",
+		"/moje-nabidky": "Moje nabídky",
 		// "/dulezite-info": "Důležité informace", // Uncomment when we have the content
 		// "/o-nas": "Více o Pomáhej Ukrajině",
 	};
@@ -28,6 +34,22 @@ const NavLinks: React.FC<{
 				// if (isHomepage && (key === "/nabidka" || key === "/nabidky")) {
 				// 	return null;
 				// }
+
+				if (!showHome && key === "/") {
+					return null;
+				}
+
+				if (key === "/moje-nabidky") {
+					if (!showMyOffers) return null;
+					return (
+						<Link href={key} key={key}>
+							<a className={myOffersStyle}>
+								<UserIcon />
+								{links[key]}
+							</a>
+						</Link>
+					);
+				}
 
 				return (
 					<Link href={key} key={key}>
@@ -71,6 +93,9 @@ const HamburgerMenu = () => {
 								<CloseIcon />
 							</div>
 							<NavLinks
+								showHome
+								showMyOffers
+								myOffersStyle={styles.myOffers}
 								normalStyle={styles.mobileLink}
 								activeStyle={styles.activeMobileLink}
 							/>
@@ -94,7 +119,7 @@ const MainNav = () => {
 		<>
 			<HamburgerMenu />
 			<div
-				className="font-bold hidden lg:block lg:space-x-2 xl:space-x-6 lg:text-sm xl:text-lg "
+				className="font-bold hidden lg:block lg:space-x-2 xl:space-x-6 xl:text-lg "
 				data-testid="menu"
 			>
 				<NavLinks normalStyle={styles.link} activeStyle={styles.activeLink} />

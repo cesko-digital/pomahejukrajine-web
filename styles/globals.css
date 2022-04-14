@@ -6,13 +6,15 @@
 	font-family: "Nuckle";
 	src: url("/fonts/Nuckle Regular.otf");
 	font-style: normal;
+	font-weight: normal;
 	font-display: swap;
 }
 
 @font-face {
 	font-family: "Nuckle";
 	src: url("/fonts/Nuckle Bold.otf");
-	font-style: bold;
+	font-style: normal;
+	font-weight: bold;
 	font-display: swap;
 }
 

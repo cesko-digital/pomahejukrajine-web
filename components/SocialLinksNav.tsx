@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 const socialLinks = [
 	{ href: "https://twitter.com/pomahejukrajine", icon: "/twitter.svg" },
@@ -17,7 +17,7 @@ const SocialLinksNav = ({ size = 22 }) => (
 	<>
 		{socialLinks.map((link) => (
 			<Link href={link.href} key={link.href}>
-				<a>
+				<a className="inline-flex">
 					<Image src={link.icon} width={size} height={size} />
 				</a>
 			</Link>

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import { myOffersDesktop } from "./MainNav.module.css";
 import SocialLinksNav from "./SocialLinksNav";
+import UserIcon from "./userIcon";
 
 export default function Header() {
 	return (
@@ -20,9 +22,15 @@ export default function Header() {
 					</div>
 					<div>
 						<div
-							className="justify-end space-x-2 pb-5 hidden lg:flex"
+							className="justify-end items-center space-x-2 pb-5 hidden lg:flex"
 							data-testid="social-links"
 						>
+							<Link href="/moje-nabidky" key="/moje-nabidky">
+								<a className={myOffersDesktop}>
+									<UserIcon />
+									Moje nabídky
+								</a>
+							</Link>
 							<SocialLinksNav />
 						</div>
 						<MainNav />

@@ -86,7 +86,7 @@ const Home: NextPage = () => {
 					<p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
 						Pokud nás potřebujete kontaktovat, napište na{" "}
 						<a
-							className="underline underline-offset-2 hover:no-underline"
+							className="underline underline-offset-2 hover:no-underline overflow-hidden  break-all"
 							href="mailto:pomahejukrajine@migracnikonsorcium.cz?subject=PomáhejUkrajině"
 						>
 							pomahejukrajine@migracnikonsorcium.cz

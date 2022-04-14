@@ -43,3 +43,12 @@
 .activeMobileLink {
 	composes: mobileLink;
 }
+
+.myOffers {
+	@apply font-normal text-gray-800 py-6 flex items-center gap-2 w-full justify-center;
+}
+
+.myOffersDesktop {
+	composes: myOffers;
+	@apply p-0 w-auto mr-4;
+}
