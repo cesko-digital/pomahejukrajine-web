@@ -8,6 +8,9 @@ module.exports = {
 			colors: {
 				"ua-blue": "#005BBB",
 				"ua-yellow": "#FFD500",
+				"ua-blue-dark": "#004495",
+				"footer-grey": "#EDEDED",
+				"footer-grey-dark": "#4F4F4F",
 			},
 		},
 	},
