@@ -1,38 +1,14 @@
 import Link from "next/link";
 
-export default function Footer() {
-	return (
-		<footer className="bg-white my-8 text-center">
-			<Link href="/nabidka">
-				<a className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-50">
-					Nabídnout pomoc
-				</a>
-			</Link>
-			<Link href="/faq">
-				<a className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-50">
-					Často kladené otázky
-				</a>
-			</Link>
-			<Link href="/nabidky">
-				<a className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-50">
-					Nabídky pomoci
-				</a>
-			</Link>
+const Footer = () => (
+	<footer className="bg-footer-grey text-center text-footer-grey-dark text-xs leading-relaxed	mt-12 px-6 pt-20 pb-4 md:pt-36 md:mt-6">
+		<p>
+			Provozuje Konsorcium nevládních organizací pracujících s migranty v ČR,
+			z.s. , Havlíčkovo náměstí 2, 130 00 Praha 3-Žižkov, IČO: 266 20 553 .
+			<br />
+			Vytvořeno za pomoci vývojářské platformy Contember.
+		</p>
+	</footer>
+);
 
-			<Link href="/moje-nabidky">
-				<a className="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100">
-					Můj profil
-				</a>
-			</Link>
-			<p className="mt-4 text-center text-base text-gray-400">
-				Provozuje Konsorcium nevládních organizací pracujících s migranty v ČR,
-				z.s. <br />
-				Havlíčkovo náměstí 2, 130 00 Praha 3-Žižkov, IČO: 266 20 553
-			</p>
-			<p className="mt-4 text-center text-base text-gray-400">
-				Vytvořeno za pomoci{" "}
-				<a href="https://www.contember.com/">vývojářské platformy Contember</a>.
-			</p>
-		</footer>
-	);
-}
+export default Footer;
