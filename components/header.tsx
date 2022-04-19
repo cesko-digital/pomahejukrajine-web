@@ -22,7 +22,7 @@ export default function Header() {
 					</div>
 					<div>
 						<div
-							className="justify-end items-center space-x-2 pb-6 hidden lg:flex"
+							className="justify-end items-center space-x-2 pb-7 hidden lg:flex"
 							data-testid="social-links"
 						>
 							<Link href="/moje-nabidky" key="/moje-nabidky">

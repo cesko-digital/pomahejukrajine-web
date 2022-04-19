@@ -105,7 +105,7 @@ const HamburgerMenu = () => {
 								activeStyle={styles.activeMobileLink}
 							/>
 							<div className="flex gap-6 flex-1 items-end">
-								<SocialLinksNav size={35} />
+								<SocialLinksNav />
 							</div>
 						</div>
 					</Transition.Child>
