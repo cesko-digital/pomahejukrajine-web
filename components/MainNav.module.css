@@ -34,7 +34,7 @@
 }
 
 .mobileLink {
-	padding: min(2vh, 16px) 0;
+	padding: min(2vh, 20px) 0;
 	@apply block
     text-center
     w-full;
@@ -45,7 +45,7 @@
 }
 
 .myOffers {
-	padding: min(2vh, 16px) 0;
+	padding: min(2vh, 20px) 0;
 	@apply font-normal text-gray-800 flex items-center gap-2 w-full justify-center hover:opacity-80;
 }
 
