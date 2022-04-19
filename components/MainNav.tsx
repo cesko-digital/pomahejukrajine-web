@@ -124,7 +124,7 @@ const MainNav = () => {
 		<>
 			<HamburgerMenu />
 			<div
-				className="font-bold hidden lg:block lg:space-x-2 xl:space-x-6 xl:text-lg "
+				className="font-bold hidden lg:block lg:space-x-2 xl:space-x-6"
 				data-testid="menu"
 			>
 				<NavLinks normalStyle={styles.link} activeStyle={styles.activeLink} />
