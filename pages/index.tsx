@@ -4,7 +4,6 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../components/Logo";
 
 const Logos = [
 	{ href: "https://www.opu.cz/cs/", path: "/logos/opu.jpg" },

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import HamburgerIcon from "./HamburgerIcon";
 import styles from "./MainNav.module.css";
 import { Dialog, Transition } from "@headlessui/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import CloseIcon from "./CloseIcon";
 import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
@@ -65,16 +65,21 @@ const NavLinks: React.FC<{
 
 const HamburgerMenu = () => {
 	let [isOpen, setIsOpen] = useState(false);
+	let dummyRef = useRef(null);
 
 	return (
 		<>
-			<div className="lg:hidden flex justify-end p-6">
+			<div className="lg:hidden flex justify-end p-3">
 				<div onClick={() => setIsOpen(true)}>
 					<HamburgerIcon />
 				</div>
 			</div>
 			<Transition show={isOpen}>
-				<Dialog onClose={() => setIsOpen(false)} initialFocus={undefined}>
+				<Dialog onClose={() => setIsOpen(false)} initialFocus={dummyRef}>
+					<div ref={dummyRef} className="hidden">
+						This is here to steal the horribly looking focus after the dialog
+						opens
+					</div>
 					<Transition.Child
 						enter="transition duration-200 ease-out"
 						enterFrom="opacity-0"
@@ -87,7 +92,7 @@ const HamburgerMenu = () => {
 						<div className={styles.mobileNav}>
 							<div className="flex-1" />
 							<div
-								className="absolute top-2 right-2 p-8"
+								className="absolute top-2 right-2 p-5"
 								onClick={() => setIsOpen(false)}
 							>
 								<CloseIcon />

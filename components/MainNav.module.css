@@ -34,8 +34,8 @@
 }
 
 .mobileLink {
+	padding: min(2vh, 16px) 0;
 	@apply block
-    py-6
     text-center
     w-full;
 }
@@ -45,7 +45,8 @@
 }
 
 .myOffers {
-	@apply font-normal text-gray-800 py-6 flex items-center gap-2 w-full justify-center;
+	padding: min(2vh, 16px) 0;
+	@apply font-normal text-gray-800 flex items-center gap-2 w-full justify-center hover:opacity-80;
 }
 
 .myOffersDesktop {

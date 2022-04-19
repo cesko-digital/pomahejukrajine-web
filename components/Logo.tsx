@@ -1,7 +1,7 @@
 const Logo = ({ showText = true }) => (
 	<div className="relative">
 		{showText && (
-			<span className="text-ua-blue hidden md:block absolute left-16 top-11 whitespace-nowrap text-[16px]">
+			<span className="text-ua-blue absolute whitespace-nowrap text-[12px] left-11 top-7 md:text-[16px] md:left-16 md:top-11 ">
 				Centrální místo pro nabízení pomoci
 			</span>
 		)}

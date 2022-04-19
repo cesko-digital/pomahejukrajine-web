@@ -17,7 +17,7 @@ const SocialLinksNav = ({ size = 22 }) => (
 	<>
 		{socialLinks.map((link) => (
 			<Link href={link.href} key={link.href}>
-				<a className="inline-flex">
+				<a className="inline-flex hover:opacity-80">
 					<Image src={link.icon} width={size} height={size} />
 				</a>
 			</Link>

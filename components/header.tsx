@@ -15,14 +15,14 @@ export default function Header() {
 				<div className="w-full flex items-center lg:items-start justify-between">
 					<div className="flex items-center md:mt-2" data-testid="logo">
 						<Link href="/">
-							<a className="block w-60 md:w-80 h-30">
+							<a className="block w-56 md:w-80 h-30">
 								<Logo />
 							</a>
 						</Link>
 					</div>
 					<div>
 						<div
-							className="justify-end items-center space-x-2 pb-5 hidden lg:flex"
+							className="justify-end items-center space-x-2 pb-6 hidden lg:flex"
 							data-testid="social-links"
 						>
 							<Link href="/moje-nabidky" key="/moje-nabidky">
