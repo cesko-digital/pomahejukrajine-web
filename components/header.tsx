@@ -13,7 +13,7 @@ export default function Header() {
 				aria-label="Top"
 			>
 				<div className="w-full flex items-center lg:items-start justify-between">
-					<div className="flex items-center md:mt-2" data-testid="logo">
+					<div className="flex items-center" data-testid="logo">
 						<Link href="/">
 							<a className="block w-56 md:w-80 h-30">
 								<Logo />
