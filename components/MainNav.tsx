@@ -69,7 +69,7 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div className="lg:hidden flex justify-end p-3">
+			<div className="lg:hidden flex justify-end p-3 -mr-3">
 				<div onClick={() => setIsOpen(true)}>
 					<HamburgerIcon />
 				</div>

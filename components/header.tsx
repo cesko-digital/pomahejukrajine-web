@@ -9,7 +9,7 @@ export default function Header() {
 	return (
 		<header className="bg-white">
 			<nav
-				className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5"
+				className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 lg:py-5"
 				aria-label="Top"
 			>
 				<div className="w-full flex items-center lg:items-start justify-between">
