@@ -12,6 +12,9 @@ module.exports = {
 				"footer-grey": "#EDEDED",
 				"footer-grey-dark": "#4F4F4F",
 			},
+			fontFamily: {
+				nuckle: ["Nuckle", "sans-serif"],
+			},
 		},
 	},
 	plugins: [require("@tailwindcss/forms")],

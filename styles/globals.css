@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+	font-family: "Nuckle";
+	src: url("/fonts/Nuckle Regular.otf");
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Nuckle";
+	src: url("/fonts/Nuckle Bold.otf");
+	font-style: normal;
+	font-weight: bold;
+	font-display: swap;
+}
+
+@layer base {
+	body {
+		@apply font-nuckle text-black;
+	}
+}
