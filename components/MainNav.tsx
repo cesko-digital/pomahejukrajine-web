@@ -92,7 +92,7 @@ const HamburgerMenu = () => {
 						<div className={styles.mobileNav}>
 							<div className="flex-1" />
 							<div
-								className="absolute top-2 right-2 p-5"
+								className="absolute top-2 right-2 p-3 pr-2"
 								onClick={() => setIsOpen(false)}
 							>
 								<CloseIcon />
