@@ -33,13 +33,30 @@ const Logos = [
 ] as const;
 
 const PartnersLogos = [
-	{ href: "https://nasiukrajinci.cz", path: "/logos/nasiukrajinci.svg" },
-	{ href: "https://www.czechinvest.org", path: "/logos/czechinvest.svg" },
+	{
+		href: "https://nasiukrajinci.cz",
+		path: "/logos/nasiukrajinci.svg",
+		width: 160,
+		height: 40,
+	},
+	{
+		href: "https://www.czechinvest.org",
+		path: "/logos/czechinvest.svg",
+		width: 180,
+		height: 40,
+	},
 	{
 		href: "https://www.stojimezaukrajinou.cz",
 		path: "/logos/stojimezaukrajinou.svg",
+		width: 160,
+		height: 40,
 	},
-	{ href: "https://www.umapa.eu/", path: "/logos/umapa.svg" },
+	{
+		href: "https://www.umapa.eu/",
+		path: "/logos/umapa.svg",
+		width: 120,
+		height: 29,
+	},
 ] as const;
 
 const Home: NextPage = () => {
@@ -57,7 +74,7 @@ const Home: NextPage = () => {
 				<div className="grid gap-x-4 gap-y-3 grid-cols-1 md:grid-cols-2">
 					<div className="bg-ua-yellow rounded-lg px-5 pt-10 pb-5 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidka">
-							<a className="inline-block text-white bg-ua-blue rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
+							<a className="inline-block text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
 								Nabízím pomoc
 							</a>
 						</Link>
@@ -70,8 +87,8 @@ const Home: NextPage = () => {
 					</div>
 					<div className="bg-ua-yellow rounded-lg px-5 pt-10 pb-5 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidky">
-							<a className="inline-block text-white bg-ua-blue rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
-								Nabídky pomoci
+							<a className="inline-block text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
+								Hledám pomoc
 							</a>
 						</Link>
 						<p className="text-center pt-4 md:pt-6">
@@ -81,7 +98,7 @@ const Home: NextPage = () => {
 						</p>
 					</div>
 				</div>
-				<div className="text-center py-16 md:py-20">
+				<div className="text-center py-16 md:py-24">
 					<p className="font-bold">Jste pomáhající organizace?</p>
 					<p className="max-w-3xl mx-auto px-8">
 						Pokud jste neziskovka, obec, škola nebo občanská iniciativa, která
@@ -98,7 +115,7 @@ const Home: NextPage = () => {
 						.
 					</p>
 					<p className="font-bold pt-8">Potřebujete nás kontaktovat?</p>
-					<p className="max-w-3xl mx-auto px-8">
+					<p className="max-w-3xl mx-auto px-8 md:pb-4">
 						Napište nám na{" "}
 						<a
 							className="underline underline-offset-2 hover:no-underline overflow-hidden  break-all"
@@ -113,14 +130,18 @@ const Home: NextPage = () => {
 
 			<div className="border-t-8 border-t-ua-blue border-b-8 border-b-ua-yellow" />
 
-			<div className="max-w-7xl mx-auto px-3 md:px-8">
-				<div className="flex justify-center my-14">
-					<Image
-						src="/logos/konsorcium.svg"
-						width={232}
-						height={66}
-						alt="Konsordium nevládních organizací pracujících s migranty"
-					/>
+			<div className="max-w-7xl mx-auto px-3 md:px-8 md:pt-4">
+				<div className="flex justify-center my-14 hover:opacity-70">
+					<Link href="https://migracnikonsorcium.cz">
+						<a>
+							<Image
+								src="/logos/konsorcium.svg"
+								width={232}
+								height={66}
+								alt="Konsordium nevládních organizací pracujících s migranty"
+							/>
+						</a>
+					</Link>
 				</div>
 
 				<p className="text-center px-8">
@@ -148,13 +169,16 @@ const Home: NextPage = () => {
 				<p className="text-center mt-24 md:mt-40">Partneři</p>
 				<div className="flex flex-wrap justify-center max-w-3xl	mx-auto">
 					{PartnersLogos.map((logo) => (
-						<div key={logo.path} className="mx-4 mt-6 hover:opacity-70">
+						<div
+							key={logo.path}
+							className="mx-4 mt-6 hover:opacity-70 flex items-center"
+						>
 							<Link href={logo.href}>
 								<a>
 									<Image
 										src={logo.path}
-										width={160}
-										height={40}
+										width={logo.width}
+										height={logo.height}
 										alt={logo.href}
 									/>
 								</a>
