@@ -21,7 +21,7 @@ const NavLinks: React.FC<{
 	const links: Record<string, string> = {
 		"/": "Úvod",
 		"/nabidka": "Nabízím pomoc",
-		"/nabidky": "Sháním pomoc",
+		"/nabidky": "Hledám pomoc",
 		"/faq": "Časté otázky",
 		"https://migracnikonsorcium.cz/cs/": "Důležité informace",
 		"https://migracnikonsorcium.cz/cs/pomahej-ukrajine/o-platforme-pomahej-ukrajine/":
