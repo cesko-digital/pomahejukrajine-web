@@ -15,6 +15,9 @@ module.exports = {
 			fontFamily: {
 				nuckle: ["Nuckle", "sans-serif"],
 			},
+			fontSize: {
+				footer: "0.8125rem",
+			},
 		},
 	},
 	plugins: [require("@tailwindcss/forms")],
