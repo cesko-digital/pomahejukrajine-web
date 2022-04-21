@@ -70,7 +70,7 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div className="xl:hidden flex justify-end p-3 -mr-3">
+			<div className="lg:hidden flex justify-end p-3 -mr-3">
 				<div onClick={() => setIsOpen(true)}>
 					<HamburgerIcon />
 				</div>
@@ -124,7 +124,10 @@ const MainNav = () => {
 	return (
 		<>
 			<HamburgerMenu />
-			<div className="font-bold hidden xl:block space-x-6" data-testid="menu">
+			<div
+				className="font-bold hidden lg:block space-x-2 xl:space-x-6"
+				data-testid="menu"
+			>
 				<NavLinks normalStyle={styles.link} activeStyle={styles.activeLink} />
 
 				{/*

@@ -2,7 +2,8 @@
 	@apply text-ua-blue
     relative
     inline-block
-
+    text-sm
+    xl:text-base
 
     after:block
     after:absolute
