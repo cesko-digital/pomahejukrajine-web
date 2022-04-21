@@ -20,12 +20,13 @@ const NavLinks: React.FC<{
 
 	const links: Record<string, string> = {
 		"/": "Úvod",
-		"/nabidka": "Nabízím pomoc",
-		"/nabidky": "Sháním pomoc",
+		// "/nabidka": "Nabízím pomoc",
+		// "/nabidky": "Sháním pomoc",
 		"/faq": "Časté otázky",
+		"https://migracnikonsorcium.cz/cs/": "Důležité informace", // Uncomment when we have the content
+		"https://migracnikonsorcium.cz/cs/pomahej-ukrajine/o-platforme-pomahej-ukrajine/":
+			"Více o Pomáhej Ukrajině",
 		"/moje-nabidky": "Moje nabídky",
-		// "/dulezite-info": "Důležité informace", // Uncomment when we have the content
-		// "/o-nas": "Více o Pomáhej Ukrajině",
 	};
 
 	return (
