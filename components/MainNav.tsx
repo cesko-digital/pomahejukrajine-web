@@ -20,10 +20,10 @@ const NavLinks: React.FC<{
 
 	const links: Record<string, string> = {
 		"/": "Úvod",
-		// "/nabidka": "Nabízím pomoc",
-		// "/nabidky": "Sháním pomoc",
+		"/nabidka": "Nabízím pomoc",
+		"/nabidky": "Sháním pomoc",
 		"/faq": "Časté otázky",
-		"https://migracnikonsorcium.cz/cs/": "Důležité informace", // Uncomment when we have the content
+		"https://migracnikonsorcium.cz/cs/": "Důležité informace",
 		"https://migracnikonsorcium.cz/cs/pomahej-ukrajine/o-platforme-pomahej-ukrajine/":
 			"Více o Pomáhej Ukrajině",
 		"/moje-nabidky": "Moje nabídky",
@@ -32,9 +32,9 @@ const NavLinks: React.FC<{
 	return (
 		<>
 			{Object.keys(links).map((key) => {
-				// if (isHomepage && (key === "/nabidka" || key === "/nabidky")) {
-				// 	return null;
-				// }
+				if (isHomepage && (key === "/nabidka" || key === "/nabidky")) {
+					return null;
+				}
 
 				if (!showHome && key === "/") {
 					return null;
@@ -70,7 +70,7 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div className="lg:hidden flex justify-end p-3 -mr-3">
+			<div className="xl:hidden flex justify-end p-3 -mr-3">
 				<div onClick={() => setIsOpen(true)}>
 					<HamburgerIcon />
 				</div>
@@ -124,10 +124,7 @@ const MainNav = () => {
 	return (
 		<>
 			<HamburgerMenu />
-			<div
-				className="font-bold hidden lg:block lg:space-x-2 xl:space-x-6"
-				data-testid="menu"
-			>
+			<div className="font-bold hidden xl:block space-x-6" data-testid="menu">
 				<NavLinks normalStyle={styles.link} activeStyle={styles.activeLink} />
 
 				{/*
