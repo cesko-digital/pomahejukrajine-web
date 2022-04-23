@@ -41,6 +41,13 @@ export default async function handler(
 		});
 	}
 
+	if (data.email !== data.emailRepeat) {
+		errors.push({
+			input: "emailRepeat",
+			message: "Emaily nejsou shodné",
+		});
+	}
+
 	if (data.phone === "" || data.phone === "+420") {
 		errors.push({
 			input: "phone",

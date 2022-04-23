@@ -70,6 +70,7 @@ export interface RegisterFormState {
 	organization: string;
 	phone: string;
 	email: string;
+	emailRepeat: string;
 	contactHours: string;
 	expertise: string;
 	languages: string[];
@@ -92,6 +93,7 @@ export interface HelpFormState {
 export type FormError =
 	| { input: "question"; questionId: string; message: string }
 	| { input: "email"; message: string }
+	| { input: "emailRepeat"; message: string }
 	| { input: "offer"; message: string }
 	| { input: "languages"; message: string }
 	| { input: "phone"; message: string };

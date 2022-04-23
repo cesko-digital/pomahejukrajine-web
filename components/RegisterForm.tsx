@@ -16,6 +16,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 		const [state, setState] = useState<RegisterFormState>({
 			name: "",
 			email: "",
+			emailRepeat: "",
 			phone: "+420",
 			expertise: "",
 			offers: {},
@@ -157,6 +158,34 @@ export const RegisterForm = memo<PublicQueryResult>(
 							required
 							value={state.email}
 							onChange={(e) => setState({ ...state, email: e.target.value })}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
+				</div>
+				<div>
+					<label
+						htmlFor="emailRepeat"
+						className="block text-sm font-medium text-gray-700"
+					>
+						Prosím zadejte svůj Email podruhé <Required />
+					</label>
+					{errors.find((it) => it.input === "emailRepeat") !== undefined && (
+						<div className="flex">
+							<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+								{errors.find((it) => it.input === "emailRepeat")!.message}
+							</div>
+						</div>
+					)}
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="email"
+							id="emailRepeat"
+							required
+							value={state.emailRepeat}
+							onChange={(e) =>
+								setState({ ...state, emailRepeat: e.target.value })
+							}
 							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 						/>
 					</div>
