@@ -4,8 +4,6 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import Link from "next/link";
 import Image from "next/image";
-import cx from "classnames";
-import styles from "./index.module.css";
 
 const Logos = [
 	{ href: "https://www.opu.cz/cs/", path: "/logos/opu.jpg" },
@@ -70,15 +68,15 @@ const Home: NextPage = () => {
 				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
 			/>
 			<Header />
-			<div className="max-w-7xl mx-auto pt-1 px-3 md:px-8">
+			<div className="max-w-7xl mx-auto pt-2 px-3 md:px-8">
 				<div className="grid gap-x-4 gap-y-3 grid-cols-1 md:grid-cols-2">
 					<div className="bg-ua-yellow rounded-lg px-5 pt-10 pb-5 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidka">
-							<a className="inline-block text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
+							<a className="text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
 								Nabízím pomoc
 							</a>
 						</Link>
-						<p className="text-center pt-4 md:pt-6">
+						<p className="text-center leading-7	 pt-4 md:pt-6">
 							Zde můžete vložit svou nabídku. Některé nabídky, například
 							materiální pomoc, ale i některé služby, budou okamžitě zveřejněny
 							a využít je může kdokoli. S ostatními nabídkami pracují pouze
@@ -87,11 +85,11 @@ const Home: NextPage = () => {
 					</div>
 					<div className="bg-ua-yellow rounded-lg px-5 pt-10 pb-5 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidky">
-							<a className="inline-block text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
+							<a className="text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
 								Hledám pomoc
 							</a>
 						</Link>
-						<p className="text-center pt-4 md:pt-6">
+						<p className="text-center leading-7	 pt-4 md:pt-6">
 							Zde můžete vyhledat materiální pomoc, nebytové prostory, dopravu
 							nebo některé služby a přímo o ně požádat. Potřebujete-li využít
 							jiné typy pomoci, kontaktujte vhodnou pomáhající organizaci.
@@ -100,7 +98,7 @@ const Home: NextPage = () => {
 				</div>
 				<div className="text-center py-16 md:py-24">
 					<p className="font-bold">Jste pomáhající organizace?</p>
-					<p className="max-w-3xl mx-auto px-8">
+					<p className="max-w-3xl mx-auto px-8 leading-7">
 						Pokud jste neziskovka, obec, škola nebo občanská iniciativa, která
 						pomáhá uprchlíkům z Ukrajiny a potřebuje přístup k neveřejným
 						nabídkám pomoci,{" "}
@@ -115,7 +113,7 @@ const Home: NextPage = () => {
 						.
 					</p>
 					<p className="font-bold pt-8">Potřebujete nás kontaktovat?</p>
-					<p className="max-w-3xl mx-auto px-8 md:pb-4">
+					<p className="max-w-3xl mx-auto px-8 md:pb-4 leading-7">
 						Napište nám na{" "}
 						<a
 							className="underline underline-offset-2 hover:no-underline overflow-hidden  break-all"
@@ -144,7 +142,7 @@ const Home: NextPage = () => {
 					</Link>
 				</div>
 
-				<p className="text-center px-8">
+				<p className="text-center px-8 leading-7">
 					Tuto platformu provozuje Konsorcium nevládních organizací pracujících
 					s migranty v ČR. Členy jsou:
 				</p>
