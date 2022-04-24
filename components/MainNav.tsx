@@ -21,19 +21,20 @@ const NavLinks: React.FC<{
 	const links: Record<string, string> = {
 		"/": "Úvod",
 		"/nabidka": "Nabízím pomoc",
-		"/nabidky": "Sháním pomoc",
+		"/nabidky": "Hledám pomoc",
 		"/faq": "Časté otázky",
+		"https://migracnikonsorcium.cz/cs/": "Důležité informace",
+		"https://migracnikonsorcium.cz/cs/pomahej-ukrajine/o-platforme-pomahej-ukrajine/":
+			"Více o Pomáhej Ukrajině",
 		"/moje-nabidky": "Moje nabídky",
-		// "/dulezite-info": "Důležité informace", // Uncomment when we have the content
-		// "/o-nas": "Více o Pomáhej Ukrajině",
 	};
 
 	return (
 		<>
 			{Object.keys(links).map((key) => {
-				// if (isHomepage && (key === "/nabidka" || key === "/nabidky")) {
-				// 	return null;
-				// }
+				if (isHomepage && (key === "/nabidka" || key === "/nabidky")) {
+					return null;
+				}
 
 				if (!showHome && key === "/") {
 					return null;
@@ -124,7 +125,7 @@ const MainNav = () => {
 		<>
 			<HamburgerMenu />
 			<div
-				className="font-bold hidden lg:block lg:space-x-2 xl:space-x-6"
+				className="font-bold hidden lg:block space-x-2 xl:space-x-6"
 				data-testid="menu"
 			>
 				<NavLinks normalStyle={styles.link} activeStyle={styles.activeLink} />
