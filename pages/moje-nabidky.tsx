@@ -44,53 +44,56 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 									const question = offerType.questions.find(
 										(it) => it.id === parameter.question.id
 									)!;
-									return (
-										<div key={parameter.id} className="flex flex-col mt-2">
-											<p className="text-sm font-bold">{question.question}</p>
-											<p className="text-sm">
-												{question.type === "district" ||
-												question.type === "checkbox" ? (
-													<>
-														{parameter.values.map((value, i) => {
-															const isLast = i === parameter.values.length - 1;
-															const requiresSpecification =
-																question.type === "checkbox" &&
-																(question.options.find(
-																	(it) => it.value === value.value
-																)?.requireSpecification ??
-																	false);
-															return (
-																<Fragment key={value.id}>
-																	<span>
-																		{value.value}
-																		{requiresSpecification &&
-																			` (${value.specification})`}
-																	</span>
-																	{!isLast && ", "}
-																</Fragment>
-															);
-														})}
-													</>
-												) : question.type === "radio" ? (
-													<>
-														{" "}
-														{parameter.value}
-														{(question.options.find(
-															(it) => it.value === parameter.value
-														)?.requireSpecification ??
-															false) &&
-															` (${parameter.specification})`}
-													</>
-												) : question.type === "date" ? (
-													<>
-														{parameter.value} {/* TODO */}
-													</>
-												) : (
-													<>{parameter.value}</>
-												)}
-											</p>
-										</div>
-									);
+									if (question) {
+										return (
+											<div key={parameter.id} className="flex flex-col mt-2">
+												<p className="text-sm font-bold">{question.question}</p>
+												<p className="text-sm">
+													{question.type === "district" ||
+													question.type === "checkbox" ? (
+														<>
+															{parameter.values.map((value, i) => {
+																const isLast =
+																	i === parameter.values.length - 1;
+																const requiresSpecification =
+																	question.type === "checkbox" &&
+																	(question.options.find(
+																		(it) => it.value === value.value
+																	)?.requireSpecification ??
+																		false);
+																return (
+																	<Fragment key={value.id}>
+																		<span>
+																			{value.value}
+																			{requiresSpecification &&
+																				` (${value.specification})`}
+																		</span>
+																		{!isLast && ", "}
+																	</Fragment>
+																);
+															})}
+														</>
+													) : question.type === "radio" ? (
+														<>
+															{" "}
+															{parameter.value}
+															{(question.options.find(
+																(it) => it.value === parameter.value
+															)?.requireSpecification ??
+																false) &&
+																` (${parameter.specification})`}
+														</>
+													) : question.type === "date" ? (
+														<>
+															{parameter.value} {/* TODO */}
+														</>
+													) : (
+														<>{parameter.value}</>
+													)}
+												</p>
+											</div>
+										);
+									}
 								})}
 
 								<div className="grow"></div>
@@ -188,6 +191,50 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 
+	const tenantResponse = await fetch(
+		process.env.NEXT_PUBLIC_CONTEMBER_TENANT_URL!,
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify({
+				query: `query {
+				me {
+					projects {
+						memberships {
+							role
+							variables {
+								name
+								values
+							}
+						}
+						project {
+							slug
+						}
+					}
+				}
+			}
+			`,
+			}),
+		}
+	);
+
+	const volunteerId = (await tenantResponse.json()).data.me.projects
+		.find((it: { project: { slug: string } }) => it.project.slug == "ukrajina")
+		?.memberships?.find((it: { role: string }) => it.role == "volunteer")
+		?.variables.find((it: { name: string }) => it.name == "volunteerId").values;
+
+	if (!volunteerId) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/",
+			},
+		};
+	}
+
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
 		method: "POST",
 		headers: {
@@ -195,13 +242,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			Authorization: `Bearer ${token}`,
 		},
 		body: JSON.stringify({
-			query: `{
+			query: `query($volunteerId: [UUID!]!) {
 					${publicQuery}
 
 					offers: listOffer(
 						filter: {
 							exhausted: { eq: false }
 							volunteer: {
+								id: { in: $volunteerId }
 								verified: { eq: true }
 								banned: { eq: false }
 							}
@@ -241,6 +289,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					}
 				}
 				`,
+			variables: {
+				volunteerId: volunteerId,
+			},
 		}),
 	});
 
