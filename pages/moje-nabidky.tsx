@@ -219,9 +219,30 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			`,
 			}),
 		}
-	);
+	).then(async (response) => {
+		if (response.status !== 200) {
+			return "error";
+		} else {
+			return response.json();
+		}
+	});
 
-	const volunteerId = (await tenantResponse.json()).data.me.projects
+	if (tenantResponse === "error") {
+		cookies.set("token", "", { maxAge: -99999999 });
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/",
+			},
+		};
+	}
+
+	const tenantData = await tenantResponse;
+
+	const isLoggedIn = tenantData;
+	console.log(isLoggedIn);
+
+	const volunteerId = tenantData.data.me.projects
 		.find((it: { project: { slug: string } }) => it.project.slug == "ukrajina")
 		?.memberships?.find((it: { role: string }) => it.role == "volunteer")
 		?.variables.find((it: { name: string }) => it.name == "volunteerId").values;
