@@ -239,15 +239,46 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	const tenantData = await tenantResponse;
 
-	const isLoggedIn = tenantData;
-	console.log(isLoggedIn);
-
 	const volunteerId = tenantData.data.me.projects
 		.find((it: { project: { slug: string } }) => it.project.slug == "ukrajina")
 		?.memberships?.find((it: { role: string }) => it.role == "volunteer")
 		?.variables.find((it: { name: string }) => it.name == "volunteerId").values;
 
 	if (!volunteerId) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/",
+			},
+		};
+	}
+
+	const isDeletedUser = await fetch(
+		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+			},
+			body: JSON.stringify({
+				query: `query($volunteerId: UUID!) {
+					volunteer: getVolunteer(by: {id: $volunteerId}) {
+						banned
+					}
+				}
+				`,
+				variables: {
+					volunteerId: volunteerId,
+				},
+			}),
+		}
+	);
+
+	const isDeletedUserData = await isDeletedUser.json();
+	const isDeletedUserBanned = isDeletedUserData.data.volunteer.banned;
+	if (isDeletedUserBanned) {
+		cookies.set("token", "", { maxAge: -99999999 });
 		return {
 			redirect: {
 				permanent: false,
