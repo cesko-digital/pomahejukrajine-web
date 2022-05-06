@@ -97,6 +97,15 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 				<div className="text-center py-16 md:py-24">
+					<p className="font-bold max-w-3xl px-8 mx-auto pb-8 md:pb-12 leading-7">
+						Seznam registrovaných pomáhajících organizací najdete{" "}
+						<Link href="/organizace">
+							<a className="overflow-hidden underline break-all underline-offset-2 hover:no-underline">
+								zde
+							</a>
+						</Link>
+						.
+					</p>
 					<p className="font-bold">Jste pomáhající organizace?</p>
 					<p className="max-w-3xl mx-auto px-8 leading-7">
 						Pokud jste neziskovka, obec, škola nebo občanská iniciativa, která
@@ -112,7 +121,9 @@ const Home: NextPage = () => {
 						</a>
 						.
 					</p>
-					<p className="font-bold pt-8">Potřebujete nás kontaktovat?</p>
+					<p className="font-bold pt-8 md:pt-12">
+						Potřebujete nás kontaktovat?
+					</p>
 					<p className="max-w-3xl mx-auto px-8 md:pb-4 leading-7">
 						Napište nám na{" "}
 						<a
