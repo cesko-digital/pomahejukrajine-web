@@ -43,6 +43,66 @@ export default async function handler(
 	};
 
 	if (ok !== true) {
+		const isNotVerifiedUser = await fetch(
+			process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+				},
+				body: JSON.stringify({
+					query: `query($email: String!) {
+							listVolunteer(filter: { email: { eq: $email } }) {
+								id
+							}
+						}
+					`,
+					variables: {
+						email,
+					},
+				}),
+			}
+		);
+		const isNotVerifiedUserData = await isNotVerifiedUser.json();
+		if (isNotVerifiedUserData?.data?.listVolunteer?.length > 0) {
+			const userId = isNotVerifiedUserData.data.listVolunteer[0].id;
+			const resetPasswordResponse = await fetch(
+				process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+					},
+					body: JSON.stringify({
+						query: `
+							mutation($userId: UUID!) {
+								updateVolunteer(by: { id: $userId }
+									data: {
+										verified: false
+										secretCode: null
+									}
+								) {
+									ok
+									errorMessage
+								}
+							}
+						`,
+						variables: {
+							userId,
+						},
+					}),
+				}
+			);
+			const resetPasswordResponseData = await resetPasswordResponse.json();
+			if (resetPasswordResponseData?.data?.updateVolunteer?.ok) {
+				res.status(200).json({
+					ok: true,
+				});
+			}
+		}
+
 		console.warn("Failed to create user", json);
 		const errorCode: "PERSON_NOT_FOUND" | "UNKNOWN_EMAIL" | "INVALID_PASSWORD" =
 			json?.data?.createResetPasswordRequest?.error?.code;
