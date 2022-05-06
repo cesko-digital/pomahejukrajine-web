@@ -98,6 +98,9 @@ const OfferList: React.FC<{
 								</div>
 							</>
 						)}
+						<div className="mt-2 text-xs text-gray-400 font-bold">
+							{offer.code}
+						</div>
 					</div>
 				);
 			})}

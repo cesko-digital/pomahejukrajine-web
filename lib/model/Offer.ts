@@ -1,5 +1,6 @@
 export type Offer = {
 	id: string;
+	code: string;
 	allowReaction: boolean;
 	type: {
 		id: string;
