@@ -245,6 +245,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		?.variables.find((it: { name: string }) => it.name == "volunteerId").values;
 
 	if (!volunteerId) {
+		cookies.set("token", "", { maxAge: -99999999 });
 		return {
 			redirect: {
 				permanent: false,
