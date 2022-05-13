@@ -325,11 +325,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 							type
 						}
 						parameters (
-							filter: {
-								question: {
-									public: { eq: true }
-								}
-							}
 							orderBy: [{ question: { order: asc } }]
 						) {
 							id
