@@ -11,9 +11,7 @@ import { CZECH } from "../utils/constants";
 import { QuestionControl } from "./QuestionControl";
 import { useRouter } from "next/router";
 
-const Required = () => {
-	return <span className="text-red-700 font-bold">*</span>;
-};
+import { Required } from "./Required";
 
 export const RegisterForm = memo<
 	PublicQueryResult & { volunteerData?: Volunteer }

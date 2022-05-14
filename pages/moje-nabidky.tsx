@@ -31,6 +31,15 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 				</div>
 
 				<div className="mt-4 text-center">
+					<Link
+						href={{
+							pathname: "/upravit-profil",
+						}}
+					>
+						<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">
+							Upravit svůj osobní profil
+						</a>
+					</Link>
 					<Link href="/logout" prefetch={false}>
 						<a className="underline">{t("mojeNabidky.logout")}</a>
 					</Link>

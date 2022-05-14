@@ -108,6 +108,15 @@ export interface HelpFormState {
 	types: string[];
 }
 
+export interface EditVolunteerFormState {
+	name: string;
+	organization: string;
+	phone: string;
+	contactHours: string;
+	expertise: string;
+	languages: string[];
+}
+
 export type FormError =
 	| { input: "question"; questionId: string; message: string }
 	| { input: "email"; message: string }
