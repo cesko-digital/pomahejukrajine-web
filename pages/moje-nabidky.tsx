@@ -4,12 +4,15 @@ import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { Fragment } from "react";
-import { publicQuery, PublicQueryResult } from "../lib/shared";
+import { publicQuery, PublicQueryResult, Volunteer } from "../lib/shared";
 import Link from "next/link";
+import { RegisterForm } from "../components/RegisterForm";
 
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 	offers,
 	offerTypes,
+	districts,
+	languages,
 }) => {
 	return (
 		<div className="antialiased text-gray-600">
@@ -116,6 +119,29 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 					})}
 				</div>
 			</div>
+			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+				<div className="relative max-w-xl mx-auto">
+					<main className="mt-2">
+						<div className="text-center">
+							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+								Zde vložte svou nabídku
+							</h2>
+						</div>
+						<div
+							className={`mt-12 ${
+								process.env.NEXT_TEMPORARY == "TEMPORARY" ? "hidden" : ""
+							}`}
+						>
+							<RegisterForm
+								offerTypes={offerTypes}
+								districts={districts}
+								languages={languages}
+								volunteerData={offers[0].volunteer}
+							/>
+						</div>
+					</main>
+				</div>
+			</div>
 			<Footer />
 		</div>
 	);
@@ -123,6 +149,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 
 type OfferResponse = {
 	id: string;
+	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -157,6 +184,7 @@ type OfferStatus = {
 type Offer = {
 	id: string;
 	allowReaction: boolean;
+	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -324,6 +352,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 							name
 							type
 						}
+						volunteer {
+							name
+							email
+							phone
+							organization
+							contactHours
+							expertise
+							verified
+							banned
+							languages {
+								language {
+									id
+									name
+								}
+							}
+						}
 						parameters (
 							orderBy: [{ question: { order: asc } }]
 						) {
@@ -359,6 +403,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			parameters: offer.parameters,
 			status: offer.status,
 			allowReaction: !offerType.needsVerification,
+			volunteer: offer.volunteer,
 		};
 	});
 
