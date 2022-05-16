@@ -72,7 +72,6 @@ export const RegisterForm = memo<
 			</div>
 		);
 	}
-
 	const disabled = submitting === "loading";
 	return (
 		<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
@@ -85,188 +84,192 @@ export const RegisterForm = memo<
 					<p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>
 				</div>
 			)}
-			<div>
-				<label className="block text-sm font-medium text-gray-700">
-					Jméno <Required />
-				</label>
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="text"
-						required
-						value={state.name}
-						onChange={(e) => setState({ ...state, name: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-					/>
-				</div>
-			</div>
-			<div>
-				<label className="block text-sm font-medium text-gray-700">
-					Organizace
-				</label>
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="text"
-						value={state.organization}
-						onChange={(e) =>
-							setState({ ...state, organization: e.target.value })
-						}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-					/>
-				</div>
-			</div>
-			<div>
-				<label
-					htmlFor="phone"
-					className="block text-sm font-medium text-gray-700"
-				>
-					Telefon <Required />
-				</label>
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="text"
-						id="phone"
-						required
-						value={state.phone}
-						onChange={(e) => setState({ ...state, phone: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-					/>
-				</div>
-				{errors.find((it) => it.input === "phone") !== undefined && (
-					<div className="flex">
-						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-							{errors.find((it) => it.input === "phone")!.message}
-						</div>
-					</div>
-				)}
-			</div>
-			<div>
-				<label
-					htmlFor="email"
-					className="block text-sm font-medium text-gray-700"
-				>
-					Email <Required />
-				</label>
-				{errors.find((it) => it.input === "email") !== undefined && (
-					<div className="flex">
-						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-							{errors.find((it) => it.input === "email")!.message}
-						</div>
-					</div>
-				)}
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="email"
-						id="email"
-						required
-						value={state.email}
-						onChange={(e) => setState({ ...state, email: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-					/>
-				</div>
-			</div>
-			<div>
-				<label
-					htmlFor="emailRepeat"
-					className="block text-sm font-medium text-gray-700"
-				>
-					Prosím zadejte svůj Email podruhé <Required />
-				</label>
-				{errors.find((it) => it.input === "emailRepeat") !== undefined && (
-					<div className="flex">
-						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-							{errors.find((it) => it.input === "emailRepeat")!.message}
-						</div>
-					</div>
-				)}
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="email"
-						id="emailRepeat"
-						required
-						value={state.emailRepeat}
-						onChange={(e) =>
-							setState({ ...state, emailRepeat: e.target.value })
-						}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-					/>
-				</div>
-			</div>
-			<div>
-				<div className="block text-sm font-medium text-gray-700">
-					Můžete mne kontaktovat
-				</div>
-				<div className="mt-1 flex flex-col">
-					<label className="flex items-center">
-						<input
-							disabled={disabled}
-							type="checkbox"
-							checked={state.contactHours === "kdykoliv"}
-							onChange={(e) =>
-								setState({
-									...state,
-									contactHours: e.target.checked ? "kdykoliv" : "",
-								})
-							}
-							className="mr-2"
-						/>
-						<span>Kdykoliv</span>
-					</label>
-					{state.contactHours !== "kdykoliv" && (
-						<div>
-							<input
-								disabled={disabled}
-								required
-								type="text"
-								name="contactHours"
-								value={state.contactHours}
-								onChange={(e) =>
-									setState({ ...state, contactHours: e.target.value })
-								}
-								placeholder="Kdy?"
-								className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
-							/>
-						</div>
-					)}
-				</div>
-			</div>
-			<div>
-				<div className="block text-sm font-medium text-gray-700">
-					Hovořím těmito jazyky
-				</div>
-				{errors.find((it) => it.input === "languages") !== undefined && (
-					<div className="flex">
-						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-							{errors.find((it) => it.input === "languages")!.message}
-						</div>
-					</div>
-				)}
-				<div className="mt-1 flex flex-col">
-					{languages?.map((language) => (
-						<label key={language.id} className="flex items-center">
-							<input
-								disabled={disabled}
-								type="checkbox"
-								checked={state.languages.includes(language.id)}
-								onChange={(e) => {
-									setState((state) => ({
-										...state,
-										languages: e.target.checked
-											? [...state.languages, language.id]
-											: state.languages.filter((it) => it !== language.id),
-									}));
-								}}
-								className="mr-2"
-							/>
-							<span>{language.name}</span>
+			{!volunteerData && (
+				<>
+					<div>
+						<label className="block text-sm font-medium text-gray-700">
+							Jméno <Required />
 						</label>
-					))}
-				</div>
-			</div>
+						<div className="mt-1">
+							<input
+								disabled={disabled}
+								type="text"
+								required
+								value={state.name}
+								onChange={(e) => setState({ ...state, name: e.target.value })}
+								className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+							/>
+						</div>
+					</div>
+					<div>
+						<label className="block text-sm font-medium text-gray-700">
+							Organizace
+						</label>
+						<div className="mt-1">
+							<input
+								disabled={disabled}
+								type="text"
+								value={state.organization}
+								onChange={(e) =>
+									setState({ ...state, organization: e.target.value })
+								}
+								className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+							/>
+						</div>
+					</div>
+					<div>
+						<label
+							htmlFor="phone"
+							className="block text-sm font-medium text-gray-700"
+						>
+							Telefon <Required />
+						</label>
+						<div className="mt-1">
+							<input
+								disabled={disabled}
+								type="text"
+								id="phone"
+								required
+								value={state.phone}
+								onChange={(e) => setState({ ...state, phone: e.target.value })}
+								className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+							/>
+						</div>
+						{errors.find((it) => it.input === "phone") !== undefined && (
+							<div className="flex">
+								<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+									{errors.find((it) => it.input === "phone")!.message}
+								</div>
+							</div>
+						)}
+					</div>
+					<div>
+						<label
+							htmlFor="email"
+							className="block text-sm font-medium text-gray-700"
+						>
+							Email <Required />
+						</label>
+						{errors.find((it) => it.input === "email") !== undefined && (
+							<div className="flex">
+								<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+									{errors.find((it) => it.input === "email")!.message}
+								</div>
+							</div>
+						)}
+						<div className="mt-1">
+							<input
+								disabled={disabled}
+								type="email"
+								id="email"
+								required
+								value={state.email}
+								onChange={(e) => setState({ ...state, email: e.target.value })}
+								className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+							/>
+						</div>
+					</div>
+					<div>
+						<label
+							htmlFor="emailRepeat"
+							className="block text-sm font-medium text-gray-700"
+						>
+							Prosím zadejte svůj Email podruhé <Required />
+						</label>
+						{errors.find((it) => it.input === "emailRepeat") !== undefined && (
+							<div className="flex">
+								<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+									{errors.find((it) => it.input === "emailRepeat")!.message}
+								</div>
+							</div>
+						)}
+						<div className="mt-1">
+							<input
+								disabled={disabled}
+								type="email"
+								id="emailRepeat"
+								required
+								value={state.emailRepeat}
+								onChange={(e) =>
+									setState({ ...state, emailRepeat: e.target.value })
+								}
+								className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+							/>
+						</div>
+					</div>
+					<div>
+						<div className="block text-sm font-medium text-gray-700">
+							Můžete mne kontaktovat
+						</div>
+						<div className="mt-1 flex flex-col">
+							<label className="flex items-center">
+								<input
+									disabled={disabled}
+									type="checkbox"
+									checked={state.contactHours === "kdykoliv"}
+									onChange={(e) =>
+										setState({
+											...state,
+											contactHours: e.target.checked ? "kdykoliv" : "",
+										})
+									}
+									className="mr-2"
+								/>
+								<span>Kdykoliv</span>
+							</label>
+							{state.contactHours !== "kdykoliv" && (
+								<div>
+									<input
+										disabled={disabled}
+										required
+										type="text"
+										name="contactHours"
+										value={state.contactHours}
+										onChange={(e) =>
+											setState({ ...state, contactHours: e.target.value })
+										}
+										placeholder="Kdy?"
+										className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+									/>
+								</div>
+							)}
+						</div>
+					</div>
+					<div>
+						<div className="block text-sm font-medium text-gray-700">
+							Hovořím těmito jazyky
+						</div>
+						{errors.find((it) => it.input === "languages") !== undefined && (
+							<div className="flex">
+								<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+									{errors.find((it) => it.input === "languages")!.message}
+								</div>
+							</div>
+						)}
+						<div className="mt-1 flex flex-col">
+							{languages?.map((language) => (
+								<label key={language.id} className="flex items-center">
+									<input
+										disabled={disabled}
+										type="checkbox"
+										checked={state.languages.includes(language.id)}
+										onChange={(e) => {
+											setState((state) => ({
+												...state,
+												languages: e.target.checked
+													? [...state.languages, language.id]
+													: state.languages.filter((it) => it !== language.id),
+											}));
+										}}
+										className="mr-2"
+									/>
+									<span>{language.name}</span>
+								</label>
+							))}
+						</div>
+					</div>
+				</>
+			)}
 			<div className="mt-1">
 				<label className="block text-sm font-medium text-gray-700">
 					Co mohu nabídnout (můžete vybrat více možností):
@@ -355,24 +358,28 @@ export const RegisterForm = memo<
 				))}
 			</div>
 
-			<div>
-				<label
-					htmlFor="specific"
-					className="block text-sm font-medium text-gray-700"
-				>
-					Máte specifickou odbornost? (lékař, psycholog, právník, ...)
-				</label>
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="text"
-						name="specific"
-						value={state.expertise}
-						onChange={(e) => setState({ ...state, expertise: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-					/>
+			{!volunteerData && (
+				<div>
+					<label
+						htmlFor="specific"
+						className="block text-sm font-medium text-gray-700"
+					>
+						Máte specifickou odbornost? (lékař, psycholog, právník, ...)
+					</label>
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="text"
+							name="specific"
+							value={state.expertise}
+							onChange={(e) =>
+								setState({ ...state, expertise: e.target.value })
+							}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
 				</div>
-			</div>
+			)}
 
 			<div>
 				Odesláním souhlasím se{" "}
