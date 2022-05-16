@@ -245,7 +245,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		?.variables.find((it: { name: string }) => it.name == "volunteerId").values;
 
 	if (!volunteerId) {
-		cookies.set("token", "", { maxAge: -99999999 });
 		return {
 			redirect: {
 				permanent: false,
@@ -263,12 +262,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 				Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
 			},
 			body: JSON.stringify({
-				query: `query($volunteerId: [UUID!]!) {
-					volunteer: listVolunteer(
-						filter: {
-							id: { in: $volunteerId }
-						}
-					){
+				query: `query($volunteerId: UUID!) {
+					volunteer: getVolunteer(by: {id: $volunteerId}) {
 						banned
 					}
 				}
@@ -281,17 +276,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	);
 
 	const isDeletedUserData = await isDeletedUser.json();
-	isDeletedUserData.data.volunteer.forEach((it: { banned: boolean }) => {
-		if (it.banned) {
-			cookies.set("token", "", { maxAge: -99999999 });
-			return {
-				redirect: {
-					permanent: false,
-					destination: "/",
-				},
-			};
-		}
-	});
+	const isDeletedUserBanned = isDeletedUserData.data.volunteer.banned;
+	if (isDeletedUserBanned) {
+		cookies.set("token", "", { maxAge: -99999999 });
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/",
+			},
+		};
+	}
 
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
 		method: "POST",
@@ -325,6 +319,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 							type
 						}
 						parameters (
+							filter: {
+								question: {
+									public: { eq: true }
+								}
+							}
 							orderBy: [{ question: { order: asc } }]
 						) {
 							id
