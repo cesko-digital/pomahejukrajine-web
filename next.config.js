@@ -4,8 +4,8 @@ const nextConfig = {
 	async redirects() {
 		return [
 			{
-				source: "/nabidky-new",
-				destination: "/nabidky-new/3a0731d3-2102-4a7b-a5c4-096e0876f10b",
+				source: "/nabidky",
+				destination: "/nabidky/3a0731d3-2102-4a7b-a5c4-096e0876f10b",
 				permanent: true,
 			},
 		];
