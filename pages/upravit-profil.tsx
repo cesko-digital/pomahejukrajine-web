@@ -1,13 +1,25 @@
-import { GetServerSidePropsContext, NextPage, NextApiResponse } from "next";
+import Cookies from "cookies";
+import {
+	GetServerSidePropsContext,
+	GetServerSidePropsResult,
+	NextPage,
+} from "next";
 import Link from "next/link";
-import { useState } from "react";
-import { EditVolunteerForm } from "../components/EditVolunteerForm";
+import { useCallback, useState } from "react";
+
 import Header from "../components/header";
 import { Meta } from "../components/Meta";
-import { EditVolunteerFormState, Languages } from "../lib/shared";
+import { VolunteerForm } from "../components/VolunteerForm";
+import {
+	EditVolunteerFormState,
+	FormError,
+	getVolunteerDetail,
+	Language,
+	listVolunteerIds,
+} from "../lib/shared";
 
 interface EditProfileProps {
-	languages: Languages;
+	languages: Language[];
 	volunteerDetails: EditVolunteerFormState;
 }
 
@@ -19,9 +31,41 @@ const EditProfile: NextPage<EditProfileProps> = ({
 		false | "loading" | "error" | "success"
 	>(false);
 
+	const [defaultVolunteerDetails, setDefaultVolunteerDetails] =
+		useState<EditVolunteerFormState>(volunteerDetails);
+	const [errors, setErrors] = useState<FormError[]>([]);
 	const disabled = submitting === "loading";
 
-	console.log(languages, volunteerDetails);
+	const onSubmit = useCallback(async (values) => {
+		setSubmitting("loading");
+
+		const response = await fetch("/api/update-profile", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				data: values,
+			}),
+		});
+		console.log(response);
+		let ok = response.ok;
+
+		let json: any;
+		try {
+			json = await response.json();
+		} catch (e) {}
+
+		if (ok && json.ok) {
+			setSubmitting("success");
+			setDefaultVolunteerDetails(json.volunteer);
+		} else {
+			if (json && !json.ok && Array.isArray(json.errors)) {
+				setErrors(json.errors);
+			}
+			setSubmitting("error");
+		}
+	}, []);
 
 	return (
 		<div className="antialiased text-gray-600">
@@ -40,21 +84,32 @@ const EditProfile: NextPage<EditProfileProps> = ({
 						</div>
 
 						<div className="text-center mt-4">
-							<Link href="#" prefetch={false}>
-								<a onClick={() => window.history.back()} className="underline">
-									Zpět na moje nabídky
-								</a>
+							<Link href="/moje-nabidky" prefetch={false}>
+								<a className="underline">Zpět na moje nabídky</a>
 							</Link>
 						</div>
 
 						{submitting === "error" && (
-							<div>
+							<div className="mt-5">
 								<p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>
+							</div>
+						)}
+						{submitting === "success" && (
+							<div className="mt-5 p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+								<p className="mx-3 font-medium text-white">
+									Váš profil byt úspěšně uložen.
+								</p>
 							</div>
 						)}
 
 						<div className="mt-6">
-							<EditVolunteerForm languages={languages} />
+							<VolunteerForm
+								languages={languages}
+								disabled={disabled}
+								defaultState={volunteerDetails}
+								errors={errors}
+								onSubmit={onSubmit}
+							/>
 						</div>
 					</main>
 				</div>
@@ -67,7 +122,19 @@ export default EditProfile;
 
 export async function getServerSideProps(
 	context: GetServerSidePropsContext
-): Promise<{ props: EditProfileProps }> {
+): Promise<GetServerSidePropsResult<EditProfileProps>> {
+	const cookies = new Cookies(context.req, context.res);
+	const token = cookies.get("token");
+
+	if (!token) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/login",
+			},
+		};
+	}
+
 	// Get list of available languages from Contember.
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
 		method: "POST",
@@ -88,18 +155,35 @@ export async function getServerSideProps(
 	});
 
 	const languagesJson = await response.json();
-	const languages = languagesJson.data;
+	const languagesResponse = languagesJson.data;
+
+	const volunteerIds = await listVolunteerIds(token);
+	if (!volunteerIds) {
+		cookies.set("token", "", { maxAge: -99999999 });
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/",
+			},
+		};
+	}
+
+	const volunteerDetails = await getVolunteerDetail(token, volunteerIds[0]);
+	if (!volunteerDetails) {
+		return {
+			redirect: {
+				destination: "/moje-nabidky",
+				permanent: true,
+			},
+		};
+	}
 
 	return {
 		props: {
-			languages,
+			languages: languagesResponse.languages,
 			volunteerDetails: {
-				name: "",
-				organization: "",
-				phone: "",
-				contactHours: "",
-				expertise: "",
-				languages: [""],
+				...volunteerDetails,
+				languages: volunteerDetails.languages.map((lang) => lang.language.id),
 			},
 		},
 	};

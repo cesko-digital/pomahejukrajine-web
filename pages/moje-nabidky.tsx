@@ -4,7 +4,7 @@ import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { Fragment } from "react";
-import { publicQuery, PublicQueryResult, Volunteer } from "../lib/shared";
+import { publicQuery, PublicQueryResult, Volunteer, listVolunteerIds } from "../lib/shared";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -265,58 +265,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		};
 	}
 
-	const tenantResponse = await fetch(
-		process.env.NEXT_PUBLIC_CONTEMBER_TENANT_URL!,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify({
-				query: `query {
-				me {
-					projects {
-						memberships {
-							role
-							variables {
-								name
-								values
-							}
-						}
-						project {
-							slug
-						}
-					}
-				}
-			}
-			`,
-			}),
-		}
-	).then(async (response) => {
-		if (response.status !== 200) {
-			return "error";
-		} else {
-			return response.json();
-		}
-	});
-
-	if (tenantResponse === "error") {
-		cookies.set("token", "", { maxAge: -99999999 });
-		return {
-			redirect: {
-				permanent: false,
-				destination: "/",
-			},
-		};
-	}
-
-	const tenantData = await tenantResponse;
-
-	const volunteerId = tenantData.data.me.projects
-		.find((it: { project: { slug: string } }) => it.project.slug == "ukrajina")
-		?.memberships?.find((it: { role: string }) => it.role == "volunteer")
-		?.variables.find((it: { name: string }) => it.name == "volunteerId").values;
+	const volunteerId = await listVolunteerIds(token);
 
 	if (!volunteerId) {
 		cookies.set("token", "", { maxAge: -99999999 });

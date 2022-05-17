@@ -39,10 +39,10 @@ export type Districts = {
 	};
 }[];
 
-export type Languages = {
+export type Language = {
 	id: string;
 	name: string;
-}[];
+};
 
 export type OfferType = {
 	id: string;
@@ -57,7 +57,7 @@ export type OfferType = {
 export interface PublicQueryResult {
 	offerTypes: OfferType[];
 	districts: Districts;
-	languages: Languages;
+	languages: Language[];
 	uk?: boolean;
 }
 
@@ -99,6 +99,23 @@ export type Volunteer = {
 	}[];
 };
 
+export type EditVolunteerFormState = Omit<
+	RegisterFormState,
+	"email" | "emailRepeat" | "offers"
+	>;
+
+export interface VolunteerDetailResult {
+	name: string;
+	organization: string;
+	phone: string;
+	contactHours: string;
+	expertise: string;
+	languages: {
+		id: string;
+		language: Language;
+	}[];
+}
+
 export interface HelpFormState {
 	name: string;
 	phone: string;
@@ -106,15 +123,6 @@ export interface HelpFormState {
 	contactHours: string;
 	otherType: string;
 	types: string[];
-}
-
-export interface EditVolunteerFormState {
-	name: string;
-	organization: string;
-	phone: string;
-	contactHours: string;
-	expertise: string;
-	languages: string[];
 }
 
 export type FormError =
@@ -168,3 +176,100 @@ export const publicQuery = `
 		}
 	}
 `;
+
+export const listVolunteerIds = async (
+	token: string
+): Promise<false | undefined | string[]> => {
+	const tenantResponse = await fetch(
+		process.env.NEXT_PUBLIC_CONTEMBER_TENANT_URL!,
+		{
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify({
+				query: `query {
+					me {
+						projects {
+							memberships {
+								role
+								variables {
+									name
+									values
+								}
+							}
+							project {
+								slug
+							}
+						}
+					}
+				}
+			`,
+			}),
+		}
+	).then(async (response) => {
+		if (response.status !== 200) {
+			return "error";
+		} else {
+			return response.json();
+		}
+	});
+
+	if (tenantResponse === "error") {
+		return false;
+	}
+
+	const tenantData = await tenantResponse;
+
+	return tenantData.data.me.projects
+		.find((it: { project: { slug: string } }) => it.project.slug === "ukrajina")
+		?.memberships?.find((it: { role: string }) => it.role === "volunteer")
+		?.variables.find((it: { name: string }) => it.name === "volunteerId")
+		.values;
+};
+
+export const getVolunteerDetail = async (
+	token: string,
+	volunteerId: string
+): Promise<VolunteerDetailResult | null> => {
+	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({
+			query: `query($volunteerId: UUID!) {
+					getVolunteer(by: { id: $volunteerId }) {
+						name
+						languages {
+							id
+							language {
+								id
+								name
+							}
+						}
+						phone
+						organization
+						contactHours
+						expertise
+					}
+				}
+			`,
+			variables: {
+				volunteerId,
+			},
+		}),
+	});
+
+	if (response.status !== 200) {
+		return null;
+	}
+
+	try {
+		return (await response.json()).data.getVolunteer;
+	} catch (e) {
+		return null;
+	}
+};
