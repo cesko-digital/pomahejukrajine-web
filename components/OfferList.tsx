@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import React, { Fragment } from "react";
 import { Offer } from "../lib/model/Offer";
@@ -55,6 +56,8 @@ const OfferList: React.FC<{
 	offersToShow: Offer[];
 	offerTypes: OfferType[];
 }> = ({ offersToShow, offerTypes }) => {
+	const { t } = useTranslation();
+
 	return (
 		<div className="mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
 			{offersToShow.map((offer) => {
@@ -92,7 +95,7 @@ const OfferList: React.FC<{
 										}}
 									>
 										<a className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
-											Potřebuji tuto pomoc
+											{t("nabidky.needThisHelp")}
 										</a>
 									</Link>
 								</div>

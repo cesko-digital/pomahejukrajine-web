@@ -6,28 +6,29 @@ import Footer from "../components/footer";
 import { Fragment } from "react";
 import { publicQuery, PublicQueryResult } from "../lib/shared";
 import Link from "next/link";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 	offers,
 	offerTypes,
 }) => {
+	const { t } = useTranslation();
+
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta
-				title="Nabídky pomoci - Pomáhej Ukrajině"
-				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
-			/>
+			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="text-center mt-2">
 					<h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-						Moje nabídky pomoci
+						{t("mojeNabidky.title")}
 					</h1>
 				</div>
 
 				<div className="text-center mt-4">
 					<Link href="/logout" prefetch={false}>
-						<a className="underline">Odhlásit se</a>
+						<a className="underline">{t("mojeNabidky.logout")}</a>
 					</Link>
 				</div>
 
@@ -106,7 +107,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 											}}
 										>
 											<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">
-												Upravit nabídku
+												{t("mojeNabidky.editOffer")}
 											</a>
 										</Link>
 									</div>
@@ -366,6 +367,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		props: {
 			...data,
 			offers,
+			...(await serverSideTranslations(context.locale as string, ["common"])),
 		},
 	};
 };

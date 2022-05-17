@@ -4,8 +4,11 @@ import MainNav from "./MainNav";
 import styles from "./MainNav.module.css";
 import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
+import { useTranslation } from "next-i18next";
 
 export default function Header() {
+	const { t } = useTranslation();
+
 	return (
 		<header className="bg-white">
 			<nav
@@ -28,7 +31,7 @@ export default function Header() {
 							<Link href="/moje-nabidky" key="/moje-nabidky">
 								<a className={styles.myOffersDesktop}>
 									<UserIcon />
-									Moje nabídky
+									{t("header.myOffers")}
 								</a>
 							</Link>
 							<SocialLinksNav />
