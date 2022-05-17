@@ -1,11 +1,13 @@
-import Link from "next/link";
 import { GetServerSidePropsContext } from "next/types";
 import * as React from "react";
+import { Stats, InstantSearch, Index } from "react-instantsearch-dom";
+import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 
 import Header from "../../components/header";
 import { Meta } from "../../components/Meta";
 import { OfferEmpty } from "../../components/OfferEmpty";
 import { OfferSearch } from "../../components/OfferSearch";
+import { OfferTypeList } from "../../components/OfferTypeList";
 
 const Offers = (props: any) => {
 	return (
@@ -16,23 +18,7 @@ const Offers = (props: any) => {
 			/>
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
-				<ul className="mt-8 flex flex-wrap justify-center gap-2">
-					{props.listOfferType.map(({ id, name }: any) => (
-						<li key={id}>
-							<a
-								href={`/nabidky/${id}`}
-								className={`border border-gray-200 py-2 px-6 rounded-full block ${
-									props.offerTypeId === id
-										? "bg-blue-600 text-white border-blue-800 shadow-sm hover:bg-blue-600"
-										: ""
-								}`}
-							>
-								{name}
-							</a>
-						</li>
-					))}
-				</ul>
-
+				<OfferTypeList {...props} />
 				{!props.listQuestion.length ? (
 					<OfferEmpty />
 				) : (
@@ -69,6 +55,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					listOfferType(orderBy: { order: asc }) {
 						id
 						name
+						paginateOffers {
+							pageInfo {
+								totalCount
+							}
+						}
 					}
 					listQuestion(filter: { offerType: { id: { eq: $id } }, public: { eq: true } }, orderBy: { order: asc }) {
 						id
