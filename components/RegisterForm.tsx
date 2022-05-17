@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+import { useTranslation } from "next-i18next";
 import { FormEvent, memo, useCallback, useState } from "react";
 import { FormError, PublicQueryResult, RegisterFormState } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
@@ -24,6 +25,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 			contactHours: "kdykoliv",
 			organization: "",
 		});
+		const { t } = useTranslation();
 
 		const submit = useCallback(
 			async (e: FormEvent) => {
@@ -60,8 +62,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 			return (
 				<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
 					<p className="mx-3 font-medium text-white">
-						Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, pro
-						zobrazení vaší nabídky jej potřebujeme ověřit.
+						{t("nabidka.confirmation")}
 					</p>
 				</div>
 			);
@@ -71,17 +72,18 @@ export const RegisterForm = memo<PublicQueryResult>(
 		return (
 			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
 				<p>
-					Položky označené <strong className="text-red-700 font-bold">*</strong>{" "}
-					jsou povinné.
+					{t("nabidka.text1")}{" "}
+					<strong className="text-red-700 font-bold">*</strong>{" "}
+					{t("nabidka.text2")}
 				</p>
 				{submitting === "error" && (
 					<div>
-						<p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>
+						<p>{t("nabidka.error")}</p>
 					</div>
 				)}
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Jméno <Required />
+						{t("nabidka.name")} <Required />
 					</label>
 					<div className="mt-1">
 						<input
@@ -96,7 +98,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 				</div>
 				<div>
 					<label className="block text-sm font-medium text-gray-700">
-						Organizace
+						{t("nabidka.organization")}
 					</label>
 					<div className="mt-1">
 						<input
@@ -115,7 +117,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 						htmlFor="phone"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Telefon <Required />
+						{t("nabidka.phone")} <Required />
 					</label>
 					<div className="mt-1">
 						<input
@@ -141,7 +143,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 						htmlFor="email"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Email <Required />
+						{t("nabidka.email")} <Required />
 					</label>
 					{errors.find((it) => it.input === "email") !== undefined && (
 						<div className="flex">
@@ -167,7 +169,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 						htmlFor="emailRepeat"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Prosím zadejte svůj Email podruhé <Required />
+						{t("nabidka.emailRepeat")} <Required />
 					</label>
 					{errors.find((it) => it.input === "emailRepeat") !== undefined && (
 						<div className="flex">
@@ -192,7 +194,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 				</div>
 				<div>
 					<div className="block text-sm font-medium text-gray-700">
-						Můžete mne kontaktovat
+						{t("nabidka.contactMe")}
 					</div>
 					<div className="mt-1 flex flex-col">
 						<label className="flex items-center">
@@ -208,7 +210,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 								}
 								className="mr-2"
 							/>
-							<span>Kdykoliv</span>
+							<span>{t("nabidka.anytime")}</span>
 						</label>
 						{state.contactHours !== "kdykoliv" && (
 							<div>
@@ -221,7 +223,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 									onChange={(e) =>
 										setState({ ...state, contactHours: e.target.value })
 									}
-									placeholder="Kdy?"
+									placeholder={t("nabidka.kdy")}
 									className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
 								/>
 							</div>
@@ -230,7 +232,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 				</div>
 				<div>
 					<div className="block text-sm font-medium text-gray-700">
-						Hovořím těmito jazyky
+						{t("nabidka.languages")}
 					</div>
 					{errors.find((it) => it.input === "languages") !== undefined && (
 						<div className="flex">
@@ -263,7 +265,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 				</div>
 				<div className="mt-1">
 					<label className="block text-sm font-medium text-gray-700">
-						Co mohu nabídnout (můžete vybrat více možností):
+						{t("nabidka.options")}
 					</label>
 					{errors.find((it) => it.input === "offer") !== undefined && (
 						<div className="flex">
@@ -355,7 +357,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 						htmlFor="specific"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Máte specifickou odbornost? (lékař, psycholog, právník, ...)
+						{t("nabidka.expertise")}
 					</label>
 					<div className="mt-1">
 						<input
@@ -372,13 +374,13 @@ export const RegisterForm = memo<PublicQueryResult>(
 				</div>
 
 				<div>
-					Odesláním souhlasím se{" "}
+					{t("nabidka.consent")}{" "}
 					<a
 						className="underline underline-offset-2 hover:no-underline"
 						target="_blank"
 						href="/souhlas-a-informace-o-zpracovani-pomahejukrajine-cz.pdf"
 					>
-						zpracováním údajů za účelem koordinace a organizace pomoci
+						{t("nabidka.consentLink")}
 					</a>
 				</div>
 				<div>
@@ -387,14 +389,12 @@ export const RegisterForm = memo<PublicQueryResult>(
 						disabled={disabled}
 						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 					>
-						Odeslat
+						{t("nabidka.submit")}
 					</button>
 				</div>
 				<div>
 					{errors.length > 0 && (
-						<p className="text-center">
-							Zkontrolujte, zda jste vše vyplnili správně.
-						</p>
+						<p className="text-center">{t("nabidka.checkForm")}</p>
 					)}
 				</div>
 			</form>

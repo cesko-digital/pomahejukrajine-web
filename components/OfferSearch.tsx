@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import {
 	CurrentRefinements,
@@ -22,6 +23,7 @@ export const OfferSearch = ({
 	offerTypeId,
 	offerType,
 }: OfferSearchProps) => {
+	const { t } = useTranslation();
 	const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
 		server: {
 			apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY!,
@@ -55,7 +57,7 @@ export const OfferSearch = ({
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
 			<SearchBox
-				placeholder="Hledat nabídky"
+				placeholder={t("nabidky.search")}
 				classNames={{
 					input:
 						"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500",
@@ -118,7 +120,7 @@ export const OfferSearch = ({
 			<details className="py-4">
 				<summary className="flex items-center font-bold">
 					<h3 className="underline mt-8 text-blue-600 mx-auto hover:cursor-pointer">
-						Podrobné filtry
+						{t("nabidky.detailedFilters")}
 					</h3>
 				</summary>
 				<div className="refinements text-center">
@@ -180,7 +182,7 @@ export const OfferSearch = ({
 									}}
 								>
 									<a className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
-										Potřebuji tuto pomoc
+										{t("nabidky.needThisHelp")}
 									</a>
 								</Link>
 							</div>

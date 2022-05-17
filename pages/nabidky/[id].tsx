@@ -1,7 +1,9 @@
+import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next/types";
 import * as React from "react";
 import { Stats, InstantSearch, Index } from "react-instantsearch-dom";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Header from "../../components/header";
 import { Meta } from "../../components/Meta";
@@ -10,12 +12,11 @@ import { OfferSearch } from "../../components/OfferSearch";
 import { OfferTypeList } from "../../components/OfferTypeList";
 
 const Offers = (props: any) => {
+	const { t } = useTranslation();
+
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta
-				title="Nabídky pomoci - Pomáhej Ukrajině"
-				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
-			/>
+			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<OfferTypeList {...props} />
@@ -84,6 +85,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		props: {
 			...data,
 			offerTypeId: context.query.id,
+			...(await serverSideTranslations(context.locale as string, ["common"])),
 		},
 	};
 }

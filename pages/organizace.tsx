@@ -1,4 +1,9 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type {
+	GetServerSideProps,
+	GetServerSidePropsContext,
+	NextPage,
+} from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
@@ -30,7 +35,9 @@ const Organizations: NextPage<Props> = ({ organizations }) => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (
+	context: GetServerSidePropsContext
+) => {
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
 		method: "POST",
 		headers: {
@@ -52,7 +59,10 @@ export const getServerSideProps: GetServerSideProps = async () => {
 	const data = json.data as Props;
 
 	return {
-		props: data,
+		props: {
+			...data,
+			...(await serverSideTranslations(context.locale as string, ["common"])),
+		},
 	};
 };
 

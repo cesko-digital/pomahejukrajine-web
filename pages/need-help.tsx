@@ -4,18 +4,19 @@ import Header from "../components/header";
 import { HelpForm } from "../components/HelpForm";
 import Footer from "../components/footer";
 import { publicQuery, PublicQueryResult } from "../lib/shared";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Page: NextPage<PublicQueryResult> = ({
 	offerTypes,
 	districts,
 	languages,
 }) => {
+	const { t } = useTranslation();
+
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta
-				title="Pomáhej Ukrajině"
-				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
-			/>
+			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="relative max-w-xl mx-auto">
@@ -45,7 +46,7 @@ const Page: NextPage<PublicQueryResult> = ({
 	);
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
 		method: "POST",
 		headers: {
@@ -61,7 +62,10 @@ export const getStaticProps: GetStaticProps = async () => {
 	const { data } = json;
 
 	return {
-		props: { ...data },
+		props: {
+			...data,
+			...(await serverSideTranslations(locale as string, ["common"])),
+		},
 		revalidate: 60,
 	};
 };

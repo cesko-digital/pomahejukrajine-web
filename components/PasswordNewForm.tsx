@@ -1,5 +1,6 @@
 import { FormEvent, useCallback, useState } from "react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 interface LoginState {
 	password?: string;
@@ -16,6 +17,7 @@ export const PasswordNewForm = ({ token }: LoginState) => {
 		token,
 	});
 	const router = useRouter();
+	const { t } = useTranslation();
 
 	const submit = useCallback(
 		async (e: FormEvent) => {
@@ -36,7 +38,7 @@ export const PasswordNewForm = ({ token }: LoginState) => {
 			if (response.ok) {
 				setSubmitting("success");
 			} else {
-				let message = "Chyba při odesílání formuláře";
+				let message = t("password.new.error");
 				try {
 					const json = await response.json();
 					if (typeof json.error === "string") {
@@ -47,7 +49,7 @@ export const PasswordNewForm = ({ token }: LoginState) => {
 				setSubmitting("error");
 			}
 		},
-		[state]
+		[state, t]
 	);
 
 	if (submitting === "success") {
@@ -70,7 +72,7 @@ export const PasswordNewForm = ({ token }: LoginState) => {
 						htmlFor="token"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Token z e-mailu
+						{t("password.new.token")}
 					</label>
 					<div className="mt-1">
 						<input
@@ -90,7 +92,7 @@ export const PasswordNewForm = ({ token }: LoginState) => {
 					htmlFor="password"
 					className="block text-sm font-medium text-gray-700"
 				>
-					Nové heslo
+					{t("password.new.newPassword")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -109,7 +111,7 @@ export const PasswordNewForm = ({ token }: LoginState) => {
 				type="submit"
 				className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 			>
-				Nastavit heslo
+				{t("password.new.submit")}
 			</button>
 		</form>
 	);

@@ -2,6 +2,7 @@ import { OfferType } from "../lib/shared";
 import cx from "classnames";
 import { useCallback } from "react";
 import styles from "./OfferFilter.module.css";
+import { useTranslation } from "next-i18next";
 
 const Filter: React.FC<{
 	availableTypes: { [name: string]: number };
@@ -16,6 +17,8 @@ const Filter: React.FC<{
 	totalOfferCount,
 	offerTypes,
 }) => {
+	const { t } = useTranslation();
+
 	const applyFilter = useCallback(
 		(event) => {
 			onFilterApply(event.target.value || null);
@@ -33,7 +36,7 @@ const Filter: React.FC<{
 					)}
 					onClick={applyFilter}
 				>
-					Vše ({totalOfferCount})
+					{t("nabidky.all")} ({totalOfferCount})
 				</button>
 			</li>
 

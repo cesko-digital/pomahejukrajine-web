@@ -1,9 +1,9 @@
-import type { NextPage, GetStaticProps } from "next";
+import type { NextPage, GetStaticProps, GetServerSideProps } from "next";
 import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import Link from "next/link";
-import Image from "next/image";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const faqs = [
 	{
@@ -90,12 +90,11 @@ const faqs = [
 ];
 
 const Home: NextPage = ({ offerTypes, districts }: any) => {
+	const { t } = useTranslation();
+
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta
-				title="Pomáhej Ukrajině"
-				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
-			/>
+			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="bg-white">
 				<div className="max-w-3xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
@@ -124,6 +123,14 @@ const Home: NextPage = ({ offerTypes, districts }: any) => {
 			<Footer />
 		</div>
 	);
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+	return {
+		props: {
+			...(await serverSideTranslations(locale as string, ["common"])),
+		},
+	};
 };
 
 export default Home;
