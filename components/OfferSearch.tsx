@@ -58,7 +58,7 @@ export const OfferSearch = ({
 				placeholder="Hledat nabídky"
 				classNames={{
 					input:
-						"w-full text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500",
+						"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500",
 					submit: "hidden",
 					submitIcon: "hidden",
 					loadingIcon: "hidden",
@@ -92,15 +92,38 @@ export const OfferSearch = ({
 				}}
 			/>
 
+			<div>
+				{listQuestion
+					.filter((it: any) => ["district"].includes(it.type))
+					.map((question: any) => (
+						<div className="mt-6" key={question.id}>
+							<div className="font-bold mb-2 text-center">{question.label}</div>
+							<RefinementList
+								key={question.id}
+								attribute={`parameter_${question.id}_facet`}
+								classNames={{
+									list: "flex flex-wrap gap-2 justify-center",
+									item: "border border-gray-200 py-2 px-6 rounded-full",
+									checkbox: "w-4 h-4 mr-2",
+									count:
+										'text-sm text-gray-600 ml-2 after:content-[")"] before:content-["("]',
+									showMore:
+										"text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
+								}}
+							/>
+						</div>
+					))}
+			</div>
+
 			<details className="py-4">
 				<summary className="flex items-center font-bold">
-					<h3>Podrobné filtry</h3>
+					<h3 className="underline mt-8 text-blue-600 mx-auto hover:cursor-pointer">
+						Podrobné filtry
+					</h3>
 				</summary>
 				<div className="refinements text-center">
 					{listQuestion
-						.filter((it: any) =>
-							["checkbox", "radio", "district"].includes(it.type)
-						)
+						.filter((it: any) => ["checkbox", "radio"].includes(it.type))
 						.map((question: any) => (
 							<div className="mt-6" key={question.id}>
 								<div className="font-bold mb-2">{question.label}</div>
