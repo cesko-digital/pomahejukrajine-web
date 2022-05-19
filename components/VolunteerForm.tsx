@@ -1,4 +1,5 @@
-import { FormEvent, useCallback, useState } from "react";
+import { useTranslation } from 'next-i18next';
+import { FormEvent, useCallback, useState, PropsWithChildren } from "react";
 import {
 	FormError,
 	PublicQueryResult,
@@ -8,13 +9,21 @@ import {
 import { QuestionControl } from "./QuestionControl";
 import { Required } from "./Required";
 
-export type VolunteerFormProps = Partial<PublicQueryResult> & {
-	disabled: boolean;
-	defaultState?: EditVolunteerFormState;
-	errors: FormError[];
-	onSubmit: (value: RegisterFormState | EditVolunteerFormState) => void;
-	onFormValueChanged?: <T>(value: T, field: keyof T) => void;
-};
+export type VolunteerFormProps = PropsWithChildren<
+	Partial<PublicQueryResult> & {
+		disabled: boolean;
+		errored: boolean;
+		defaultState?: EditVolunteerFormState;
+		errors: FormError[];
+		onSubmit: (value: RegisterFormState | EditVolunteerFormState) => any;
+		// @todo(): Call this method on any field change.
+		onFormValueChanged?: <T>(
+			value: T,
+			field: "offers",
+			...additionalParams: any[]
+		) => any;
+	}
+>;
 
 const isNewVolunteer = (
 	state: RegisterFormState | EditVolunteerFormState
@@ -23,7 +32,9 @@ const isNewVolunteer = (
 };
 
 export const VolunteerForm = ({
+	children,
 	disabled,
+	errored,
 	languages,
 	districts,
 	offerTypes,
@@ -47,6 +58,7 @@ export const VolunteerForm = ({
 			organization: "",
 		}
 	);
+	const { t } = useTranslation();
 
 	const isNew = isNewVolunteer(state);
 
@@ -65,12 +77,18 @@ export const VolunteerForm = ({
 	return (
 		<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submitForm}>
 			<p>
-				Položky označené <strong className="text-red-700 font-bold">*</strong>{" "}
-				jsou povinné.
+				{t("nabidka.text1")}{" "}
+				<strong className="text-red-700 font-bold">*</strong>{" "}
+				{t("nabidka.text2")}
 			</p>
+			{errored && (
+				<div>
+					<p>{t("nabidka.error")}</p>
+				</div>
+			)}
 			<div>
 				<label className="block text-sm font-medium text-gray-700">
-					Jméno <Required />
+					{t("nabidka.name")} <Required />
 				</label>
 				<div className="mt-1">
 					<input
@@ -85,7 +103,7 @@ export const VolunteerForm = ({
 			</div>
 			<div>
 				<label className="block text-sm font-medium text-gray-700">
-					Organizace
+					{t("nabidka.organization")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -104,7 +122,7 @@ export const VolunteerForm = ({
 					htmlFor="phone"
 					className="block text-sm font-medium text-gray-700"
 				>
-					Telefon <Required />
+					{t("nabidka.phone")} <Required />
 				</label>
 				<div className="mt-1">
 					<input
@@ -132,7 +150,7 @@ export const VolunteerForm = ({
 							htmlFor="email"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Email <Required />
+							{t("nabidka.email")} <Required />
 						</label>
 						{errors.find((it) => it.input === "email") !== undefined && (
 							<div className="flex">
@@ -158,7 +176,7 @@ export const VolunteerForm = ({
 							htmlFor="emailRepeat"
 							className="block text-sm font-medium text-gray-700"
 						>
-							Prosím zadejte svůj Email podruhé <Required />
+							{t("nabidka.emailRepeat")} <Required />
 						</label>
 						{errors.find((it) => it.input === "emailRepeat") !== undefined && (
 							<div className="flex">
@@ -185,7 +203,7 @@ export const VolunteerForm = ({
 			)}
 			<div>
 				<div className="block text-sm font-medium text-gray-700">
-					Můžete mne kontaktovat
+					{t("nabidka.contactMe")}
 				</div>
 				<div className="mt-1 flex flex-col">
 					<label className="flex items-center">
@@ -201,7 +219,7 @@ export const VolunteerForm = ({
 							}
 							className="mr-2"
 						/>
-						<span>Kdykoliv</span>
+						<span>{t("nabidka.anytime")}</span>
 					</label>
 					{state.contactHours !== "kdykoliv" && (
 						<div>
@@ -224,7 +242,7 @@ export const VolunteerForm = ({
 			{languages && (
 				<div>
 					<div className="block text-sm font-medium text-gray-700">
-						Hovořím těmito jazyky
+						{t("nabidka.languages")}
 					</div>
 					{errors.find((it) => it.input === "languages") !== undefined && (
 						<div className="flex">
@@ -259,7 +277,7 @@ export const VolunteerForm = ({
 			{isNew && offerTypes && (
 				<div className="mt-1">
 					<label className="block text-sm font-medium text-gray-700">
-						Co mohu nabídnout (můžete vybrat více možností):
+						{t("nabidka.options")}
 					</label>
 					{errors.find((it) => it.input === "offer") !== undefined && (
 						<div className="flex">
@@ -307,8 +325,9 @@ export const VolunteerForm = ({
 												}
 												onChange={(newValue) => {
 													newValue.type = question.type;
-													onFormValueChanged &&
-														onFormValueChanged(state, "offers");
+													if (onFormValueChanged) {
+														onFormValueChanged(newValue, "offers", question);
+													}
 													setState((state) => {
 														if (isNewVolunteer(state)) {
 															return {
@@ -352,7 +371,7 @@ export const VolunteerForm = ({
 					htmlFor="specific"
 					className="block text-sm font-medium text-gray-700"
 				>
-					Máte specifickou odbornost? (lékař, psycholog, právník, ...)
+					{t("nabidka.expertise")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -366,34 +385,7 @@ export const VolunteerForm = ({
 				</div>
 			</div>
 
-			{isNew && (
-				<div>
-					Odesláním souhlasím se{" "}
-					<a
-						className="underline underline-offset-2 hover:no-underline"
-						target="_blank"
-						href="/souhlas-a-informace-o-zpracovani-pomahejukrajine-cz.pdf"
-					>
-						zpracováním údajů za účelem koordinace a organizace pomoci
-					</a>
-				</div>
-			)}
-			<div>
-				<button
-					type="submit"
-					disabled={disabled}
-					className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-				>
-					{isNew ? "Odeslat" : "Uložit"}
-				</button>
-			</div>
-			<div>
-				{errors.length > 0 && (
-					<p className="text-center">
-						Zkontrolujte, zda jste vše vyplnili správně.
-					</p>
-				)}
-			</div>
+			{children}
 		</form>
 	);
 };
