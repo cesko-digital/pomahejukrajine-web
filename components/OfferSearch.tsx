@@ -200,12 +200,12 @@ export const OfferSearch = ({
 
 			<Hits
 				classNames={{
-					list: "mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1",
+					list: "mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-5",
 				}}
 				hitComponent={(hit: any) => {
 					return (
 						<div
-							className="p-4 rounded-md border shadow-md m-4 flex flex-col"
+							className="p-3 bg-card-grey flex flex-col"
 							key={hit.hit.objectID}
 						>
 							<h3 className="text-lg font-bold">
@@ -240,7 +240,7 @@ export const OfferSearch = ({
 										query: { id: hit.hit.objectID! },
 									}}
 								>
-									<a className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm">
+									<a className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm">
 										{t("nabidky.needThisHelp")}
 									</a>
 								</Link>
@@ -254,9 +254,9 @@ export const OfferSearch = ({
 			/>
 			<Pagination
 				classNames={{
-					list: "flex justify-center gap-4",
-					selectedItem: "font-bold border-gray-600",
-					item: "border border-gray-200 py-1 px-3 rounded-full",
+					list: "flex justify-center gap-1 mt-14",
+					selectedItem: "!bg-ua-blue !text-white",
+					item: "border border-ua-blue text-ua-blue bg-blue-very-light py-1 px-3 rounded-md hover:bg-ua-blue-dark hover:text-white",
 				}}
 				showFirst={false}
 				showLast={false}

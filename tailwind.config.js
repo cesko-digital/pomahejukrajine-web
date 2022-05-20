@@ -11,6 +11,8 @@ module.exports = {
 				"ua-blue-dark": "#004495",
 				"footer-grey": "#EDEDED",
 				"footer-grey-dark": "#4F4F4F",
+				"blue-very-light": "#F4F9FF",
+				"card-grey": "#F2F2F2",
 			},
 			fontFamily: {
 				ptsant: ["PTSans", "sans-serif"],
