@@ -10,21 +10,32 @@ import { Meta } from "../../components/Meta";
 import { OfferEmpty } from "../../components/OfferEmpty";
 import { OfferSearch } from "../../components/OfferSearch";
 import { OfferTypeList } from "../../components/OfferTypeList";
+import Footer from "../../components/footer";
 
 const Offers = (props: any) => {
 	const { t } = useTranslation();
 
 	return (
-		<div className="antialiased text-gray-600">
+		<div className="antialiased text-t-black">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+			<div className="max-w-7xl mx-auto bg-white py-4 px-6 overflow-hidden lg:px-8 lg:py-6">
+				<div className="relative flex flex-col items-center">
+					<h2 className="text-2xl inline-flex font-bold	lg:text-3xl">
+						{t("nabidky.title")}
+					</h2>
+					<a
+						href="#"
+						className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white"
+					>
+						{t("nabidky.linkToPrivateOffers")}
+					</a>
+				</div>
 				<OfferTypeList {...props} />
 				{!props.listQuestion.length ? (
 					<OfferEmpty />
 				) : (
 					<>
-						<hr className="my-8" />
 						<OfferSearch
 							listQuestion={props.listQuestion}
 							offerTypeId={props.offerTypeId}
@@ -33,6 +44,7 @@ const Offers = (props: any) => {
 					</>
 				)}
 			</div>
+			<Footer />
 		</div>
 	);
 };
@@ -56,6 +68,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					listOfferType(orderBy: { order: asc }) {
 						id
 						name
+						nameUK
+						hideInDemand
+						needsVerification
 						paginateOffers {
 							pageInfo {
 								totalCount
@@ -80,12 +95,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	const json = await response.json();
 	const { data } = json;
+	const locale = context.locale as string;
 
 	return {
 		props: {
 			...data,
 			offerTypeId: context.query.id,
-			...(await serverSideTranslations(context.locale as string, ["common"])),
+			locale,
+			...(await serverSideTranslations(locale, ["common"])),
 		},
 	};
 }
