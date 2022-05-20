@@ -21,6 +21,7 @@ const Search = <ElementType extends Record<string, any>>(
 			keys: searchKeys,
 			shouldSort: true,
 			threshold: 0.0, // don't do any fuzzy matching
+			ignoreLocation: true,
 		});
 	}, [allElements, searchKeys]);
 
