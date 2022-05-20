@@ -24,16 +24,18 @@ const Organizations: NextPage<Props> = ({
 	const { t } = useTranslation();
 	const organizations: Organization[] = useMemo(
 		() =>
-			organizationsProps.map((organization) => ({
-				...organization,
-				...(organization.organizationType
-					? {
-							organizationTypeName: t(
-								`organizace.${organization.organizationType}`
-							),
-					  }
-					: {}),
-			})),
+			organizationsProps
+				.filter((organization) => !!organization.name) // filter out organizations without name - those are mistakes
+				.map((organization) => ({
+					...organization,
+					...(organization.organizationType
+						? {
+								organizationTypeName: t(
+									`organizace.${organization.organizationType}`
+								),
+						  }
+						: {}),
+				})),
 		[organizationsProps, t]
 	);
 	const [organizationsAfterSearch, setOrganizationsAfterSearch] =
