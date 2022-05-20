@@ -20,7 +20,7 @@ const Search = <ElementType extends Record<string, any>>(
 		return new Fuse(allElements, {
 			keys: searchKeys,
 			shouldSort: true,
-			threshold: 0.3,
+			threshold: 0.0, // don't do any fuzzy matching
 		});
 	}, [allElements, searchKeys]);
 
