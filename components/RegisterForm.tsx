@@ -30,20 +30,34 @@ export const RegisterForm = memo<
 		contactHours: volunteerData?.contactHours ?? "",
 		organization: volunteerData?.organization ?? "",
 	});
-
+	console.log("AAAAAAAAAAAA", state.offers);
 	const submit = useCallback(
 		async (e: FormEvent) => {
 			e.preventDefault();
 			setSubmitting("loading");
-			const response = await fetch("/api/register", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					data: state,
-				}),
-			});
+			let response;
+			if (volunteerData) {
+				response = await fetch("/api/create-offer", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						volunteerId: volunteerData.id,
+						data: state.offers,
+					}),
+				});
+			} else {
+				response = await fetch("/api/register", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						data: state,
+					}),
+				});
+			}
 			const ok = response.ok;
 			let json: any = { ok: false };
 			try {
