@@ -23,20 +23,20 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 		<div className="antialiased text-gray-600">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
-				<div className="text-center mt-2">
+			<div className="px-4 py-4 overflow-hidden bg-white sm:px-6 lg:px-8 lg:py-8">
+				<div className="mt-2 text-center">
 					<h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
 						{t("mojeNabidky.title")}
 					</h1>
 				</div>
 
-				<div className="text-center mt-4">
+				<div className="mt-4 text-center">
 					<Link href="/logout" prefetch={false}>
 						<a className="underline">{t("mojeNabidky.logout")}</a>
 					</Link>
 				</div>
 
-				<div className="mt-8 max-w-3xl mx-auto grid md:grid-cols-2 sm:grid-cols-1">
+				<div className="max-w-3xl mx-auto mt-8 grid md:grid-cols-2 sm:grid-cols-1">
 					{offers.map((offer) => {
 						const statusLable: {
 							[status: string]: { text: string; background: string };
@@ -55,12 +55,18 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 							},
 						};
 						const offerType = offerTypes.find((it) => it.id === offer.type.id)!;
+						const createdAt = new Date(offer.createdAt);
 						return (
 							<div
 								key={offer.id}
-								className="p-4 rounded-md border shadow-md m-4 flex flex-col"
+								className="flex flex-col p-4 m-4 border shadow-md rounded-md"
 							>
-								<h3 className="text-lg font-bold">{offerType.name}</h3>
+								<div className="flex flex-row items-center justify-between">
+									<h3 className="text-lg font-bold">{offerType.name}</h3>
+									<span className="text-sm font-bold text-gray-400">
+										{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
+									</span>
+								</div>
 								{offer.parameters.map((parameter) => {
 									const question = offerType.questions.find(
 										(it) => it.id === parameter.question.id
@@ -137,7 +143,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 												query: { id: offer.id },
 											}}
 										>
-											<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">
+											<a className="px-2 py-1 text-sm text-white bg-blue-600 rounded-md">
 												{t("mojeNabidky.editOffer")}
 											</a>
 										</Link>
@@ -147,7 +153,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 						);
 					})}
 				</div>
-				<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+				<div className="px-4 py-4 overflow-hidden bg-white sm:px-6 lg:px-8 lg:py-8">
 					<div className="relative max-w-xl mx-auto">
 						<main className="mt-2">
 							<div className="text-center">
@@ -179,6 +185,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 type OfferResponse = {
 	id: string;
 	volunteer: Volunteer;
+	createdAt: string;
 	type: {
 		id: string;
 	};
@@ -212,6 +219,7 @@ type OfferStatus = {
 
 type Offer = {
 	id: string;
+	createdAt: string; // ISO 8601 timestamp
 	allowReaction: boolean;
 	volunteer: Volunteer;
 	type: {
@@ -372,6 +380,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 						orderBy: { volunteer: { createdAt: desc } }
 					) {
 						id
+						createdAt
 						type {
 							id
 						}
@@ -434,6 +443,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			status: offer.status,
 			allowReaction: !offerType.needsVerification,
 			volunteer: offer.volunteer,
+			createdAt: offer.createdAt,
 		};
 	});
 

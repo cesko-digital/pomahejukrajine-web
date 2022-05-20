@@ -11,6 +11,7 @@ interface HomeProps extends PublicQueryResult {
 	token: string;
 	offer?: {
 		id: string;
+		createdAt: string; // ISO 8601 timestamp
 		type: {
 			id: string;
 		};
@@ -46,14 +47,14 @@ const Home: NextPage<HomeProps> = ({
 		<div className="antialiased text-gray-600">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+			<div className="px-4 py-4 overflow-hidden bg-white sm:px-6 lg:px-8 lg:py-8">
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">
 							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
 								{t("nabidka.helpUkrainians")}
 							</h2>
-							<p className="mt-4 text-lg leading-6 text-gray-500">
+							<p className="mt-4 text-lg text-gray-500 leading-6">
 								{t("nabidka.offerHelp")}
 							</p>
 						</div>
@@ -69,6 +70,7 @@ const Home: NextPage<HomeProps> = ({
 								uk={false}
 								offerTypeId={offer.type.id}
 								offerId={offer.id}
+								offerCreatedAt={offer.createdAt}
 								offerStatusType={offer.status?.type}
 								questions={Object.fromEntries(
 									offer.parameters.map((item) => [
@@ -109,6 +111,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 						offer: getOffer(by: {id: $id}) {
 							id
+							createdAt
 							type {
 								id
 							}
