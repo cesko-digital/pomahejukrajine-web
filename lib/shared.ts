@@ -82,6 +82,7 @@ export interface RegisterFormState {
 }
 
 export type Volunteer = {
+	id: string;
 	name: string;
 	email: string;
 	phone: string;
