@@ -47,7 +47,9 @@ export default async function handler(
 		if (!offerType) {
 			throw new Error(`Offer type ${offerTypeId} not found`);
 		}
-		errors.push(...validateOffer(offerType, offer.questions));
+		const offerParams: OfferParameters | any = offer.questions;
+
+		errors.push(...validateOffer(offerType, offerParams));
 		if (errors.length) {
 			res.status(400).json({ ok: false, errors });
 		}
@@ -58,7 +60,7 @@ export default async function handler(
 						question: { connect: { id: questionId } },
 						value: question.value,
 						specification: question.specification,
-						values: question.values?.map((value) => ({
+						values: question.values?.map((value: any) => ({
 							create: {
 								value: value.value,
 								specification: value.specification,
@@ -76,7 +78,7 @@ export default async function handler(
 						value: question.value,
 						numericValue: parseInt(question.value),
 						specification: question.specification,
-						values: question.values?.map((value) => ({
+						values: question.values?.map((value: any) => ({
 							create: {
 								value: value.value,
 								specification: value.specification,
@@ -88,7 +90,7 @@ export default async function handler(
 						question: { connect: { id: questionId } },
 						value: question.value,
 						specification: question.specification,
-						values: question.values?.map((value) => ({
+						values: question.values?.map((value: any) => ({
 							create: {
 								value: value.value,
 								specification: value.specification,
