@@ -10,8 +10,9 @@ module.exports = {
 				"ua-yellow": "#FFD500",
 				"ua-blue-dark": "#004495",
 				"footer-grey": "#EDEDED",
-				"footer-grey-dark": "#4F4F4F",
+				"grey-dark": "#4F4F4F",
 				"blue-very-light": "#F4F9FF",
+				"yellow-very-light": "#FFF5D2",
 				"card-grey": "#F2F2F2",
 			},
 			fontFamily: {
