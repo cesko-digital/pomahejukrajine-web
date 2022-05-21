@@ -153,5 +153,14 @@
 	"faq.questions.question14": "Ви якимось чином контролюєте якість пропонованих послуг?",
 	"faq.questions.answer14": "Ми будемо намагатися довгостроково перевіряти пропозиції, координувати їх подальше використання та підтримувати наших клієнтів. Ми завжди стежимо за інтересами прибулих і намагаємося забезпечити їм гідні умови. Саме тому деякі пропозиції не публікуються безпосередньо в Інтернеті. Ми їх спочатку провіряємо а потім об’єднуємо тих, хто пропонує з тими, хто потребує допомогу. Залучені неурядові організації не беруть на себе відповідальність за всі пропозиції чи попит, але намагатимуться інформувати та об’єднати обидві сторони, щоб допомога була максимально ефективною. У разі опублікованих пропозицій, на які можуть відповісти безпосередньо ті, хто потребує допомогу, ми не маємо можливості контролювати якість пропонованих послуг.",
 	"faq.questions.question15": "Ви журналіст і хочете більше інформації?",
-	"faq.questions.answer15": "Напишіть нам на: <a class=\"underline\" href=\"mailto:krchova@migracnikonsorcium.cz\">krchova@migracnikonsorcium.cz</a>, ми будемо раді вам її надати."
+	"faq.questions.answer15": "Напишіть нам на: <a class=\"underline\" href=\"mailto:krchova@migracnikonsorcium.cz\">krchova@migracnikonsorcium.cz</a>, ми будемо раді вам її надати.",
+	"neverejneNabidky.title": "Neveřejné nabídky pomoci",
+	"neverejneNabidky.description": "Tyto nabídky jsou přístupné pouze registrovaným organizacím a institucím. Jsou ověřovány a jejich využití je koordinováno. Důvodem ověřování nabídek je bezpečnost příchozích.",
+	"neverejneNabidky.text": "V současné době evidujeme:",
+	"neverejneNabidky.box1Title": "Potřebuji využít neveřejnou nabídku",
+	"neverejneNabidky.box1Description": "Pokud chcete nabídky využít, obraťte se na krajské koordinační centrum, obec nebo místní pomáhající organizaci.",
+	"neverejneNabidky.box1Button": "Kontaktní údaje",
+	"neverejneNabidky.box2Title": "Organizuji pomoc uprchlíkům",
+	"neverejneNabidky.box2Description": "Pokud jste organizace nabízející pomoc uprchlíkům, zaregistrujte se pro přístup k neveřejným nabídkám.",
+	"neverejneNabidky.box2Button": "Registrace organizace"
 }

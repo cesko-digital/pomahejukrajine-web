@@ -43,11 +43,6 @@ export const OfferTypeList = ({
 								<li key={id}>
 									<Link href={`/nabidky/${id}`}>
 										<a
-											href={
-												locale === "cs"
-													? `/nabidky/${id}`
-													: `/${locale}/nabidky/${id}`
-											}
 											className={`border border-ua-blue py-2.5 px-6 rounded-lg flex ${
 												offerTypeId === id
 													? "bg-ua-blue text-white"

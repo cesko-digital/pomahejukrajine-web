@@ -1,8 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next/types";
 import * as React from "react";
-import { Stats, InstantSearch, Index } from "react-instantsearch-dom";
-import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import Header from "../../components/header";
@@ -25,7 +23,7 @@ const Offers = (props: any) => {
 						{t("nabidky.title")}
 					</h2>
 					<a
-						href="#"
+						href="/neverejne-nabidky"
 						className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white"
 					>
 						{t("nabidky.linkToPrivateOffers")}

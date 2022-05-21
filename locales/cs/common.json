@@ -153,5 +153,14 @@
 	"faq.questions.question14": "Kontrolujete nějak kvality nabízených služeb?",
 	"faq.questions.answer14": "Budeme se snažit dlouhodobě ověřovat nabídky, koordinovat jejich další využití i podporovat naše klientky a klienty.  Vždy se řídíme zájmem příchozích a snažíme se pro ně zajistit důstojné podmínky. Také proto nejsou některé nabídky přímo zveřejněny na webu, ale projdou nejprve ověřením a propojením pomáhajících a těch, kdo pomoc potřebují. Zapojené nevládní organizace nemohou přejímat odpovědnost za všechny nabídky ani za poptávku, ale pokusí se obě strany dobře informovat a propojit obě strany tak, aby pomoc byla co nejúčinnější. V případě zveřejněných nabídek, na které mohou reagovat přímo ti, kteří pomoc potřebuji, ale nemáme možnost kvalitu nabízených služeb kontrolovat.",
 	"faq.questions.question15": "Jste novinář a chcete více informací?",
-	"faq.questions.answer15": "Ozvěte se nám na <a class=\"underline\" href=\"mailto:krchova@migracnikonsorcium.cz\">krchova@migracnikonsorcium.cz</a>, rádi vám je poskytneme."
+	"faq.questions.answer15": "Ozvěte se nám na <a class=\"underline\" href=\"mailto:krchova@migracnikonsorcium.cz\">krchova@migracnikonsorcium.cz</a>, rádi vám je poskytneme.",
+	"neverejneNabidky.title": "Neveřejné nabídky pomoci",
+	"neverejneNabidky.description": "Tyto nabídky jsou přístupné pouze registrovaným organizacím a institucím. Jsou ověřovány a jejich využití je koordinováno. Důvodem ověřování nabídek je bezpečnost příchozích.",
+	"neverejneNabidky.text": "V současné době evidujeme:",
+	"neverejneNabidky.box1Title": "Potřebuji využít neveřejnou nabídku",
+	"neverejneNabidky.box1Description": "Pokud chcete nabídky využít, obraťte se na krajské koordinační centrum, obec nebo místní pomáhající organizaci.",
+	"neverejneNabidky.box1Button": "Kontaktní údaje",
+	"neverejneNabidky.box2Title": "Organizuji pomoc uprchlíkům",
+	"neverejneNabidky.box2Description": "Pokud jste organizace nabízející pomoc uprchlíkům, zaregistrujte se pro přístup k neveřejným nabídkám.",
+	"neverejneNabidky.box2Button": "Registrace organizace"
 }
