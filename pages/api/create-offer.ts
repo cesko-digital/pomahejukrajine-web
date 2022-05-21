@@ -44,11 +44,10 @@ export default async function handler(
 
 	const offerList = Object.entries(data).map(([offerTypeId, offer]) => {
 		const offerType = offerTypes.find(({ id }) => id === offerTypeId);
-
 		if (!offerType) {
 			throw new Error(`Offer type ${offerTypeId} not found`);
 		}
-		errors.push(...validateOffer(offerType, offer));
+		errors.push(...validateOffer(offerType, offer.questions));
 		if (errors.length) {
 			res.status(400).json({ ok: false, errors });
 		}
@@ -106,12 +105,16 @@ export default async function handler(
 		};
 	});
 
+	if (res.statusCode == 400) {
+		return;
+	}
+
 	const createInputs = offerList.map((offer) => {
 		return {
 			volunteer: { connect: { id: volunteerId } },
-			type: offer.type,
-			code: offer.code,
-			parameters: offer.parameters.map((p) => {
+			type: offer?.type,
+			code: offer?.code,
+			parameters: offer?.parameters.map((p) => {
 				return { create: { ...p } };
 			}),
 		};
