@@ -145,7 +145,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 													query: { id: offer.id },
 												}}
 											>
-												<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">
+												<a className="px-2 py-1 bg-ua-blue text-white rounded-md text-sm">
 													Upravit nabídku
 												</a>
 											</Link>
