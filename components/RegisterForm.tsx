@@ -30,7 +30,7 @@ export const RegisterForm = memo<
 		contactHours: volunteerData?.contactHours ?? "",
 		organization: volunteerData?.organization ?? "",
 	});
-	console.log("AAAAAAAAAAAA", state.offers);
+
 	const submit = useCallback(
 		async (e: FormEvent) => {
 			e.preventDefault();
@@ -77,14 +77,23 @@ export const RegisterForm = memo<
 	);
 
 	if (submitting === "success") {
-		return (
-			<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
-				<p className="mx-3 font-medium text-white">
-					Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, pro
-					zobrazení vaší nabídky jej potřebujeme ověřit.
-				</p>
-			</div>
-		);
+		if (volunteerData) {
+			return (
+				<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+					<p className="mx-3 font-medium text-white">
+						Nabídka vytvořena, děkujeme. Pro zobrzení znova načtěte stránku
+					</p>
+				</div>
+			);
+		} else
+			return (
+				<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+					<p className="mx-3 font-medium text-white">
+						Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, pro
+						zobrazení vaší nabídky jej potřebujeme ověřit.
+					</p>
+				</div>
+			);
 	}
 	const disabled = submitting === "loading";
 	return (
