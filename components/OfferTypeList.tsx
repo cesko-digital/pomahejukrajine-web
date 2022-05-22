@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Index, InstantSearch, Stats } from "react-instantsearch-dom";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 
@@ -37,17 +38,20 @@ export const OfferTypeList = ({
 					return (
 						<Index indexName={`offers_${id}`} key={id}>
 							<li key={id}>
-								<a
-									href={`/nabidky/${id}`}
-									className={`border border-gray-200 py-2 px-6 rounded-full flex gap-2 ${
-										offerTypeId === id
-											? "bg-blue-600 text-white border-blue-800 shadow-sm hover:bg-blue-600"
-											: ""
-									}`}
-								>
-									{name}{" "}
-									<Stats translations={{ stats: (nbHits) => `(${nbHits})` }} />
-								</a>
+								<Link href={`/nabidky/${id}`}>
+									<a
+										className={`border border-gray-200 py-2 px-6 rounded-full flex gap-2 ${
+											offerTypeId === id
+												? "bg-blue-600 text-white border-blue-800 shadow-sm hover:bg-blue-600"
+												: ""
+										}`}
+									>
+										{name}{" "}
+										<Stats
+											translations={{ stats: (nbHits) => `(${nbHits})` }}
+										/>
+									</a>
+								</Link>
 							</li>
 						</Index>
 					);
