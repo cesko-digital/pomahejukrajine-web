@@ -72,6 +72,7 @@
 	"password.reset.confirmation": "На вказану електронну пошту був надісланий е-мейл з інструкціями як поновити пароль",
 	"password.reset.error": "Помилка в надісланні анкети",
 	"nabidka.title": "Тут напишіть свою пропозицію",
+	"nabidka.addAnother": "",
 	"nabidka.text1": "Пункти, позначені *",
 	"nabidka.text2": " є обов'язковими для звповнення",
 	"nabidka.edited": "",

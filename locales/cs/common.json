@@ -72,6 +72,7 @@
 	"password.reset.confirmation": "Na zadanou emailovou adresu byl odeslán email s instrukcemi jak obnovit heslo.",
 	"password.reset.error": "Chyba při odesílání formuláře",
 	"nabidka.title": "Zde vložte svou nabídku",
+	"nabidka.addAnother": "Přidat další novou nabídku",
 	"nabidka.text1": "Položky označené",
 	"nabidka.text2": "jsou povinné.",
 	"nabidka.edited": "Nabídka byla upravena",

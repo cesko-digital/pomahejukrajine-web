@@ -124,7 +124,8 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 											"text-green-500"
 										} text-sm`}
 									>
-										{statusLable[offer.status?.type]?.text ?? "Aktivní"}
+										{statusLable[offer.status?.type]?.text ??
+											t("nabidka.active")}
 									</p>
 								</div>
 								<div className="grow"></div>
