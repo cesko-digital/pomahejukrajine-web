@@ -1,7 +1,12 @@
 /* eslint-disable react/display-name */
 import { memo } from "react";
 import { default as Select, components } from "react-select";
-import { Districts, QuestionDefinition, QuestionValue } from "../lib/shared";
+import {
+	Districts,
+	QuestionDefinition,
+	QuestionValue,
+	Postcode,
+} from "../lib/shared";
 
 const SelectInput = (props: any) => (
 	<components.Input
@@ -9,6 +14,10 @@ const SelectInput = (props: any) => (
 		inputClassName="outline-none border-none shadow-none focus:ring-transparent"
 	/>
 );
+
+const removeNonNumericCharacters = (value: string) => {
+	return value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
+};
 
 export const QuestionControl = memo<{
 	definition: QuestionDefinition;
@@ -45,9 +54,20 @@ export const QuestionControl = memo<{
 								: "text"
 						}
 						{...(definition.type === "number" ? { min: 0 } : {})}
+						maxLength={
+							Postcode.indexOf(definition.question.toLowerCase()) > -1 ? 5 : 999
+						}
 						required={definition.required}
 						value={value.value ?? ""}
-						onChange={(e) => onChange({ ...value, value: e.target.value })}
+						onChange={(e) =>
+							onChange({
+								...value,
+								value:
+									Postcode.indexOf(definition.question.toLowerCase()) > -1
+										? removeNonNumericCharacters(e.target.value)
+										: e.target.value,
+							})
+						}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 					/>
 				)}

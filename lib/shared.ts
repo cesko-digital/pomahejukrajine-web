@@ -102,6 +102,8 @@ export type ErrorMultilingual =
 	| { input: "email"; message: { cs: string; uk: string } }
 	| { input: "offer"; message: { cs: string; uk: string } };
 
+export const Postcode: Array<string> = ["psč", "postcode", "zip"];
+
 export const publicQuery = `
 	offerTypes: listOfferType(orderBy: [{ order: asc }]) {
 		id
