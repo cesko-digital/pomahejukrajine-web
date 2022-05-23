@@ -74,6 +74,7 @@
 	"nabidka.title": "Zde vložte svou nabídku",
 	"nabidka.text1": "Položky označené",
 	"nabidka.text2": "jsou povinné.",
+	"nabidka.created": "Nabdka byla vytvořena. Pro její zobrazení znova načtěte stránku",
 	"nabidka.confirmation": "Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, pro zobrazení vaší nabídky jej potřebujeme ověřit.",
 	"nabidka.error": "Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.",
 	"nabidka.name": "Jméno",
