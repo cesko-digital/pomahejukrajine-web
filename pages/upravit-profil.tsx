@@ -4,8 +4,10 @@ import {
 	GetServerSidePropsResult,
 	NextPage,
 } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Header from "../components/header";
 import { Meta } from "../components/Meta";
@@ -27,6 +29,7 @@ const EditProfile: NextPage<EditProfileProps> = ({
 	languages,
 	volunteerDetails,
 }) => {
+	const { t } = useTranslation();
 	const [submitting, setSubmitting] = useState<
 		false | "loading" | "error" | "success"
 	>(false);
@@ -48,7 +51,6 @@ const EditProfile: NextPage<EditProfileProps> = ({
 				data: values,
 			}),
 		});
-		console.log(response);
 		let ok = response.ok;
 
 		let json: any;
@@ -67,37 +69,32 @@ const EditProfile: NextPage<EditProfileProps> = ({
 		}
 	}, []);
 
+	useEffect(() => {
+		setDefaultVolunteerDetails(volunteerDetails);
+	}, [volunteerDetails]);
+
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta
-				title="Nabídky pomoci - Pomáhej Ukrajině"
-				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
-			/>
+			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center mt-2">
 							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-								Upravit svůj osobní profil
+								{t("mujProfil.title")}
 							</h2>
 						</div>
 
 						<div className="text-center mt-4">
 							<Link href="/moje-nabidky" prefetch={false}>
-								<a className="underline">Zpět na moje nabídky</a>
+								<a className="underline">{t("mujProfil.back")}</a>
 							</Link>
 						</div>
-
-						{submitting === "error" && (
-							<div className="mt-5">
-								<p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>
-							</div>
-						)}
 						{submitting === "success" && (
 							<div className="mt-5 p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
 								<p className="mx-3 font-medium text-white">
-									Váš profil byt úspěšně uložen.
+									{t("mujProfil.saved")}
 								</p>
 							</div>
 						)}
@@ -106,7 +103,8 @@ const EditProfile: NextPage<EditProfileProps> = ({
 							<VolunteerForm
 								languages={languages}
 								disabled={disabled}
-								defaultState={volunteerDetails}
+								errored={submitting === "error"}
+								defaultState={defaultVolunteerDetails}
 								errors={errors}
 								onSubmit={onSubmit}
 							>
@@ -116,14 +114,12 @@ const EditProfile: NextPage<EditProfileProps> = ({
 										disabled={disabled}
 										className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 									>
-										Uložit
+										{t("mujProfil.save")}
 									</button>
 								</div>
 								<div>
 									{errors.length > 0 && (
-										<p className="text-center">
-											Zkontrolujte, zda jste vše vyplnili správně.
-										</p>
+										<p className="text-center">{t("mujProfil.checkForm")}</p>
 									)}
 								</div>
 							</VolunteerForm>
@@ -185,7 +181,15 @@ export async function getServerSideProps(
 		};
 	}
 
-	const volunteerDetails = await getVolunteerDetail(token, volunteerIds[0]);
+	let volunteerDetails;
+	// Find volunteer detail. @todo(): Should not be necessary after duplicit volunteer accounts were merged.
+	for (const volunteerId of volunteerIds) {
+		volunteerDetails = await getVolunteerDetail(token, volunteerId);
+		if (volunteerDetails) {
+			break;
+		}
+	}
+
 	if (!volunteerDetails) {
 		return {
 			redirect: {
@@ -202,6 +206,7 @@ export async function getServerSideProps(
 				...volunteerDetails,
 				languages: volunteerDetails.languages.map((lang) => lang.language.id),
 			},
+			...(await serverSideTranslations(context.locale as string, ["common"])),
 		},
 	};
 }

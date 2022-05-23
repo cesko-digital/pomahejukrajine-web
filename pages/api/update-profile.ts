@@ -52,9 +52,9 @@ export default async function handler(
 
 	for (const volunteerId of volunteerIds) {
 		const volunteerDetails = await getVolunteerDetail(token, volunteerId);
+		// @todo(): Should not be necessary after duplicit volunteer accounts were merged.
 		if (!volunteerDetails) {
-			res.status(401).json({ ok: false });
-			return;
+			continue;
 		}
 
 		const prevLanguageRelations = volunteerDetails.languages;
@@ -132,7 +132,7 @@ export default async function handler(
 	}
 
 	res.status(200).json({
-		ok: responseStates.every(Boolean),
+		ok: responseStates.length > 0 && responseStates.every(Boolean),
 		volunteer: await getVolunteerDetail(token, volunteerIds[0]),
 	});
 }
