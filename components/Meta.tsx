@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -12,6 +13,7 @@ type IMetaProps = {
 
 const Meta = (props: IMetaProps) => {
 	const router = useRouter();
+	const { t } = useTranslation();
 
 	return (
 		<>
@@ -64,7 +66,7 @@ const Meta = (props: IMetaProps) => {
 							url: "https://www.pomahejukrajine.cz/og_image_1200x630-v3.png",
 							width: 1200,
 							height: 630,
-							alt: "Pomáhej Ukrajině",
+							alt: t("meta.title"),
 						},
 					],
 				}}

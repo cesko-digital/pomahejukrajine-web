@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 interface LoginState {
 	email: string;
@@ -17,6 +18,7 @@ export const LoginForm = () => {
 		password: "",
 	});
 	const router = useRouter();
+	const { t } = useTranslation();
 
 	const submit = useCallback(
 		async (e: FormEvent) => {
@@ -70,7 +72,7 @@ export const LoginForm = () => {
 					htmlFor="password"
 					className="block text-sm font-medium text-gray-700"
 				>
-					E-mail
+					{t("login.email")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -89,7 +91,7 @@ export const LoginForm = () => {
 					htmlFor="password"
 					className="block text-sm font-medium text-gray-700"
 				>
-					Heslo
+					{t("login.password")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -108,14 +110,14 @@ export const LoginForm = () => {
 				type="submit"
 				className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 			>
-				Přihlásit se
+				{t("login.login")}
 			</button>
 
 			<div>
 				<div className="mt-1 text-center">
 					<Link href="/password/reset">
 						<a className="text-sm font-medium text-gray-700 underline">
-							Zapomenuté heslo
+							{t("login.forgottenPassword")}
 						</a>
 					</Link>
 				</div>

@@ -4,6 +4,7 @@ import { FormEvent, memo, useCallback, useState } from "react";
 import { QuestionValue, PublicQueryResult, FormError } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 import { default as Select } from "react-select";
+import { useTranslation } from "next-i18next";
 
 interface RegisterFormProps extends PublicQueryResult {
 	offerId: string;
@@ -30,6 +31,7 @@ export const EditForm = memo<RegisterFormProps>(
 		const [errors, setErrors] = useState<FormError[]>([]);
 		const [state, setState] = useState(questions);
 		const [statusState, setStatusState] = useState(offerStatusType);
+		const { t } = useTranslation();
 
 		const submit = useCallback(
 			async (e: FormEvent) => {
@@ -104,7 +106,7 @@ export const EditForm = memo<RegisterFormProps>(
 					<div className="flex justify-center mt-3">
 						<Link href="/moje-nabidky">
 							<a className="inline-block bg-blue-50 py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100">
-								Zpět na mé nabídky
+								{t("nabidka.backToMyOffers")}
 							</a>
 						</Link>
 					</div>
@@ -114,17 +116,13 @@ export const EditForm = memo<RegisterFormProps>(
 
 		const disabled = submitting === "loading";
 		const statusLable: any = {
-			outdated: "Není aktivní",
-			capacity_exhausted: "Vyčerpaná kapacita",
+			outdated: t("nabidka.outdated"),
+			capacity_exhausted: t("nabidka.capacityExhausted"),
 		};
 
 		return (
 			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
-				<div>
-					{submitting === "error" && (
-						<p>Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.</p>
-					)}
-				</div>
+				<div>{submitting === "error" && <p>{t("nabidka.error")}</p>}</div>
 				<div className="mt-1">
 					{errors.find((it) => it.input === "offer") !== undefined && (
 						<div className="flex">
@@ -146,11 +144,11 @@ export const EditForm = memo<RegisterFormProps>(
 									<Select
 										isClearable={false}
 										options={[
-											{ value: "active", label: "Aktivní" },
-											{ value: "outdated", label: "Není aktivní" },
+											{ value: "active", label: t("nabidka.active") },
+											{ value: "outdated", label: t("nabidka.outdated") },
 											{
 												value: "capacity_exhausted",
-												label: "Vyčerpaná kapacita",
+												label: t("nabidka.capacityExhausted"),
 											},
 										]}
 										defaultValue={
@@ -159,7 +157,7 @@ export const EditForm = memo<RegisterFormProps>(
 														value: offerStatusType,
 														label: statusLable[offerStatusType],
 												  }
-												: { value: offerStatusType, label: "Aktivní" }
+												: { value: offerStatusType, label: t("nabidka.active") }
 										}
 										onChange={(option) =>
 											setStatusState(option?.value ? option.value : "active")
@@ -208,14 +206,12 @@ export const EditForm = memo<RegisterFormProps>(
 						disabled={disabled}
 						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 					>
-						Odeslat
+						{t("nabidka.submit")}
 					</button>
 				</div>
 				<div>
 					{errors.length > 0 && (
-						<p className="text-center">
-							Zkontrolujte, zda jste vše vyplnili správně.
-						</p>
+						<p className="text-center">{t("nabidka.checkForm")}</p>
 					)}
 				</div>
 			</form>

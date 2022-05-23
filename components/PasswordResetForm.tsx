@@ -1,5 +1,6 @@
 import { FormEvent, useCallback, useState } from "react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 interface LoginState {
 	email: string;
@@ -14,6 +15,7 @@ export const PasswordResetForm = () => {
 		email: "",
 	});
 	const router = useRouter();
+	const { t } = useTranslation();
 
 	const submit = useCallback(
 		async (e: FormEvent) => {
@@ -33,7 +35,7 @@ export const PasswordResetForm = () => {
 			if (response.ok) {
 				setSubmitting("success");
 			} else {
-				let message = "Chyba při odesílání formuláře";
+				let message = t("password.reset.error");
 				try {
 					const json = await response.json();
 					if (typeof json.error === "string") {
@@ -44,15 +46,14 @@ export const PasswordResetForm = () => {
 				setSubmitting("error");
 			}
 		},
-		[state]
+		[state, t]
 	);
 
 	if (submitting === "success") {
 		return (
 			<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
 				<p className="mx-3 font-medium text-white">
-					Na zadanou emailovou adresu byl odeslán email s instrukcemi jak
-					obnovit heslo.
+					{t("password.reset.confirmation")}
 				</p>
 			</div>
 		);
@@ -72,7 +73,7 @@ export const PasswordResetForm = () => {
 					htmlFor="password"
 					className="block text-sm font-medium text-gray-700"
 				>
-					E-mail
+					{t("password.reset.email")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -91,7 +92,7 @@ export const PasswordResetForm = () => {
 				type="submit"
 				className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 			>
-				Obnovit hesla
+				{t("password.reset.submit")}
 			</button>
 		</form>
 	);

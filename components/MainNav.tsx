@@ -7,6 +7,7 @@ import React, { useRef, useState } from "react";
 import CloseIcon from "./CloseIcon";
 import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
+import { useTranslation } from "next-i18next";
 
 const NavLinks: React.FC<{
 	normalStyle: string;
@@ -16,17 +17,18 @@ const NavLinks: React.FC<{
 	myOffersStyle?: string;
 }> = ({ normalStyle, activeStyle, showHome, showMyOffers, myOffersStyle }) => {
 	const router = useRouter();
+	const { t } = useTranslation();
 	const isHomepage = router.route === "/";
 
 	const links: Record<string, string> = {
-		"/": "Úvod",
-		"/nabidka": "Nabízím pomoc",
-		"/nabidky": "Hledám pomoc",
-		"/faq": "Časté otázky",
-		"https://migracnikonsorcium.cz/cs/": "Důležité informace",
+		"/": t("header.main"),
+		"/nabidka": t("header.offerHelp"),
+		"/nabidky": t("header.needHelp"),
+		"/faq": t("header.faq"),
+		"https://migracnikonsorcium.cz/cs/": t("header.information"),
 		"https://migracnikonsorcium.cz/cs/pomahej-ukrajine/o-platforme-pomahej-ukrajine/":
-			"Více o Pomáhej Ukrajině",
-		"/moje-nabidky": "Moje nabídky",
+			t("header.moreAboutProject"),
+		"/moje-nabidky": t("header.myOffers"),
 	};
 
 	return (

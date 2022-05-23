@@ -1,4 +1,5 @@
 import { FormEvent, useCallback, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 interface VerifyState {
 	password: string;
@@ -6,6 +7,7 @@ interface VerifyState {
 }
 
 export const VerifyForm = () => {
+	const { t } = useTranslation();
 	const [submitting, setSubmitting] = useState<
 		false | "notSame" | "submitting" | "success" | "error"
 	>(false);
@@ -42,7 +44,7 @@ export const VerifyForm = () => {
 			if (response.ok) {
 				setSubmitting("success");
 			} else {
-				let message = "Chyba při odesílání formuláře";
+				let message = t("verify.error");
 				try {
 					const json = await response.json();
 					if (typeof json.error === "string") {
@@ -53,16 +55,14 @@ export const VerifyForm = () => {
 				setSubmitting("error");
 			}
 		},
-		[state]
+		[state, t]
 	);
 
 	if (submitting === "success") {
 		return (
 			<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
 				<p className="mx-3 font-medium text-white">
-					Heslo nastaveno. Vaše nabídka byla uložena. V nejbližší době Vaši
-					nabídku zpracujeme a ozveme se Vám pro případná upřesnění nebo jakmile
-					bude Vaše pomoc potřeba.
+					{t("verify.confirmation")}
 				</p>
 			</div>
 		);
@@ -74,12 +74,12 @@ export const VerifyForm = () => {
 		<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
 			{submitting === "notSame" && (
 				<p className="p-2 rounded-lg bg-red-500 shadow-lg text-center text-white mx-auto px-8">
-					Hesla se neshodují
+					{t("verify.passwordMismatch")}
 				</p>
 			)}
 			{submitting === "error" && (
 				<p className="p-2 rounded-lg bg-red-500 shadow-lg text-center text-white mx-auto px-8">
-					Nastala chyba
+					{t("chyba")}
 				</p>
 			)}
 			{error && (
@@ -92,7 +92,7 @@ export const VerifyForm = () => {
 					htmlFor="password"
 					className="block text-sm font-medium text-gray-700"
 				>
-					Heslo:
+					{t("verify.password")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -111,7 +111,7 @@ export const VerifyForm = () => {
 					htmlFor="passwordSecond"
 					className="block text-sm font-medium text-gray-700"
 				>
-					Heslo pro kontrolu:
+					{t("verify.confirmPassword")}
 				</label>
 				<div className="mt-1">
 					<input
@@ -132,7 +132,7 @@ export const VerifyForm = () => {
 				type="submit"
 				className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 			>
-				Nastavit
+				{t("verify.submit")}
 			</button>
 		</form>
 	);

@@ -4,17 +4,19 @@ import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { Fragment } from "react";
-import { publicQuery, PublicQueryResult, Volunteer } from "../lib/shared";
+import { publicQuery, PublicQueryResult } from "../lib/shared";
 import Link from "next/link";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 import { RegisterForm } from "../components/RegisterForm";
 
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 	offers,
 	offerTypes,
-	districts,
-	languages,
 }) => {
 	const volunteerData = offers[0].volunteer;
+	const { t } = useTranslation();
+
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta
@@ -35,154 +37,89 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 					</Link>
 				</div>
 
-				<div className="mt-4 max-w-5xl mx-auto grid md:grid-cols-2 sm:grid-cols-1">
-					<div className="mt-8 w-5xl mx-auto grid md:grid-cols-1 sm:grid-cols-1">
-						<div className="text-center">
-							<h2 className="font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-								Přístup k mým nabídkám
-							</h2>
-						</div>
-						{offers.map((offer) => {
-							const statusLable: {
-								[status: string]: { text: string; background: string };
-							} = {
-								outdated: {
-									text: "Není aktivní",
-									background: "text-orange-500",
-								},
-								capacity_exhausted: {
-									text: "Kapacita vyčerpána",
-									background: "text-red-500",
-								},
-								bad_experience: {
-									text: "Špatná zkušenost s nabídkou",
-									background: "text-red-500",
-								},
-							};
-							const offerType = offerTypes.find(
-								(it) => it.id === offer.type.id
-							)!;
-							return (
-								<div
-									key={offer.id}
-									className="p-4 rounded-md border shadow-md m-4 flex flex-col"
-								>
-									<h3 className="text-lg font-bold">{offerType.name}</h3>
-									{offer.parameters.map((parameter) => {
-										const question = offerType.questions.find(
-											(it) => it.id === parameter.question.id
-										)!;
-										if (question) {
-											return (
-												<div key={parameter.id} className="flex flex-col mt-2">
-													<p className="text-sm font-bold">
-														{question.question}
-													</p>
-													<p className="text-sm">
-														{question.type === "district" ||
-														question.type === "checkbox" ? (
-															<>
-																{parameter.values.map((value, i) => {
-																	const isLast =
-																		i === parameter.values.length - 1;
-																	const requiresSpecification =
-																		question.type === "checkbox" &&
-																		(question.options.find(
-																			(it) => it.value === value.value
-																		)?.requireSpecification ??
-																			false);
-																	return (
-																		<Fragment key={value.id}>
-																			<span>
-																				{value.value}
-																				{requiresSpecification &&
-																					` (${value.specification})`}
-																			</span>
-																			{!isLast && ", "}
-																		</Fragment>
-																	);
-																})}
-															</>
-														) : question.type === "radio" ? (
-															<>
-																{" "}
-																{parameter.value}
-																{(question.options.find(
-																	(it) => it.value === parameter.value
-																)?.requireSpecification ??
-																	false) &&
-																	` (${parameter.specification})`}
-															</>
-														) : question.type === "date" ? (
-															<>
-																{parameter.value} {/* TODO */}
-															</>
-														) : (
-															<>{parameter.value}</>
-														)}
-													</p>
-												</div>
-											);
-										}
-									})}
-									<div className="mt-2">
-										<p className="text-sm font-bold">Stav</p>
-										<p
-											className={`${
-												statusLable[offer.status?.type]?.background ??
-												"text-green-500"
-											} text-sm`}
+				<div className="mt-8 max-w-3xl mx-auto grid md:grid-cols-2 sm:grid-cols-1">
+					{offers.map((offer) => {
+						const offerType = offerTypes.find((it) => it.id === offer.type.id)!;
+						return (
+							<div
+								key={offer.id}
+								className="p-4 rounded-md border shadow-md m-4 flex flex-col"
+							>
+								<h3 className="text-lg font-bold">{offerType.name}</h3>
+								{offer.parameters.map((parameter) => {
+									const question = offerType.questions.find(
+										(it) => it.id === parameter.question.id
+									)!;
+									if (question) {
+										return (
+											<div key={parameter.id} className="flex flex-col mt-2">
+												<p className="text-sm font-bold">{question.question}</p>
+												<p className="text-sm">
+													{question.type === "district" ||
+													question.type === "checkbox" ? (
+														<>
+															{parameter.values.map((value, i) => {
+																const isLast =
+																	i === parameter.values.length - 1;
+																const requiresSpecification =
+																	question.type === "checkbox" &&
+																	(question.options.find(
+																		(it) => it.value === value.value
+																	)?.requireSpecification ??
+																		false);
+																return (
+																	<Fragment key={value.id}>
+																		<span>
+																			{value.value}
+																			{requiresSpecification &&
+																				` (${value.specification})`}
+																		</span>
+																		{!isLast && ", "}
+																	</Fragment>
+																);
+															})}
+														</>
+													) : question.type === "radio" ? (
+														<>
+															{" "}
+															{parameter.value}
+															{(question.options.find(
+																(it) => it.value === parameter.value
+															)?.requireSpecification ??
+																false) &&
+																` (${parameter.specification})`}
+														</>
+													) : question.type === "date" ? (
+														<>
+															{parameter.value} {/* TODO */}
+														</>
+													) : (
+														<>{parameter.value}</>
+													)}
+												</p>
+											</div>
+										);
+									}
+								})}
+
+								<div className="grow"></div>
+								<div className="mt-3">
+									<div>
+										<Link
+											href={{
+												pathname: "/nabidka/[id]",
+												query: { id: offer.id },
+											}}
 										>
-											{statusLable[offer.status?.type]?.text ?? "Aktivní"}
-										</p>
-									</div>
-									<div className="grow"></div>
-									<div className="mt-3">
-										<div>
-											<Link
-												href={{
-													pathname: "/nabidka/[id]",
-													query: { id: offer.id },
-												}}
-											>
-												<a className="px-2 py-1 bg-ua-blue text-white rounded-md text-sm">
-													Upravit nabídku
-												</a>
-											</Link>
-										</div>
+											<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">
+												{t("mojeNabidky.editOffer")}
+											</a>
+										</Link>
 									</div>
 								</div>
-							);
-						})}
-					</div>
-					<div className="mt-8 text-center">
-						<h2 className="font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-							Můj profil
-						</h2>
-					</div>
-					<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
-						<div className="relative max-w-xl mx-auto">
-							<main className="mt-2">
-								<div className="text-center">
-									<h2 className="font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-										Přidat další novou nabídku
-									</h2>
-								</div>
-								<div
-									className={`${volunteerData ? "mt-4" : "mt-12"} ${
-										process.env.NEXT_TEMPORARY == "TEMPORARY" ? "hidden" : ""
-									}`}
-								>
-									<RegisterForm
-										offerTypes={offerTypes}
-										districts={districts}
-										languages={languages}
-										volunteerData={offers[0].volunteer}
-									/>
-								</div>
-							</main>
-						</div>
-					</div>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 			<Footer />
@@ -192,7 +129,6 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 
 type OfferResponse = {
 	id: string;
-	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -227,7 +163,6 @@ type OfferStatus = {
 type Offer = {
 	id: string;
 	allowReaction: boolean;
-	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -395,23 +330,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 							name
 							type
 						}
-						volunteer {
-							id
-							name
-							email
-							phone
-							organization
-							contactHours
-							expertise
-							verified
-							banned
-							languages {
-								language {
-									id
-									name
-								}
-							}
-						}
 						parameters (
 							orderBy: [{ question: { order: asc } }]
 						) {
@@ -447,7 +365,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			parameters: offer.parameters,
 			status: offer.status,
 			allowReaction: !offerType.needsVerification,
-			volunteer: offer.volunteer,
 		};
 	});
 

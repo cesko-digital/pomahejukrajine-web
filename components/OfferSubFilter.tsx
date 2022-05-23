@@ -1,12 +1,15 @@
 import { FilterWithCount, QuestionFilter } from "../lib/model/FilterModel";
 import cx from "classnames";
 import styles from "./OfferSubFilter.module.css";
+import { useTranslation } from "next-i18next";
 
 const OfferSubFilter: React.FC<{
 	shownFilters: Array<FilterWithCount>;
 	questionFilter: QuestionFilter;
 	setQuestionFilter: React.Dispatch<React.SetStateAction<QuestionFilter>>;
 }> = ({ shownFilters, questionFilter, setQuestionFilter }) => {
+	const { t } = useTranslation();
+
 	return (
 		<>
 			{shownFilters.map((filter) => {
@@ -44,7 +47,7 @@ const OfferSubFilter: React.FC<{
 											}));
 										}}
 									>
-										Nezáleží
+										{t("nabidky.notMatter")}
 									</button>
 								</li>
 
@@ -101,7 +104,7 @@ const OfferSubFilter: React.FC<{
 												}));
 											}}
 										>
-											Nezáleží
+											{t("nabidky.notMatter")}
 										</button>
 									</li>
 								)}

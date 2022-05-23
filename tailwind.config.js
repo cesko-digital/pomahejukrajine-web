@@ -13,7 +13,7 @@ module.exports = {
 				"footer-grey-dark": "#4F4F4F",
 			},
 			fontFamily: {
-				nuckle: ["Nuckle", "sans-serif"],
+				ptsant: ["PTSans", "sans-serif"],
 			},
 			fontSize: {
 				footer: "0.8125rem",
