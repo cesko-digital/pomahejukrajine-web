@@ -42,15 +42,15 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 							[status: string]: { text: string; background: string };
 						} = {
 							outdated: {
-								text: "Není aktivní",
+								text: t("nabidka.outdated"),
 								background: "text-orange-500",
 							},
 							capacity_exhausted: {
-								text: "Kapacita vyčerpána",
+								text: t("nabidka.capacityExhausted"),
 								background: "text-red-500",
 							},
 							bad_experience: {
-								text: "Špatná zkušenost s nabídkou",
+								text: t("nabidka.badExperience"),
 								background: "text-red-500",
 							},
 						};
