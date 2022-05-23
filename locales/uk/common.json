@@ -74,7 +74,7 @@
 	"nabidka.title": "Тут напишіть свою пропозицію",
 	"nabidka.text1": "Пункти, позначені *",
 	"nabidka.text2": " є обов'язковими для звповнення",
-	"nabidka.confirmation": "Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, pro zobrazení vaší nabídky jej potřebujeme ověřit.",
+	"nabidka.confirmation": "Надіслано, дякуємо. За декілька хвилин на вашу електронну пошту прийде лист, який Вам необхідно підтвердити, для подальшого відображення вашої пропозиції. ",
 	"nabidka.error": "Вибачте, щось пішло не так. Будь ласка, cпробуйте знову. Переконайтеся, що ви все правильно заповнили.",
 	"nabidka.name": "Ім'я, прізвище *",
 	"nabidka.organization": "Організація",
