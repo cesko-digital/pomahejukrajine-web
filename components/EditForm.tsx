@@ -99,9 +99,7 @@ export const EditForm = memo<RegisterFormProps>(
 			return (
 				<>
 					<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
-						<p className="mx-3 font-medium text-white">
-							Nabídka byla upravena.
-						</p>
+						<p className="mx-3 font-medium text-white">Nabídka byl upravena.</p>
 					</div>
 					<div className="flex justify-center mt-3">
 						<Link href="/moje-nabidky">

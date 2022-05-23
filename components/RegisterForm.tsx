@@ -1,6 +1,12 @@
 /* eslint-disable react/display-name */
+import { useTranslation } from "next-i18next";
 import { FormEvent, memo, useCallback, useState } from "react";
-import { FormError, PublicQueryResult, RegisterFormState } from "../lib/shared";
+import {
+	FormError,
+	PublicQueryResult,
+	RegisterFormState,
+	Volunteer,
+} from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 
 const Required = () => {
@@ -21,7 +27,7 @@ export const RegisterForm = memo<
 		phone: volunteerData?.phone ?? "+420",
 		expertise: volunteerData?.expertise ?? "",
 		offers: {},
-		languages: volunteerData?.languages.map((l) => l.language.id) ?? [],
+		languages: volunteerData?.languages.map((l: any) => l.language.id) ?? [],
 		contactHours: volunteerData?.contactHours ?? "",
 		organization: volunteerData?.organization ?? "",
 	});
@@ -31,15 +37,29 @@ export const RegisterForm = memo<
 		async (e: FormEvent) => {
 			e.preventDefault();
 			setSubmitting("loading");
-			const response = await fetch("/api/register", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					data: state,
-				}),
-			});
+			let response;
+			if (volunteerData) {
+				response = await fetch("/api/create-offer", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						volunteerId: volunteerData.id,
+						data: state.offers,
+					}),
+				});
+			} else {
+				response = await fetch("/api/register", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						data: state,
+					}),
+				});
+			}
 			const ok = response.ok;
 			let json: any = { ok: false };
 			try {
@@ -59,14 +79,20 @@ export const RegisterForm = memo<
 	);
 
 	if (submitting === "success") {
-		return (
-			<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
-				<p className="mx-3 font-medium text-white">
-					Odesláno, děkujeme. Za chvíli Vám přijde potvrzovací email, pro
-					zobrazení vaší nabídky jej potřebujeme ověřit.
-				</p>
-			</div>
-		);
+		if (volunteerData) {
+			return (
+				<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+					<p className="mx-3 font-medium text-white">{t("nabidka.created")}</p>
+				</div>
+			);
+		} else
+			return (
+				<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+					<p className="mx-3 font-medium text-white">
+						{t("nabidka.confirmation")}
+					</p>
+				</div>
+			);
 	}
 	const disabled = submitting === "loading";
 	return (
@@ -355,24 +381,28 @@ export const RegisterForm = memo<
 				))}
 			</div>
 
-			<div>
-				<label
-					htmlFor="specific"
-					className="block text-sm font-medium text-gray-700"
-				>
-					Máte specifickou odbornost? (lékař, psycholog, právník, ...)
-				</label>
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="text"
-						name="specific"
-						value={state.expertise}
-						onChange={(e) => setState({ ...state, expertise: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-					/>
+			{!volunteerData && (
+				<div>
+					<label
+						htmlFor="specific"
+						className="block text-sm font-medium text-gray-700"
+					>
+						Máte specifickou odbornost? (lékař, psycholog, právník, ...)
+					</label>
+					<div className="mt-1">
+						<input
+							disabled={disabled}
+							type="text"
+							name="specific"
+							value={state.expertise}
+							onChange={(e) =>
+								setState({ ...state, expertise: e.target.value })
+							}
+							className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						/>
+					</div>
 				</div>
-			</div>
+			)}
 
 			<div>
 				{t("nabidka.consent")}{" "}

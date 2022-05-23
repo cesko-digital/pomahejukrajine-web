@@ -4,7 +4,7 @@ import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { Fragment } from "react";
-import { publicQuery, PublicQueryResult } from "../lib/shared";
+import { publicQuery, PublicQueryResult, Volunteer } from "../lib/shared";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -13,32 +13,47 @@ import { RegisterForm } from "../components/RegisterForm";
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 	offers,
 	offerTypes,
+	districts,
+	languages,
 }) => {
 	const volunteerData = offers[0].volunteer;
 	const { t } = useTranslation();
 
 	return (
 		<div className="antialiased text-gray-600">
-			<Meta
-				title="Nabídky pomoci - Pomáhej Ukrajině"
-				description="Neziskové organizace pracující s migranty v ČR se spojily a toto je centrální místo, kde můžete nabídnout svou pomoc. Některé nabídky budou přímo zveřejněny a mohou na ně reagovat ti, kdo pomoc potřebují. Ostatní nabídky budou zpracovány kolegy z místních neziskových organizací nebo obcí."
-			/>
+			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="text-center mt-2">
 					<h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-						Moje nabídky pomoci
+						{t("mojeNabidky.title")}
 					</h1>
 				</div>
 
 				<div className="text-center mt-4">
 					<Link href="/logout" prefetch={false}>
-						<a className="underline">Odhlásit se</a>
+						<a className="underline">{t("mojeNabidky.logout")}</a>
 					</Link>
 				</div>
 
 				<div className="mt-8 max-w-3xl mx-auto grid md:grid-cols-2 sm:grid-cols-1">
 					{offers.map((offer) => {
+						const statusLable: {
+							[status: string]: { text: string; background: string };
+						} = {
+							outdated: {
+								text: "Není aktivní",
+								background: "text-orange-500",
+							},
+							capacity_exhausted: {
+								text: "Kapacita vyčerpána",
+								background: "text-red-500",
+							},
+							bad_experience: {
+								text: "Špatná zkušenost s nabídkou",
+								background: "text-red-500",
+							},
+						};
 						const offerType = offerTypes.find((it) => it.id === offer.type.id)!;
 						return (
 							<div
@@ -101,7 +116,17 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 										);
 									}
 								})}
-
+								<div className="mt-2">
+									<p className="text-sm font-bold">Stav</p>
+									<p
+										className={`${
+											statusLable[offer.status?.type]?.background ??
+											"text-green-500"
+										} text-sm`}
+									>
+										{statusLable[offer.status?.type]?.text ?? "Aktivní"}
+									</p>
+								</div>
 								<div className="grow"></div>
 								<div className="mt-3">
 									<div>
@@ -121,6 +146,29 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 						);
 					})}
 				</div>
+				<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+					<div className="relative max-w-xl mx-auto">
+						<main className="mt-2">
+							<div className="text-center">
+								<h2 className="font-extrabold tracking-tight text-gray-900 sm:text-2xl">
+									Přidat další novou nabídku
+								</h2>
+							</div>
+							<div
+								className={`${volunteerData ? "mt-4" : "mt-12"} ${
+									process.env.NEXT_TEMPORARY == "TEMPORARY" ? "hidden" : ""
+								}`}
+							>
+								<RegisterForm
+									offerTypes={offerTypes}
+									districts={districts}
+									languages={languages}
+									volunteerData={offers[0].volunteer}
+								/>
+							</div>
+						</main>
+					</div>
+				</div>
 			</div>
 			<Footer />
 		</div>
@@ -129,6 +177,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 
 type OfferResponse = {
 	id: string;
+	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -163,6 +212,7 @@ type OfferStatus = {
 type Offer = {
 	id: string;
 	allowReaction: boolean;
+	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -330,6 +380,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 							name
 							type
 						}
+						volunteer {
+							id
+							name
+							email
+							phone
+							organization
+							contactHours
+							expertise
+							verified
+							banned
+							languages {
+								language {
+									id
+									name
+								}
+							}
+						}
 						parameters (
 							orderBy: [{ question: { order: asc } }]
 						) {
@@ -365,6 +432,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			parameters: offer.parameters,
 			status: offer.status,
 			allowReaction: !offerType.needsVerification,
+			volunteer: offer.volunteer,
 		};
 	});
 
@@ -372,6 +440,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		props: {
 			...data,
 			offers,
+			...(await serverSideTranslations(context.locale as string, ["common"])),
 		},
 	};
 };
