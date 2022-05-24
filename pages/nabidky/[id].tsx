@@ -56,6 +56,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 					listOfferType(orderBy: { order: asc }) {
 						id
 						name
+						nameUK						
 						paginateOffers {
 							pageInfo {
 								totalCount
@@ -67,8 +68,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						label
 						type
 						question
+						questionUK
 						options {
 							label
+							labelUK
 							value
 						}
 					}

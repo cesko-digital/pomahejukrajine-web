@@ -1,7 +1,9 @@
 /* eslint-disable react/display-name */
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { FormEvent, memo, useCallback, useState } from "react";
 import { FormError, PublicQueryResult, RegisterFormState } from "../lib/shared";
+import { CZECH } from "../utils/constants";
 import { QuestionControl } from "./QuestionControl";
 
 const Required = () => {
@@ -26,6 +28,7 @@ export const RegisterForm = memo<PublicQueryResult>(
 			organization: "",
 		});
 		const { t } = useTranslation();
+		const { locale } = useRouter();
 
 		const submit = useCallback(
 			async (e: FormEvent) => {
@@ -37,7 +40,10 @@ export const RegisterForm = memo<PublicQueryResult>(
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						data: state,
+						data: {
+							...state,
+							isUKLanguage: locale !== CZECH,
+						},
 					}),
 				});
 				const ok = response.ok;
