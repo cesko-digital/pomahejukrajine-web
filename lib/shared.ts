@@ -133,6 +133,7 @@ export const publicQuery = `
 	districts: listDistrict(orderBy: [{name: asc}]) {
 		id
 		name
+		nameUK
 
 		region {
 			id

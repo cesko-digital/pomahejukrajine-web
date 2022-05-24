@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Index, InstantSearch, Stats } from "react-instantsearch-dom";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 
@@ -11,6 +12,8 @@ export const OfferTypeList = ({
 	listOfferType,
 	offerTypeId,
 }: OfferTypeListProps) => {
+	const { locale } = useRouter();
+
 	const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
 		server: {
 			apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY!,
@@ -34,7 +37,7 @@ export const OfferTypeList = ({
 				indexName={`offers_${offerTypeId}`}
 				searchClient={typesenseInstantsearchAdapter.searchClient}
 			>
-				{listOfferType.map(({ id, name }: any) => {
+				{listOfferType.map(({ id, name, nameUK }: any) => {
 					return (
 						<Index indexName={`offers_${id}`} key={id}>
 							<li key={id}>
@@ -46,7 +49,7 @@ export const OfferTypeList = ({
 												: ""
 										}`}
 									>
-										{name}{" "}
+										{locale === "cs" ? name : nameUK}{" "}
 										<Stats
 											translations={{ stats: (nbHits) => `(${nbHits})` }}
 										/>
