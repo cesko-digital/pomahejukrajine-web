@@ -146,9 +146,11 @@ export default async function handler(
 				}),
 			}
 		);
-
-		const json = await response.json();
-		const ok: boolean | undefined = response.ok && json?.data?.createOffer?.ok;
+		let json: any;
+		try {
+			json = await response.json();
+		} catch (e) {}
+		const ok: boolean | undefined = response?.ok && json?.data?.createOffer?.ok;
 		if (ok !== true) {
 			console.warn("Failed to create offer", json);
 			console.log(json?.data?.createOffer?.error);

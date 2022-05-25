@@ -164,7 +164,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 									offerTypes={offerTypes}
 									districts={districts}
 									languages={languages}
-									volunteerData={offers[0].volunteer}
+									volunteerData={volunteerData}
 								/>
 							</div>
 						</main>

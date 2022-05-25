@@ -60,7 +60,7 @@ export const RegisterForm = memo<
 					}),
 				});
 			}
-			const ok = response.ok;
+			const ok = response?.ok;
 			let json: any = { ok: false };
 			try {
 				json = await response.json();
@@ -387,7 +387,7 @@ export const RegisterForm = memo<
 						htmlFor="specific"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Máte specifickou odbornost? (lékař, psycholog, právník, ...)
+						{t("nabidka.expertise")}
 					</label>
 					<div className="mt-1">
 						<input
