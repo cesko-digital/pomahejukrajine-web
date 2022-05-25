@@ -1,4 +1,4 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Cookies from "cookies";
 import { Meta } from "../components/Meta";
 import Header from "../components/header";
@@ -422,8 +422,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		}),
 	});
 
-	const json = await response.json();
-	const data = json.data as PublicQueryResult & { offers: OffersResponse };
+	const json = await response?.json();
+	const data = json?.data as PublicQueryResult & { offers: OffersResponse };
 
 	const offers: Offers = data.offers.map((offer) => {
 		const offerType = data.offerTypes.find((it) => it.id === offer.type.id)!;

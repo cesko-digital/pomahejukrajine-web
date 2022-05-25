@@ -21,7 +21,7 @@ const fetchTypes = async (): Promise<PublicQueryResult> => {
 		}),
 	});
 
-	const { data, errors } = await response.json();
+	const { data } = await response.json();
 	return data;
 };
 
@@ -146,10 +146,7 @@ export default async function handler(
 				}),
 			}
 		);
-		let json: any;
-		try {
-			json = await response.json();
-		} catch (e) {}
+		const json = await response?.json();
 		const ok: boolean | undefined = response?.ok && json?.data?.createOffer?.ok;
 		if (ok !== true) {
 			console.warn("Failed to create offer", json);
