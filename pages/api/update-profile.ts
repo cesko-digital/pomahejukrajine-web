@@ -1,17 +1,17 @@
 import Cookies from "cookies";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-	EditVolunteerFormState,
 	FormError,
 	getVolunteerDetail,
 	listVolunteerIds,
+	RegisterFormState,
 } from "../../lib/shared";
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<any>
 ) {
-	const data = req.body.data as EditVolunteerFormState;
+	const data = req.body.data as RegisterFormState;
 	const errors: FormError[] = [];
 
 	if (data.phone === "" || data.phone === "+420") {
@@ -48,91 +48,84 @@ export default async function handler(
 		return;
 	}
 
-	const responseStates = [];
+	const volunteerId = volunteerIds[0];
 
-	for (const volunteerId of volunteerIds) {
-		const volunteerDetails = await getVolunteerDetail(token, volunteerId);
-		// @todo(): Should not be necessary after duplicit volunteer accounts were merged.
-		if (!volunteerDetails) {
-			continue;
-		}
+	const volunteerDetails = await getVolunteerDetail(token, volunteerId);
+	if (!volunteerDetails) {
+		res.status(404).json({ ok: false });
+		return;
+	}
 
-		const prevLanguageRelations = volunteerDetails.languages;
-		const updateInput = {
-			...data,
-			languages: [
-				// Create relations languages that don't exist on the Volunteer entity.
-				...data.languages
-					.filter(
-						(languageId) =>
-							!prevLanguageRelations.find(
-								(relation) => relation.language.id === languageId
-							)
-					)
-					.map((languageId) => ({
-						create: {
-							language: {
-								connect: {
-									id: languageId,
-								},
+	const prevLanguageRelations = volunteerDetails.languages;
+	const updateInput = {
+		...data,
+		languages: [
+			// Create relations languages that don't exist on the Volunteer entity.
+			...data.languages
+				.filter(
+					(languageId) =>
+						!prevLanguageRelations.find(
+							(relation) => relation.language.id === languageId
+						)
+				)
+				.map((languageId) => ({
+					create: {
+						language: {
+							connect: {
+								id: languageId,
 							},
 						},
-					})),
-				// Delete relations with languages that were unselected.
-				...prevLanguageRelations
-					.filter(
-						(languageRelation) =>
-							!data.languages.find(
-								(languageId) => languageRelation.language.id === languageId
-							)
-					)
-					.map((languageRelation) => ({
-						delete: {
-							id: languageRelation.id,
-						},
-					})),
-			],
-		};
-
-		const response = await fetch(
-			process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
-			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
-				},
-				body: JSON.stringify({
-					query: `
-						mutation ($volunteerId: UUID!, $data: VolunteerUpdateInput!) {
-							updateVolunteer(by: {id: $volunteerId}, data: $data) {
-								ok
-								errorMessage
-							}
-						}
-					`,
-					variables: {
-						data: updateInput,
-						volunteerId,
 					},
-				}),
-			}
-		);
+				})),
+			// Delete relations with languages that were unselected.
+			...prevLanguageRelations
+				.filter(
+					(languageRelation) =>
+						!data.languages.find(
+							(languageId) => languageRelation.language.id === languageId
+						)
+				)
+				.map((languageRelation) => ({
+					delete: {
+						id: languageRelation.id,
+					},
+				})),
+		],
+	};
 
-		let ok: boolean;
-		try {
-			const json = await response.json();
-			ok = response.ok && json?.data?.updateVolunteer?.ok;
-		} catch (e) {
-			console.warn("Unable to update volunteer:", e);
-			ok = false;
-		}
+	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${process.env.CONTEMBER_ADMIN_TOKEN}`,
+		},
+		body: JSON.stringify({
+			query: `
+					mutation ($volunteerId: UUID!, $data: VolunteerUpdateInput!) {
+						updateVolunteer(by: {id: $volunteerId}, data: $data) {
+							ok
+							errorMessage
+						}
+					}
+				`,
+			variables: {
+				data: updateInput,
+				volunteerId,
+			},
+		}),
+	});
 
-		responseStates.push(ok);
+	let ok: boolean;
+	try {
+		const json = await response.json();
+		ok = response.ok && json?.data?.updateVolunteer?.ok;
+	} catch (e) {
+		console.warn("Unable to update volunteer:", e);
+		ok = false;
 	}
 
 	res.status(200).json({
-		ok: responseStates.length > 0 && responseStates.every(Boolean),
-		volunteer: await getVolunteerDetail(token, volunteerIds[0]),
+		ok,
+		volunteer: await getVolunteerDetail(token, volunteerId),
 	});
 }

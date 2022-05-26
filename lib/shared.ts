@@ -92,6 +92,7 @@ export type Volunteer = {
 	verified: boolean;
 	banned: boolean;
 	languages: {
+		id: string;
 		language: {
 			id: string;
 			name: string;
@@ -99,22 +100,10 @@ export type Volunteer = {
 	}[];
 };
 
-export type EditVolunteerFormState = Omit<
-	RegisterFormState,
-	"email" | "emailRepeat" | "offers"
-	>;
-
-export interface VolunteerDetailResult {
-	name: string;
-	organization: string;
-	phone: string;
-	contactHours: string;
-	expertise: string;
-	languages: {
-		id: string;
-		language: Language;
-	}[];
-}
+// export type EditVolunteerFormState = Omit<
+// 	Volunteer,
+// 	"email" | "emailRepeat" | "offers"
+// 	>;
 
 export interface HelpFormState {
 	name: string;
@@ -232,7 +221,7 @@ export const listVolunteerIds = async (
 export const getVolunteerDetail = async (
 	token: string,
 	volunteerId: string
-): Promise<VolunteerDetailResult | null> => {
+): Promise<Volunteer | null> => {
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
 		method: "POST",
 		headers: {
@@ -242,7 +231,15 @@ export const getVolunteerDetail = async (
 		body: JSON.stringify({
 			query: `query($volunteerId: UUID!) {
 					getVolunteer(by: { id: $volunteerId }) {
+						id
 						name
+						email
+						phone
+						organization
+						contactHours
+						expertise
+						verified
+						banned
 						languages {
 							id
 							language {
@@ -250,10 +247,6 @@ export const getVolunteerDetail = async (
 								name
 							}
 						}
-						phone
-						organization
-						contactHours
-						expertise
 					}
 				}
 			`,

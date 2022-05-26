@@ -11,18 +11,19 @@ import { useCallback, useEffect, useState } from "react";
 
 import Header from "../components/header";
 import { Meta } from "../components/Meta";
-import { VolunteerForm } from "../components/VolunteerForm";
+import { RegisterForm } from "../components/RegisterForm";
 import {
-	EditVolunteerFormState,
+	// EditVolunteerFormState,
 	FormError,
 	getVolunteerDetail,
 	Language,
 	listVolunteerIds,
+	Volunteer,
 } from "../lib/shared";
 
 interface EditProfileProps {
 	languages: Language[];
-	volunteerDetails: EditVolunteerFormState;
+	volunteerDetails: Volunteer;
 }
 
 const EditProfile: NextPage<EditProfileProps> = ({
@@ -35,7 +36,7 @@ const EditProfile: NextPage<EditProfileProps> = ({
 	>(false);
 
 	const [defaultVolunteerDetails, setDefaultVolunteerDetails] =
-		useState<EditVolunteerFormState>(volunteerDetails);
+		useState<Volunteer>(volunteerDetails);
 	const [errors, setErrors] = useState<FormError[]>([]);
 	const disabled = submitting === "loading";
 
@@ -100,15 +101,16 @@ const EditProfile: NextPage<EditProfileProps> = ({
 						)}
 
 						<div className="mt-6">
-							<VolunteerForm
+							<RegisterForm
 								languages={languages}
-								disabled={disabled}
-								errored={submitting === "error"}
-								defaultState={defaultVolunteerDetails}
-								errors={errors}
-								onSubmit={onSubmit}
-							>
-								<div>
+								// disabled={disabled}
+								// errored={submitting === "error"}
+								volunteerData={defaultVolunteerDetails}
+								// errors={errors}
+								// onSubmit={onSubmit}
+								editing={true}
+							/>
+							{/*<div>
 									<button
 										type="submit"
 										disabled={disabled}
@@ -121,8 +123,7 @@ const EditProfile: NextPage<EditProfileProps> = ({
 									{errors.length > 0 && (
 										<p className="text-center">{t("mujProfil.checkForm")}</p>
 									)}
-								</div>
-							</VolunteerForm>
+								</div>*/}
 						</div>
 					</main>
 				</div>
@@ -181,14 +182,7 @@ export async function getServerSideProps(
 		};
 	}
 
-	let volunteerDetails;
-	// Find volunteer detail. @todo(): Should not be necessary after duplicit volunteer accounts were merged.
-	for (const volunteerId of volunteerIds) {
-		volunteerDetails = await getVolunteerDetail(token, volunteerId);
-		if (volunteerDetails) {
-			break;
-		}
-	}
+	const volunteerDetails = await getVolunteerDetail(token, volunteerIds[0]);
 
 	if (!volunteerDetails) {
 		return {
@@ -202,10 +196,10 @@ export async function getServerSideProps(
 	return {
 		props: {
 			languages: languagesResponse.languages,
-			volunteerDetails: {
+			volunteerDetails: volunteerDetails /*{
 				...volunteerDetails,
-				languages: volunteerDetails.languages.map((lang) => lang.language.id),
-			},
+				// languages: volunteerDetails.languages.map((lang) => lang.language.id),
+			},*/,
 			...(await serverSideTranslations(context.locale as string, ["common"])),
 		},
 	};

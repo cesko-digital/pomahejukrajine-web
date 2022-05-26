@@ -4,7 +4,12 @@ import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { Fragment } from "react";
-import { publicQuery, PublicQueryResult, Volunteer, listVolunteerIds } from "../lib/shared";
+import {
+	publicQuery,
+	PublicQueryResult,
+	Volunteer,
+	listVolunteerIds,
+} from "../lib/shared";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -36,9 +41,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 							pathname: "/upravit-profil",
 						}}
 					>
-						<a className="px-2 py-1 bg-indigo-600 text-white rounded-md text-sm">
-							Upravit svůj osobní profil
-						</a>
+						<a className="underline mr-3">Upravit svůj osobní profil</a>
 					</Link>
 					<Link href="/logout" prefetch={false}>
 						<a className="underline">{t("mojeNabidky.logout")}</a>
@@ -359,6 +362,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 							verified
 							banned
 							languages {
+								id
 								language {
 									id
 									name
