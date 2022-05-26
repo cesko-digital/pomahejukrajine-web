@@ -20,6 +20,8 @@ export type OfferSearchProps = {
 	offerType: Record<string, any>;
 };
 
+const NOT_TRANSLATED_KEYS = ["district"];
+
 export const OfferSearch = ({
 	listQuestion,
 	offerTypeId,
@@ -91,17 +93,19 @@ export const OfferSearch = ({
 					return it.map((refinement) => ({
 						...refinement,
 						label:
-							listQuestion.find(
-								(it: any) =>
-									it.id === parseIdFromFacetName(refinement.attribute)
-							)?.[key] ?? refinement.label,
+							listQuestion.find((it: any) => {
+								if (NOT_TRANSLATED_KEYS.includes(it.type)) {
+									return it.value === refinement.value;
+								}
+								return it.id === parseIdFromFacetName(refinement.attribute);
+							})?.[key] ?? refinement.label,
 					}));
 				}}
 			/>
 
 			<div>
 				{listQuestion
-					.filter((it: any) => ["district"].includes(it.type))
+					.filter((it: any) => NOT_TRANSLATED_KEYS.includes(it.type))
 					.map((question: any) => (
 						<div className="mt-6" key={question.id}>
 							<div className="font-bold mb-2 text-center">
