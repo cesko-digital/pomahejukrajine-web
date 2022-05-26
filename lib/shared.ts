@@ -81,24 +81,6 @@ export interface RegisterFormState {
 	};
 }
 
-export type Volunteer = {
-	id: string;
-	name: string;
-	email: string;
-	phone: string;
-	organization: string;
-	contactHours: string;
-	expertise: string;
-	verified: boolean;
-	banned: boolean;
-	languages: {
-		language: {
-			id: string;
-			name: string;
-		};
-	}[];
-};
-
 export interface HelpFormState {
 	name: string;
 	phone: string;

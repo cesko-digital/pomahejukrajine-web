@@ -1,22 +1,18 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Cookies from "cookies";
 import { Meta } from "../components/Meta";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { Fragment } from "react";
-import { publicQuery, PublicQueryResult, Volunteer } from "../lib/shared";
+import { publicQuery, PublicQueryResult } from "../lib/shared";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { RegisterForm } from "../components/RegisterForm";
 
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 	offers,
 	offerTypes,
-	districts,
-	languages,
 }) => {
-	const volunteerData = offers[0].volunteer;
 	const { t } = useTranslation();
 
 	return (
@@ -38,22 +34,6 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 
 				<div className="mt-8 max-w-3xl mx-auto grid md:grid-cols-2 sm:grid-cols-1">
 					{offers.map((offer) => {
-						const statusLable: {
-							[status: string]: { text: string; background: string };
-						} = {
-							outdated: {
-								text: t("nabidka.outdated"),
-								background: "text-orange-500",
-							},
-							capacity_exhausted: {
-								text: t("nabidka.capacityExhausted"),
-								background: "text-red-500",
-							},
-							bad_experience: {
-								text: t("nabidka.badExperience"),
-								background: "text-red-500",
-							},
-						};
 						const offerType = offerTypes.find((it) => it.id === offer.type.id)!;
 						return (
 							<div
@@ -116,18 +96,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 										);
 									}
 								})}
-								<div className="mt-2">
-									<p className="text-sm font-bold">Stav</p>
-									<p
-										className={`${
-											statusLable[offer.status?.type]?.background ??
-											"text-green-500"
-										} text-sm`}
-									>
-										{statusLable[offer.status?.type]?.text ??
-											t("nabidka.active")}
-									</p>
-								</div>
+
 								<div className="grow"></div>
 								<div className="mt-3">
 									<div>
@@ -147,29 +116,6 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 						);
 					})}
 				</div>
-				<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
-					<div className="relative max-w-xl mx-auto">
-						<main className="mt-2">
-							<div className="text-center">
-								<h2 className="font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-									Přidat další novou nabídku
-								</h2>
-							</div>
-							<div
-								className={`${volunteerData ? "mt-4" : "mt-12"} ${
-									process.env.NEXT_TEMPORARY == "TEMPORARY" ? "hidden" : ""
-								}`}
-							>
-								<RegisterForm
-									offerTypes={offerTypes}
-									districts={districts}
-									languages={languages}
-									volunteerData={volunteerData}
-								/>
-							</div>
-						</main>
-					</div>
-				</div>
 			</div>
 			<Footer />
 		</div>
@@ -178,7 +124,6 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 
 type OfferResponse = {
 	id: string;
-	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -213,7 +158,6 @@ type OfferStatus = {
 type Offer = {
 	id: string;
 	allowReaction: boolean;
-	volunteer: Volunteer;
 	type: {
 		id: string;
 	};
@@ -381,23 +325,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 							name
 							type
 						}
-						volunteer {
-							id
-							name
-							email
-							phone
-							organization
-							contactHours
-							expertise
-							verified
-							banned
-							languages {
-								language {
-									id
-									name
-								}
-							}
-						}
 						parameters (
 							orderBy: [{ question: { order: asc } }]
 						) {
@@ -422,8 +349,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		}),
 	});
 
-	const json = await response?.json();
-	const data = json?.data as PublicQueryResult & { offers: OffersResponse };
+	const json = await response.json();
+	const data = json.data as PublicQueryResult & { offers: OffersResponse };
 
 	const offers: Offers = data.offers.map((offer) => {
 		const offerType = data.offerTypes.find((it) => it.id === offer.type.id)!;
@@ -433,7 +360,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			parameters: offer.parameters,
 			status: offer.status,
 			allowReaction: !offerType.needsVerification,
-			volunteer: offer.volunteer,
 		};
 	});
 
