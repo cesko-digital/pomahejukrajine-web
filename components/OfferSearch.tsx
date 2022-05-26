@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import {
 	CurrentRefinements,
 	Highlight,
@@ -11,6 +12,7 @@ import {
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import { parseIdFromFacetName } from "../lib/parseIdFromFacetName";
+import { CZECH } from "../utils/constants";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -24,6 +26,8 @@ export const OfferSearch = ({
 	offerType,
 }: OfferSearchProps) => {
 	const { t } = useTranslation();
+	const { locale } = useRouter();
+
 	const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
 		server: {
 			apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY!,
@@ -83,13 +87,14 @@ export const OfferSearch = ({
 					root: "mt-4",
 				}}
 				transformItems={(it: any[]) => {
+					const key = locale === CZECH ? "question" : "questionUK";
 					return it.map((refinement) => ({
 						...refinement,
 						label:
 							listQuestion.find(
 								(it: any) =>
 									it.id === parseIdFromFacetName(refinement.attribute)
-							)?.label ?? refinement.label,
+							)?.[key] ?? refinement.label,
 					}));
 				}}
 			/>
@@ -99,10 +104,14 @@ export const OfferSearch = ({
 					.filter((it: any) => ["district"].includes(it.type))
 					.map((question: any) => (
 						<div className="mt-6" key={question.id}>
-							<div className="font-bold mb-2 text-center">{question.label}</div>
+							<div className="font-bold mb-2 text-center">
+								{locale === CZECH ? question.question : question.questionUK}
+							</div>
 							<RefinementList
 								key={question.id}
-								attribute={`parameter_${question.id}_facet`}
+								attribute={`parameter${locale === CZECH ? "" : "_uk"}_${
+									question.id
+								}_facet`}
 								classNames={{
 									list: "flex flex-wrap gap-2 justify-center",
 									item: "border border-gray-200 py-2 px-6 rounded-full",
@@ -111,6 +120,16 @@ export const OfferSearch = ({
 										'text-sm text-gray-600 ml-2 after:content-[")"] before:content-["("]',
 									showMore:
 										"text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
+								}}
+								transformItems={(it: any[]) => {
+									const key = locale === CZECH ? "label" : "labelUK";
+									return it.map((refinement) => ({
+										...refinement,
+										label:
+											question.options.find(
+												(it: any) => it.value === refinement.value
+											)?.[key] ?? refinement.label,
+									}));
 								}}
 							/>
 						</div>
@@ -128,7 +147,9 @@ export const OfferSearch = ({
 						.filter((it: any) => ["checkbox", "radio"].includes(it.type))
 						.map((question: any) => (
 							<div className="mt-6" key={question.id}>
-								<div className="font-bold mb-2">{question.label}</div>
+								<div className="font-bold mb-2">
+									{locale === CZECH ? question.question : question.questionUK}
+								</div>
 								<RefinementList
 									key={question.id}
 									attribute={`parameter_${question.id}_facet`}
@@ -140,6 +161,16 @@ export const OfferSearch = ({
 											'text-sm text-gray-600 ml-2 after:content-[")"] before:content-["("]',
 										showMore:
 											"text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
+									}}
+									transformItems={(it: any[]) => {
+										const key = locale === CZECH ? "label" : "labelUK";
+										return it.map((refinement) => ({
+											...refinement,
+											label:
+												question.options.find(
+													(it: any) => it.value === refinement.value
+												)?.[key] ?? refinement.label,
+										}));
 									}}
 								/>
 							</div>
@@ -157,15 +188,23 @@ export const OfferSearch = ({
 							className="p-4 rounded-md border shadow-md m-4 flex flex-col"
 							key={hit.hit.objectID}
 						>
-							<h3 className="text-lg font-bold">{offerType.name}</h3>
+							<h3 className="text-lg font-bold">
+								{locale === CZECH ? offerType.name : offerType.nameUK}
+							</h3>
 							{listQuestion.map((question: any) => (
 								<div key={question.id} className="flex flex-col mt-2">
 									{hit.hit[`parameter_${question.id}`] && (
 										<>
-											<p className="text-sm font-bold">{question.question}</p>
+											<p className="text-sm font-bold">
+												{locale === CZECH
+													? question.question
+													: question.questionUK}
+											</p>
 											<p className="text-sm">
 												<Highlight
-													attribute={`parameter_${question.id}`}
+													attribute={`parameter${
+														locale === CZECH ? "" : "_uk"
+													}_${question.id}`}
 													hit={hit.hit}
 												/>
 											</p>
