@@ -16,7 +16,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 	districts,
 	languages,
 }) => {
-	const volunteerData = offers[0].volunteer;
+	const volunteerData = offers[0]?.volunteer;
 	const { t } = useTranslation();
 
 	return (
