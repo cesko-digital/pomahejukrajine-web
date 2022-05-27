@@ -20,8 +20,6 @@ export type OfferSearchProps = {
 	offerType: Record<string, any>;
 };
 
-const NOT_TRANSLATED_KEYS = ["district"];
-
 export const OfferSearch = ({
 	listQuestion,
 	offerTypeId,
@@ -52,8 +50,13 @@ export const OfferSearch = ({
 								"8958a3e0-ef6f-4a51-9139-c26b7de8e8ef",
 							].includes(question.id)
 					)
-					.map((question: any) => `parameter_${question.id}`),
+					.map((question: any) =>
+						locale === CZECH
+							? `parameter_${question.id}`
+							: `parameter_uk_${question.id}`
+					),
 			].join(","),
+			num_typos: 0,
 		},
 	});
 
@@ -89,23 +92,29 @@ export const OfferSearch = ({
 					root: "mt-4",
 				}}
 				transformItems={(it: any[]) => {
-					const key = locale === CZECH ? "question" : "questionUK";
-					return it.map((refinement) => ({
-						...refinement,
-						label:
-							listQuestion.find((it: any) => {
-								if (NOT_TRANSLATED_KEYS.includes(it.type)) {
-									return it.value === refinement.value;
-								}
-								return it.id === parseIdFromFacetName(refinement.attribute);
-							})?.[key] ?? refinement.label,
-					}));
+					return it.map((refinement) => {
+						const parsedId = parseIdFromFacetName(refinement.label);
+						const question = listQuestion.find(
+							(question: any) => question.id === parsedId
+						);
+						console.log(question);
+						return {
+							...refinement,
+							label: refinement.label.includes("_region")
+								? locale === CZECH
+									? "Kraj"
+									: "Регіон"
+								: locale === CZECH
+								? question?.question ?? question.question
+								: question?.questionUK ?? question.questionUK,
+						};
+					});
 				}}
 			/>
 
 			<div>
 				{listQuestion
-					.filter((it: any) => NOT_TRANSLATED_KEYS.includes(it.type))
+					.filter((it: any) => ["district"].includes(it.type))
 					.map((question: any) => (
 						<div className="mt-6" key={question.id}>
 							<div className="font-bold mb-2 text-center">
@@ -115,7 +124,7 @@ export const OfferSearch = ({
 								key={question.id}
 								attribute={`parameter${locale === CZECH ? "" : "_uk"}_${
 									question.id
-								}_facet`}
+								}_region_facet`}
 								classNames={{
 									list: "flex flex-wrap gap-2 justify-center",
 									item: "border border-gray-200 py-2 px-6 rounded-full",
@@ -135,6 +144,7 @@ export const OfferSearch = ({
 											)?.[key] ?? refinement.label,
 									}));
 								}}
+								limit={20}
 							/>
 						</div>
 					))}
@@ -148,7 +158,9 @@ export const OfferSearch = ({
 				</summary>
 				<div className="refinements text-center">
 					{listQuestion
-						.filter((it: any) => ["checkbox", "radio"].includes(it.type))
+						.filter((it: any) =>
+							["checkbox", "radio", "district"].includes(it.type)
+						)
 						.map((question: any) => (
 							<div className="mt-6" key={question.id}>
 								<div className="font-bold mb-2">
@@ -156,7 +168,11 @@ export const OfferSearch = ({
 								</div>
 								<RefinementList
 									key={question.id}
-									attribute={`parameter_${question.id}_facet`}
+									attribute={
+										locale === CZECH
+											? `parameter_${question.id}_facet`
+											: `parameter_uk_${question.id}_facet`
+									}
 									classNames={{
 										list: "flex flex-wrap gap-2 justify-center",
 										item: "border border-gray-200 py-2 px-6 rounded-full",
