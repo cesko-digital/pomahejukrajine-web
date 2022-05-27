@@ -54,6 +54,7 @@ export const OfferSearch = ({
 					)
 					.map((question: any) => `parameter_${question.id}`),
 			].join(","),
+			num_typos: 0,
 		},
 	});
 
