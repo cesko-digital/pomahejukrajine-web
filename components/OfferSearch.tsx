@@ -71,17 +71,88 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
-			<div
-				className={
-					showFilters
-						? "hidden"
-						: `py-1.5 px-3 w-36 mt-4 rounded-md border border-ua-blue text-center text-sm
-				text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
-				}
-				onClick={() => setShowFilters(true)}
-			>
-				<FilterIcon />
-				{t("nabidky.showFilers")}
+			<SearchBox
+				placeholder={t("nabidky.search")}
+				classNames={{
+					input:
+						"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500",
+					submit: "hidden",
+					submitIcon: "hidden",
+					loadingIcon: "hidden",
+					reset: "hidden",
+					resetIcon: "hidden",
+					loadingIndicator: "hidden",
+					form: "flex flex-col",
+					root: "w-full mt-8",
+				}}
+			/>
+
+			<CurrentRefinements
+				classNames={{
+					categoryLabel: "text-sm text-white",
+					category:
+						"border border-gray-200 py-1 px-3 rounded-full bg-blue-600 text-white border-blue-800 shadow-sm hover:bg-blue-600",
+					delete: "text-white hover:text-red-600 ml-2",
+					list: "flex flex-col gap-2",
+					item: "flex items-center gap-2",
+					root: "mt-4",
+				}}
+				transformItems={(it: any[]) => {
+					return it.map((refinement) => {
+						const parsedId = parseIdFromFacetName(refinement.label);
+						const question = listQuestion.find(
+							(question: any) => question.id === parsedId
+						);
+						return {
+							...refinement,
+							label: refinement.label.includes("_region")
+								? locale === CZECH
+									? "Kraj"
+									: "Регіон"
+								: locale === CZECH
+								? question?.question ?? refinement.label
+								: question?.questionUK ?? refinement.label,
+						};
+					});
+				}}
+			/>
+
+			<div>
+				{listQuestion
+					.filter((it: any) => ["district"].includes(it.type))
+					.map((question: any) => (
+						<div className="mt-6" key={question.id}>
+							<div className="font-bold mb-2 text-center">
+								{locale === CZECH ? question.question : question.questionUK}
+							</div>
+							<RefinementList
+								key={question.id}
+								attribute={`parameter${locale === CZECH ? "" : "_uk"}_${
+									question.id
+								}_region_facet`}
+								classNames={{
+									list: "flex flex-wrap gap-2 justify-center",
+									item: "border border-gray-200 py-2 px-6 rounded-full",
+									checkbox: "w-4 h-4 mr-2",
+									count:
+										'text-sm text-gray-600 ml-2 after:content-[")"] before:content-["("]',
+									showMore:
+										"text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
+								}}
+								transformItems={(it: any[]) => {
+									const key = locale === CZECH ? "label" : "labelUK";
+									return it.map((refinement) => ({
+										...refinement,
+										label:
+											question.options.find(
+												(it: any) => it.value === refinement.value
+											)?.[key] ?? refinement.label,
+									}));
+								}}
+								limit={20}
+							/>
+						</div>
+					))}
 			</div>
 			<div
 				className={

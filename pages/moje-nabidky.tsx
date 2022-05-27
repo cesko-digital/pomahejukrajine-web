@@ -14,6 +14,8 @@ import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { RegisterForm } from "../components/RegisterForm";
+import { useRouter } from "next/router";
+import { CZECH } from "../utils/constants";
 
 const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 	offers,
@@ -23,6 +25,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 }) => {
 	const volunteerData = offers[0]?.volunteer;
 	const { t } = useTranslation();
+	const { locale } = useRouter();
 
 	return (
 		<div className="antialiased text-gray-600">
@@ -50,6 +53,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 
 				<div className="max-w-3xl mx-auto mt-8 grid md:grid-cols-2 sm:grid-cols-1">
 					{offers.map((offer) => {
+						console.log(offer);
 						const statusLable: {
 							[status: string]: { text: string; background: string };
 						} = {
@@ -74,7 +78,9 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 								className="flex flex-col p-4 m-4 border shadow-md rounded-md"
 							>
 								<div className="flex flex-row items-center justify-between">
-									<h3 className="text-lg font-bold">{offerType.name}</h3>
+									<h3 className="text-lg font-bold">
+										{locale === CZECH ? offerType.name : offerType.nameUK}
+									</h3>
 									<span className="text-sm font-bold text-gray-400">
 										{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
 									</span>
@@ -86,7 +92,11 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 									if (question) {
 										return (
 											<div key={parameter.id} className="flex flex-col mt-2">
-												<p className="text-sm font-bold">{question.question}</p>
+												<p className="text-sm font-bold">
+													{locale === CZECH
+														? question.question
+														: question.questionUK}
+												</p>
 												<p className="text-sm">
 													{question.type === "district" ||
 													question.type === "checkbox" ? (
@@ -103,9 +113,15 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 																return (
 																	<Fragment key={value.id}>
 																		<span>
-																			{value.value}
+																			{locale === CZECH
+																				? value.value
+																				: value.valueUK}
 																			{requiresSpecification &&
-																				` (${value.specification})`}
+																				` (${
+																					locale === CZECH
+																						? value.specification
+																						: value.specificationUK
+																				})`}
 																		</span>
 																		{!isLast && ", "}
 																	</Fragment>
@@ -115,19 +131,32 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 													) : question.type === "radio" ? (
 														<>
 															{" "}
-															{parameter.value}
+															{locale === CZECH
+																? parameter.value
+																: parameter.valueUK}
 															{(question.options.find(
 																(it) => it.value === parameter.value
 															)?.requireSpecification ??
 																false) &&
-																` (${parameter.specification})`}
+																` (${
+																	locale === CZECH
+																		? parameter.specification
+																		: parameter.specificationUK
+																})`}
 														</>
 													) : question.type === "date" ? (
 														<>
-															{parameter.value} {/* TODO */}
+															{locale === CZECH
+																? parameter.value
+																: parameter.valueUK}{" "}
+															{/* TODO */}
 														</>
 													) : (
-														<>{parameter.value}</>
+														<>
+															{locale === CZECH
+																? parameter.value
+																: parameter.valueUK}
+														</>
 													)}
 												</p>
 											</div>
@@ -135,7 +164,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 									}
 								})}
 								<div className="mt-2">
-									<p className="text-sm font-bold">Stav</p>
+									<p className="text-sm font-bold">{t("mojeNabidky.stav")}</p>
 									<p
 										className={`${
 											statusLable[offer.status?.type]?.background ??
@@ -170,7 +199,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 						<main className="mt-2">
 							<div className="text-center">
 								<h2 className="font-extrabold tracking-tight text-gray-900 sm:text-2xl">
-									Přidat další novou nabídku
+									{t("mojeNabidky.addNewOffer")}
 								</h2>
 							</div>
 							<div
@@ -211,11 +240,15 @@ type OfferResponse = {
 			id: string;
 		};
 		value: string;
-		specification?: string;
+		valueUK: string;
+		specification: string;
+		specificationUK: string;
 		values: {
 			id: string;
 			value: string;
+			valueUK: string;
 			specification: string;
+			specificationUK: string;
 		}[];
 	}[];
 };
@@ -244,11 +277,15 @@ type Offer = {
 			id: string;
 		};
 		value: string;
+		valueUK: string;
 		specification?: string;
+		specificationUK: string;
 		values: {
 			id: string;
 			value: string;
+			valueUK: string;
 			specification: string;
+			specificationUK: string;
 		}[];
 	}[];
 };
@@ -377,11 +414,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 								id
 							}
 							value
+							valueUK
 							specification
+							specificationUK
 							values {
 								id
 								value
+								valueUK
 								specification
+								specificationUK
 							}
 						}
 					}
