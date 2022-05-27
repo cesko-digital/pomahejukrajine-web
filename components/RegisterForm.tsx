@@ -108,7 +108,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 					setSubmitting("error");
 				}
 			},
-			[state]
+			[state, editing, volunteerData]
 		);
 
 		if (submitting === "success" && !editing) {
@@ -332,6 +332,9 @@ export const RegisterForm = memo<RegisterFormProps>(
 											type="checkbox"
 											checked={state.languages.includes(language.id)}
 											onChange={(e) => {
+												setErrors((errors) =>
+													errors.filter((it) => it.input !== "languages")
+												);
 												setState((state) => ({
 													...state,
 													languages: e.target.checked
