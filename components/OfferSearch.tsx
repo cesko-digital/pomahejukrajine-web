@@ -91,16 +91,18 @@ export const OfferSearch = ({
 				}}
 				transformItems={(it: any[]) => {
 					const key = locale === CZECH ? "question" : "questionUK";
-					return it.map((refinement) => ({
-						...refinement,
-						label:
-							listQuestion.find((it: any) => {
-								if (NOT_TRANSLATED_KEYS.includes(it.type)) {
-									return it.value === refinement.value;
-								}
-								return it.id === parseIdFromFacetName(refinement.attribute);
-							})?.[key] ?? refinement.label,
-					}));
+					return it.map((refinement) => {
+						const parsedId = parseIdFromFacetName(refinement.label);
+						const question = listQuestion.find(
+							(question: any) => question.id === parsedId
+						);
+						return {
+							...refinement,
+							label: refinement.label.includes("_region")
+								? "Kraj"
+								: question?.label ?? refinement.label,
+						};
+					});
 				}}
 			/>
 
