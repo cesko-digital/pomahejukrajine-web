@@ -100,11 +100,6 @@ export type Volunteer = {
 	}[];
 };
 
-// export type EditVolunteerFormState = Omit<
-// 	Volunteer,
-// 	"email" | "emailRepeat" | "offers"
-// 	>;
-
 export interface HelpFormState {
 	name: string;
 	phone: string;

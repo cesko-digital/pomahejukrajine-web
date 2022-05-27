@@ -13,7 +13,6 @@ import Header from "../components/header";
 import { Meta } from "../components/Meta";
 import { RegisterForm } from "../components/RegisterForm";
 import {
-	// EditVolunteerFormState,
 	FormError,
 	getVolunteerDetail,
 	Language,
@@ -31,44 +30,9 @@ const EditProfile: NextPage<EditProfileProps> = ({
 	volunteerDetails,
 }) => {
 	const { t } = useTranslation();
-	const [submitting, setSubmitting] = useState<
-		false | "loading" | "error" | "success"
-	>(false);
 
 	const [defaultVolunteerDetails, setDefaultVolunteerDetails] =
 		useState<Volunteer>(volunteerDetails);
-	const [errors, setErrors] = useState<FormError[]>([]);
-	const disabled = submitting === "loading";
-
-	const onSubmit = useCallback(async (values) => {
-		setSubmitting("loading");
-
-		const response = await fetch("/api/update-profile", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				data: values,
-			}),
-		});
-		let ok = response.ok;
-
-		let json: any;
-		try {
-			json = await response.json();
-		} catch (e) {}
-
-		if (ok && json.ok) {
-			setSubmitting("success");
-			setDefaultVolunteerDetails(json.volunteer);
-		} else {
-			if (json && !json.ok && Array.isArray(json.errors)) {
-				setErrors(json.errors);
-			}
-			setSubmitting("error");
-		}
-	}, []);
 
 	useEffect(() => {
 		setDefaultVolunteerDetails(volunteerDetails);
@@ -92,38 +56,13 @@ const EditProfile: NextPage<EditProfileProps> = ({
 								<a className="underline">{t("mujProfil.back")}</a>
 							</Link>
 						</div>
-						{submitting === "success" && (
-							<div className="mt-5 p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
-								<p className="mx-3 font-medium text-white">
-									{t("mujProfil.saved")}
-								</p>
-							</div>
-						)}
 
 						<div className="mt-6">
 							<RegisterForm
 								languages={languages}
-								// disabled={disabled}
-								// errored={submitting === "error"}
 								volunteerData={defaultVolunteerDetails}
-								// errors={errors}
-								// onSubmit={onSubmit}
 								editing={true}
 							/>
-							{/*<div>
-									<button
-										type="submit"
-										disabled={disabled}
-										className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-									>
-										{t("mujProfil.save")}
-									</button>
-								</div>
-								<div>
-									{errors.length > 0 && (
-										<p className="text-center">{t("mujProfil.checkForm")}</p>
-									)}
-								</div>*/}
 						</div>
 					</main>
 				</div>
@@ -196,10 +135,7 @@ export async function getServerSideProps(
 	return {
 		props: {
 			languages: languagesResponse.languages,
-			volunteerDetails: volunteerDetails /*{
-				...volunteerDetails,
-				// languages: volunteerDetails.languages.map((lang) => lang.language.id),
-			},*/,
+			volunteerDetails: volunteerDetails,
 			...(await serverSideTranslations(context.locale as string, ["common"])),
 		},
 	};
