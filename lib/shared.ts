@@ -1,12 +1,14 @@
 export interface QuestionDefinition {
 	id: string;
 	question: string;
+	questionUK: string;
 	type: QuestionType;
 	required: boolean;
 	options: {
 		id: string;
 		value: string;
 		label: string;
+		labelUK: string;
 		requireSpecification: boolean;
 	}[];
 }
@@ -22,17 +24,22 @@ export type QuestionType =
 
 export interface QuestionValue {
 	value?: string;
+	valueUK?: string;
 	type?: string;
 	specification?: string;
+	specificationUK?: string;
 	values?: {
 		value: string;
+		valueUK?: string;
 		specification?: string;
+		specificationUK?: string;
 	}[];
 }
 
 export type Districts = {
 	id: string;
 	name: string;
+	nameUK: string;
 	region: {
 		id: string;
 		name: string;
@@ -42,13 +49,15 @@ export type Districts = {
 export type Language = {
 	id: string;
 	name: string;
-};
+	nameUK: string;
+}[];
 
 export type OfferType = {
 	id: string;
 	name: string;
 	nameUK: string;
 	infoText: string;
+	infoTextUK: string;
 	questions: QuestionDefinition[];
 	needsVerification: boolean;
 	hideInDemand: boolean;
@@ -129,18 +138,21 @@ export const publicQuery = `
 		name
 		nameUK
 		infoText
+		infoTextUK
 		needsVerification
 		hideInDemand
 
 		questions {
 			id
 			question
+			questionUK
 			type
 			required
 			options {
 				id
 				value
 				label
+				labelUK
 				requireSpecification
 			}
 		}
@@ -149,6 +161,7 @@ export const publicQuery = `
 	languages: listLanguage(orderBy: [{ order: asc }]) {
 		id
 		name
+		nameUK
 	}
 
 	districts: listDistrict(orderBy: [{name: asc}]) {

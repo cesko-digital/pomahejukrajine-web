@@ -5,6 +5,8 @@ import { QuestionValue, PublicQueryResult, FormError } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 import { default as Select } from "react-select";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { CZECH } from "../utils/constants";
 
 interface RegisterFormProps extends PublicQueryResult {
 	offerId: string;
@@ -34,6 +36,7 @@ export const EditForm = memo<RegisterFormProps>(
 		const [state, setState] = useState(questions);
 		const [statusState, setStatusState] = useState(offerStatusType);
 		const { t } = useTranslation();
+		const { locale } = useRouter();
 
 		const submit = useCallback(
 			async (e: FormEvent) => {
@@ -77,6 +80,7 @@ export const EditForm = memo<RegisterFormProps>(
 					body: JSON.stringify({
 						offerId,
 						data: state,
+						isUKLanguage: locale !== CZECH,
 					}),
 				});
 				const ok = response.ok;
@@ -134,7 +138,9 @@ export const EditForm = memo<RegisterFormProps>(
 					)}
 					<div className="mt-1">
 						<div className="flex flex-row items-center justify-between">
-							<h3 className="text-lg font-bold">{offerType.name}</h3>
+							<h3 className="text-lg font-bold">
+								{locale === CZECH ? offerType.name : offerType.nameUK}
+							</h3>
 							<span className="text-sm font-bold text-gray-400">
 								{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
 							</span>
@@ -142,7 +148,7 @@ export const EditForm = memo<RegisterFormProps>(
 						<div className="pl-4 mt-2 mb-4 ml-2 border-l-4 border-blue-600">
 							<div>
 								<div className="mt-1 mb-4">
-									<label>Stav</label>
+									<label>{t("nabidka.stav")}</label>
 									<Select
 										isClearable={false}
 										options={[
@@ -168,7 +174,11 @@ export const EditForm = memo<RegisterFormProps>(
 								</div>
 							</div>
 
-							{offerType.infoText && <p>{offerType.infoText}</p>}
+							{offerType.infoText && (
+								<p>
+									{locale === CZECH ? offerType.infoText : offerType.infoTextUK}
+								</p>
+							)}
 							{offerType.questions.map((question) => (
 								<QuestionControl
 									key={question.id}

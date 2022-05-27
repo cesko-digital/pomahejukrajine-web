@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+import { useRouter } from "next/router";
 import { memo } from "react";
 import { default as Select, components } from "react-select";
 import {
@@ -7,6 +8,7 @@ import {
 	QuestionValue,
 	Postcode,
 } from "../lib/shared";
+import { CZECH } from "../utils/constants";
 
 const SelectInput = (props: any) => (
 	<components.Input
@@ -31,10 +33,12 @@ export const QuestionControl = memo<{
 	districts: Districts;
 	error?: string | undefined;
 }>(({ definition, disabled, value, onChange, districts, error }) => {
+	const { locale } = useRouter();
+
 	return (
 		<div className="mt-4">
 			<div className="block text-sm font-medium text-gray-700">
-				{definition.question}
+				{locale === CZECH ? definition.question : definition.questionUK}
 				{definition.required && <span className="text-red-500">*</span>}
 			</div>
 			{error && (
@@ -155,7 +159,9 @@ export const QuestionControl = memo<{
 											}}
 											className="mr-2"
 										/>
-										<span>{option.label}</span>
+										<span>
+											{locale === CZECH ? option.label : option.labelUK}
+										</span>
 									</label>
 									{checked && option.requireSpecification && (
 										<input
@@ -206,7 +212,7 @@ export const QuestionControl = memo<{
 									)
 									.map((it) => ({
 										value: it.id,
-										label: it.name,
+										label: locale === CZECH ? it.name : it.nameUK,
 									}))}
 								onChange={(values) =>
 									onChange({
