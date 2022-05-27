@@ -19,6 +19,10 @@ const removeNonNumericCharacters = (value: string) => {
 	return value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
 };
 
+const checkIfQuestionIsPostCode = (question: string) => {
+	return Postcode.indexOf(question.toLowerCase()) > -1 ? true : false;
+};
+
 export const QuestionControl = memo<{
 	definition: QuestionDefinition;
 	disabled: boolean;
@@ -54,18 +58,20 @@ export const QuestionControl = memo<{
 								: "text"
 						}
 						{...(definition.type === "number" ? { min: 0 } : {})}
+						{...(checkIfQuestionIsPostCode(definition.question)
+							? { inputmode: "numeric" }
+							: {})}
 						maxLength={
-							Postcode.indexOf(definition.question.toLowerCase()) > -1 ? 5 : 999
+							checkIfQuestionIsPostCode(definition.question) ? 5 : undefined
 						}
 						required={definition.required}
 						value={value.value ?? ""}
 						onChange={(e) =>
 							onChange({
 								...value,
-								value:
-									Postcode.indexOf(definition.question.toLowerCase()) > -1
-										? removeNonNumericCharacters(e.target.value)
-										: e.target.value,
+								value: checkIfQuestionIsPostCode(definition.question)
+									? removeNonNumericCharacters(e.target.value)
+									: e.target.value,
 							})
 						}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
