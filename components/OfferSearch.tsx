@@ -1,18 +1,18 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import {
-	CurrentRefinements,
 	Highlight,
 	Hits,
 	InstantSearch,
 	Pagination,
 	RefinementList,
 	SearchBox,
-	HierarchicalMenu,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import { parseIdFromFacetName } from "../lib/parseIdFromFacetName";
-import { useState } from "react";
+import React, { useState } from "react";
+import styles from "./OfferSearch.module.css";
+import cx from "classnames";
+import FilterIcon from "./FilterIcon";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -32,9 +32,6 @@ export const OfferSearch = ({
 		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm",
 		label: "flex",
 		labelText: "flex-1",
-		// searchableRoot: "mt-4 mb-4",
-		// searchableInput: "mt-4 mb-4",
-		// searchableForm: "mt-4 mb-4",
 		count: "text-sm text-gray-600 mt-0.5 ml-2",
 		showMore: "text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
 	};
@@ -90,7 +87,7 @@ export const OfferSearch = ({
 					className="py-1.5 px-3 w-36 rounded-md md:border md:border-ua-blue text-center text-sm text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white"
 					onClick={() => setShowFilters(true)}
 				>
-					Zobrazit filtry
+					{t("nabidky.showFilers")}
 				</div>
 			)}
 			<div className={"flex gap-x-16 text-grey-dark"}>
@@ -104,7 +101,7 @@ export const OfferSearch = ({
 								className="mb-3 text-right text-ua-blue cursor-pointer"
 								onClick={() => setShowFilters(false)}
 							>
-								Schovat filtry
+								{t("nabidky.hideFilers")}
 							</div>
 						</div>
 						<div className="refinements text-left">
@@ -142,7 +139,7 @@ export const OfferSearch = ({
 										<div className="pt-3 pb-3 border-t" key={question.id}>
 											<details open>
 												<summary className="font-bold cursor-pointer text-lg">
-													Kraj
+													{t("nabidky.region")}
 												</summary>
 												<RefinementList
 													key={question.id}
@@ -164,11 +161,11 @@ export const OfferSearch = ({
 										>
 											<details>
 												<summary className="font-bold cursor-pointer text-lg">
-													Okres
+													{t("nabidky.district")}
 												</summary>
 												<RefinementList
 													key={question.id}
-													searchablePlaceholder={"Vyhledávat"} //TODO: translate
+													searchablePlaceholder={t("nabidka.searchFilters")}
 													searchable={true}
 													attribute={`parameter_${question.id}_facet`}
 													limit={50}
@@ -205,7 +202,6 @@ export const OfferSearch = ({
 							list: "mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-5",
 						}}
 						hitComponent={(hit: any) => {
-							// if ((offerType.name != "Doprava")) {
 							return (
 								<div
 									className="p-3 bg-card-grey flex flex-col"
@@ -247,7 +243,6 @@ export const OfferSearch = ({
 									</div>
 								</div>
 							);
-							// } else return null
 						}}
 					/>
 					<Pagination
