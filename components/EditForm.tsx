@@ -9,6 +9,7 @@ import { useTranslation } from "next-i18next";
 interface RegisterFormProps extends PublicQueryResult {
 	offerId: string;
 	offerTypeId: string;
+	offerCreatedAt: string;
 	offerStatusType: "outdated" | "capacity_exhausted" | "active";
 	questions: {
 		[id: string]: QuestionValue;
@@ -23,6 +24,7 @@ export const EditForm = memo<RegisterFormProps>(
 		questions,
 		offerTypes,
 		offerStatusType,
+		offerCreatedAt,
 	}) => {
 		const offerType = offerTypes.find((o) => o.id === offerTypeId)!;
 		const [submitting, setSubmitting] = useState<
@@ -92,18 +94,18 @@ export const EditForm = memo<RegisterFormProps>(
 					setSubmitting("error");
 				}
 			},
-			[state, offerId, statusState]
+			[state, offerId, statusState, offerStatusType]
 		);
 
 		if (submitting === "success") {
 			return (
 				<>
-					<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
+					<div className="p-2 text-lg text-center bg-blue-600 rounded-lg shadow-lg sm:p-3">
 						<p className="mx-3 font-medium text-white">{t("nabidka.edited")}</p>
 					</div>
 					<div className="flex justify-center mt-3">
 						<Link href="/moje-nabidky">
-							<a className="inline-block bg-blue-50 py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100">
+							<a className="inline-block px-4 py-2 text-base font-medium text-blue-600 border border-transparent bg-blue-50 rounded-md hover:bg-blue-100">
 								{t("nabidka.backToMyOffers")}
 							</a>
 						</Link>
@@ -117,6 +119,7 @@ export const EditForm = memo<RegisterFormProps>(
 			outdated: t("nabidka.outdated"),
 			capacity_exhausted: t("nabidka.capacityExhausted"),
 		};
+		const createdAt = new Date(offerCreatedAt);
 
 		return (
 			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
@@ -124,18 +127,19 @@ export const EditForm = memo<RegisterFormProps>(
 				<div className="mt-1">
 					{errors.find((it) => it.input === "offer") !== undefined && (
 						<div className="flex">
-							<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+							<div className="p-2 my-2 text-sm text-white bg-red-500 rounded-md">
 								{errors.find((it) => it.input === "offer")!.message}
 							</div>
 						</div>
 					)}
 					<div className="mt-1">
-						<div>
-							<span className="block text-sm font-medium text-gray-700">
-								{offerType.name}
+						<div className="flex flex-row items-center justify-between">
+							<h3 className="text-lg font-bold">{offerType.name}</h3>
+							<span className="text-sm font-bold text-gray-400">
+								{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
 							</span>
 						</div>
-						<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
+						<div className="pl-4 mt-2 mb-4 ml-2 border-l-4 border-blue-600">
 							<div>
 								<div className="mt-1 mb-4">
 									<label>Stav</label>
@@ -202,7 +206,7 @@ export const EditForm = memo<RegisterFormProps>(
 					<button
 						type="submit"
 						disabled={disabled}
-						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+						className="inline-flex items-center justify-center w-full px-6 py-3 text-base font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
 					>
 						{t("nabidka.submit")}
 					</button>

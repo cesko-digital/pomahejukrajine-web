@@ -29,6 +29,7 @@
 	"login.password": "Heslo",
 	"login.forgottenPassword": "Zapomenuté heslo",
 	"mojeNabidky.title": "Moje nabídky pomoci",
+	"mojeNabidky.created": "Vytvořeno",
 	"mojeNabidky.logout": "Odhlásit se",
 	"mojeNabidky.editOffer": "Upravit nabídku",
 	"nabidky.title": "Nabídky pomoci",
