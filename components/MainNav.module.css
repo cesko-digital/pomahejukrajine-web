@@ -36,9 +36,7 @@
 
 .mobileLink {
 	padding: min(2vh, 20px) 0;
-	@apply block
-    text-center
-    w-full;
+	@apply block w-full text-center;
 }
 
 .activeMobileLink {
@@ -47,10 +45,10 @@
 
 .myOffers {
 	padding: min(2vh, 20px) 0;
-	@apply font-normal text-gray-800 flex items-center gap-2 w-full justify-center hover:opacity-80;
+	@apply flex items-center justify-center w-full font-normal text-gray-600 gap-2 hover:opacity-80;
 }
 
 .myOffersDesktop {
 	composes: myOffers;
-	@apply p-0 w-auto mr-4;
+	@apply w-auto p-0;
 }

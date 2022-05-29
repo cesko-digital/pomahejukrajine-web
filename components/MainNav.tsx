@@ -72,7 +72,7 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div className="lg:hidden flex justify-end p-3 -mr-3">
+			<div className="flex justify-end p-3 -mr-3 lg:hidden">
 				<div onClick={() => setIsOpen(true)}>
 					<HamburgerIcon />
 				</div>
@@ -95,7 +95,7 @@ const HamburgerMenu = () => {
 						<div className={styles.mobileNav}>
 							<div className="flex-1" />
 							<div
-								className="absolute top-2 right-2 p-3 pr-2"
+								className="absolute p-3 pr-2 top-2 right-2"
 								onClick={() => setIsOpen(false)}
 							>
 								<CloseIcon />
@@ -107,9 +107,7 @@ const HamburgerMenu = () => {
 								normalStyle={styles.mobileLink}
 								activeStyle={styles.activeMobileLink}
 							/>
-							<div className="flex gap-6 flex-1 items-end">
-								<SocialLinksNav />
-							</div>
+							<SocialLinksNav className="items-end flex-1 gap-x-6" />
 						</div>
 					</Transition.Child>
 				</Dialog>
@@ -127,14 +125,14 @@ const MainNav = () => {
 		<>
 			<HamburgerMenu />
 			<div
-				className="font-bold hidden lg:block space-x-2 xl:space-x-6"
+				className="hidden font-bold lg:block space-x-2 xl:space-x-6"
 				data-testid="menu"
 			>
 				<NavLinks normalStyle={styles.link} activeStyle={styles.activeLink} />
 
 				{/*
 		<Link href="/moje-nabidky">
-			<a className="inline-block bg-blue-50 py-2 px-4 border border-transparent rounded-md text-base font-medium text-blue-600 hover:bg-blue-100">
+			<a className="inline-block px-4 py-2 text-base font-medium text-blue-600 border border-transparent bg-blue-50 rounded-md hover:bg-blue-100">
 				Můj profil
 			</a>
 		</Link> */}
