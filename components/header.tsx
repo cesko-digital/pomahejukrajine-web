@@ -5,6 +5,7 @@ import styles from "./MainNav.module.css";
 import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
 import { useTranslation } from "next-i18next";
+import LangageSelect from "./LanguageSelect";
 
 export default function Header() {
 	const { t } = useTranslation();
@@ -12,10 +13,10 @@ export default function Header() {
 	return (
 		<header className="bg-white">
 			<nav
-				className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 lg:py-5 mb-5 lg:mb-0"
+				className="px-4 py-2 mx-auto mb-5 max-w-7xl sm:px-6 lg:px-8 lg:py-5 lg:mb-0"
 				aria-label="Top"
 			>
-				<div className="w-full flex items-center lg:items-start justify-between">
+				<div className="flex items-center justify-between w-full lg:items-start">
 					<div className="flex items-center" data-testid="logo">
 						<Link href="/">
 							<a className="block w-56 md:w-80 h-30">
@@ -23,18 +24,20 @@ export default function Header() {
 							</a>
 						</Link>
 					</div>
-					<div>
+					<div className="flex items-center justify-end lg:block">
+						<LangageSelect className="lg:hidden" />
 						<div
-							className="justify-end items-center space-x-2 pb-7 hidden lg:flex"
+							className="items-center justify-end hidden text-gray-600 gap-x-6 pb-7 lg:flex"
 							data-testid="social-links"
 						>
+							<LangageSelect />
 							<Link href="/moje-nabidky" key="/moje-nabidky">
 								<a className={styles.myOffersDesktop}>
 									<UserIcon />
 									{t("header.myOffers")}
 								</a>
 							</Link>
-							<SocialLinksNav />
+							<SocialLinksNav className="items-center gap-x-2" />
 						</div>
 						<MainNav />
 					</div>

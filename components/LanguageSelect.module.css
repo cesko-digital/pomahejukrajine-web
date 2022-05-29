@@ -1,0 +1,34 @@
+.icon {
+	position: absolute;
+	margin-left: 0.6rem;
+}
+
+.icon:before {
+	content: "";
+	position: absolute;
+	left: -0.3rem;
+	width: 0.5rem;
+	height: 0.5rem;
+	border-top: solid 2px currentColor;
+	border-right: solid 2px currentColor;
+}
+
+.arrowDown {
+	margin-top: 0.4rem;
+}
+
+.arrowUp {
+	margin-top: 0.8rem;
+}
+
+.arrowDown:before {
+	top: 3px;
+	-webkit-transform: rotate(135deg);
+	transform: rotate(135deg);
+}
+
+.arrowUp:before {
+	top: 1px;
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
