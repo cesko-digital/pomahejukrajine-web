@@ -1,12 +1,14 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import {
+	CurrentRefinements,
 	Highlight,
 	Hits,
 	InstantSearch,
 	Pagination,
 	RefinementList,
 	SearchBox,
+	HierarchicalMenu,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import React, { useState } from "react";
@@ -32,6 +34,9 @@ export const OfferSearch = ({
 		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm",
 		label: "flex",
 		labelText: "flex-1",
+		// searchableRoot: "mt-4 mb-4",
+		// searchableInput: "mt-4 mb-4",
+		// searchableForm: "mt-4 mb-4",
 		count: "text-sm text-gray-600 mt-0.5 ml-2",
 		showMore: "text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
 	};
@@ -139,7 +144,7 @@ export const OfferSearch = ({
 										<div className="pt-3 pb-3 border-t" key={question.id}>
 											<details open>
 												<summary className="font-bold cursor-pointer text-lg">
-													{t("nabidky.region")}
+													{t("nabidka.region")}
 												</summary>
 												<RefinementList
 													key={question.id}
@@ -161,7 +166,7 @@ export const OfferSearch = ({
 										>
 											<details>
 												<summary className="font-bold cursor-pointer text-lg">
-													{t("nabidky.district")}
+													{t("nabidka.district")}
 												</summary>
 												<RefinementList
 													key={question.id}
@@ -202,6 +207,7 @@ export const OfferSearch = ({
 							list: "mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-5",
 						}}
 						hitComponent={(hit: any) => {
+							// if ((offerType.name != "Doprava")) {
 							return (
 								<div
 									className="p-3 bg-card-grey flex flex-col"
@@ -243,6 +249,7 @@ export const OfferSearch = ({
 									</div>
 								</div>
 							);
+							// } else return null
 						}}
 					/>
 					<Pagination
