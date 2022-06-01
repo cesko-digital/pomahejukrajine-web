@@ -1,14 +1,12 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import {
-	CurrentRefinements,
 	Highlight,
 	Hits,
 	InstantSearch,
 	Pagination,
 	RefinementList,
 	SearchBox,
-	HierarchicalMenu,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import React, { useState } from "react";
@@ -34,9 +32,6 @@ export const OfferSearch = ({
 		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm",
 		label: "flex",
 		labelText: "flex-1",
-		// searchableRoot: "mt-4 mb-4",
-		// searchableInput: "mt-4 mb-4",
-		// searchableForm: "mt-4 mb-4",
 		count: "text-sm text-gray-600 mt-0.5 ml-2",
 		showMore: "text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
 	};
@@ -72,21 +67,6 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
-			<SearchBox
-				placeholder={t("nabidky.search")}
-				classNames={{
-					input:
-						"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500",
-					submit: "hidden",
-					submitIcon: "hidden",
-					loadingIcon: "hidden",
-					reset: "hidden",
-					resetIcon: "hidden",
-					loadingIndicator: "hidden",
-					form: "flex flex-col",
-					root: "w-full mt-8",
-				}}
-			/>
 			{!showFilters && (
 				<div
 					className="py-1.5 px-3 w-36 rounded-md md:border md:border-ua-blue text-center text-sm text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white"
@@ -98,6 +78,21 @@ export const OfferSearch = ({
 			<div className={"flex gap-x-16 text-grey-dark"}>
 				{showFilters && (
 					<div className={"w-80"}>
+						<SearchBox
+							placeholder={t("nabidky.search")}
+							classNames={{
+								input:
+									"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500 rounded-md",
+								submit: "absolute right-3 top-3",
+								submitIcon: "fill-current text-ua-blue h-4 w-4",
+								loadingIcon: "hidden",
+								reset: "hidden",
+								resetIcon: "hidden",
+								loadingIndicator: "hidden",
+								form: "flex flex-row text-center relative",
+								root: "w-full mb-4 mt-8",
+							}}
+						/>
 						<div className={"flex justify-between"}>
 							<div className="font-bold text-left text-lg text-black">
 								Filtry
@@ -110,33 +105,7 @@ export const OfferSearch = ({
 							</div>
 						</div>
 						<div className="refinements text-left">
-							{/*{listQuestion*/}
-							{/*	.filter((it: any) => ["district"].includes(it.type))*/}
-							{/*	.map((question: any) => {*/}
-							{/*		console.log("Q", question);*/}
-							{/*		return (*/}
-							{/*			<div className="mt-6" key={question.id}>*/}
-							{/*				<div className="font-bold mb-2 text-left">*/}
-							{/*					{question.label}*/}
-							{/*				</div>*/}
-							{/*				<HierarchicalMenu*/}
-							{/*					key={question.id}*/}
-							{/*					attributes={[*/}
-							{/*						`parameter_${question.id}_region_facet`,*/}
-							{/*						`parameter_${question.id}_facet`]}*/}
-							{/*					limit={50}*/}
-							{/*					classNames={{*/}
-							{/*						list: "",*/}
-							{/*						item: "py-2 px-6",*/}
-							{/*						count:*/}
-							{/*							'text-sm text-gray-600 ml-2 after:content-[")"] before:content-["("]',*/}
-							{/*						showMore:*/}
-							{/*							"text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",*/}
-							{/*					}}*/}
-							{/*				/>*/}
-							{/*			</div>*/}
-							{/*		);*/}
-							{/*	})}*/}
+							{/*REGIONS*/}
 							{listQuestion
 								.filter((it: any) => ["district"].includes(it.type))
 								.map((question: any) => {
@@ -150,12 +119,14 @@ export const OfferSearch = ({
 													key={question.id}
 													attribute={`parameter_${question.id}_region_facet`}
 													limit={20}
+													sortBy={["name:asc"]}
 													classNames={refinementClassnames}
 												/>
 											</details>
 										</div>
 									);
 								})}
+							{/*DISTRICTS*/}
 							{listQuestion
 								.filter((it: any) => ["district"].includes(it.type))
 								.map((question: any) => {
@@ -170,9 +141,8 @@ export const OfferSearch = ({
 												</summary>
 												<RefinementList
 													key={question.id}
-													searchablePlaceholder={t("nabidka.searchFilters")}
-													searchable={true}
 													attribute={`parameter_${question.id}_facet`}
+													sortBy={["name:asc"]}
 													limit={50}
 													classNames={refinementClassnames}
 												/>
@@ -182,6 +152,7 @@ export const OfferSearch = ({
 								})}
 						</div>
 						<div className="refinements text-left">
+							{/*ANOTHER CATEGORIES*/}
 							{listQuestion
 								.filter((it: any) => ["checkbox", "radio"].includes(it.type))
 								.map((question: any) => (
@@ -193,6 +164,7 @@ export const OfferSearch = ({
 											<RefinementList
 												key={question.id}
 												attribute={`parameter_${question.id}_facet`}
+												sortBy={["name:asc"]}
 												classNames={refinementClassnames}
 											/>
 										</details>

@@ -1,0 +1,16 @@
+.openedMarker::marker {
+	content: none;
+}
+
+.openedMarker::before {
+	content: "▲";
+	float: right;
+}
+
+.closedMarker[open] summary:before {
+	content: "▼";
+}
+
+.summary {
+	@apply font-bold cursor-pointer text-lg mb-1;
+}
