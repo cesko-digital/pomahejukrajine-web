@@ -32,6 +32,7 @@
 	"mojeNabidky.created": "Vytvořeno",
 	"mojeNabidky.logout": "Odhlásit se",
 	"mojeNabidky.editOffer": "Upravit nabídku",
+	"mojeNabidky.editProfile": "Upravit svůj profil",
 	"nabidky.title": "Nabídky pomoci",
 	"nabidky.all": "Vše",
 	"nabidky.needThisHelp": "Potřebuji tuto pomoc",
@@ -157,5 +158,8 @@
 	"faq.questions.question14": "Kontrolujete nějak kvality nabízených služeb?",
 	"faq.questions.answer14": "Budeme se snažit dlouhodobě ověřovat nabídky, koordinovat jejich další využití i podporovat naše klientky a klienty.  Vždy se řídíme zájmem příchozích a snažíme se pro ně zajistit důstojné podmínky. Také proto nejsou některé nabídky přímo zveřejněny na webu, ale projdou nejprve ověřením a propojením pomáhajících a těch, kdo pomoc potřebují. Zapojené nevládní organizace nemohou přejímat odpovědnost za všechny nabídky ani za poptávku, ale pokusí se obě strany dobře informovat a propojit obě strany tak, aby pomoc byla co nejúčinnější. V případě zveřejněných nabídek, na které mohou reagovat přímo ti, kteří pomoc potřebuji, ale nemáme možnost kvalitu nabízených služeb kontrolovat.",
 	"faq.questions.question15": "Jste novinář a chcete více informací?",
-	"faq.questions.answer15": "Ozvěte se nám na <a class=\"underline\" href=\"mailto:krchova@migracnikonsorcium.cz\">krchova@migracnikonsorcium.cz</a>, rádi vám je poskytneme."
+	"faq.questions.answer15": "Ozvěte se nám na <a class=\"underline\" href=\"mailto:krchova@migracnikonsorcium.cz\">krchova@migracnikonsorcium.cz</a>, rádi vám je poskytneme.",
+	"mujProfil.title": "Upravit svůj profil",
+	"mujProfil.back": "Zpět na moje nabídky",
+	"mujProfil.saved": "Váš profil byt úspěšně uložen."
 }

@@ -32,6 +32,7 @@
 	"mojeNabidky.created": "Створено",
 	"mojeNabidky.logout": "вийти",
 	"mojeNabidky.editOffer": "Доступ до моїх пропозицій",
+	"mojeNabidky.editProfile": "Внести зміни до свого профілю",
 	"nabidky.title": "Пропозиції допомоги",
 	"nabidky.all": "всі",
 	"nabidky.needThisHelp": " Мені потрібна ця допомога",
@@ -123,5 +124,8 @@
 	"organizace.foundation": "Благодійний фонд",
 	"organizace.media": "Медія",
 	"organizace.church": "Церковна організація",
-	"organizace.volunteerInitiative": "Волонтерська ініціатива"
+	"organizace.volunteerInitiative": "Волонтерська ініціатива",
+	"mujProfil.title": "Внести зміни до свого профілю",
+	"mujProfil.back": "Повернутися до моїх пропозицій",
+	"mujProfil.saved": "Ваш профіль успішно збережено"
 }
