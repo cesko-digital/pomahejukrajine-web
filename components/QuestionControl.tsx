@@ -29,10 +29,11 @@ export const QuestionControl = memo<{
 	definition: QuestionDefinition;
 	disabled: boolean;
 	value: QuestionValue;
+	isUK: boolean;
 	onChange: (value: QuestionValue) => void;
 	districts: Districts;
 	error?: string | undefined;
-}>(({ definition, disabled, value, onChange, districts, error }) => {
+}>(({ definition, disabled, value, isUK, onChange, districts, error }) => {
 	const { locale } = useRouter();
 	return (
 		<div className="mt-4">
@@ -48,9 +49,39 @@ export const QuestionControl = memo<{
 				</div>
 			)}
 			<div className="mt-1">
-				{(definition.type === "text" ||
-					definition.type === "date" ||
-					definition.type === "number") && (
+				{definition.type === "text" && (
+					<input
+						disabled={disabled}
+						type={"text"}
+						{...(checkIfQuestionIsPostCode(definition.question)
+							? { inputmode: "numeric" }
+							: {})}
+						maxLength={
+							checkIfQuestionIsPostCode(definition.question) ? 5 : undefined
+						}
+						required={definition.required}
+						value={locale === CZECH ? value.value ?? "" : value.valueUK ?? ""}
+						onChange={(e) => {
+							if (isUK) {
+								onChange({
+									...value,
+									valueUK: checkIfQuestionIsPostCode(definition.question)
+										? removeNonNumericCharacters(e.target.value)
+										: e.target.value,
+								});
+							} else {
+								onChange({
+									...value,
+									value: checkIfQuestionIsPostCode(definition.question)
+										? removeNonNumericCharacters(e.target.value)
+										: e.target.value,
+								});
+							}
+						}}
+						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+					/>
+				)}
+				{(definition.type === "date" || definition.type === "number") && (
 					<input
 						disabled={disabled}
 						type={
@@ -68,15 +99,15 @@ export const QuestionControl = memo<{
 							checkIfQuestionIsPostCode(definition.question) ? 5 : undefined
 						}
 						required={definition.required}
-						value={value.value ?? ""}
-						onChange={(e) =>
+						value={value.value}
+						onChange={(e) => {
 							onChange({
 								...value,
 								value: checkIfQuestionIsPostCode(definition.question)
 									? removeNonNumericCharacters(e.target.value)
 									: e.target.value,
-							})
-						}
+							});
+						}}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 					/>
 				)}
@@ -85,7 +116,13 @@ export const QuestionControl = memo<{
 						disabled={disabled}
 						required={definition.required}
 						value={locale === CZECH ? value.value ?? "" : value.valueUK ?? ""}
-						onChange={(e) => onChange({ ...value, value: e.target.value })}
+						onChange={(e) => {
+							if (isUK) {
+								onChange({ ...value, valueUK: e.target.value });
+							} else {
+								onChange({ ...value, value: e.target.value });
+							}
+						}}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
 					/>
 				)}
@@ -102,9 +139,13 @@ export const QuestionControl = memo<{
 											name={definition.id}
 											value={option.value}
 											checked={value.value === option.value}
-											onChange={(e) =>
-												onChange({ ...value, value: e.target.value })
-											}
+											onChange={(e) => {
+												if (isUK) {
+													onChange({ ...value, valueUK: e.target.value });
+												} else {
+													onChange({ ...value, value: e.target.value });
+												}
+											}}
 											className="mr-2"
 										/>
 										{locale === CZECH ? option.label : option.labelUK}
@@ -121,9 +162,19 @@ export const QuestionControl = memo<{
 														? value.specification
 														: value.specificationUK
 												}
-												onChange={(e) =>
-													onChange({ ...value, specification: e.target.value })
-												}
+												onChange={(e) => {
+													if (isUK) {
+														onChange({
+															...value,
+															specificationUK: e.target.value,
+														});
+													} else {
+														onChange({
+															...value,
+															specification: e.target.value,
+														});
+													}
+												}}
 												className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6"
 											/>
 										)}
@@ -181,11 +232,19 @@ export const QuestionControl = memo<{
 												const currentItemIndex = values.findIndex(
 													(it) => it.value === option.value
 												);
-												values[currentItemIndex] = {
-													...values[currentItemIndex],
-													specification: e.target.value,
-												};
-												onChange({ ...value, values });
+												if (isUK) {
+													values[currentItemIndex] = {
+														...values[currentItemIndex],
+														specificationUK: e.target.value,
+													};
+													onChange({ ...value, values });
+												} else {
+													values[currentItemIndex] = {
+														...values[currentItemIndex],
+														specification: e.target.value,
+													};
+													onChange({ ...value, values });
+												}
 											}}
 											className="py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6 mb-1"
 										/>
@@ -214,19 +273,21 @@ export const QuestionControl = memo<{
 								value={districts
 									.filter(
 										(it) =>
-											value.values?.find((value) => value.value === it.name) !==
-											undefined
+											value.values?.find(
+												(value) =>
+													value.value === it.nameUK || value.value === it.name
+											) !== undefined
 									)
 									.map((it) => ({
 										value: it.id,
 										label: locale === CZECH ? it.name : it.nameUK,
 									}))}
-								onChange={(values) =>
+								onChange={(values) => {
 									onChange({
 										...value,
 										values: values.map((it) => ({ value: it.label })),
-									})
-								}
+									});
+								}}
 							/>
 						</div>
 					</div>

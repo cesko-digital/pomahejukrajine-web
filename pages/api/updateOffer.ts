@@ -16,6 +16,7 @@ export default async function handler(
 	const cookies = new Cookies(req, res);
 	const offerId = req.body.offerId as string;
 	const data = req.body.data as OfferParameters;
+	const isUKLanguage = req.body.isUKLanguage as boolean;
 
 	const baseDataResponse = await fetch(
 		process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!,
@@ -82,7 +83,9 @@ export default async function handler(
 			const data = {
 				question: { connect: { id: questionId } },
 				value: question.value,
+				valueUK: question.valueUK,
 				specification: question.specification,
+				specificationUK: question.specificationUK,
 			};
 
 			if (question.type === "district") {
@@ -92,8 +95,14 @@ export default async function handler(
 						...(question.values?.map((value) => ({
 							create: {
 								value: value.value,
+								valueUK: value.valueUK,
 								specification: value.specification,
-								district: { connect: { name: value.value } },
+								specificationUK: value.specificationUK,
+								district: {
+									connect: isUKLanguage
+										? { nameUK: value.value }
+										: { name: value.value },
+								},
 							},
 						})) ?? []),
 					],
@@ -113,7 +122,9 @@ export default async function handler(
 						...(question.values?.map((value) => ({
 							create: {
 								value: value.value,
+								valueUK: value.valueUK,
 								specification: value.specification,
+								specificationUK: value.specificationUK,
 							},
 						})) ?? []),
 					],
