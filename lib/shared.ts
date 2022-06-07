@@ -51,7 +51,7 @@ export type Language = {
 	id: string;
 	name: string;
 	nameUK: string;
-}[];
+};
 
 export type OfferType = {
 	id: string;
