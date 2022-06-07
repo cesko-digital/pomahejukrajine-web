@@ -179,35 +179,38 @@ export const EditForm = memo<RegisterFormProps>(
 									{locale === CZECH ? offerType.infoText : offerType.infoTextUK}
 								</p>
 							)}
-							{offerType.questions.map((question) => (
-								<QuestionControl
-									key={question.id}
-									definition={question}
-									value={state[question.id] ?? {}}
-									onChange={(newValue) => {
-										newValue.type = question.type;
-										setErrors((errors) =>
-											errors.filter(
+							{offerType.questions.map((question) => {
+								return (
+									<QuestionControl
+										key={question.id}
+										definition={question}
+										value={state[question.id] ?? {}}
+										onChange={(newValue) => {
+											newValue.type = question.type;
+											setErrors((errors) =>
+												errors.filter(
+													(it) =>
+														it.input === "question" &&
+														it.questionId !== question.id
+												)
+											);
+											setState((state) => ({
+												...state,
+												[question.id]: newValue,
+											}));
+										}}
+										disabled={disabled}
+										districts={districts}
+										error={
+											errors.find(
 												(it) =>
 													it.input === "question" &&
-													it.questionId !== question.id
-											)
-										);
-										setState((state) => ({
-											...state,
-											[question.id]: newValue,
-										}));
-									}}
-									disabled={disabled}
-									districts={districts}
-									error={
-										errors.find(
-											(it) =>
-												it.input === "question" && it.questionId === question.id
-										)?.message
-									}
-								/>
-							))}
+													it.questionId === question.id
+											)?.message
+										}
+									/>
+								);
+							})}
 						</div>
 					</div>
 				</div>

@@ -34,7 +34,6 @@ export const QuestionControl = memo<{
 	error?: string | undefined;
 }>(({ definition, disabled, value, onChange, districts, error }) => {
 	const { locale } = useRouter();
-
 	return (
 		<div className="mt-4">
 			<div className="block text-sm font-medium text-gray-700">
@@ -85,7 +84,7 @@ export const QuestionControl = memo<{
 					<textarea
 						disabled={disabled}
 						required={definition.required}
-						value={value.value ?? ""}
+						value={locale === CZECH ? value.value ?? "" : value.valueUK ?? ""}
 						onChange={(e) => onChange({ ...value, value: e.target.value })}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
 					/>
@@ -108,7 +107,7 @@ export const QuestionControl = memo<{
 											}
 											className="mr-2"
 										/>
-										<span>{option.label}</span>
+										{locale === CZECH ? option.label : option.labelUK}
 									</label>
 									{value.value === option.value &&
 										definition.options.find((it) => it.value === value.value)
@@ -117,7 +116,11 @@ export const QuestionControl = memo<{
 												disabled={disabled}
 												type="text"
 												required={true}
-												value={value.specification ?? ""}
+												value={
+													locale === CZECH
+														? value.specification
+														: value.specificationUK
+												}
 												onChange={(e) =>
 													onChange({ ...value, specification: e.target.value })
 												}
@@ -168,7 +171,11 @@ export const QuestionControl = memo<{
 											disabled={disabled}
 											type="text"
 											required
-											value={relevantValue.specification ?? ""}
+											value={
+												locale === CZECH
+													? relevantValue.specification
+													: relevantValue.specificationUK
+											}
 											onChange={(e) => {
 												const values = value.values ?? [];
 												const currentItemIndex = values.findIndex(
@@ -201,7 +208,7 @@ export const QuestionControl = memo<{
 								}
 								options={districts.map((it) => ({
 									value: it.id,
-									label: it.name,
+									label: locale === CZECH ? it.name : it.nameUK,
 								}))}
 								components={{ Input: SelectInput }}
 								value={districts

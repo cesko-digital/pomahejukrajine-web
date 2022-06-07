@@ -32,7 +32,6 @@ export default async function handler(
 		? json?.data?.updateReaction?.ok
 		: undefined;
 	if (!volunteerEmail) {
-		console.log(json);
 		res.status(400).json({
 			ok: false,
 			error: "Nastala chyba při ověřování.",

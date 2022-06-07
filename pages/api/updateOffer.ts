@@ -42,7 +42,6 @@ export default async function handler(
 
 	const baseDataJson = await baseDataResponse.json();
 	if (baseDataJson.errors) {
-		console.log(baseDataJson.errors);
 		throw new Error("Unable to fetch base data");
 	}
 	const { offerTypes, offer } = baseDataJson.data as PublicQueryResult & {
@@ -144,8 +143,6 @@ export default async function handler(
 		}),
 	};
 
-	console.log(JSON.stringify({ offerId, data: updateInput }));
-
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
 		method: "POST",
 		headers: {
@@ -172,7 +169,6 @@ export default async function handler(
 	const ok: boolean | undefined = response.ok && json?.data?.updateOffer?.ok;
 	if (ok !== true) {
 		console.warn("Failed to update offer", json);
-		console.log(json?.data?.updateOffer?.error);
 		res.status(400).json({
 			ok: false,
 			error: "Nepodařilo se uložit",
