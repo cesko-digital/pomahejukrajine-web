@@ -55,7 +55,6 @@ export default async function handler(
 	const ok: boolean | undefined = response.ok && json?.data?.createReaction?.ok;
 	if (ok !== true) {
 		console.warn("Failed to create reaction", json);
-		console.log(json?.data?.createReaction?.error);
 		res.status(400).json({
 			ok: false,
 			error: "Nepodařilo se uložit",

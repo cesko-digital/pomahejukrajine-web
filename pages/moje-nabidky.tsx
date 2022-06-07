@@ -53,7 +53,6 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 
 				<div className="max-w-3xl mx-auto mt-8 grid md:grid-cols-2 sm:grid-cols-1">
 					{offers.map((offer) => {
-						console.log(offer);
 						const statusLable: {
 							[status: string]: { text: string; background: string };
 						} = {

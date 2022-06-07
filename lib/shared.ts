@@ -7,6 +7,7 @@ export interface QuestionDefinition {
 	options: {
 		id: string;
 		value: string;
+		valueUK: string;
 		label: string;
 		labelUK: string;
 		requireSpecification: boolean;

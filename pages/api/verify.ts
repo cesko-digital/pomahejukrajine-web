@@ -87,8 +87,6 @@ export default async function handler(
 		json?.data?.unmanagedInvite?.result?.person?.identity?.id;
 	if (ok !== true || !identityId) {
 		console.warn("Failed to create user", json);
-		console.log(json?.data?.unmanagedInvite?.error?.code);
-		console.log(json?.data?.unmanagedInvite?.error);
 		res.status(400).json({
 			ok: false,
 			error: "Nepodařilo se nastavit heslo",
@@ -125,7 +123,6 @@ export default async function handler(
 		? (await contentResponse.json())?.data?.volunteer?.ok
 		: undefined;
 	if (contentOk !== true) {
-		console.log(await contentResponse.json());
 		res.status(400).json({
 			ok: false,
 			error: "Nepodařilo se propojit uživatele",

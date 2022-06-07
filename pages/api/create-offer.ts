@@ -150,7 +150,6 @@ export default async function handler(
 		const ok: boolean | undefined = response?.ok && json?.data?.createOffer?.ok;
 		if (ok !== true) {
 			console.warn("Failed to create offer", json);
-			console.log(json?.data?.createOffer?.error);
 			res.status(400).json({
 				ok: false,
 				error: "Nepodařilo se uložit",

@@ -19,11 +19,15 @@ interface HomeProps extends PublicQueryResult {
 		parameters: {
 			id: string;
 			value?: string;
+			valueUK?: string;
 			specification?: string;
+			specificationUK?: string;
 			values: {
 				id: string;
 				value?: string;
+				valueUK?: string;
 				specification?: string;
+				specificationUK?: string;
 			}[];
 			question: {
 				id: string;
@@ -78,10 +82,14 @@ const Home: NextPage<HomeProps> = ({
 										{
 											id: item.id,
 											value: item.value ?? "",
+											valueUK: item.valueUK ?? "",
 											specification: item.specification ?? "",
+											specificationUK: item.specificationUK ?? "",
 											values: item.values.map((value) => ({
 												value: value.value ?? "",
-												specification: value.specification,
+												valueUK: value.valueUK ?? "",
+												specification: value.specification ?? "",
+												specificationUK: value.specificationUK ?? "",
 											})),
 										},
 									])
@@ -124,10 +132,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 							parameters {
 								id
 								value
+								valueUK
+								specification
+								specificationUK
 								values {
 									id
 									value
+									valueUK
 									specification
+									specificationUK
 								}
 								question {
 									id

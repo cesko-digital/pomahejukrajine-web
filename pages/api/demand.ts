@@ -90,7 +90,6 @@ export default async function handler(
 	const ok: boolean | undefined = response.ok && json?.data?.createDemand?.ok;
 	if (ok !== true) {
 		console.warn("Failed to create demand", json);
-		console.log(json?.data?.createDemand?.error);
 		res.status(400).json({
 			ok: false,
 			error: "Nepodařilo se uložit",
