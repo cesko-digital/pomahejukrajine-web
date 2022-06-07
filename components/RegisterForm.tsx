@@ -25,7 +25,7 @@ type RegisterFormProps =
 	  };
 
 export const RegisterForm = memo<RegisterFormProps>(
-	({ offerTypes = [], districts, languages, volunteerData, editing }) => {
+	({ offerTypes = [], districts, languages, uk, volunteerData, editing }) => {
 		const [submitting, setSubmitting] = useState<
 			false | "loading" | "error" | "success"
 		>(false);
@@ -398,6 +398,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 												<QuestionControl
 													key={question.id}
 													definition={question}
+													isUK={uk ?? false}
 													value={
 														state.offers[offerType.id].questions[question.id] ??
 														{}
