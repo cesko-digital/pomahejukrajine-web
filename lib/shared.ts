@@ -30,7 +30,7 @@ export interface QuestionValue {
 	specification?: string;
 	specificationUK?: string;
 	values?: {
-		value: string;
+		value?: string;
 		valueUK?: string;
 		specification?: string;
 		specificationUK?: string;

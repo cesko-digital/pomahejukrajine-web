@@ -183,6 +183,7 @@ export const EditForm = memo<RegisterFormProps>(
 								return (
 									<QuestionControl
 										key={question.id}
+										isUK={locale !== CZECH}
 										definition={question}
 										value={state[question.id] ?? {}}
 										onChange={(newValue) => {
