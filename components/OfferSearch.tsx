@@ -9,9 +9,10 @@ import {
 	SearchBox,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
+import FilterIcon from "./FilterIcon";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -66,116 +67,118 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
-			{!showFilters && (
-				<div
-					className="py-1.5 px-3 w-36 rounded-md md:border md:border-ua-blue text-center text-sm text-ua-blue
-					md:hover:bg-ua-blue-dark md:hover:text-white flex flex-row gap-x-2"
-					onClick={() => setShowFilters(true)}
-				>
-					{t("nabidky.showFilers")}
-				</div>
-			)}
-			<div className={"flex gap-x-16 text-grey-dark"}>
-				{showFilters && (
-					<div className={"w-80"}>
-						<SearchBox
-							placeholder={t("nabidky.search")}
-							classNames={{
-								input:
-									"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500 rounded-md",
-								submit: "absolute right-3 top-3",
-								submitIcon: "fill-current text-ua-blue h-4 w-4",
-								loadingIcon: "hidden",
-								reset: "hidden",
-								resetIcon: "hidden",
-								loadingIndicator: "hidden",
-								form: "flex flex-row text-center relative",
-								root: "w-full mb-4 mt-8",
-							}}
-						/>
-						<div className={"flex justify-between"}>
-							<div className="font-bold text-left text-lg text-black">
-								Filtry
-							</div>
-							<div
-								className="mb-3 text-right text-ua-blue cursor-pointer"
-								onClick={() => setShowFilters(false)}
-							>
-								{t("nabidky.hideFilers")}
-							</div>
+			<div
+				className={
+					showFilters
+						? "hidden"
+						: `py-1.5 px-3 w-36 rounded-md border border-ua-blue text-center text-sm
+				text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
+				}
+				onClick={() => setShowFilters(true)}
+			>
+
+				{t("nabidky.showFilers")}
+			</div>
+			<div
+				className={
+					"flex md:flex-row items-center md:items-start flex-col gap-x-16 text-grey-dark"
+				}
+			>
+				<div className={showFilters ? "w-80" : "hidden"}>
+					<SearchBox
+						placeholder={t("nabidky.search")}
+						classNames={{
+							input:
+								"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500 rounded-md",
+							submit: "absolute right-3 top-3",
+							submitIcon: "fill-current text-ua-blue h-4 w-4",
+							loadingIcon: "hidden",
+							reset: "hidden",
+							resetIcon: "hidden",
+							loadingIndicator: "hidden",
+							form: "flex flex-row text-center relative",
+							root: "w-full mb-4 mt-8",
+						}}
+					/>
+					<div className={"flex justify-between"}>
+						<div className="font-bold text-left text-lg text-black">
+							{t("nabidky.filters")}
 						</div>
-						<div className="refinements text-left">
-							{/*REGIONS*/}
-							{listQuestion
-								.filter((it: any) => ["district"].includes(it.type))
-								.map((question: any) => {
-									return (
-										<div className="pt-3 pb-2 border-t" key={question.id}>
-											<details open className={cx(styles.closedMarker)}>
-												<summary
-													className={cx(styles.openedMarker, styles.summary)}
-												>
-													{t("nabidka.region")}
-												</summary>
-												<RefinementList
-													key={question.id}
-													attribute={`parameter_${question.id}_region_facet`}
-													limit={20}
-													sortBy={["name:asc"]}
-													classNames={refinementClassnames}
-												/>
-											</details>
-										</div>
-									);
-								})}
-							{/*DISTRICTS*/}
-							{listQuestion
-								.filter((it: any) => ["district"].includes(it.type))
-								.map((question: any) => {
-									return (
-										<div className="pt-3 pb-2 border-t" key={question.id}>
-											<details className={cx(styles.closedMarker)}>
-												<summary
-													className={cx(styles.openedMarker, styles.summary)}
-												>
-													{t("nabidka.district")}
-												</summary>
-												<RefinementList
-													key={question.id}
-													attribute={`parameter_${question.id}_facet`}
-													sortBy={["name:asc"]}
-													limit={50}
-													classNames={refinementClassnames}
-												/>
-											</details>
-										</div>
-									);
-								})}
+						<div
+							className="mb-3 text-right text-ua-blue cursor-pointer"
+							onClick={() => setShowFilters(false)}
+						>
+							{t("nabidky.hideFilers")}
 						</div>
-						<div className="refinements text-left">
-							{/*ANOTHER CATEGORIES*/}
-							{listQuestion
-								.filter((it: any) => ["checkbox", "radio"].includes(it.type))
-								.map((question: any) => (
+					</div>
+					<div className="refinements text-left">
+						{/*REGIONS*/}
+						{listQuestion
+							.filter((it: any) => ["district"].includes(it.type))
+							.map((question: any) => {
+								return (
+									<div className="pt-3 pb-2 border-t" key={question.id}>
+										<details open className={cx(styles.closedMarker)}>
+											<summary
+												className={cx(styles.openedMarker, styles.summary)}
+											>
+												{t("nabidka.region")}
+											</summary>
+											<RefinementList
+												key={question.id}
+												attribute={`parameter_${question.id}_region_facet`}
+												limit={20}sortBy={["name:asc"]}
+												classNames={refinementClassnames}
+											/>
+										</details>
+									</div>
+								);
+							})}
+						{/*DISTRICTS*/}
+						{listQuestion
+							.filter((it: any) => ["district"].includes(it.type))
+							.map((question: any) => {
+								return (
 									<div className="pt-3 pb-2 border-t" key={question.id}>
 										<details className={cx(styles.closedMarker)}>
 											<summary
 												className={cx(styles.openedMarker, styles.summary)}
 											>
-												{question.label}
+												{t("nabidka.district")}
 											</summary>
 											<RefinementList
 												key={question.id}
 												attribute={`parameter_${question.id}_facet`}
-												sortBy={["name:asc"]}
+												sortBy={["name:asc"]}limit={50}
 												classNames={refinementClassnames}
 											/>
 										</details>
 									</div>
-								))}
-						</div>
+								);
+							})}
 					</div>
-				)}
+					<div className="refinements text-left">
+						{/*ANOTHER CATEGORIES*/}
+						{listQuestion
+							.filter((it: any) => ["checkbox", "radio"].includes(it.type))
+							.map((question: any) => (
+								<div className="pt-3 pb-2 border-t" key={question.id}>
+									<details className={cx(styles.closedMarker)}>
+										<summary
+											className={cx(styles.openedMarker, styles.summary)}
+										>
+											{question.label}
+										</summary>
+										<RefinementList
+											key={question.id}
+											attribute={`parameter_${question.id}_facet`}sortBy={["name:asc"]}
+											classNames={refinementClassnames}
+										/>
+									</details>
+								</div>
+							))}
+					</div>
+				</div>
 				<div className={`${showFilters && "w-fit"}`}>
 					<Hits
 						classNames={{
