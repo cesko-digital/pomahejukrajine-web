@@ -6,6 +6,8 @@ import Footer from "../../components/footer";
 import { publicQuery, PublicQueryResult } from "../../lib/shared";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { CZECH } from "../../utils/constants";
 
 interface HomeProps extends PublicQueryResult {
 	token: string;
@@ -18,6 +20,7 @@ const Home: NextPage<HomeProps> = ({
 	token,
 }) => {
 	const { t } = useTranslation();
+	const { locale } = useRouter();
 
 	return (
 		<div className="antialiased text-gray-600">
@@ -40,6 +43,7 @@ const Home: NextPage<HomeProps> = ({
 								offerTypes={offerTypes}
 								districts={districts}
 								languages={languages}
+								uk={locale !== CZECH}
 							/>
 						</div>
 					</main>
