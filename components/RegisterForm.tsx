@@ -346,7 +346,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 											}}
 											className="mr-2"
 										/>
-										<span>{language.name}</span>
+										<span>{uk ? language.nameUK : language.name}</span>
 									</label>
 								))}
 							</div>
@@ -386,13 +386,16 @@ export const RegisterForm = memo<RegisterFormProps>(
 											}}
 										/>
 										<span className="pl-2 text-sm font-medium text-gray-700">
-											{offerType.name}
+											{uk ? offerType.nameUK : offerType.name}
 										</span>
 									</label>
 								</div>
 								{!!state.offers[offerType.id] && (
 									<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
-										{offerType.infoText && <p>{offerType.infoText}</p>}
+										{uk
+											? offerType.infoTextUK && <p>{offerType.infoTextUK}</p>
+											: offerType.infoText && <p>{offerType.infoText}</p>}
+
 										{offerType.questions.map((question) => {
 											return (
 												<QuestionControl
