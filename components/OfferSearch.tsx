@@ -71,12 +71,12 @@ export const OfferSearch = ({
 				className={
 					showFilters
 						? "hidden"
-						: `py-1.5 px-3 w-36 rounded-md border border-ua-blue text-center text-sm
+						: `py-1.5 px-3 w-36 mt-4 rounded-md border border-ua-blue text-center text-sm
 				text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
 				}
 				onClick={() => setShowFilters(true)}
 			>
-
+				<FilterIcon />
 				{t("nabidky.showFilers")}
 			</div>
 			<div
@@ -122,12 +122,12 @@ export const OfferSearch = ({
 											<summary
 												className={cx(styles.openedMarker, styles.summary)}
 											>
-												{t("nabidka.region")}
+												{t("nabidky.region")}
 											</summary>
 											<RefinementList
 												key={question.id}
 												attribute={`parameter_${question.id}_region_facet`}
-												limit={20}sortBy={["name:asc"]}
+												limit={20}
 												classNames={refinementClassnames}
 											/>
 										</details>
@@ -144,12 +144,12 @@ export const OfferSearch = ({
 											<summary
 												className={cx(styles.openedMarker, styles.summary)}
 											>
-												{t("nabidka.district")}
+												{t("nabidky.district")}
 											</summary>
 											<RefinementList
 												key={question.id}
 												attribute={`parameter_${question.id}_facet`}
-												sortBy={["name:asc"]}limit={50}
+												limit={50}
 												classNames={refinementClassnames}
 											/>
 										</details>
@@ -171,7 +171,7 @@ export const OfferSearch = ({
 										</summary>
 										<RefinementList
 											key={question.id}
-											attribute={`parameter_${question.id}_facet`}sortBy={["name:asc"]}
+											attribute={`parameter_${question.id}_facet`}
 											classNames={refinementClassnames}
 										/>
 									</details>
@@ -185,7 +185,6 @@ export const OfferSearch = ({
 							list: "mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-5",
 						}}
 						hitComponent={(hit: any) => {
-							// if ((offerType.name != "Doprava")) {
 							return (
 								<div
 									className="p-3 bg-card-grey flex flex-col"
@@ -227,7 +226,6 @@ export const OfferSearch = ({
 									</div>
 								</div>
 							);
-							// } else return null
 						}}
 					/>
 					<Pagination
