@@ -9,10 +9,9 @@ import {
 	SearchBox,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
-import FilterIcon from "./FilterIcon";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -69,7 +68,8 @@ export const OfferSearch = ({
 		>
 			{!showFilters && (
 				<div
-					className="py-1.5 px-3 w-36 rounded-md md:border md:border-ua-blue text-center text-sm text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white"
+					className="py-1.5 px-3 w-36 rounded-md md:border md:border-ua-blue text-center text-sm text-ua-blue
+					md:hover:bg-ua-blue-dark md:hover:text-white flex flex-row gap-x-2"
 					onClick={() => setShowFilters(true)}
 				>
 					{t("nabidky.showFilers")}
@@ -110,9 +110,11 @@ export const OfferSearch = ({
 								.filter((it: any) => ["district"].includes(it.type))
 								.map((question: any) => {
 									return (
-										<div className="pt-3 pb-3 border-t" key={question.id}>
-											<details open>
-												<summary className="font-bold cursor-pointer text-lg">
+										<div className="pt-3 pb-2 border-t" key={question.id}>
+											<details open className={cx(styles.closedMarker)}>
+												<summary
+													className={cx(styles.openedMarker, styles.summary)}
+												>
 													{t("nabidka.region")}
 												</summary>
 												<RefinementList
@@ -131,12 +133,11 @@ export const OfferSearch = ({
 								.filter((it: any) => ["district"].includes(it.type))
 								.map((question: any) => {
 									return (
-										<div
-											className="pt-3 pb-3 border-t border-b"
-											key={question.id}
-										>
-											<details>
-												<summary className="font-bold cursor-pointer text-lg">
+										<div className="pt-3 pb-2 border-t" key={question.id}>
+											<details className={cx(styles.closedMarker)}>
+												<summary
+													className={cx(styles.openedMarker, styles.summary)}
+												>
 													{t("nabidka.district")}
 												</summary>
 												<RefinementList
@@ -156,9 +157,11 @@ export const OfferSearch = ({
 							{listQuestion
 								.filter((it: any) => ["checkbox", "radio"].includes(it.type))
 								.map((question: any) => (
-									<div className="mt-3 pb-3 border-b" key={question.id}>
-										<details>
-											<summary className="font-bold cursor-pointer text-lg">
+									<div className="pt-3 pb-2 border-t" key={question.id}>
+										<details className={cx(styles.closedMarker)}>
+											<summary
+												className={cx(styles.openedMarker, styles.summary)}
+											>
 												{question.label}
 											</summary>
 											<RefinementList
