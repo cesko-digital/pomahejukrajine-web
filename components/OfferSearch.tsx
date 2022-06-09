@@ -81,10 +81,10 @@ export const OfferSearch = ({
 			</div>
 			<div
 				className={
-					"flex md:flex-row items-center md:items-start flex-col gap-x-16 text-grey-dark"
+					"flex md:flex-row items-center md:items-start flex-col text-grey-dark"
 				}
 			>
-				<div className={showFilters ? "w-80" : "hidden"}>
+				<div className={showFilters ? "w-80 md:w-1/4 md:pr-10" : "hidden"}>
 					<SearchBox
 						placeholder={t("nabidky.search")}
 						classNames={{
@@ -179,10 +179,10 @@ export const OfferSearch = ({
 							))}
 					</div>
 				</div>
-				<div className={`${showFilters && "w-fit"}`}>
+				<div className={`${showFilters && "w-3/4"}`}>
 					<Hits
 						classNames={{
-							list: "mt-8 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-5",
+							list: "mt-8 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5",
 						}}
 						hitComponent={(hit: any) => {
 							return (
