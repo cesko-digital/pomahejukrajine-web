@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
+	CurrentRefinements,
 	Highlight,
 	Hits,
 	InstantSearch,
@@ -15,6 +16,8 @@ import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
 import { CZECH } from "../utils/constants";
+import { CreateReactionForm } from "./CreateReactionForm";
+import { Modal } from "./Modal";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -38,6 +41,7 @@ export const OfferSearch = ({
 		showMore: "text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
 	};
 	const { locale } = useRouter();
+	const [openedOffer, setOpenedOffer] = useState<any>(null);
 
 	const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
 		server: {
@@ -197,6 +201,7 @@ export const OfferSearch = ({
 							list: `${
 								showFilters ? "lg:grid-cols-3" : "lg:grid-cols-4"
 							} mt-8 grid md:grid-cols-2 sm:grid-cols-1 gap-5`,
+              item: "flex",
 						}}
 						hitComponent={(hit: any) => {
 							return (
@@ -230,16 +235,13 @@ export const OfferSearch = ({
 									))}
 									<div className="grow"></div>
 									<div className="my-3">
-										<Link
-											href={{
-												pathname: "/reagovat/[id]",
-												query: { id: hit.hit.objectID! },
-											}}
-										>
-											<a className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm">
-												{t("nabidky.needThisHelp")}
-											</a>
-										</Link>
+                    <a
+                      className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm"
+                      href="#"
+                      onClick={() => setOpenedOffer(hit.hit)}
+                    >
+                      {t("nabidky.needThisHelp")}
+                    </a>
 									</div>
 									<div className="mt-2 text-xs text-gray-400 font-bold">
 										{hit.hit.code}
@@ -257,6 +259,12 @@ export const OfferSearch = ({
 						showFirst={false}
 						showLast={false}
 					/>
+          {openedOffer && (
+            <Modal title={t("reagovat.title")}>
+              <p className="text-gray-400">ID pomoci: {openedOffer.code}</p>
+              <CreateReactionForm offerId={openedOffer.objectID} />
+            </Modal>
+          )}
 				</div>
 			</div>
 		</InstantSearch>
