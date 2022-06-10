@@ -56,11 +56,11 @@ export const CreateReactionForm = memo<{
 
 	if (submitting === "success") {
 		return (
-			<div className="sm:p-3 text-center h-40 md:h-96 flex justify-center flex-col">
+			<div className="sm:p-3 mb-6 mt-12 text-center md:h-96 flex justify-center flex-col">
 				<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
 					Děkujeme. Vaše poptávka byla odeslána.
 				</h2>
-				<p className="mt-2">Nabízející se vám ozve podle svých možností</p>
+				<p className="mt-2">Nabízející se vám ozve podle svých možností.</p>
 				<div className="text-center mt-10">
 					<button
 						type="submit"

@@ -9,7 +9,7 @@ import {
 	SearchBox,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
@@ -42,7 +42,7 @@ export const OfferSearch = ({
 	const [openedOffer, setOpenedOffer] = useState<any>(null);
 	const closeModal = useCallback(() => setOpenedOffer(null), [setOpenedOffer]);
 
-	const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
+  const typesenseInstantsearchAdapter = useRef(new TypesenseInstantSearchAdapter({
 		server: {
 			apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY!,
 			nodes: [
@@ -67,12 +67,12 @@ export const OfferSearch = ({
 					.map((question: any) => `parameter_${question.id}`),
 			].join(","),
 		},
-	});
+	}));
 
 	return (
 		<InstantSearch
 			indexName={`offers_${offerTypeId}`}
-			searchClient={typesenseInstantsearchAdapter.searchClient}
+			searchClient={typesenseInstantsearchAdapter.current.searchClient}
 		>
 			<div
 				className={
