@@ -1,9 +1,11 @@
 import { PropsWithChildren } from "react";
+import CloseIcon from "./CloseIcon";
 
 export const Modal = ({
 	children,
-	title,
-}: PropsWithChildren<{ title: string }>) => {
+	maxWidth,
+	onClose,
+}: PropsWithChildren<{ maxWidth?: string; onClose: () => void }>) => {
 	return (
 		<div
 			className="relative z-10"
@@ -15,13 +17,19 @@ export const Modal = ({
 
 			<div className="fixed z-10 inset-0 overflow-y-auto">
 				<div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-					<div className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl sm:max-w-lg sm:w-full">
-						<div className="bg-gray-50 px-4 sm:px-6 pt-6">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-								{title}
-							</h2>
-							{children}
+					<div
+						className={
+							"relative bg-white rounded-md text-left overflow-hidden shadow-xl sm:w-full " +
+							(maxWidth ?? "sm:max-w-xl")
+						}
+					>
+						<div
+							onClick={onClose}
+							className="absolute right-6 top-6 w-9 h-9 bg-gray-400 rounded-full cursor-pointer flex justify-center items-center"
+						>
+							<CloseIcon fillColor="#ffffff" />
 						</div>
+						<div className="bg-gray-50 px-4 sm:px-6 pt-6">{children}</div>
 					</div>
 				</div>
 			</div>

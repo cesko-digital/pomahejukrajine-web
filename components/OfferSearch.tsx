@@ -1,8 +1,6 @@
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-	CurrentRefinements,
 	Highlight,
 	Hits,
 	InstantSearch,
@@ -11,7 +9,7 @@ import {
 	SearchBox,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
@@ -42,6 +40,7 @@ export const OfferSearch = ({
 	};
 	const { locale } = useRouter();
 	const [openedOffer, setOpenedOffer] = useState<any>(null);
+	const closeModal = useCallback(() => setOpenedOffer(null), [setOpenedOffer]);
 
 	const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
 		server: {
@@ -260,9 +259,12 @@ export const OfferSearch = ({
 						showLast={false}
 					/>
           {openedOffer && (
-            <Modal title={t("reagovat.title")}>
-              <p className="text-gray-400">ID pomoci: {openedOffer.code}</p>
-              <CreateReactionForm offerId={openedOffer.objectID} />
+            <Modal onClose={closeModal}>
+              <CreateReactionForm
+                offerId={openedOffer.objectID}
+                code={openedOffer.code}
+                onClose={closeModal}
+              />
             </Modal>
           )}
 				</div>
