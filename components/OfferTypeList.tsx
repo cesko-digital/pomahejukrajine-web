@@ -31,6 +31,7 @@ export const OfferTypeList = ({
 			query_by: "code",
 		},
 	});
+
 	return (
 		<ul className="mt-5 md:mt-12 grid grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2">
 			<InstantSearch
