@@ -62,21 +62,14 @@ export const QuestionControl = memo<{
 						required={definition.required}
 						value={locale === CZECH ? value.value ?? "" : value.valueUK ?? ""}
 						onChange={(e) => {
-							if (isUK) {
-								onChange({
-									...value,
-									valueUK: checkIfQuestionIsPostCode(definition.question)
-										? removeNonNumericCharacters(e.target.value)
-										: e.target.value,
-								});
-							} else {
-								onChange({
-									...value,
-									value: checkIfQuestionIsPostCode(definition.question)
-										? removeNonNumericCharacters(e.target.value)
-										: e.target.value,
-								});
-							}
+							onChange({
+								...value,
+								[isUK ? "valueUK" : "value"]: checkIfQuestionIsPostCode(
+									definition.question
+								)
+									? removeNonNumericCharacters(e.target.value)
+									: e.target.value,
+							});
 						}}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 					/>

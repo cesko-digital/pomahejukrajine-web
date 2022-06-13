@@ -5,7 +5,6 @@ import {
 	OfferParameters,
 	publicQuery,
 	PublicQueryResult,
-	RegisterFormState,
 } from "../../lib/shared";
 import { validateOffer } from "../../lib/validateOffer";
 

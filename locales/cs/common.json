@@ -115,6 +115,7 @@
 	"nabidka.badExperience": "Špatná zkušenost s nabídkou",
 	"nabidka.active": "Aktivní",
 	"nabidka.stav": "Stav",
+	"nabidka.errorLoading": "Nepodařilo se načíst nabídku",
 	"organizace.title": "Seznam pomáhajících organizací",
 	"organizace.where": "Kde hledám pomáhající organizaci",
 	"organizace.notMatter": "Nezáleží",

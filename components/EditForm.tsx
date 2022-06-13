@@ -83,6 +83,7 @@ export const EditForm = memo<RegisterFormProps>(
 						isUKLanguage: locale !== CZECH,
 					}),
 				});
+
 				const ok = response.ok;
 				let json: any = { ok: false };
 				try {

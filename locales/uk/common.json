@@ -115,6 +115,7 @@
 	"nabidka.badExperience": "Поганий досвід з пропозицією",
 	"nabidka.active": "Активний",
 	"nabidka.stav": "стан",
+	"nabidka.errorLoading": "Не вдалося завантажити пропозицію",
 	"organizace.title": "Список організацій, які надають допомогу",
 	"organizace.where": "Де шукаю організацію, яка надає допомогу",
 	"organizace.notMatter": "Не має значення",

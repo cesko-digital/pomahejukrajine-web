@@ -45,7 +45,7 @@ const Home: NextPage<HomeProps> = ({
 }) => {
 	const { t } = useTranslation();
 	if (!offer) {
-		return <p>Nepodařilo se načíst nabídku</p>;
+		return <p>{t("nabidka.errorLoading")}</p>;
 	}
 	return (
 		<div className="antialiased text-gray-600">
