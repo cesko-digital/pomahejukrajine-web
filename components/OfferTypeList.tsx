@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Index, InstantSearch } from "react-instantsearch-dom";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
+import { getOfferIcon } from "./offerTypeIcon/getOfferIcon";
+import { CZECH } from "../utils/constants";
 
 export type OfferTypeListProps = {
 	listOfferType: any;
@@ -41,6 +43,7 @@ export const OfferTypeList = ({
 				{listOfferType
 					.filter((f: any) => !f.needsVerification)
 					.map(({ id, name, nameUK }: any) => {
+						const icon = getOfferIcon(name);
 						return (
 							<Index indexName={`offers_${id}`} key={id}>
 								<li key={id}>
@@ -50,9 +53,12 @@ export const OfferTypeList = ({
 												offerTypeId === id
 													? "bg-ua-blue text-white"
 													: "bg-blue-very-light text-ua-blue"
-											} hover:bg-ua-blue-dark hover:border-ua-blue-dark hover:text-white`}
+											} hover:bg-ua-blue-dark hover:border-ua-blue-dark hover:text-white `}
 										>
-											{locale === "cs" ? name : nameUK}
+											{icon}
+											<span className="ml-4">
+												{locale === CZECH ? name : nameUK}
+											</span>
 										</a>
 									</Link>
 								</li>
