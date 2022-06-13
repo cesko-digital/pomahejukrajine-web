@@ -7,6 +7,8 @@ import Link from "next/link";
 import Header from "../../components/header";
 import { Meta } from "../../components/Meta";
 import Footer from "../../components/footer";
+import { CZECH } from "../../utils/constants";
+import { getOfferIcon } from "../../components/offerTypeIcon/getOfferIcon";
 
 export type PrivateOffersProps = {
 	listOfferType: Record<string, any>;
@@ -34,20 +36,28 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 				<ul className="grid grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2 mt-5 mb-6 md:mb-14">
 					{listOfferType
 						.filter((f: any) => f.needsVerification)
-						.map((offerType: any) => (
-							<li
-								key={offerType.id}
-								className="border border-ua-blue text-ua-blue bg-blue-very-light rounded-lg p-4"
-							>
-								<div>{locale === "cs" ? offerType.name : offerType.nameUK}</div>
-								<div className="mt-8">
-									<span className="font-bold text-xl">
-										{offerType.paginateOffers.pageInfo.totalCount}
-									</span>{" "}
-									{t("neverejneNabidky.offers")}
-								</div>
-							</li>
-						))}
+						.map((offerType: any) => {
+							const icon = getOfferIcon(offerType.name);
+							return (
+								<li
+									key={offerType.id}
+									className="flex flex-col h-full border border-ua-blue text-ua-blue bg-blue-very-light rounded-lg p-4"
+								>
+									<div className="grow flex">
+										{icon}
+										<span className="ml-4">
+											{locale === CZECH ? offerType.name : offerType.nameUK}
+										</span>
+									</div>
+									<div className="mt-8">
+										<span className="font-bold text-xl">
+											{offerType.paginateOffers.pageInfo.totalCount}
+										</span>{" "}
+										{t("neverejneNabidky.offers")}
+									</div>
+								</li>
+							);
+						})}
 				</ul>
 
 				<div className="grid gap-x-5 gap-y-2.5 grid-cols-1 md:grid-cols-2">
