@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
+	CurrentRefinements,
 	Highlight,
 	Hits,
 	InstantSearch,
@@ -15,6 +16,7 @@ import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
 import { CZECH } from "../utils/constants";
+import { parseIdFromFacetName } from "../lib/parseIdFromFacetName";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -201,7 +203,9 @@ export const OfferSearch = ({
 											</summary>
 											<RefinementList
 												key={question.id}
-												attribute={`parameter_${question.id}_region_facet`}
+												attribute={`parameter${locale === CZECH ? "" : "_uk"}_${
+													question.id
+												}_region_facet`}
 												limit={20}
 												classNames={refinementClassnames}
 											/>
@@ -223,7 +227,9 @@ export const OfferSearch = ({
 											</summary>
 											<RefinementList
 												key={question.id}
-												attribute={`parameter_${question.id}_facet`}
+												attribute={`parameter${locale === CZECH ? "" : "_uk"}_${
+													question.id
+												}_facet`}
 												limit={50}
 												classNames={refinementClassnames}
 											/>
@@ -246,7 +252,9 @@ export const OfferSearch = ({
 										</summary>
 										<RefinementList
 											key={question.id}
-											attribute={`parameter_${question.id}_facet`}
+											attribute={`parameter${locale === CZECH ? "" : "_uk"}_${
+												question.id
+											}_facet`}
 											classNames={refinementClassnames}
 										/>
 									</details>
