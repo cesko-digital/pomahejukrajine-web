@@ -9,7 +9,7 @@ import {
 	SearchBox,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import React, { useState, useCallback, useRef, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
