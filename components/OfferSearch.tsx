@@ -9,7 +9,7 @@ import {
 	SearchBox,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useMemo } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
@@ -42,44 +42,47 @@ export const OfferSearch = ({
 	const [openedOffer, setOpenedOffer] = useState<any>(null);
 	const closeModal = useCallback(() => setOpenedOffer(null), [setOpenedOffer]);
 
-  const typesenseInstantsearchAdapter = useRef(new TypesenseInstantSearchAdapter({
-		server: {
-			apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY!,
-			nodes: [
-				{
-					host: process.env.NEXT_PUBLIC_TYPESENSE_HOST!,
-					port: parseInt(process.env.NEXT_PUBLIC_TYPESENSE_PORT!),
-					protocol: process.env.NEXT_PUBLIC_TYPESENSE_PROTOCOL!,
+	const typesenseInstantsearchAdapter = useMemo(
+		() =>
+			new TypesenseInstantSearchAdapter({
+				server: {
+					apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY!,
+					nodes: [
+						{
+							host: process.env.NEXT_PUBLIC_TYPESENSE_HOST!,
+							port: parseInt(process.env.NEXT_PUBLIC_TYPESENSE_PORT!),
+							protocol: process.env.NEXT_PUBLIC_TYPESENSE_PROTOCOL!,
+						},
+					],
+					cacheSearchResultsForSeconds: 2 * 60,
 				},
-			],
-			cacheSearchResultsForSeconds: 2 * 60,
-		},
-		additionalSearchParameters: {
-			query_by: [
-				listQuestion
-					.filter(
-						(question: any) =>
-							![
-								"07d4ee81-3fa1-41df-a5f3-7a1e4c91777f",
-								"8958a3e0-ef6f-4a51-9139-c26b7de8e8ef",
-							].includes(question.id)
-					)
-					.map((question: any) => `parameter_${question.id}`),
-			].join(","),
-		},
-	}));
+				additionalSearchParameters: {
+					query_by: [
+						listQuestion
+							.filter(
+								(question: any) =>
+									![
+										"07d4ee81-3fa1-41df-a5f3-7a1e4c91777f",
+										"8958a3e0-ef6f-4a51-9139-c26b7de8e8ef",
+									].includes(question.id)
+							)
+							.map((question: any) => `parameter_${question.id}`),
+					].join(","),
+				},
+			}),
+		[listQuestion]
+	);
 
 	return (
 		<InstantSearch
 			indexName={`offers_${offerTypeId}`}
-			searchClient={typesenseInstantsearchAdapter.current.searchClient}
+			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
 			<div
 				className={
 					showFilters
 						? "hidden"
-						: `py-1.5 px-3 w-36 mt-4 rounded-md border border-ua-blue text-center text-sm
-				text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
+						: `py-1.5 px-3 w-36 mt-4 rounded-md border border-ua-blue text-center text-sm text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
 				}
 				onClick={() => setShowFilters(true)}
 			>
@@ -200,12 +203,12 @@ export const OfferSearch = ({
 							list: `${
 								showFilters ? "lg:grid-cols-3" : "lg:grid-cols-4"
 							} mt-8 grid md:grid-cols-2 sm:grid-cols-1 gap-5`,
-              item: "flex",
+							item: "flex",
 						}}
 						hitComponent={(hit: any) => {
 							return (
 								<div
-									className="p-3 bg-card-grey flex flex-col"
+									className="p-3 bg-card-grey flex flex-col grow"
 									key={hit.hit.objectID}
 								>
 									<h3 className="text-lg font-bold">
@@ -234,13 +237,13 @@ export const OfferSearch = ({
 									))}
 									<div className="grow"></div>
 									<div className="my-3">
-                    <a
-                      className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm"
-                      href="#"
-                      onClick={() => setOpenedOffer(hit.hit)}
-                    >
-                      {t("nabidky.needThisHelp")}
-                    </a>
+										<a
+											className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm"
+											href="#"
+											onClick={() => setOpenedOffer(hit.hit)}
+										>
+											{t("nabidky.needThisHelp")}
+										</a>
 									</div>
 									<div className="mt-2 text-xs text-gray-400 font-bold">
 										{hit.hit.code}
@@ -258,15 +261,15 @@ export const OfferSearch = ({
 						showFirst={false}
 						showLast={false}
 					/>
-          {openedOffer && (
-            <Modal onClose={closeModal}>
-              <CreateReactionForm
-                offerId={openedOffer.objectID}
-                code={openedOffer.code}
-                onClose={closeModal}
-              />
-            </Modal>
-          )}
+					{openedOffer && (
+						<Modal onClose={closeModal}>
+							<CreateReactionForm
+								offerId={openedOffer.objectID}
+								code={openedOffer.code}
+								onClose={closeModal}
+							/>
+						</Modal>
+					)}
 				</div>
 			</div>
 		</InstantSearch>
