@@ -29,6 +29,7 @@ export default async function handler(
 	res: NextApiResponse<any>
 ) {
 	const data = req.body.data as RegisterFormState;
+	const isUKLanguage = req.body.isUKLanguage as boolean;
 
 	const { offerTypes = [] } = (await fetchTypes()) || {};
 
@@ -75,7 +76,7 @@ export default async function handler(
 		if (!offerType) {
 			throw new Error(`Offer type ${offerTypeId} not found`);
 		}
-		errors.push(...validateOffer(offerType, offer.questions));
+		errors.push(...validateOffer(offerType, offer.questions, isUKLanguage));
 	}
 
 	if (errors.length) {

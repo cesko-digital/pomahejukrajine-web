@@ -69,6 +69,7 @@ export const QuestionControl = memo<{
 								)
 									? removeNonNumericCharacters(e.target.value)
 									: e.target.value,
+								[isUK ? "value" : "valueUK"]: null,
 							});
 						}}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
@@ -110,11 +111,11 @@ export const QuestionControl = memo<{
 						required={definition.required}
 						value={locale === CZECH ? value.value ?? "" : value.valueUK ?? ""}
 						onChange={(e) => {
-							if (isUK) {
-								onChange({ ...value, valueUK: e.target.value });
-							} else {
-								onChange({ ...value, value: e.target.value });
-							}
+							onChange({
+								...value,
+								[isUK ? "valueUK" : "value"]: e.target.value,
+								[isUK ? "value" : "valueUK"]: null,
+							});
 						}}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
 					/>
@@ -156,11 +157,13 @@ export const QuestionControl = memo<{
 														: value.specificationUK
 												}
 												onChange={(e) => {
+													onChange({
+														...value,
+														[isUK ? "specificationUK" : "specification"]:
+															e.target.value,
+														[isUK ? "specification" : "specificationUK"]: null,
+													});
 													if (isUK) {
-														onChange({
-															...value,
-															specificationUK: e.target.value,
-														});
 													} else {
 														onChange({
 															...value,
@@ -225,19 +228,14 @@ export const QuestionControl = memo<{
 												const currentItemIndex = values.findIndex(
 													(it) => it.value === option.value
 												);
-												if (isUK) {
-													values[currentItemIndex] = {
-														...values[currentItemIndex],
-														specificationUK: e.target.value,
-													};
-													onChange({ ...value, values });
-												} else {
-													values[currentItemIndex] = {
-														...values[currentItemIndex],
-														specification: e.target.value,
-													};
-													onChange({ ...value, values });
-												}
+
+												values[currentItemIndex] = {
+													...values[currentItemIndex],
+													[isUK ? "specificationUK" : "specification"]:
+														e.target.value,
+													[isUK ? "specification" : "specificationUK"]: null,
+												};
+												onChange({ ...value, values });
 											}}
 											className="py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6 mb-1"
 										/>
