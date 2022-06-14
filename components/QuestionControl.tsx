@@ -134,11 +134,10 @@ export const QuestionControl = memo<{
 											value={option.value}
 											checked={value.value === option.value}
 											onChange={(e) => {
-												if (isUK) {
-													onChange({ ...value, valueUK: e.target.value });
-												} else {
-													onChange({ ...value, value: e.target.value });
-												}
+												onChange({
+													...value,
+													[isUK ? "valueUK" : "value"]: e.target.value,
+												});
 											}}
 											className="mr-2"
 										/>
@@ -163,13 +162,6 @@ export const QuestionControl = memo<{
 															e.target.value,
 														[isUK ? "specification" : "specificationUK"]: null,
 													});
-													if (isUK) {
-													} else {
-														onChange({
-															...value,
-															specification: e.target.value,
-														});
-													}
 												}}
 												className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6"
 											/>
