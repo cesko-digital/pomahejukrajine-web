@@ -44,6 +44,7 @@ export function validateOffer(
 				}
 				break;
 			case "text":
+			case "image":
 			case "textarea":
 				if (question.required && !value[isUKLanguage ? "valueUK" : "value"]) {
 					errors.push({

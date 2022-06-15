@@ -8,6 +8,7 @@ import {
 	QuestionValue,
 	Postcode,
 } from "../lib/shared";
+import { SignedUpload } from "../pages/api/signedUpload";
 import { CZECH } from "../utils/constants";
 
 const SelectInput = (props: any) => (
@@ -270,6 +271,59 @@ export const QuestionControl = memo<{
 										...value,
 										values: values.map((it) => ({ value: it.label })),
 									});
+								}}
+							/>
+						</div>
+					</div>
+				)}
+
+				{definition.type === "image" && (
+					<div>
+						<div className="mt-1">
+							{value.value && (
+								<div className="mb-3">
+									<img src={value.value} className="max-w-sm" />
+								</div>
+							)}
+							<input
+								type="file"
+								onChange={async (e) => {
+									const files = e.target.files;
+
+									if (files?.length) {
+										const response = await fetch("/api/signedUpload/", {
+											method: "POST",
+											headers: {
+												"Content-Type": "application/json",
+											},
+											body: JSON.stringify({ contentType: files[0].type }),
+										});
+
+										const {
+											ok,
+											signedUpload,
+										}: { ok: boolean; signedUpload: SignedUpload } =
+											await response.json();
+
+										if (ok && signedUpload) {
+											await fetch(signedUpload.url, {
+												method: signedUpload.method,
+												headers: Object.fromEntries(
+													signedUpload.headers.map(({ key, value }) => [
+														key,
+														value,
+													])
+												),
+												body: files[0],
+											});
+										}
+
+										onChange({
+											...value,
+											value: signedUpload?.publicUrl,
+											valueUK: signedUpload?.publicUrl,
+										});
+									}
 								}}
 							/>
 						</div>
