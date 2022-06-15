@@ -22,7 +22,7 @@ const removeNonNumericCharacters = (value: string) => {
 };
 
 const checkIfQuestionIsPostCode = (question: string) => {
-	return Postcode.indexOf(question.toLowerCase()) > -1 ? true : false;
+	return Postcode.indexOf(question.toLowerCase()) > -1;
 };
 
 export const QuestionControl = memo<{
@@ -136,7 +136,7 @@ export const QuestionControl = memo<{
 											onChange={(e) => {
 												onChange({
 													...value,
-													[isUK ? "valueUK" : "value"]: e.target.value,
+													value: e.target.value,
 												});
 											}}
 											className="mr-2"

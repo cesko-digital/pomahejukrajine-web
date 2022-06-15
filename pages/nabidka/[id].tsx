@@ -81,15 +81,15 @@ const Home: NextPage<HomeProps> = ({
 										item.question.id,
 										{
 											id: item.id,
-											value: item.value ?? "",
-											valueUK: item.valueUK ?? "",
-											specification: item.specification ?? "",
-											specificationUK: item.specificationUK ?? "",
+											value: item.value,
+											valueUK: item.valueUK,
+											specification: item.specification,
+											specificationUK: item.specificationUK,
 											values: item.values.map((value) => ({
-												value: value.value ?? "",
-												valueUK: value.valueUK ?? "",
-												specification: value.specification ?? "",
-												specificationUK: value.specificationUK ?? "",
+												value: value.value,
+												valueUK: value.valueUK,
+												specification: value.specification,
+												specificationUK: value.specificationUK,
 											})),
 										},
 									])
