@@ -33,7 +33,7 @@ export default async function handler(
 	const volunteerId = req.body.volunteerId as string;
 	const data = req.body.data as { offer: OfferParameters };
 	const { offerTypes = [] } = (await fetchTypes()) || {};
-	const isUKLanguage = req.body.isUKLanguage as boolean;
+	const isUKLanguage = req.body.isUKLanguage;
 
 	const errors: FormError[] = [];
 	if (Object.keys(data).length === 0) {
@@ -90,7 +90,9 @@ export default async function handler(
 					return {
 						question: { connect: { id: questionId } },
 						value: question.value,
+						valueUK: question.valueUK,
 						specification: question.specification,
+						specificationUK: question.specificationUK,
 						values: question.values?.map((value: any) => ({
 							create: {
 								value: value.value,

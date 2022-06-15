@@ -47,6 +47,12 @@ export function validateOffer(
 			case "image":
 			case "textarea":
 				if (question.required && !value[isUKLanguage ? "valueUK" : "value"]) {
+					console.log(
+						isUKLanguage,
+						value,
+						value[isUKLanguage ? "valueUK" : "value"]
+					);
+
 					errors.push({
 						input: "question",
 						questionId: question.id,
