@@ -8,6 +8,7 @@ import {
 	QuestionValue,
 	Postcode,
 } from "../lib/shared";
+import { SignedUpload } from "../pages/api/signedUpload";
 import { CZECH } from "../utils/constants";
 
 const SelectInput = (props: any) => (
@@ -22,7 +23,7 @@ const removeNonNumericCharacters = (value: string) => {
 };
 
 const checkIfQuestionIsPostCode = (question: string) => {
-	return Postcode.indexOf(question.toLowerCase()) > -1 ? true : false;
+	return Postcode.indexOf(question.toLowerCase()) > -1;
 };
 
 export const QuestionControl = memo<{
@@ -69,6 +70,7 @@ export const QuestionControl = memo<{
 								)
 									? removeNonNumericCharacters(e.target.value)
 									: e.target.value,
+								[isUK ? "value" : "valueUK"]: null,
 							});
 						}}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
@@ -110,11 +112,11 @@ export const QuestionControl = memo<{
 						required={definition.required}
 						value={locale === CZECH ? value.value ?? "" : value.valueUK ?? ""}
 						onChange={(e) => {
-							if (isUK) {
-								onChange({ ...value, valueUK: e.target.value });
-							} else {
-								onChange({ ...value, value: e.target.value });
-							}
+							onChange({
+								...value,
+								[isUK ? "valueUK" : "value"]: e.target.value,
+								[isUK ? "value" : "valueUK"]: null,
+							});
 						}}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
 					/>
@@ -133,11 +135,10 @@ export const QuestionControl = memo<{
 											value={option.value}
 											checked={value.value === option.value}
 											onChange={(e) => {
-												if (isUK) {
-													onChange({ ...value, valueUK: e.target.value });
-												} else {
-													onChange({ ...value, value: e.target.value });
-												}
+												onChange({
+													...value,
+													value: e.target.value,
+												});
 											}}
 											className="mr-2"
 										/>
@@ -156,17 +157,12 @@ export const QuestionControl = memo<{
 														: value.specificationUK
 												}
 												onChange={(e) => {
-													if (isUK) {
-														onChange({
-															...value,
-															specificationUK: e.target.value,
-														});
-													} else {
-														onChange({
-															...value,
-															specification: e.target.value,
-														});
-													}
+													onChange({
+														...value,
+														[isUK ? "specificationUK" : "specification"]:
+															e.target.value,
+														[isUK ? "specification" : "specificationUK"]: null,
+													});
 												}}
 												className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6"
 											/>
@@ -225,19 +221,14 @@ export const QuestionControl = memo<{
 												const currentItemIndex = values.findIndex(
 													(it) => it.value === option.value
 												);
-												if (isUK) {
-													values[currentItemIndex] = {
-														...values[currentItemIndex],
-														specificationUK: e.target.value,
-													};
-													onChange({ ...value, values });
-												} else {
-													values[currentItemIndex] = {
-														...values[currentItemIndex],
-														specification: e.target.value,
-													};
-													onChange({ ...value, values });
-												}
+
+												values[currentItemIndex] = {
+													...values[currentItemIndex],
+													[isUK ? "specificationUK" : "specification"]:
+														e.target.value,
+													[isUK ? "specification" : "specificationUK"]: null,
+												};
+												onChange({ ...value, values });
 											}}
 											className="py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md ml-6 mb-1"
 										/>
@@ -280,6 +271,59 @@ export const QuestionControl = memo<{
 										...value,
 										values: values.map((it) => ({ value: it.label })),
 									});
+								}}
+							/>
+						</div>
+					</div>
+				)}
+
+				{definition.type === "image" && (
+					<div>
+						<div className="mt-1">
+							{value.value && (
+								<div className="mb-3">
+									<img src={value.value} className="max-w-sm" />
+								</div>
+							)}
+							<input
+								type="file"
+								onChange={async (e) => {
+									const files = e.target.files;
+
+									if (files?.length) {
+										const response = await fetch("/api/signedUpload/", {
+											method: "POST",
+											headers: {
+												"Content-Type": "application/json",
+											},
+											body: JSON.stringify({ contentType: files[0].type }),
+										});
+
+										const {
+											ok,
+											signedUpload,
+										}: { ok: boolean; signedUpload: SignedUpload } =
+											await response.json();
+
+										if (ok && signedUpload) {
+											await fetch(signedUpload.url, {
+												method: signedUpload.method,
+												headers: Object.fromEntries(
+													signedUpload.headers.map(({ key, value }) => [
+														key,
+														value,
+													])
+												),
+												body: files[0],
+											});
+										}
+
+										onChange({
+											...value,
+											value: signedUpload?.publicUrl,
+											valueUK: signedUpload?.publicUrl,
+										});
+									}
 								}}
 							/>
 						</div>

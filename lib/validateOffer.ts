@@ -2,7 +2,8 @@ import { FormError, OfferType, QuestionValue } from "./shared";
 
 export function validateOffer(
 	offerType: OfferType,
-	parameters: { [p: string]: QuestionValue }
+	parameters: { [p: string]: QuestionValue },
+	isUKLanguage: boolean
 ): FormError[] {
 	const errors: FormError[] = [];
 
@@ -32,11 +33,20 @@ export function validateOffer(
 				}
 				break;
 			case "radio":
-			case "text":
-			case "textarea":
 			case "number":
 			case "date":
 				if (question.required && !value.value) {
+					errors.push({
+						input: "question",
+						questionId: question.id,
+						message: "Povinná otázka",
+					});
+				}
+				break;
+			case "text":
+			case "image":
+			case "textarea":
+				if (question.required && !value[isUKLanguage ? "valueUK" : "value"]) {
 					errors.push({
 						input: "question",
 						questionId: question.id,

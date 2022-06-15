@@ -66,7 +66,7 @@ export default async function handler(
 	if (!offerType) {
 		throw new Error(`Offer type ${offerTypeId} not found`);
 	}
-	errors.push(...validateOffer(offerType, data));
+	errors.push(...validateOffer(offerType, data, isUKLanguage));
 
 	if (errors.length) {
 		res.status(400).json({ ok: false, errors });

@@ -33,6 +33,7 @@ export default async function handler(
 	const volunteerId = req.body.volunteerId as string;
 	const data = req.body.data as { offer: OfferParameters };
 	const { offerTypes = [] } = (await fetchTypes()) || {};
+	const isUKLanguage = req.body.isUKLanguage as boolean;
 
 	const errors: FormError[] = [];
 	if (Object.keys(data).length === 0) {
@@ -49,7 +50,7 @@ export default async function handler(
 		}
 		const offerParams: OfferParameters | any = offer.questions;
 
-		errors.push(...validateOffer(offerType, offerParams));
+		errors.push(...validateOffer(offerType, offerParams, isUKLanguage));
 		if (errors.length) {
 			res.status(400).json({ ok: false, errors });
 		}

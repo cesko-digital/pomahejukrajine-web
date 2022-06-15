@@ -21,7 +21,8 @@ export type QuestionType =
 	| "textarea"
 	| "number"
 	| "date"
-	| "district";
+	| "district"
+	| "image";
 
 export interface QuestionValue {
 	value?: string;
