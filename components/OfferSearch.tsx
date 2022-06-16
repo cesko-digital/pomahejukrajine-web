@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-	CurrentRefinements,
 	Highlight,
 	Hits,
 	InstantSearch,
@@ -16,7 +15,6 @@ import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
 import { CZECH } from "../utils/constants";
-import { parseIdFromFacetName } from "../lib/parseIdFromFacetName";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -73,21 +71,18 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
-			<SearchBox
-				placeholder={t("nabidky.search")}
-				classNames={{
-					input:
-						"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500",
-					submit: "hidden",
-					submitIcon: "hidden",
-					loadingIcon: "hidden",
-					reset: "hidden",
-					resetIcon: "hidden",
-					loadingIndicator: "hidden",
-					form: "flex flex-col",
-					root: "w-full mt-8",
-				}}
-			/>
+			<div
+				className={
+					showFilters
+						? "hidden"
+						: `py-1.5 px-3 w-36 mt-4 rounded-md border border-ua-blue text-center text-sm
+				text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
+				}
+				onClick={() => setShowFilters(true)}
+			>
+				<FilterIcon />
+				{t("nabidky.showFilers")}
+			</div>
 			<div
 				className={
 					"flex md:flex-row items-center md:items-start flex-col text-grey-dark"
