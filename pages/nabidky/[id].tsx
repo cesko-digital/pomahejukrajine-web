@@ -9,6 +9,7 @@ import { OfferEmpty } from "../../components/OfferEmpty";
 import { OfferSearch } from "../../components/OfferSearch";
 import { OfferTypeList } from "../../components/OfferTypeList";
 import Footer from "../../components/footer";
+import Link from "next/link";
 
 const Offers = (props: any) => {
 	const { t } = useTranslation();
@@ -22,12 +23,11 @@ const Offers = (props: any) => {
 					<h2 className="text-2xl inline-flex font-bold	lg:text-3xl">
 						{t("nabidky.title")}
 					</h2>
-					<a
-						href="/neverejne-nabidky"
-						className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white"
-					>
-						{t("nabidky.linkToPrivateOffers")}
-					</a>
+					<Link href="/neverejne-nabidky">
+						<a className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white">
+							{t("nabidky.linkToPrivateOffers")}
+						</a>
+					</Link>
 				</div>
 				<OfferTypeList {...props} />
 				{!props.listQuestion.length ? (
