@@ -1,1 +1,1 @@
-export const CZECH = "cs";
+export const CZECH = "cz";
