@@ -42,7 +42,10 @@ export default async function handler(
 			message: "Neplatný email",
 		});
 	} else if (
-		await isEmailRegistered(data.email, process.env.CONTEMBER_ADMIN_TOKEN!)
+		(await isEmailRegistered(
+			data.email,
+			process.env.CONTEMBER_ADMIN_TOKEN!
+		)) !== false
 	) {
 		errors.push({
 			input: "email",
