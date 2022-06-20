@@ -58,16 +58,16 @@ export const CreateReactionForm = memo<{
 		return (
 			<div className="sm:p-3 mb-6 mt-12 text-center md:h-96 flex justify-center flex-col">
 				<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-					Děkujeme. Vaše poptávka byla odeslána.
+					{t("reagovat.sent")}
 				</h2>
-				<p className="mt-2">Nabízející se vám ozve podle svých možností.</p>
+				<p className="mt-2">{t("reagovat.notice")}</p>
 				<div className="text-center mt-10">
 					<button
 						type="submit"
 						className="inline-flex w-full sm:w-auto items-center justify-center px-12 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 						onClick={onClose}
 					>
-						Zavřít
+						{t("reagovat.close")}
 					</button>
 				</div>
 			</div>
@@ -78,7 +78,7 @@ export const CreateReactionForm = memo<{
 	return (
 		<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
 			<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-				Kontaktujte nabízejícího
+				{t("reagovat.contactVolunteer")}
 			</h2>
 			<p className="text-gray-400">ID pomoci: {code}</p>
 
