@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import generateUniqueCode from "../../lib/generateUniqueCode";
 import {
 	FormError,
+	isEmailRegistered,
 	publicQuery,
 	PublicQueryResult,
 	RegisterFormState,
@@ -39,6 +40,13 @@ export default async function handler(
 		errors.push({
 			input: "email",
 			message: "Neplatný email",
+		});
+	} else if (
+		await isEmailRegistered(data.email, process.env.CONTEMBER_ADMIN_TOKEN!)
+	) {
+		errors.push({
+			input: "email",
+			message: "Tento email je již zaregistrován",
 		});
 	}
 
