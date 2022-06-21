@@ -60,11 +60,15 @@ export default async function handler(
 					return {
 						question: { connect: { id: questionId } },
 						value: question.value,
+						valueUK: question.valueUK,
 						specification: question.specification,
+						specificationUK: question.specificationUK,
 						values: question.values?.map((value: any) => ({
 							create: {
 								value: value.value,
+								valueUK: value.valueUK,
 								specification: value.specification,
+								specificationUK: value.specificationUK,
 								district: {
 									connect: isUKLanguage
 										? { nameUK: value.value }
@@ -100,7 +104,9 @@ export default async function handler(
 						values: question.values?.map((value: any) => ({
 							create: {
 								value: value.value,
+								valueUK: value.valueUK,
 								specification: value.specification,
+								specificationUK: value.specificationUK,
 							},
 						})),
 					};

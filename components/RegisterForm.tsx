@@ -52,6 +52,10 @@ export const RegisterForm = memo<RegisterFormProps>(
 				e.preventDefault();
 				setSubmitting("loading");
 				let response;
+
+				console.log("editing", editing);
+				console.log("volunteerData", volunteerData);
+
 				if (editing) {
 					const data = { ...state };
 					response = await fetch("/api/update-profile", {
