@@ -65,7 +65,11 @@ export default async function handler(
 							create: {
 								value: value.value,
 								specification: value.specification,
-								district: { connect: { name: value.value } },
+								district: {
+									connect: isUKLanguage
+										? { nameUK: value.value }
+										: { name: value.value },
+								},
 							},
 						})),
 					};
