@@ -41,16 +41,24 @@ export default async function handler(
 			input: "email",
 			message: "Neplatný email",
 		});
-	} else if (
-		(await isEmailRegistered(
+	} else {
+		const emailRegistered = await isEmailRegistered(
 			data.email,
 			process.env.CONTEMBER_ADMIN_TOKEN!
-		)) !== false
-	) {
-		errors.push({
-			input: "email",
-			message: "Tento email je již zaregistrován",
-		});
+		);
+
+		if (emailRegistered === null) {
+			res.status(400).json({
+				ok: false,
+				error: "Registrace se nezdařila. Zkuste to, prosím, později.",
+			});
+			return;
+		} else if (emailRegistered) {
+			errors.push({
+				input: "email",
+				message: "Tento email je již zaregistrován",
+			});
+		}
 	}
 
 	if (data.email !== data.emailRepeat) {
