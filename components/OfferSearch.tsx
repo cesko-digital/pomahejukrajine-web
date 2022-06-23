@@ -7,6 +7,7 @@ import {
 	Pagination,
 	RefinementList,
 	SearchBox,
+	Configure,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import React, { useState, useCallback, useMemo } from "react";
@@ -78,6 +79,7 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
+			<Configure hitsPerPage={showFilters ? 9 : 12} />
 			<div
 				className={
 					showFilters
@@ -197,7 +199,7 @@ export const OfferSearch = ({
 							))}
 					</div>
 				</div>
-				<div className={`${showFilters && "w-3/4"}`}>
+				<div className={`w-full ${showFilters && "w-3/4"}`}>
 					<Hits
 						classNames={{
 							list: `${
