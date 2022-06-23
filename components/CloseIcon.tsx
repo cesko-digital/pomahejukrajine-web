@@ -1,4 +1,4 @@
-const CloseIcon = ({ fillColor = "#005BBB" }: { fillColor: string }) => (
+const CloseIcon = ({ fillColor = "#005BBB" }: { fillColor?: string }) => (
 	<svg
 		width="20"
 		height="22"
