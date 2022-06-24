@@ -210,6 +210,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 									offerTypes={offerTypes}
 									districts={districts}
 									languages={languages}
+									uk={locale === CZECH ? false : true}
 									volunteerData={volunteerData}
 								/>
 							</div>
