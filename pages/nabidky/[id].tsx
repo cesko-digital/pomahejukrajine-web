@@ -62,6 +62,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 				query ($id: UUID!) {
 					offerType: getOfferType(by: { id: $id }) {
 						name
+						nameUK
 					}
 					listOfferType(orderBy: { order: asc }) {
 						id

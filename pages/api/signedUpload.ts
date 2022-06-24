@@ -1,10 +1,5 @@
-import Cookies from "cookies";
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-	FormError,
-	getVolunteerDetail,
-	listVolunteerIds,
-} from "../../lib/shared";
+import { FormError } from "../../lib/shared";
 
 export type SignedUpload = {
 	url: string;
@@ -25,29 +20,6 @@ export default async function handler(
 
 	if (errors.length) {
 		res.status(400).json({ ok: false, errors });
-		return;
-	}
-
-	const cookies = new Cookies(req, res);
-	const token = cookies.get("token");
-
-	if (!token) {
-		res.status(401).json({ ok: false });
-		return;
-	}
-
-	const volunteerIds = await listVolunteerIds(token);
-
-	if (!volunteerIds) {
-		res.status(401).json({ ok: false });
-		return;
-	}
-
-	const volunteerId = volunteerIds[0];
-
-	const volunteerDetails = await getVolunteerDetail(token, volunteerId);
-	if (!volunteerDetails) {
-		res.status(404).json({ ok: false });
 		return;
 	}
 
