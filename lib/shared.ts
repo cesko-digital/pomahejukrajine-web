@@ -278,3 +278,34 @@ export const getVolunteerDetail = async (
 		return null;
 	}
 };
+
+export const isEmailRegistered = async (email: string, token: string) => {
+	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({
+			query: `query($email: String!) {
+        listVolunteer(filter: { email: { eq: $email } }, limit: 1) {
+          id
+          email
+        }
+      }`,
+			variables: {
+				email,
+			},
+		}),
+	});
+
+	if (response.status !== 200) {
+		return null;
+	}
+
+	try {
+		return (await response.json()).data.listVolunteer.length > 0;
+	} catch (e) {
+		return null;
+	}
+};

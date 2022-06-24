@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import generateUniqueCode from "../../lib/generateUniqueCode";
 import {
 	FormError,
+	isEmailRegistered,
 	publicQuery,
 	PublicQueryResult,
 	RegisterFormState,
@@ -40,6 +41,24 @@ export default async function handler(
 			input: "email",
 			message: "Neplatný email",
 		});
+	} else {
+		const emailRegistered = await isEmailRegistered(
+			data.email,
+			process.env.CONTEMBER_ADMIN_TOKEN!
+		);
+
+		if (emailRegistered === null) {
+			res.status(400).json({
+				ok: false,
+				error: "Registrace se nezdařila. Zkuste to, prosím, později.",
+			});
+			return;
+		} else if (emailRegistered) {
+			errors.push({
+				input: "email",
+				message: "Tento email je již zaregistrován",
+			});
+		}
 	}
 
 	if (data.email !== data.emailRepeat) {
