@@ -4,7 +4,11 @@ import { ReactionForm, ReactionPayload } from "../lib/reaction";
 import { FormError } from "../lib/shared";
 import { useTranslation } from "next-i18next";
 
-export const CreateReactionForm = memo<{ offerId: string }>(({ offerId }) => {
+export const CreateReactionForm = memo<{
+	offerId: string;
+	code: string;
+	onClose: () => void;
+}>(({ offerId, code, onClose }) => {
 	const { t } = useTranslation();
 	const [submitting, setSubmitting] = useState<
 		false | "loading" | "error" | "success"
@@ -52,10 +56,20 @@ export const CreateReactionForm = memo<{ offerId: string }>(({ offerId }) => {
 
 	if (submitting === "success") {
 		return (
-			<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
-				<p className="mx-3 font-medium text-white">
-					{t("reagovat.confirmation")}
-				</p>
+			<div className="sm:p-3 mb-6 mt-12 text-center md:h-96 flex justify-center flex-col">
+				<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+					{t("reagovat.sent")}
+				</h2>
+				<p className="mt-2">{t("reagovat.notice")}</p>
+				<div className="text-center mt-10">
+					<button
+						type="submit"
+						className="inline-flex w-full sm:w-auto items-center justify-center px-12 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+						onClick={onClose}
+					>
+						{t("reagovat.close")}
+					</button>
+				</div>
 			</div>
 		);
 	}
@@ -63,7 +77,16 @@ export const CreateReactionForm = memo<{ offerId: string }>(({ offerId }) => {
 	const disabled = submitting === "loading";
 	return (
 		<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
-			<div>{submitting === "error" && <p>{t("reagovat.error")}</p>}</div>
+			<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+				{t("reagovat.contactVolunteer")}
+			</h2>
+			<p className="text-gray-400">ID pomoci: {code}</p>
+
+			{submitting === "error" && (
+				<div>
+					<p>{t("reagovat.error")}</p>
+				</div>
+			)}
 			<div>
 				<label
 					htmlFor="email"
@@ -119,11 +142,11 @@ export const CreateReactionForm = memo<{ offerId: string }>(({ offerId }) => {
 					{t("reagovat.consentLink")}
 				</a>
 			</div>
-			<div>
+			<div className="text-center">
 				<button
 					type="submit"
 					disabled={disabled}
-					className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+					className="inline-flex w-full sm:w-auto items-center justify-center px-12 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 				>
 					{t("reagovat.submit")}
 				</button>
