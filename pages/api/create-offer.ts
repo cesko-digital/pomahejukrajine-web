@@ -39,7 +39,7 @@ export default async function handler(
 	if (Object.keys(data).length === 0) {
 		errors.push({
 			input: "offer",
-			message: "Musíte vybrat alespoň jednu možnost",
+			code: "error.selectAtLeastOne",
 		});
 	}
 

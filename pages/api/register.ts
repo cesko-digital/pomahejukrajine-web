@@ -39,7 +39,7 @@ export default async function handler(
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({
 			input: "email",
-			message: "Neplatný email",
+			code: "error.invalidEmail",
 		});
 	} else {
 		const emailRegistered = await isEmailRegistered(
@@ -56,7 +56,7 @@ export default async function handler(
 		} else if (emailRegistered) {
 			errors.push({
 				input: "email",
-				message: "Tento email je již zaregistrován",
+				code: "error.emailAlreadyExists",
 			});
 		}
 	}
@@ -64,28 +64,28 @@ export default async function handler(
 	if (data.email !== data.emailRepeat) {
 		errors.push({
 			input: "emailRepeat",
-			message: "Emaily nejsou shodné",
+			code: "error.emailMismatch",
 		});
 	}
 
 	if (data.phone === "" || data.phone === "+420") {
 		errors.push({
 			input: "phone",
-			message: "Vyplňte prosím telefonní číslo",
+			code: "error.missingPhone",
 		});
 	}
 
 	if (data.languages.length === 0) {
 		errors.push({
 			input: "languages",
-			message: "Musíte vybrat alespoň jeden jazyk",
+			code: "error.selectLanguage",
 		});
 	}
 
 	if (Object.keys(data.offers).length === 0) {
 		errors.push({
 			input: "offer",
-			message: "Musíte vybrat alespoň jednu možnost",
+			code: "error.selectAtLeastOne",
 		});
 	}
 

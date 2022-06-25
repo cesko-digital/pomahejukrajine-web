@@ -186,5 +186,12 @@
 	"neverejneNabidky.box2Title": "Організую допомогу біженцям",
 	"neverejneNabidky.box2Description": "Якщо ви організація, яка пропонує допомогу біженцям, зареєструйтеся, щоб отримати доступ до непублічних пропозицій.",
 	"neverejneNabidky.box2Button": "Реєстрація організації",
-	"neverejneNabidky.offers": "пропозиції"
+	"neverejneNabidky.offers": "пропозиції",
+	"error.requiredQuestion": "Обов'язкове питання",
+	"error.selectAtLeastOne": "Ви повинні вибрати принаймні один варіант",
+	"error.invalidEmail": "Недійсна електронна адреса",
+	"error.emailAlreadyExists": "Цей імейл вже зареєстрований",
+	"error.emailMismatch": "Електронні листи не однакові",
+	"error.missingPhone": "Будь ласка, заповніть номер телефону",
+	"error.selectLanguage": "Ви повинні вибрати принаймні одну мову"
 }

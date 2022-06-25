@@ -186,5 +186,12 @@
 	"neverejneNabidky.box2Title": "Organizuji pomoc uprchlíkům",
 	"neverejneNabidky.box2Description": "Pokud jste organizace nabízející pomoc uprchlíkům, zaregistrujte se pro přístup k neveřejným nabídkám.",
 	"neverejneNabidky.box2Button": "Registrace organizace",
-	"neverejneNabidky.offers": "nabídek"
+	"neverejneNabidky.offers": "nabídek",
+	"error.requiredQuestion": "Povinná otázka",
+	"error.selectAtLeastOne": "Musíte vybrat alespoň jednu možnost",
+	"error.invalidEmail": "Neplatný email",
+	"error.emailAlreadyExists": "Tento email je již zaregistrován",
+	"error.emailMismatch": "Emaily nejsou shodné",
+	"error.missingPhone": "Vyplňte prosím telefonní číslo",
+	"error.selectLanguage": "Musíte vybrat alespoň jeden jazyk"
 }

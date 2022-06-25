@@ -15,7 +15,7 @@ export default async function handler(
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({
 			input: "email",
-			message: "Neplatný email",
+			code: "error.invalidEmail",
 		});
 	}
 

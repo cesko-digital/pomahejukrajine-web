@@ -13,7 +13,7 @@ export function validateOffer(
 			errors.push({
 				input: "question",
 				questionId: question.id,
-				message: "Povinná otázka",
+				code: "error.requiredQuestion",
 			});
 			continue;
 		}
@@ -28,7 +28,7 @@ export function validateOffer(
 					errors.push({
 						input: "question",
 						questionId: question.id,
-						message: "Povinná otázka",
+						code: "error.requiredQuestion",
 					});
 				}
 				break;
@@ -39,7 +39,7 @@ export function validateOffer(
 					errors.push({
 						input: "question",
 						questionId: question.id,
-						message: "Povinná otázka",
+						code: "error.requiredQuestion",
 					});
 				}
 				break;
@@ -56,7 +56,7 @@ export function validateOffer(
 					errors.push({
 						input: "question",
 						questionId: question.id,
-						message: "Povinná otázka",
+						code: "error.requiredQuestion",
 					});
 				}
 				break;

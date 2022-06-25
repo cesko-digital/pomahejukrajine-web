@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+import { useTranslation } from "next-i18next";
 import { FormEvent, memo, useCallback, useState } from "react";
 import Select, { components } from "react-select";
 import {
@@ -215,6 +216,7 @@ export const HelpForm = memo<PublicQueryResult>(({ offerTypes, uk }) => {
 		contactHours: "kdykoliv",
 	});
 	const [otherCheckedState, setOtherCheckedState] = useState<boolean>(false);
+	const { t } = useTranslation();
 
 	const submit = useCallback(
 		async (e: FormEvent) => {
@@ -311,14 +313,10 @@ export const HelpForm = memo<PublicQueryResult>(({ offerTypes, uk }) => {
 				>
 					{uk ? "Електронна адреса (обовязково)" : "Email (povinný)"}
 				</label>
-				{errors.find((it) => it.input === "email") !== undefined && (
+				{errors.find((it) => it.input === "email") && (
 					<div className="flex">
 						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-							{
-								errors.find((it) => it.input === "email")!.message[
-									uk ? "uk" : "cs"
-								]
-							}
+							{t(errors.find((it) => it.input === "email")!.code)}
 						</div>
 					</div>
 				)}
@@ -382,11 +380,7 @@ export const HelpForm = memo<PublicQueryResult>(({ offerTypes, uk }) => {
 				{errors.find((it) => it.input === "offer") !== undefined && (
 					<div className="flex">
 						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-							{
-								errors.find((it) => it.input === "offer")!.message[
-									uk ? "uk" : "cs"
-								]
-							}
+							{t(errors.find((it) => it.input === "offer")!.code)}
 						</div>
 					</div>
 				)}
