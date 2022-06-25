@@ -17,14 +17,14 @@ export default async function handler(
 	if (data.phone === "" || data.phone === "+420") {
 		errors.push({
 			input: "phone",
-			message: "Vyplňte prosím telefonní číslo",
+			code: "error.missingPhone",
 		});
 	}
 
 	if (data.languages.length === 0) {
 		errors.push({
 			input: "languages",
-			message: "Musíte vybrat alespoň jeden jazyk",
+			code: "error.selectLanguage",
 		});
 	}
 

@@ -121,16 +121,16 @@ export interface HelpFormState {
 }
 
 export type FormError =
-	| { input: "question"; questionId: string; message: string }
-	| { input: "email"; message: string }
-	| { input: "emailRepeat"; message: string }
-	| { input: "offer"; message: string }
-	| { input: "languages"; message: string }
-	| { input: "phone"; message: string };
+	| { input: "question"; questionId: string; code: string }
+	| { input: "email"; code: string }
+	| { input: "emailRepeat"; code: string }
+	| { input: "offer"; code: string }
+	| { input: "languages"; code: string }
+	| { input: "phone"; code: string };
 
 export type ErrorMultilingual =
-	| { input: "email"; message: { cs: string; uk: string } }
-	| { input: "offer"; message: { cs: string; uk: string } };
+	| { input: "email"; code: string }
+	| { input: "offer"; code: string };
 
 export const Postcode: Array<string> = ["psč", "postcode", "zip"];
 

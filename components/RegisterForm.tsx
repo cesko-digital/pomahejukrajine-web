@@ -210,10 +210,10 @@ export const RegisterForm = memo<RegisterFormProps>(
 									className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
 								/>
 							</div>
-							{errors.find((it) => it.input === "phone") !== undefined && (
+							{errors.find((it) => it.input === "phone") && (
 								<div className="flex">
 									<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-										{errors.find((it) => it.input === "phone")!.message}
+										{t(errors.find((it) => it.input === "phone")!.code)}
 									</div>
 								</div>
 							)}
@@ -227,10 +227,10 @@ export const RegisterForm = memo<RegisterFormProps>(
 									>
 										{t("nabidka.email")} <Required />
 									</label>
-									{errors.find((it) => it.input === "email") !== undefined && (
+									{errors.find((it) => it.input === "email") && (
 										<div className="flex">
 											<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-												{errors.find((it) => it.input === "email")!.message}
+												{t(errors.find((it) => it.input === "email")!.code)}
 											</div>
 										</div>
 									)}
@@ -255,14 +255,12 @@ export const RegisterForm = memo<RegisterFormProps>(
 									>
 										{t("nabidka.emailRepeat")} <Required />
 									</label>
-									{errors.find((it) => it.input === "emailRepeat") !==
-										undefined && (
+									{errors.find((it) => it.input === "emailRepeat") && (
 										<div className="flex">
 											<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-												{
-													errors.find((it) => it.input === "emailRepeat")!
-														.message
-												}
+												{t(
+													errors.find((it) => it.input === "emailRepeat")!.code
+												)}
 											</div>
 										</div>
 									)}
@@ -324,10 +322,10 @@ export const RegisterForm = memo<RegisterFormProps>(
 							<div className="block text-sm font-medium text-gray-700">
 								{t("nabidka.languages")}
 							</div>
-							{errors.find((it) => it.input === "languages") !== undefined && (
+							{errors.find((it) => it.input === "languages") && (
 								<div className="flex">
 									<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-										{errors.find((it) => it.input === "languages")!.message}
+										{t(errors.find((it) => it.input === "languages")!.code)}
 									</div>
 								</div>
 							)}
@@ -365,10 +363,10 @@ export const RegisterForm = memo<RegisterFormProps>(
 						<label className="block text-sm font-medium text-gray-700">
 							{t("nabidka.options")}
 						</label>
-						{errors.find((it) => it.input === "offer") !== undefined && (
+						{errors.find((it) => it.input === "offer") && (
 							<div className="flex">
 								<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-									{errors.find((it) => it.input === "offer")!.message}
+									{t(errors.find((it) => it.input === "offer")!.code)}
 								</div>
 							</div>
 						)}
@@ -438,13 +436,13 @@ export const RegisterForm = memo<RegisterFormProps>(
 													}}
 													disabled={disabled}
 													districts={districts ? districts : []}
-													error={
+													error={t(
 														errors.find(
 															(it) =>
 																it.input === "question" &&
 																it.questionId === question.id
-														)?.message
-													}
+														)?.code ?? ""
+													)}
 												/>
 											);
 										})}

@@ -94,10 +94,10 @@ export const CreateReactionForm = memo<{
 				>
 					{t("reagovat.email")}
 				</label>
-				{errors.find((it) => it.input === "email") !== undefined && (
+				{errors.find((it) => it.input === "email") && (
 					<div className="flex">
 						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
-							{errors.find((it) => it.input === "email")!.message}
+							{t(errors.find((it) => it.input === "email")!.code)}
 						</div>
 					</div>
 				)}

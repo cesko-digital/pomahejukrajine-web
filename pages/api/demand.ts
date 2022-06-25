@@ -36,17 +36,14 @@ export default async function handler(
 	if (data.email.match(/^[^@ ]+@[^@ ]+\.[^@ ]+$/) === null) {
 		errors.push({
 			input: "email",
-			message: { cs: "Neplatný email", uk: "Недійсна електронна адреса" },
+			code: "error.invalidEmail",
 		});
 	}
 
 	if (Object.keys(data.types).length === 0 && data.otherType === "") {
 		errors.push({
 			input: "offer",
-			message: {
-				cs: "Musíte vybrat alespoň jednu možnost",
-				uk: "Ви повинні вибрати принаймні один варіант",
-			},
+			code: "error.selectAtLeastOne",
 		});
 	}
 

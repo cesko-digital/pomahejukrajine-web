@@ -133,7 +133,7 @@ export const EditForm = memo<RegisterFormProps>(
 					{errors.find((it) => it.input === "offer") !== undefined && (
 						<div className="flex">
 							<div className="p-2 my-2 text-sm text-white bg-red-500 rounded-md">
-								{errors.find((it) => it.input === "offer")!.message}
+								{t(errors.find((it) => it.input === "offer")!.code)}
 							</div>
 						</div>
 					)}
@@ -203,13 +203,13 @@ export const EditForm = memo<RegisterFormProps>(
 										}}
 										disabled={disabled}
 										districts={districts}
-										error={
+										error={t(
 											errors.find(
 												(it) =>
 													it.input === "question" &&
 													it.questionId === question.id
-											)?.message
-										}
+											)?.code ?? ""
+										)}
 									/>
 								);
 							})}
