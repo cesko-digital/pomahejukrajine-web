@@ -44,7 +44,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 							pathname: "/upravit-profil",
 						}}
 					>
-						<a className="underline mr-3">Upravit svůj osobní profil</a>
+						<a className="underline mr-3">{t("mojeNabidky.editProfile")}</a>
 					</Link>
 					<Link href="/logout" prefetch={false}>
 						<a className="underline">{t("mojeNabidky.logout")}</a>
@@ -210,6 +210,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 									offerTypes={offerTypes}
 									districts={districts}
 									languages={languages}
+									uk={locale === CZECH ? false : true}
 									volunteerData={volunteerData}
 								/>
 							</div>

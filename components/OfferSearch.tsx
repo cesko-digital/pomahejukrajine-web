@@ -67,8 +67,12 @@ export const OfferSearch = ({
 										"8958a3e0-ef6f-4a51-9139-c26b7de8e8ef",
 									].includes(question.id)
 							)
-							.map((question: any) => `parameter_${question.id}`),
+							.map(
+								(question: any) =>
+									`parameter_${locale === CZECH ? "" : "uk_"}${question.id}`
+							),
 					].join(","),
+					num_typos: 0,
 				},
 			}),
 		[listQuestion]
