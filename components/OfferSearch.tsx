@@ -72,6 +72,7 @@ export const OfferSearch = ({
 									`parameter_${locale === CZECH ? "" : "uk_"}${question.id}`
 							),
 					].join(","),
+					num_typos: 0,
 				},
 			}),
 		[listQuestion]
