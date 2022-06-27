@@ -190,8 +190,8 @@
 	"error.requiredQuestion": "Обов'язкове питання",
 	"error.selectAtLeastOne": "Ви повинні вибрати принаймні один варіант",
 	"error.invalidEmail": "Недійсна електронна адреса",
-	"error.emailAlreadyExists": "Цей імейл вже зареєстрований",
-	"error.emailMismatch": "Електронні листи не однакові",
+	"error.emailAlreadyExists": "Ця електронна адреса вже зареєстрована",
+	"error.emailMismatch": "Електронні адреси різні",
 	"error.missingPhone": "Будь ласка, заповніть номер телефону",
 	"error.selectLanguage": "Ви повинні вибрати принаймні одну мову"
 }
