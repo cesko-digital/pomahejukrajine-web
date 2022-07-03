@@ -36,26 +36,27 @@ const PartnersLogos = [
 	{
 		href: "https://nasiukrajinci.cz",
 		path: "/logos/nasiukrajinci.svg",
-		width: 160,
 		height: 40,
 	},
 	{
 		href: "https://www.czechinvest.org",
 		path: "/logos/czechinvest.svg",
-		width: 180,
 		height: 40,
 	},
 	{
 		href: "https://www.stojimezaukrajinou.cz",
 		path: "/logos/stojimezaukrajinou.svg",
-		width: 160,
 		height: 40,
 	},
 	{
 		href: "https://www.umapa.eu/",
 		path: "/logos/umapa.svg",
-		width: 120,
 		height: 29,
+	},
+	{
+		href: "https://cesko.digital/",
+		path: "/logos/ceskodigital.svg",
+		height: 28,
 	},
 ] as const;
 
@@ -167,7 +168,7 @@ const Home: NextPage = () => {
 				</div>
 
 				<p className="text-center mt-24 md:mt-40">{t("frontPage.partners")}</p>
-				<div className="flex flex-wrap justify-center max-w-3xl	mx-auto">
+				<div className="flex flex-wrap justify-center mx-auto">
 					{PartnersLogos.map((logo) => (
 						<div
 							key={logo.path}
@@ -177,7 +178,7 @@ const Home: NextPage = () => {
 								<a>
 									<Image
 										src={logo.path}
-										width={logo.width}
+										width={160}
 										height={logo.height}
 										alt={logo.href}
 									/>
