@@ -10,7 +10,7 @@ import {
 	Configure,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
@@ -24,12 +24,18 @@ export type OfferSearchProps = {
 	offerType: Record<string, any>;
 };
 
+const getInitShowFilters = (): boolean => {
+	return window.innerWidth > 768; // tailwind css breakpoint
+};
+
 export const OfferSearch = ({
 	listQuestion,
 	offerTypeId,
 	offerType,
 }: OfferSearchProps) => {
-	const [showFilters, setShowFilters] = useState(true);
+	const [showFilters, setShowFilters] = useState<boolean>(
+		true /* server side default */
+	);
 	const { t } = useTranslation();
 	const refinementClassnames = {
 		item: "py-1",
@@ -42,6 +48,9 @@ export const OfferSearch = ({
 	const { locale } = useRouter();
 	const [openedOffer, setOpenedOffer] = useState<any>(null);
 	const closeModal = useCallback(() => setOpenedOffer(null), [setOpenedOffer]);
+
+	// browser side default
+	useEffect(() => setShowFilters(getInitShowFilters()), []);
 
 	const typesenseInstantsearchAdapter = useMemo(
 		() =>
@@ -75,7 +84,7 @@ export const OfferSearch = ({
 					num_typos: 0,
 				},
 			}),
-		[listQuestion]
+		[listQuestion, locale]
 	);
 
 	return (
@@ -241,7 +250,7 @@ export const OfferSearch = ({
 											)}
 										</div>
 									))}
-									<div className="grow"></div>
+									<div className="grow" />
 									<div className="my-3">
 										<a
 											className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm"
