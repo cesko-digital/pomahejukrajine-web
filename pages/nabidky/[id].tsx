@@ -18,7 +18,7 @@ const Offers = (props: any) => {
 		<div className="antialiased text-t-black">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="max-w-7xl mx-auto bg-white py-4 px-6 overflow-hidden lg:px-8 lg:py-6">
+			<div className="max-w-7xl mx-auto bg-white py-4 px-3 overflow-hidden lg:px-8 lg:py-6">
 				<div className="relative flex flex-col items-center">
 					<h2 className="text-2xl inline-flex font-bold	lg:text-3xl">
 						{t("nabidky.title")}
