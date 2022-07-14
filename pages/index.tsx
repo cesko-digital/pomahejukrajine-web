@@ -70,7 +70,7 @@ const Home: NextPage = () => {
 		>
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="max-w-7xl mx-auto pt-2 px-3 md:px-8">
+			<div className="max-w-7xl mx-auto pt-3 px-3 md:px-8">
 				<div className="grid gap-x-4 gap-y-3 grid-cols-1 md:grid-cols-2">
 					<div className="bg-ua-yellow rounded-lg px-5 pt-10 pb-5 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidka">

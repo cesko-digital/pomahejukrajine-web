@@ -11,9 +11,9 @@ export default function Header() {
 	const { t } = useTranslation();
 
 	return (
-		<header className="bg-white">
+		<header className="bg-grey-light sticky top-0 z-10 shadow-header">
 			<nav
-				className="px-4 py-2 mx-auto mb-5 max-w-7xl sm:px-6 lg:px-8 lg:py-5 lg:mb-0"
+				className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-5 mb-1.5 lg:mb-0"
 				aria-label="Top"
 			>
 				<div className="flex items-center justify-between w-full lg:items-start">
