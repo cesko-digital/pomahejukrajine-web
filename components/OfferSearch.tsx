@@ -203,7 +203,7 @@ export const OfferSearch = ({
 							))}
 					</div>
 				</div>
-				<div className={`w-full ${showFilters && "w-3/4"}`}>
+				<div className={`w-full ${showFilters && "lg:w-3/4"}`}>
 					<Hits
 						classNames={{
 							list: `${
