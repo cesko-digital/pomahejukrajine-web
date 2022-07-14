@@ -214,7 +214,7 @@ export const OfferSearch = ({
 						hitComponent={(hit: any) => {
 							return (
 								<div
-									className="p-3 bg-card-grey flex flex-col grow"
+									className="p-3 bg-grey-light flex flex-col grow"
 									key={hit.hit.objectID}
 								>
 									<h3 className="text-lg font-bold">
