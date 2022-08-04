@@ -66,7 +66,7 @@
 	"verifyReaction.error": "Увага, помилка.",
 	"reagovat.title": "Введіть свій запит тут",
 	"reagovat.email": "Електронна адреса (обов'язково)",
-	"reagovat.phone": "Телефон (необов'язково)",
+	"reagovat.phone": "Телефон (обов'язково)",
 	"reagovat.consent": "Надсилаючи, я даю згоду ",
 	"reagovat.consentLink": "на обробку даних з метою координації та організації допомоги",
 	"reagovat.submit": "Надіслати",

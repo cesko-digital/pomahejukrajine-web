@@ -42,10 +42,10 @@ export const CreateReactionForm = memo<{
 				json = await response.json();
 			} catch (e) {}
 
-			if (ok && json.ok === true) {
+			if (ok && json.ok) {
 				setSubmitting("success");
 			} else {
-				if (json.ok === false && Array.isArray(json.errors)) {
+				if (!json.ok && Array.isArray(json.errors)) {
 					setErrors(json.errors);
 				}
 				setSubmitting("error");
@@ -87,6 +87,7 @@ export const CreateReactionForm = memo<{
 					<p>{t("reagovat.error")}</p>
 				</div>
 			)}
+
 			<div>
 				<label
 					htmlFor="email"
@@ -113,6 +114,7 @@ export const CreateReactionForm = memo<{
 					/>
 				</div>
 			</div>
+
 			<div>
 				<label
 					htmlFor="phone"
@@ -125,6 +127,8 @@ export const CreateReactionForm = memo<{
 						disabled={disabled}
 						type="text"
 						id="phone"
+						required
+						minLength={9}
 						value={state.phone}
 						onChange={(e) => setState({ ...state, phone: e.target.value })}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
