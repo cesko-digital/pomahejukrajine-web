@@ -12,16 +12,13 @@ import { useTranslation } from "next-i18next";
 const NavLinks: React.FC<{
 	normalStyle: string;
 	activeStyle: string;
-	showHome?: boolean;
 	showMyOffers?: boolean;
 	myOffersStyle?: string;
-}> = ({ normalStyle, activeStyle, showHome, showMyOffers, myOffersStyle }) => {
+}> = ({ normalStyle, activeStyle, showMyOffers, myOffersStyle }) => {
 	const router = useRouter();
 	const { t } = useTranslation();
-	const isHomepage = router.route === "/";
 
 	const links: Record<string, string> = {
-		"/": t("header.main"),
 		"/nabidka": t("header.offerHelp"),
 		"/nabidky": t("header.needHelp"),
 		"/faq": t("header.faq"),
@@ -34,19 +31,15 @@ const NavLinks: React.FC<{
 	return (
 		<>
 			{Object.keys(links).map((key) => {
-				if (isHomepage && (key === "/nabidka" || key === "/nabidky")) {
-					return null;
-				}
-
-				if (!showHome && key === "/") {
-					return null;
-				}
-
 				if (key === "/moje-nabidky") {
 					if (!showMyOffers) return null;
 					return (
 						<Link href={key} key={key}>
-							<a className={myOffersStyle}>
+							<a
+								className={`${myOffersStyle}${
+									key === router.route ? " active" : ""
+								}`}
+							>
 								<UserIcon />
 								{links[key]}
 							</a>
@@ -56,7 +49,11 @@ const NavLinks: React.FC<{
 
 				return (
 					<Link href={key} key={key}>
-						<a className={router.route === key ? activeStyle : normalStyle}>
+						<a
+							className={`${router.route === key ? activeStyle : normalStyle}${
+								key === router.route ? " active" : ""
+							}`}
+						>
 							{links[key]}
 						</a>
 					</Link>
@@ -101,7 +98,6 @@ const HamburgerMenu = () => {
 								<CloseIcon />
 							</div>
 							<NavLinks
-								showHome
 								showMyOffers
 								myOffersStyle={styles.myOffers}
 								normalStyle={styles.mobileLink}
@@ -117,10 +113,6 @@ const HamburgerMenu = () => {
 };
 
 const MainNav = () => {
-	const router = useRouter();
-
-	const isHomepage = router.route === "/";
-
 	return (
 		<>
 			<HamburgerMenu />
@@ -129,13 +121,6 @@ const MainNav = () => {
 				data-testid="menu"
 			>
 				<NavLinks normalStyle={styles.link} activeStyle={styles.activeLink} />
-
-				{/*
-		<Link href="/moje-nabidky">
-			<a className="inline-block px-4 py-2 text-base font-medium text-blue-600 border border-transparent bg-blue-50 rounded-md hover:bg-blue-100">
-				Můj profil
-			</a>
-		</Link> */}
 			</div>
 		</>
 	);
