@@ -25,6 +25,7 @@
 
 .mobileNav {
 	@apply /* bg-white */
+		mt-20
     p-4 fixed inset-0
 
     flex flex-col items-center justify-center gap-3

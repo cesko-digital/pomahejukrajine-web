@@ -69,10 +69,11 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div className="flex justify-end p-3 -mr-3 lg:hidden">
-				<div onClick={() => setIsOpen(true)}>
-					<HamburgerIcon />
-				</div>
+			<div
+				className="flex justify-end p-3 -mr-3 lg:hidden"
+				onClick={() => setIsOpen((prevState) => !prevState)}
+			>
+				{isOpen ? <CloseIcon /> : <HamburgerIcon />}
 			</div>
 			<Transition show={isOpen}>
 				<Dialog onClose={() => setIsOpen(false)} initialFocus={dummyRef}>
@@ -91,12 +92,6 @@ const HamburgerMenu = () => {
 						<Dialog.Overlay className="fixed inset-0 flex flex-col bg-white" />
 						<div className={styles.mobileNav}>
 							<div className="flex-1" />
-							<div
-								className="absolute p-3 pr-2 top-2 right-2"
-								onClick={() => setIsOpen(false)}
-							>
-								<CloseIcon />
-							</div>
 							<NavLinks
 								showMyOffers
 								myOffersStyle={styles.myOffers}
