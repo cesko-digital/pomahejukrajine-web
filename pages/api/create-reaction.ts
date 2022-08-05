@@ -19,6 +19,13 @@ export default async function handler(
 		});
 	}
 
+	if (data.phone.length < 9) {
+		errors.push({
+			input: "phone",
+			code: "error.missingPhone",
+		});
+	}
+
 	if (errors.length) {
 		res.status(400).json({ ok: false, errors });
 		return;

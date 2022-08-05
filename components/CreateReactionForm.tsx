@@ -122,6 +122,13 @@ export const CreateReactionForm = memo<{
 				>
 					{t("reagovat.phone")}
 				</label>
+				{errors.find((it) => it.input === "phone") && (
+					<div className="flex">
+						<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+							{t(errors.find((it) => it.input === "phone")!.code)}
+						</div>
+					</div>
+				)}
 				<div className="mt-1">
 					<input
 						disabled={disabled}
