@@ -98,6 +98,7 @@ const HamburgerMenu = () => {
 								normalStyle={styles.mobileLink}
 								activeStyle={styles.activeMobileLink}
 							/>
+							<div className="flex-1" />
 							<SocialLinksNav className="items-end flex-1 gap-x-6" />
 						</div>
 					</Transition.Child>
