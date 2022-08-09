@@ -224,7 +224,9 @@ export const listVolunteerIds = async (
 	const tenantData = await tenantResponse;
 
 	return tenantData.data.me.projects
-		.find((it: { project: { slug: string } }) => it.project.slug === "ukrajina")
+		.find(
+			(it: { project: { slug: string } }) => it.project.slug === "ukrajina-prod"
+		)
 		?.memberships?.find((it: { role: string }) => it.role === "volunteer")
 		?.variables.find((it: { name: string }) => it.name === "volunteerId")
 		.values;
