@@ -1,7 +1,15 @@
-const CloseIcon = ({ fillColor = "#005BBB" }: { fillColor?: string }) => (
+const CloseIcon = ({
+	fillColor = "#005BBB",
+	width = 23,
+	height = 17,
+}: {
+	fillColor?: string;
+	width?: number;
+	height?: number;
+}) => (
 	<svg
-		width="23"
-		height="17"
+		width={width}
+		height={height}
 		viewBox="0 0 20 20"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"

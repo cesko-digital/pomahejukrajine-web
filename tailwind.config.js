@@ -14,6 +14,7 @@ module.exports = {
 				"blue-very-light": "#F4F9FF",
 				"yellow-very-light": "#FFF5D2",
 				"grey-light": "#F2F2F2",
+				"grey-text": "#828282",
 			},
 			boxShadow: {
 				header: "0px 0px 14px rgba(0, 0, 0, 0.21)",
