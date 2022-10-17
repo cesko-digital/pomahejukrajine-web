@@ -4,6 +4,9 @@ import { Index, InstantSearch } from "react-instantsearch-dom";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { getOfferIcon } from "./offerTypeIcon/getOfferIcon";
 import { CZECH } from "../utils/constants";
+import { useState } from "react";
+import CloseIcon from "./CloseIcon";
+import DropdownIcon from "./DropdownIcon";
 
 export type OfferTypeListProps = {
 	listOfferType: any;
@@ -16,6 +19,7 @@ export const OfferTypeList = ({
 	offerTypeId,
 }: OfferTypeListProps) => {
 	const { locale } = useRouter();
+	const [showModal, setShowModal] = useState(false);
 
 	const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
 		server: {
@@ -34,38 +38,86 @@ export const OfferTypeList = ({
 		},
 	});
 
+	const selectedType = listOfferType.find(
+		(f: { id: string }) => f.id === offerTypeId
+	);
+
+	const renderListItems = (isMobileView = false) => {
+		return listOfferType
+			.filter((f: any) => !f.needsVerification)
+			.map(({ id, name, nameUK, paginateOffers }: any) => {
+				const icon = getOfferIcon(name);
+				const totalCount = paginateOffers.pageInfo.totalCount;
+				return (
+					<Index indexName={`offers_${id}`} key={id}>
+						<li
+							className={isMobileView ? "mb-2.5" : ""}
+							onClick={() => setShowModal(false)}
+						>
+							<Link href={`/nabidky/${id}`}>
+								<a
+									className={`border border-ua-blue py-2.5 rounded-lg flex ${
+										offerTypeId === id
+											? "bg-ua-blue text-white"
+											: "bg-blue-very-light text-ua-blue"
+									} hover:bg-ua-blue-dark hover:border-ua-blue-dark hover:text-white ${
+										isMobileView ? "pl-3.5 pr-5" : "px-6"
+									} `}
+								>
+									{icon}
+									<span className="ml-4">
+										{locale === CZECH ? name : nameUK}
+										<span className="text-grey-text md:hidden">
+											&nbsp;({totalCount})
+										</span>
+									</span>
+								</a>
+							</Link>
+						</li>
+					</Index>
+				);
+			});
+	};
+
 	return (
-		<ul className="mt-5 md:mt-12 grid grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2">
-			<InstantSearch
-				indexName={`offers_${offerTypeId}`}
-				searchClient={typesenseInstantsearchAdapter.searchClient}
+		<>
+			<ul className="hidden md:grid mt-5 md:mt-12 grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2">
+				<InstantSearch
+					indexName={`offers_${offerTypeId}`}
+					searchClient={typesenseInstantsearchAdapter.searchClient}
+				>
+					{renderListItems()}
+				</InstantSearch>
+			</ul>
+			<div
+				className="md:hidden flex items-center border border-ua-blue py-2.5 pl-3.5 pr-5 rounded-lg bg-blue-very-light text-ua-blue"
+				onClick={() => setShowModal(true)}
 			>
-				{listOfferType
-					.filter((f: any) => !f.needsVerification)
-					.map(({ id, name, nameUK }: any) => {
-						const icon = getOfferIcon(name);
-						return (
-							<Index indexName={`offers_${id}`} key={id}>
-								<li key={id}>
-									<Link href={`/nabidky/${id}`}>
-										<a
-											className={`border border-ua-blue py-2.5 px-6 rounded-lg flex ${
-												offerTypeId === id
-													? "bg-ua-blue text-white"
-													: "bg-blue-very-light text-ua-blue"
-											} hover:bg-ua-blue-dark hover:border-ua-blue-dark hover:text-white `}
-										>
-											{icon}
-											<span className="ml-4">
-												{locale === CZECH ? name : nameUK}
-											</span>
-										</a>
-									</Link>
-								</li>
-							</Index>
-						);
-					})}
-			</InstantSearch>
-		</ul>
+				{getOfferIcon(selectedType.name)}
+				<span className="ml-4 grow">
+					{locale === CZECH ? selectedType.name : selectedType.nameUK}
+					<span className="text-grey-text">
+						&nbsp;({selectedType.paginateOffers.pageInfo.totalCount})
+					</span>
+				</span>
+
+				<DropdownIcon />
+			</div>
+			{showModal && (
+				<div className="w-screen h-screen fixed top-0 left-0 right-0 bottom-0 bg-white z-10 pt-6 pr-3.5 pl-4 overflow-auto	">
+					<div className="flex justify-end" onClick={() => setShowModal(false)}>
+						<CloseIcon width={28} height={28} />
+					</div>
+					<ul className="flex flex-col mt-4">
+						<InstantSearch
+							indexName={`offers_${offerTypeId}`}
+							searchClient={typesenseInstantsearchAdapter.searchClient}
+						>
+							{renderListItems(true)}
+						</InstantSearch>
+					</ul>
+				</div>
+			)}
+		</>
 	);
 };
