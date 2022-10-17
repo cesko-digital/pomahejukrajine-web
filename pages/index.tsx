@@ -58,6 +58,11 @@ const PartnersLogos = [
 		path: "/logos/ceskodigital.svg",
 		height: 28,
 	},
+	{
+		href: "https://www.mvcr.cz/ministerstvo-vnitra-ceske-republiky.aspx",
+		path: "/logos/mvcr.svg",
+		height: 40,
+	},
 ] as const;
 
 const Home: NextPage = () => {
@@ -187,6 +192,12 @@ const Home: NextPage = () => {
 						</div>
 					))}
 				</div>
+				<p className="pt-6 text-center text-grey-dark text-footer leading-relaxed max-w-3xl mx-auto">
+					Tento projekt je spolufinancován projektem Ministerstvem vnitra ČR v
+					rámci projektu „Poskytování informačního servisu institucím
+					prostřednictvím platformy Pomáhej Ukrajině a koordinace občanské
+					pomoci uprchlíkům z Ukrajiny“.
+				</p>
 			</div>
 			<Footer />
 		</div>
