@@ -27,6 +27,11 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 					<h2 className="text-2xl inline-flex font-bold	lg:text-3xl">
 						{t("neverejneNabidky.title")}
 					</h2>
+					<Link href="/nabidky">
+						<a className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white">
+							{t("neverejneNabidky.linkToPublicOffers")}
+						</a>
+					</Link>
 					<p className="mt-4 lg:mt-12 max-w-2xl text-base text-center text-grey-dark">
 						{t("neverejneNabidky.description")}
 					</p>
@@ -79,7 +84,7 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 							{t("neverejneNabidky.box2Title")}
 						</h3>
 						<p className="text-center mt-6">
-							{t("neverejneNabidky.box1Description")}
+							{t("neverejneNabidky.box2Description")}
 						</p>
 						<a
 							href="https://docs.google.com/forms/d/1YmKGhZgUAlq1zNBmBKHQeToaOpl41fCcXXA1uLCBGSk/viewform?edit_requested=true"

@@ -22,9 +22,11 @@ const NavLinks: React.FC<{
 		"/nabidka": t("header.offerHelp"),
 		"/nabidky": t("header.needHelp"),
 		"/faq": t("header.faq"),
-		"https://migracnikonsorcium.cz/cs/": t("header.information"),
-		"https://migracnikonsorcium.cz/cs/pomahej-ukrajine/o-platforme-pomahej-ukrajine/":
-			t("header.moreAboutProject"),
+		"https://coda.io/d/Ukrajina_dzasdxTf153/Zakladni-odkazy-a-obecne-informace-k-podpore-uprchliku-z-Ukrajin_suDG4":
+			t("header.information"),
+		"https://migracnikonsorcium.cz/cs/pomahej-ukrajine-v-grafech/": t(
+			"header.moreAboutProject"
+		),
 		"/moje-nabidky": t("header.myOffers"),
 	};
 
