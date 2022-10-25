@@ -55,6 +55,7 @@ const NavLinks: React.FC<{
 							className={`${router.route === key ? activeStyle : normalStyle}${
 								key === router.route ? " active" : ""
 							}`}
+							target={key.startsWith("https://") ? "_blank" : "_self"}
 						>
 							{links[key]}
 						</a>
