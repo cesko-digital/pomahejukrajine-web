@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Organization } from "../lib/model/Organization";
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
+import arrowUpIcon from "../public/arrowUpIcon.svg";
+import arrowDownIcon from "../public/arrowDownIcon.svg";
+import { useRouter } from "next/router";
 
 const COLUMNS: Array<keyof Organization> = [
 	"name",
@@ -16,6 +20,36 @@ const OrganizationList = ({
 	organizations: Organization[];
 }) => {
 	const { t } = useTranslation();
+	const { locale } = useRouter();
+
+	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+	const [sortColumn, setSortColumn] = useState<keyof Organization>("name");
+
+	const onSort = (column: keyof Organization) => {
+		if (sortColumn === column) {
+			setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+		} else {
+			setSortColumn(column);
+			setSortOrder("asc");
+		}
+	};
+
+	const sort = () =>
+		organizations.sort((a, b) => {
+			const firstValue = a[sortColumn]?.trim();
+			const secondValue = b[sortColumn]?.trim();
+			if (!firstValue) {
+				return 1;
+			}
+			if (!secondValue) {
+				return -1;
+			}
+			const comparisonResult = firstValue.localeCompare(secondValue, locale, {
+				ignorePunctuation: true,
+			});
+			return sortOrder === "asc" ? comparisonResult : -comparisonResult;
+		});
+
 	return (
 		<div className="container mx-auto">
 			<div className="mt-8 overflow-x-auto rounded-lg shadow-md md:rounded-xl bg-blue-50">
@@ -25,15 +59,23 @@ const OrganizationList = ({
 							{COLUMNS.map((column) => (
 								<th
 									key={column}
-									className="p-2 pt-0 text-left border-b border-gray-200 md:pb-3 md:p-4 first:pl-4 md:first:pl-8"
+									className="p-2 pt-0 text-left border-b border-gray-200 md:pb-3 md:p-4 first:pl-4 md:first:pl-8 cursor-pointer"
+									onClick={() => onSort(column)}
 								>
 									{t(`organizace.${column}`)}
+									{column === sortColumn && (
+										<Image
+											src={sortOrder === "asc" ? arrowDownIcon : arrowUpIcon}
+											height={14}
+											alt="arrow"
+										/>
+									)}
 								</th>
 							))}
 						</tr>
 					</thead>
 					<tbody className="bg-white">
-						{organizations.map((organization) => (
+						{sort().map((organization) => (
 							<tr key={organization.id}>
 								{COLUMNS.map((column) => (
 									<td
