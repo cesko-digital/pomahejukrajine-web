@@ -19,7 +19,7 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 	const { t } = useTranslation();
 
 	return (
-		<div className="flex flex-col  min-h-screen antialiased text-t-black">
+		<div className="flex flex-col  min-h-screen antialiased text-black">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="grow max-w-7xl mx-auto bg-white py-4 px-3 md:px-6 overflow-hidden lg:px-8 lg:py-6">
@@ -28,7 +28,7 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 						{t("neverejneNabidky.title")}
 					</h2>
 					<Link href="/nabidky">
-						<a className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white">
+						<a className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white transition duration-150">
 							{t("neverejneNabidky.linkToPublicOffers")}
 						</a>
 					</Link>
@@ -46,11 +46,11 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 							return (
 								<li
 									key={offerType.id}
-									className="flex flex-col h-full border border-ua-blue text-ua-blue bg-blue-very-light rounded-lg p-4"
+									className="flex flex-col h-full border border-ua-blue text-ua-blue bg-blue-very-light rounded-lg py-4 px-3"
 								>
 									<div className="grow flex">
 										{icon}
-										<span className="ml-4">
+										<span className="text-smaller ml-2.5">
 											{locale === CZECH ? offerType.name : offerType.nameUK}
 										</span>
 									</div>
@@ -65,30 +65,30 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 						})}
 				</ul>
 
-				<div className="grid gap-x-5 gap-y-2.5 grid-cols-1 md:grid-cols-2">
-					<div className="bg-yellow-very-light rounded-lg px-16 pt-14 pb-16 flex flex-col items-center">
-						<h3 className="text-lg font-bold">
+				<div className="grid gap-x-5 gap-y-2.5 grid-cols-1 md:grid-cols-2 md:mb-12">
+					<div className="bg-yellow-very-light rounded-lg px-4 md:px-16 pt-11 md:pt-14 pb-14 md:pb-16 flex flex-col items-center">
+						<h3 className="text-lg text-center font-bold">
 							{t("neverejneNabidky.box1Title")}
 						</h3>
-						<p className="text-center mt-6">
+						<p className="text-center mt-6 grow">
 							{t("neverejneNabidky.box1Description")}
 						</p>
 						<Link href="/organizace">
-							<a className="text-white bg-ua-blue rounded-md px-6 py-1.5 mt-10 flex justify-center items-center hover:bg-ua-blue-dark">
+							<a className="text-white text-center bg-ua-blue rounded-md px-6 py-3.5 md:py-2 mt-10 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
 								{t("neverejneNabidky.box1Button")}
 							</a>
 						</Link>
 					</div>
-					<div className="bg-yellow-very-light rounded-lg px-16 pt-14 pb-16 flex flex-col items-center">
-						<h3 className="text-lg font-bold">
+					<div className="bg-yellow-very-light rounded-lg px-4 md:px-16 pt-11 md:pt-14 pb-14 md:pb-16 flex flex-col items-center">
+						<h3 className="text-lg text-center font-bold">
 							{t("neverejneNabidky.box2Title")}
 						</h3>
-						<p className="text-center mt-6">
+						<p className="text-center mt-6 grow">
 							{t("neverejneNabidky.box2Description")}
 						</p>
 						<a
 							href="https://docs.google.com/forms/d/1YmKGhZgUAlq1zNBmBKHQeToaOpl41fCcXXA1uLCBGSk/viewform?edit_requested=true"
-							className="text-white bg-ua-blue rounded-md px-6 py-1.5 mt-10 flex justify-center items-center hover:bg-ua-blue-dark"
+							className="text-white text-center bg-ua-blue rounded-md px-6 py-3.5 md:py-2 mt-10 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150"
 						>
 							{t("neverejneNabidky.box2Button")}
 						</a>

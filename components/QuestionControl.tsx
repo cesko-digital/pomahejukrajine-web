@@ -38,7 +38,7 @@ export const QuestionControl = memo<{
 	const { locale } = useRouter();
 	return (
 		<div className="mt-4">
-			<div className="block text-sm font-medium text-gray-700">
+			<div className="block">
 				{locale === CZECH ? definition.question : definition.questionUK}
 				{definition.required && <span className="text-red-500">*</span>}
 			</div>

@@ -25,18 +25,18 @@
 
 .mobileNav {
 	@apply /* bg-white */
-		mt-20
-    p-4 fixed inset-0
+    px-4 py-8 fixed inset-0
 
     flex flex-col items-center justify-center gap-3
 
     text-xl
     text-ua-blue
     font-bold;
+	z-index: 15;
 }
 
 .mobileLink {
-	padding: min(2vh, 20px) 0;
+	padding: 20px 0;
 	@apply block w-full text-center;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .myOffers {
-	padding: min(2vh, 20px) 0;
+	padding: 20px 0;
 	@apply flex items-center justify-center w-full font-normal text-gray-600 gap-2 hover:opacity-80;
 }
 

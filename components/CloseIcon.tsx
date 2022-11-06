@@ -1,7 +1,7 @@
 const CloseIcon = ({
 	fillColor = "#005BBB",
-	width = 23,
-	height = 17,
+	width = 28,
+	height = 28,
 }: {
 	fillColor?: string;
 	width?: number;
@@ -10,22 +10,22 @@ const CloseIcon = ({
 	<svg
 		width={width}
 		height={height}
-		viewBox="0 0 20 20"
+		viewBox="0 0 28 28"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
 	>
 		<rect
-			width="24.2618"
-			height="3.73259"
+			width="34.3171"
+			height="5.27956"
 			rx="1"
-			transform="matrix(-0.686323 0.727297 -0.686322 -0.727297 19.2129 3.43164)"
+			transform="matrix(-0.707075 0.707138 -0.707075 -0.707138 27.998 3.73438)"
 			fill={fillColor}
 		/>
 		<rect
-			width="24.2618"
-			height="3.73259"
+			width="34.3171"
+			height="5.27956"
 			rx="1"
-			transform="matrix(-0.686323 -0.727297 0.686323 -0.727297 16.6514 21.0762)"
+			transform="matrix(-0.707075 -0.707138 0.707075 -0.707138 24.2695 28)"
 			fill={fillColor}
 		/>
 	</svg>

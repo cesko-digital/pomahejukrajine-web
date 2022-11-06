@@ -9,14 +9,14 @@ import { useTranslation } from "next-i18next";
 const Login: NextPage = () => {
 	const { t } = useTranslation();
 	return (
-		<div className="antialiased text-gray-600">
+		<div className="min-h-screen flex flex-col antialiased text-gray-600">
 			<Meta
 				title={t("meta.title")}
 				description={t("meta.description")}
 				noIndex
 			/>
 			<Header />
-			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+			<div className="grow bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
 				<div className="relative max-w-xl mx-auto">
 					<main className="mt-2">
 						<div className="text-center">

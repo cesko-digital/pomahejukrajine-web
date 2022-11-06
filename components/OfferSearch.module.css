@@ -3,14 +3,71 @@
 }
 
 .openedMarker::before {
-	content: "▲";
+	content: url("../public/filterArrowDown.svg");
 	float: right;
 }
 
 .closedMarker[open] summary:before {
-	content: "▼";
+	content: url("../public/filterArrowUp.svg");
+	float: right;
 }
 
 .summary {
 	@apply font-bold cursor-pointer text-lg mb-1;
+}
+
+.nextPage,
+.previousPage {
+	width: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.nextPage {
+	margin-left: 21px;
+}
+
+.previousPage {
+	margin-right: 21px;
+}
+
+.nextPage a {
+	display: none;
+}
+
+.nextPage::before {
+	content: url("../public/nextPage.svg");
+	position: relative;
+	top: 2px;
+}
+
+.nextPage:hover::before {
+	content: url("../public/nextPageHover.svg");
+}
+
+.previousPage span {
+	display: none;
+}
+
+.previousPage::before {
+	content: url("../public/previousPage.svg");
+	position: relative;
+	top: 2px;
+}
+
+.previousPage:hover::before {
+	content: url("../public/previousPageHover.svg");
+}
+
+@media screen and (max-width: 640px) {
+	.nextPage {
+		margin-right: 12px;
+		margin-left: 9px;
+	}
+
+	.previousPage {
+		margin-left: 12px;
+		margin-right: 9px;
+	}
 }

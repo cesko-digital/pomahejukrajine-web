@@ -13,7 +13,7 @@ export default function Header() {
 	return (
 		<header className="bg-grey-light sticky top-0 z-10 shadow-header">
 			<nav
-				className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-5 mb-1.5 lg:mb-0"
+				className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 pt-2.5 pb-5 mb-1.5 lg:mb-0"
 				aria-label="Top"
 			>
 				<div className="flex items-center justify-between w-full lg:items-start">

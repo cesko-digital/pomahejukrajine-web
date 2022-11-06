@@ -13,26 +13,26 @@ const Home: NextPage<{ faqItems: FAQResponse[] }> = ({ faqItems }) => {
 	const isUKLanguage = locale !== CZECH;
 
 	return (
-		<div className="antialiased text-gray-600">
+		<div className="antialiased text-black">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="bg-white">
-				<div className="max-w-3xl px-4 py-16 mx-auto sm:px-6 lg:py-20 lg:px-8">
-					<div>
-						<h1 className="text-4xl font-extrabold text-center text-gray-900">
+			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-6">
+				<div className="max-w-3xl mx-auto">
+					<div className="text-center">
+						<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
 							{t("faq.frequentlyAskedQuestions")}
-						</h1>
+						</h2>
 					</div>
-					<div className="mt-12">
+					<div className="mt-5 md:mt-12">
 						<dl className="space-y-12">
 							{faqItems.map(
 								({ order, question, questionUA, answer, answerUA }) => (
 									<div key={order}>
-										<dt className="text-lg font-bold text-gray-900 leading-6">
+										<dt className="text-lg font-bold leading-6">
 											{isUKLanguage ? questionUA : question}
 										</dt>
 										<dd
-											className="mt-2 text-base text-gray-700"
+											className="mt-2 text-base"
 											dangerouslySetInnerHTML={{
 												__html: isUKLanguage ? answerUA : answer,
 											}}

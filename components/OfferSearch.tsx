@@ -42,7 +42,7 @@ export const OfferSearch = ({
 		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm",
 		label: "flex",
 		labelText: "flex-1",
-		count: "text-sm text-gray-600 mt-0.5 ml-2",
+		count: "text-sm text-grey-text mt-0.5 ml-2",
 		showMore: "text-sm text-gray-600 mt-2 cursor-pointer hover:text-blue-600",
 	};
 	const { locale } = useRouter();
@@ -99,7 +99,7 @@ export const OfferSearch = ({
 				className={
 					showFilters
 						? "hidden"
-						: `py-1.5 px-3 w-36 mt-4 rounded-md border border-ua-blue text-center text-sm text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
+						: `py-3.5 md:py-1.5 px-3 w-36 mt-4 rounded-md border border-ua-blue text-center text-sm text-ua-blue hover:bg-ua-blue-dark hover:text-white flex flex-row gap-x-2`
 				}
 				onClick={() => setShowFilters(true)}
 			>
@@ -127,7 +127,7 @@ export const OfferSearch = ({
 							root: "w-full mb-4 mt-8",
 						}}
 					/>
-					<div className={"flex justify-between"}>
+					<div className={"flex justify-between items-baseline"}>
 						<div className="font-bold text-left text-lg text-black">
 							{t("nabidky.filters")}
 						</div>
@@ -225,10 +225,10 @@ export const OfferSearch = ({
 						hitComponent={(hit: any) => {
 							return (
 								<div
-									className="p-3 bg-grey-light flex flex-col grow"
+									className="px-3 py-5 bg-grey-light flex flex-col grow"
 									key={hit.hit.objectID}
 								>
-									<h3 className="text-lg font-bold">
+									<h3 className="text-lg font-bold text-grey-text mb-8">
 										{locale === CZECH ? offerType.name : offerType.nameUK}
 									</h3>
 									{listQuestion.map((question: any) => (
@@ -253,17 +253,17 @@ export const OfferSearch = ({
 										</div>
 									))}
 									<div className="grow" />
-									<div className="my-3">
+									<div className="mt-7 flex justify-between items-end">
 										<a
-											className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm"
+											className="px-4 py-2.5 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
 											href="#"
 											onClick={() => setOpenedOffer(hit.hit)}
 										>
 											{t("nabidky.needThisHelp")}
 										</a>
-									</div>
-									<div className="mt-2 text-xs text-gray-400 font-bold">
-										{hit.hit.code}
+										<div className="mt-2 text-xs text-gray-400 font-bold">
+											{hit.hit.code}
+										</div>
 									</div>
 								</div>
 							);
@@ -273,7 +273,9 @@ export const OfferSearch = ({
 						classNames={{
 							list: "flex justify-center gap-1 mt-14",
 							selectedItem: "!bg-ua-blue !text-white",
-							item: "border border-ua-blue text-ua-blue bg-blue-very-light py-1 px-3 rounded-md hover:bg-ua-blue-dark hover:text-white",
+							item: "border border-ua-blue text-ua-blue bg-blue-very-light py-1 px-3 rounded-md hover:bg-ua-blue-dark hover:text-white transition duration-150",
+							nextPageItem: cx(styles.nextPage),
+							previousPageItem: cx(styles.previousPage),
 						}}
 						showFirst={false}
 						showLast={false}

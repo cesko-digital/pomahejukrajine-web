@@ -61,17 +61,17 @@ export const LoginForm = () => {
 	const disabled = submitting === "submitting";
 
 	return (
-		<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
+		<form
+			className="grid grid-cols-1 gap-y-6 sm:gap-x-8 text-black"
+			onSubmit={submit}
+		>
 			{error && (
 				<p className="p-2 rounded-lg bg-red-500 shadow-lg text-center text-white mx-auto px-8">
 					{error}
 				</p>
 			)}
 			<div>
-				<label
-					htmlFor="password"
-					className="block text-sm font-medium text-gray-700"
-				>
+				<label htmlFor="password" className="block text-sm font-medium">
 					{t("login.email")}
 				</label>
 				<div className="mt-1">
@@ -82,15 +82,12 @@ export const LoginForm = () => {
 						required
 						value={state.email}
 						onChange={(e) => setState({ ...state, email: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 					/>
 				</div>
 			</div>
 			<div>
-				<label
-					htmlFor="password"
-					className="block text-sm font-medium text-gray-700"
-				>
+				<label htmlFor="password" className="block text-sm font-medium">
 					{t("login.password")}
 				</label>
 				<div className="mt-1">
@@ -101,14 +98,14 @@ export const LoginForm = () => {
 						required
 						value={state.password}
 						onChange={(e) => setState({ ...state, password: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+						className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 					/>
 				</div>
 			</div>
 			<button
 				disabled={disabled}
 				type="submit"
-				className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+				className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-ua-blue hover:bg-ua-blue-dark transition duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 			>
 				{t("login.login")}
 			</button>
