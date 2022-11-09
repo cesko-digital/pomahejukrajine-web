@@ -117,6 +117,25 @@ export const CreateReactionForm = memo<{
 
 			<div>
 				<label
+					htmlFor="email"
+					className="block text-sm font-medium text-gray-700"
+				>
+					{t("reagovat.text")}
+				</label>
+				<div className="mt-1">
+					<input
+						disabled={disabled}
+						id="text"
+						required
+						value={state.text}
+						onChange={(e) => setState({ ...state, text: e.target.value })}
+						className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+					/>
+				</div>
+			</div>
+
+			<div>
+				<label
 					htmlFor="phone"
 					className="block text-sm font-medium text-gray-700"
 				>
