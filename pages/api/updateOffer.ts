@@ -74,6 +74,7 @@ export default async function handler(
 	}
 
 	const updateInput = {
+		updatedAt: "now",
 		parameters: Object.entries(data).map(([questionId, question]) => {
 			const prevValues =
 				offer.parameters
