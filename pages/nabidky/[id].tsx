@@ -29,6 +29,7 @@ const Offers = (props: any) => {
 						</a>
 					</Link>
 				</div>
+				<div id="offer-search" />
 				<OfferTypeList {...props} />
 				{!props.listQuestion.length ? (
 					<OfferEmpty />

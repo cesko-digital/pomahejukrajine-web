@@ -79,7 +79,7 @@ export const OfferTypeList = ({
 
 	return (
 		<>
-			<ul className="hidden md:grid mt-5 md:mt-12 grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2">
+			<ul className="hidden md:mb-12 md:grid grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2">
 				<InstantSearch
 					indexName={`offers_${offerTypeId}`}
 					searchClient={typesenseInstantsearchAdapter.searchClient}
@@ -88,7 +88,7 @@ export const OfferTypeList = ({
 				</InstantSearch>
 			</ul>
 			<div
-				className="md:hidden flex items-center border border-ua-blue py-2.5 pl-3.5 pr-5 rounded-lg bg-blue-very-light text-ua-blue"
+				className="md:hidden mb-5 flex items-center border border-ua-blue py-2.5 pl-3.5 pr-5 rounded-lg bg-blue-very-light text-ua-blue"
 				onClick={() => setShowModal(true)}
 			>
 				{getOfferIcon(selectedType.name)}

@@ -17,6 +17,7 @@ import FilterIcon from "./FilterIcon";
 import { CZECH } from "../utils/constants";
 import { CreateReactionForm } from "./CreateReactionForm";
 import { Modal } from "./Modal";
+import Portal from "./Portal";
 
 export type OfferSearchProps = {
 	listQuestion: any[];
@@ -112,21 +113,26 @@ export const OfferSearch = ({
 				}
 			>
 				<div className={showFilters ? "w-80 md:w-1/4 md:pr-10" : "hidden"}>
-					<SearchBox
-						placeholder={t("nabidky.search")}
-						classNames={{
-							input:
-								"w-full max-w-lg mx-auto text-sm text-gray-900 placeholder-gray-500 border-gray-300 focus:border-gray-500 rounded-md",
-							submit: "absolute right-3 top-3",
-							submitIcon: "fill-current text-ua-blue h-4 w-4",
-							loadingIcon: "hidden",
-							reset: "hidden",
-							resetIcon: "hidden",
-							loadingIndicator: "hidden",
-							form: "flex flex-row text-center relative",
-							root: "w-full mb-4 mt-8",
-						}}
-					/>
+					<Portal id="offer-search">
+						<div className="relative w-full max-w-lg mx-auto">
+							<SearchBox
+								placeholder={t("nabidky.search")}
+								classNames={{
+									input:
+										"w-full max-w-lg h-10 mx-auto text-sm text-gray-900 placeholder-black border-gray-300 rounded-md",
+									submit:
+										"absolute right-0 top-0 text-white bg-ua-blue h-10 w-11 flex items-center justify-center rounded-r-md",
+									submitIcon: "fill-current h-4 w-4",
+									loadingIcon: "hidden",
+									reset: "hidden",
+									resetIcon: "hidden",
+									loadingIndicator: "hidden",
+									form: "flex flex-row text-center",
+									root: "w-full mt-2 mb-4 md:my-8",
+								}}
+							/>
+						</div>
+					</Portal>
 					<div className={"flex justify-between items-baseline"}>
 						<div className="font-bold text-left text-lg text-black">
 							{t("nabidky.filters")}

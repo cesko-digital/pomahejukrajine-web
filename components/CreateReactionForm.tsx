@@ -92,7 +92,7 @@ export const CreateReactionForm = memo<{
 			)}
 
 			<div>
-				<label htmlFor="email" className="block text-sm font-medium md:mt-16">
+				<label htmlFor="email" className="block text-sm font-medium">
 					{t("reagovat.email")}
 				</label>
 				{errors.find((it) => it.input === "email") && (
@@ -110,6 +110,23 @@ export const CreateReactionForm = memo<{
 						required
 						value={state.email}
 						onChange={(e) => setState({ ...state, email: e.target.value })}
+						className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
+					/>
+				</div>
+			</div>
+
+			<div>
+				<label htmlFor="text" className="block text-sm font-medium">
+					{t("reagovat.text")}
+				</label>
+				<div className="mt-1">
+					<input
+						disabled={disabled}
+						type="text"
+						id="text"
+						required
+						value={state.text}
+						onChange={(e) => setState({ ...state, text: e.target.value })}
 						className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 					/>
 				</div>
