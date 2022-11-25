@@ -68,22 +68,23 @@ export const OfferSearch = ({
 					cacheSearchResultsForSeconds: 2 * 60,
 				},
 				additionalSearchParameters: {
-					query_by: [
-						listQuestion
-							.filter(
-								(question: any) =>
-									![
-										"07d4ee81-3fa1-41df-a5f3-7a1e4c91777f",
-										"8958a3e0-ef6f-4a51-9139-c26b7de8e8ef",
-										"3d583f4b-3032-44ba-99dd-24269905957d",
-										"e7f41069-9e3a-4313-9bc4-e9415372d416",
-									].includes(question.id)
-							)
-							.map(
-								(question: any) =>
-									`parameter_${locale === CZECH ? "" : "uk_"}${question.id}`
-							),
-					].join(","),
+					query_by:
+						[
+							listQuestion
+								.filter(
+									(question: any) =>
+										![
+											"07d4ee81-3fa1-41df-a5f3-7a1e4c91777f",
+											"8958a3e0-ef6f-4a51-9139-c26b7de8e8ef",
+											"3d583f4b-3032-44ba-99dd-24269905957d",
+											"e7f41069-9e3a-4313-9bc4-e9415372d416",
+										].includes(question.id)
+								)
+								.map(
+									(question: any) =>
+										`parameter_${locale === CZECH ? "" : "uk_"}${question.id}`
+								),
+						].join(",") + ",code",
 					num_typos: 0,
 				},
 			}),
@@ -267,9 +268,9 @@ export const OfferSearch = ({
 										>
 											{t("nabidky.needThisHelp")}
 										</a>
-										<div className="mt-2 text-xs text-gray-400 font-bold">
-											{hit.hit.code}
-										</div>
+									</div>
+									<div className="mt-2 text-xs text-gray-400 font-bold">
+										<Highlight attribute="code" hit={hit.hit} />
 									</div>
 								</div>
 							);
