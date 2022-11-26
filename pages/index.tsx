@@ -75,31 +75,31 @@ const Home: NextPage = () => {
 		>
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="max-w-7xl mx-auto pt-3 px-3 md:px-8">
+			<div className="text-base max-w-7xl mx-auto pt-5 px-3 md:px-8">
 				<div className="grid gap-x-4 gap-y-3 grid-cols-1 md:grid-cols-2">
-					<div className="bg-ua-yellow rounded-lg px-5 pt-10 pb-5 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
+					<div className="bg-ua-yellow rounded-lg px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidka">
-							<a className="text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
+							<a className="text-white text-lg bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
 								{t("frontPage.offerHelp")}
 							</a>
 						</Link>
-						<p className="text-center leading-7	 pt-4 md:pt-6">
+						<p className="text-center leading-6	pt-4 md:pt-6">
 							{t("frontPage.offerHelpText")}
 						</p>
 					</div>
-					<div className="bg-ua-yellow rounded-lg px-5 pt-10 pb-5 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
+					<div className="bg-ua-yellow rounded-lg px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidky">
-							<a className="text-white bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark">
+							<a className="text-white text-lg bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
 								{t("frontPage.needHelp")}
 							</a>
 						</Link>
-						<p className="text-center leading-7	 pt-4 md:pt-6">
+						<p className="text-center leading-6 pt-4 md:pt-6">
 							{t("frontPage.needHelpText")}
 						</p>
 					</div>
 				</div>
 				<div className="text-center py-16 md:py-24">
-					<p className="font-bold max-w-3xl px-8 mx-auto pb-8 md:pb-12 leading-7">
+					<p className="font-bold max-w-3xl md:px-8 mx-auto pb-8 md:pb-12 leading-6">
 						{t("frontPage.organizationList")}{" "}
 						<Link href="/organizace">
 							<a className="overflow-hidden underline break-all underline-offset-2 hover:no-underline">
@@ -108,8 +108,8 @@ const Home: NextPage = () => {
 						</Link>
 						.
 					</p>
-					<p className="font-bold">{t("frontPage.organization")}</p>
-					<p className="max-w-3xl mx-auto px-8 leading-7">
+					<h3 className="font-bold">{t("frontPage.organization")}</h3>
+					<p className="max-w-3xl mx-auto md:px-8 leading-6">
 						{t("frontPage.organizationText")}{" "}
 						<a
 							className="underline underline-offset-2 hover:no-underline"
@@ -121,11 +121,13 @@ const Home: NextPage = () => {
 						</a>
 						.
 					</p>
-					<p className="font-bold pt-8 md:pt-12">{t("frontPage.contactUs")}</p>
-					<p className="max-w-3xl mx-auto px-8 md:pb-4 leading-7">
+					<h3 className="font-bold pt-8 md:pt-12">
+						{t("frontPage.contactUs")}
+					</h3>
+					<p className="max-w-3xl mx-auto md:px-8 md:pb-4 leading-6">
 						{t("frontPage.contactUsText")}{" "}
 						<a
-							className="underline underline-offset-2 hover:no-underline overflow-hidden  break-all"
+							className="underline underline-offset-2 hover:no-underline overflow-hidden"
 							href="mailto:pomahejukrajine@migracnikonsorcium.cz?subject=PomáhejUkrajině"
 						>
 							pomahejukrajine@migracnikonsorcium.cz
@@ -135,29 +137,32 @@ const Home: NextPage = () => {
 				</div>
 			</div>
 
+			<div className="flex justify-center mb-12 hover:opacity-70 transition duration-150">
+				<Link href="https://migracnikonsorcium.cz">
+					<a>
+						<Image
+							src="/logos/konsorcium.svg"
+							width={232}
+							height={66}
+							alt="Konsordium nevládních organizací pracujících s migranty"
+						/>
+					</a>
+				</Link>
+			</div>
+
 			<div className="border-t-8 border-t-ua-blue border-b-8 border-b-ua-yellow" />
 
-			<div className="max-w-7xl mx-auto px-3 md:px-8 md:pt-4">
-				<div className="flex justify-center my-14 hover:opacity-70">
-					<Link href="https://migracnikonsorcium.cz">
-						<a>
-							<Image
-								src="/logos/konsorcium.svg"
-								width={232}
-								height={66}
-								alt="Konsordium nevládních organizací pracujících s migranty"
-							/>
-						</a>
-					</Link>
-				</div>
-
-				<p className="text-center px-8 leading-7">
+			<div className="text-base max-w-7xl mx-auto px-3 md:px-8 pt-12">
+				<p className="text-center md:px-8 leading-6">
 					{t("frontPage.partnersText")}
 				</p>
 
-				<div className="flex flex-wrap justify-center mx-8 mt-8">
+				<div className="flex flex-wrap justify-center md:mx-8 mt-8">
 					{Logos.map((logo) => (
-						<div key={logo.path} className="mx-4 mb-8 hover:opacity-70">
+						<div
+							key={logo.path}
+							className="mx-4 mb-8 hover:opacity-70 transition duration-150"
+						>
 							<Link href={logo.href}>
 								<a>
 									<Image
@@ -172,12 +177,12 @@ const Home: NextPage = () => {
 					))}
 				</div>
 
-				<p className="text-center mt-24 md:mt-40">{t("frontPage.partners")}</p>
+				<p className="text-center mt-24 md:mt-20">{t("frontPage.partners")}</p>
 				<div className="flex flex-wrap justify-center mx-auto">
 					{PartnersLogos.map((logo) => (
 						<div
 							key={logo.path}
-							className="mx-4 mt-6 hover:opacity-70 flex items-center"
+							className="mx-4 mt-6 hover:opacity-70 flex items-center transition duration-150"
 						>
 							<Link href={logo.href}>
 								<a>

@@ -53,9 +53,6 @@ export const RegisterForm = memo<RegisterFormProps>(
 				setSubmitting("loading");
 				let response;
 
-				console.log("editing", editing);
-				console.log("volunteerData", volunteerData);
-
 				if (editing) {
 					const data = { ...state };
 					response = await fetch("/api/update-profile", {
@@ -115,7 +112,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 					setSubmitting("error");
 				}
 			},
-			[state, editing, volunteerData]
+			[editing, volunteerData, state, locale]
 		);
 
 		if (submitting === "success" && !editing) {
@@ -139,7 +136,10 @@ export const RegisterForm = memo<RegisterFormProps>(
 
 		const disabled = submitting === "loading";
 		return (
-			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
+			<form
+				className="text-base grid grid-cols-1 gap-y-6 sm:gap-x-8"
+				onSubmit={submit}
+			>
 				{submitting === "success" && editing && (
 					<div className="p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center text-lg">
 						<p className="mx-3 font-medium text-white">
@@ -157,62 +157,65 @@ export const RegisterForm = memo<RegisterFormProps>(
 						<p>{t("nabidka.error")}</p>
 					</div>
 				)}
+				<h3 className="text-xl font-bold">{t("nabidka.contactInfo")}</h3>
 				{showFields && (
 					<>
 						<div>
-							<label className="block text-sm font-medium text-gray-700">
+							<label htmlFor="name" className="block">
 								{t("nabidka.name")} <Required />
 							</label>
 							<div className="mt-1">
 								<input
+									name="name"
+									id="name"
 									disabled={disabled}
 									type="text"
 									required
 									value={state.name}
 									onChange={(e) => setState({ ...state, name: e.target.value })}
-									className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+									className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 								/>
 							</div>
 						</div>
 						<div>
-							<label className="block text-sm font-medium text-gray-700">
+							<label htmlFor="organization" className="block">
 								{t("nabidka.organization")}
 							</label>
 							<div className="mt-1">
 								<input
+									name="organization"
+									id="organization"
 									disabled={disabled}
 									type="text"
 									value={state.organization}
 									onChange={(e) =>
 										setState({ ...state, organization: e.target.value })
 									}
-									className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+									className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 								/>
 							</div>
 						</div>
 						<div>
-							<label
-								htmlFor="phone"
-								className="block text-sm font-medium text-gray-700"
-							>
+							<label htmlFor="phone" className="block">
 								{t("nabidka.phone")} <Required />
 							</label>
 							<div className="mt-1">
 								<input
+									name="phone"
+									id="phone"
 									disabled={disabled}
 									type="text"
-									id="phone"
 									required
 									value={state.phone}
 									onChange={(e) =>
 										setState({ ...state, phone: e.target.value })
 									}
-									className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+									className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 								/>
 							</div>
 							{errors.find((it) => it.input === "phone") && (
 								<div className="flex">
-									<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+									<div className="my-2 text-white bg-red-500 p-2 rounded-md">
 										{t(errors.find((it) => it.input === "phone")!.code)}
 									</div>
 								</div>
@@ -221,43 +224,38 @@ export const RegisterForm = memo<RegisterFormProps>(
 						{!editing && (
 							<>
 								<div>
-									<label
-										htmlFor="email"
-										className="block text-sm font-medium text-gray-700"
-									>
+									<label htmlFor="email" className="block">
 										{t("nabidka.email")} <Required />
 									</label>
 									{errors.find((it) => it.input === "email") && (
 										<div className="flex">
-											<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+											<div className="my-2 text-white bg-red-500 p-2 rounded-md">
 												{t(errors.find((it) => it.input === "email")!.code)}
 											</div>
 										</div>
 									)}
 									<div className="mt-1">
 										<input
+											name="email"
+											id="email"
 											disabled={disabled}
 											type="email"
-											id="email"
 											required
 											value={state.email}
 											onChange={(e) =>
 												setState({ ...state, email: e.target.value })
 											}
-											className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+											className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 										/>
 									</div>
 								</div>
 								<div>
-									<label
-										htmlFor="emailRepeat"
-										className="block text-sm font-medium text-gray-700"
-									>
+									<label htmlFor="emailRepeat" className="block">
 										{t("nabidka.emailRepeat")} <Required />
 									</label>
 									{errors.find((it) => it.input === "emailRepeat") && (
 										<div className="flex">
-											<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+											<div className="my-2 text-white bg-red-500 p-2 rounded-md">
 												{t(
 													errors.find((it) => it.input === "emailRepeat")!.code
 												)}
@@ -266,27 +264,30 @@ export const RegisterForm = memo<RegisterFormProps>(
 									)}
 									<div className="mt-1">
 										<input
+											name="emailRepeat"
+											id="emailRepeat"
 											disabled={disabled}
 											type="email"
-											id="emailRepeat"
 											required
 											value={state.emailRepeat}
 											onChange={(e) =>
 												setState({ ...state, emailRepeat: e.target.value })
 											}
-											className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+											className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 										/>
 									</div>
 								</div>
 							</>
 						)}
 						<div>
-							<div className="block text-sm font-medium text-gray-700">
+							<h3 className="block text-xl font-bold">
 								{t("nabidka.contactMe")}
-							</div>
+							</h3>
 							<div className="mt-1 flex flex-col">
-								<label className="flex items-center">
+								<label htmlFor="contactHours" className="flex items-center">
 									<input
+										name="contactHours"
+										id="contactHours"
 										disabled={disabled}
 										type="checkbox"
 										checked={state.contactHours === "kdykoliv"}
@@ -303,28 +304,29 @@ export const RegisterForm = memo<RegisterFormProps>(
 								{state.contactHours !== "kdykoliv" && (
 									<div>
 										<input
+											name="contactHours"
+											id="contactHours"
 											disabled={disabled}
 											required
 											type="text"
-											name="contactHours"
 											value={state.contactHours}
 											onChange={(e) =>
 												setState({ ...state, contactHours: e.target.value })
 											}
 											placeholder={t("nabidka.kdy")}
-											className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-gray-300 rounded-md"
+											className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border border-gray-300 rounded-md"
 										/>
 									</div>
 								)}
 							</div>
 						</div>
 						<div>
-							<div className="block text-sm font-medium text-gray-700">
+							<h3 className="block text-xl font-bold">
 								{t("nabidka.languages")}
-							</div>
+							</h3>
 							{errors.find((it) => it.input === "languages") && (
 								<div className="flex">
-									<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+									<div className="my-2 text-white bg-red-500 p-2 rounded-md">
 										{t(errors.find((it) => it.input === "languages")!.code)}
 									</div>
 								</div>
@@ -333,6 +335,8 @@ export const RegisterForm = memo<RegisterFormProps>(
 								{languages?.map((language) => (
 									<label key={language.id} className="flex items-center">
 										<input
+											name="languages"
+											id="languages"
 											disabled={disabled}
 											type="checkbox"
 											checked={state.languages.includes(language.id)}
@@ -360,12 +364,13 @@ export const RegisterForm = memo<RegisterFormProps>(
 				)}
 				{!editing && (
 					<div className="mt-1">
-						<label className="block text-sm font-medium text-gray-700">
-							{t("nabidka.options")}
-						</label>
+						<h3 className="block text-xl font-bold">
+							{t("nabidka.optionsTitle")}
+						</h3>
+						<p>{t("nabidka.optionsText")}</p>
 						{errors.find((it) => it.input === "offer") && (
 							<div className="flex">
-								<div className="my-2 text-sm text-white bg-red-500 p-2 rounded-md">
+								<div className="my-2 text-white bg-red-500 p-2 rounded-md">
 									{t(errors.find((it) => it.input === "offer")!.code)}
 								</div>
 							</div>
@@ -390,7 +395,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 												setState({ ...state, offers });
 											}}
 										/>
-										<span className="pl-2 text-sm font-medium text-gray-700">
+										<span className="pl-2">
 											{uk ? offerType.nameUK : offerType.name}
 										</span>
 									</label>
@@ -455,10 +460,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 
 				{showFields && (
 					<div>
-						<label
-							htmlFor="specific"
-							className="block text-sm font-medium text-gray-700"
-						>
+						<label htmlFor="specific" className="block">
 							{t("nabidka.expertise")}
 						</label>
 						<div className="mt-1">
@@ -470,14 +472,14 @@ export const RegisterForm = memo<RegisterFormProps>(
 								onChange={(e) =>
 									setState({ ...state, expertise: e.target.value })
 								}
-								className="py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+								className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 							/>
 						</div>
 					</div>
 				)}
 
 				{!editing && (
-					<div>
+					<div className="text-gray-600">
 						{t("nabidka.consent")}{" "}
 						<a
 							className="underline underline-offset-2 hover:no-underline"
@@ -492,7 +494,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 					<button
 						type="submit"
 						disabled={disabled}
-						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+						className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-ua-blue hover:bg-ua-blue-dark transition duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 					>
 						{t("nabidka.submit")}
 					</button>

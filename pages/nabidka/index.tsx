@@ -23,14 +23,14 @@ const Home: NextPage<HomeProps> = ({
 	const { locale } = useRouter();
 
 	return (
-		<div className="antialiased text-gray-600">
+		<div className="antialiased text-black">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-6">
 				<div className="relative max-w-xl mx-auto">
-					<main className="mt-2">
+					<main>
 						<div className="text-center">
-							<h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+							<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
 								{t("nabidka.title")}
 							</h2>
 						</div>

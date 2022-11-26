@@ -56,13 +56,11 @@ export const OfferTypeList = ({
 						>
 							<Link href={`/nabidky/${id}`}>
 								<a
-									className={`border border-ua-blue py-2.5 rounded-lg flex ${
+									className={`border border-ua-blue py-2.5 px-3.5 rounded-lg flex ${
 										offerTypeId === id
 											? "bg-ua-blue text-white"
 											: "bg-blue-very-light text-ua-blue"
-									} hover:bg-ua-blue-dark hover:border-ua-blue-dark hover:text-white ${
-										isMobileView ? "pl-3.5 pr-5" : "px-6"
-									} `}
+									} hover:bg-ua-blue-dark hover:border-ua-blue-dark hover:text-white transition duration-150`}
 								>
 									{icon}
 									<span className="ml-4">
@@ -81,7 +79,7 @@ export const OfferTypeList = ({
 
 	return (
 		<>
-			<ul className="hidden md:grid mt-5 md:mt-12 grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2">
+			<ul className="hidden md:mb-12 md:grid grid-cols-1 gap-x-5 gap-y-2.5 lg:grid-cols-4 md:grid-cols-2">
 				<InstantSearch
 					indexName={`offers_${offerTypeId}`}
 					searchClient={typesenseInstantsearchAdapter.searchClient}
@@ -90,7 +88,7 @@ export const OfferTypeList = ({
 				</InstantSearch>
 			</ul>
 			<div
-				className="md:hidden flex items-center border border-ua-blue py-2.5 pl-3.5 pr-5 rounded-lg bg-blue-very-light text-ua-blue"
+				className="md:hidden mb-5 flex items-center border border-ua-blue py-2.5 pl-3.5 pr-5 rounded-lg bg-blue-very-light text-ua-blue"
 				onClick={() => setShowModal(true)}
 			>
 				{getOfferIcon(selectedType.name)}
@@ -104,9 +102,12 @@ export const OfferTypeList = ({
 				<DropdownIcon />
 			</div>
 			{showModal && (
-				<div className="w-screen h-screen fixed top-0 left-0 right-0 bottom-0 bg-white z-10 pt-6 pr-3.5 pl-4 overflow-auto	">
-					<div className="flex justify-end" onClick={() => setShowModal(false)}>
-						<CloseIcon width={28} height={28} />
+				<div className="w-screen h-screen fixed top-0 left-0 right-0 bottom-0 bg-white z-10 pr-3.5 pl-4 overflow-auto">
+					<div
+						className="sticky top-0 pt-6 pb-3 bg-white flex justify-end"
+						onClick={() => setShowModal(false)}
+					>
+						<CloseIcon />
 					</div>
 					<ul className="flex flex-col mt-4">
 						<InstantSearch

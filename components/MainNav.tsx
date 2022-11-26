@@ -2,12 +2,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import HamburgerIcon from "./HamburgerIcon";
 import styles from "./MainNav.module.css";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog } from "@headlessui/react";
 import React, { useRef, useState } from "react";
 import CloseIcon from "./CloseIcon";
 import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
 
 const NavLinks: React.FC<{
 	normalStyle: string;
@@ -58,6 +59,16 @@ const NavLinks: React.FC<{
 							target={key.startsWith("https://") ? "_blank" : "_self"}
 						>
 							{links[key]}
+							{key.startsWith("https://") && (
+								<span className="ml-1.5">
+									<Image
+										src="/newTabIcon.svg"
+										width={12}
+										height={12}
+										alt="otevrit v novem okne"
+									/>
+								</span>
+							)}
 						</a>
 					</Link>
 				);
@@ -72,41 +83,41 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div
-				className="flex justify-end p-3 -mr-3 lg:hidden"
-				onClick={() => setIsOpen((prevState) => !prevState)}
-			>
-				{isOpen ? <CloseIcon /> : <HamburgerIcon />}
+			<div className="flex justify-end p-3 -mr-3 lg:hidden">
+				<div onClick={() => setIsOpen(true)}>
+					<HamburgerIcon />
+				</div>
 			</div>
-			<Transition show={isOpen}>
-				<Dialog onClose={() => setIsOpen(false)} initialFocus={dummyRef}>
-					<div ref={dummyRef} className="hidden">
-						This is here to steal the horribly looking focus after the dialog
-						opens
-					</div>
-					<Transition.Child
-						enter="transition duration-200 ease-out"
-						enterFrom="opacity-0"
-						enterTo="opacity-100"
-						leave="transition duration-200 ease-in"
-						leaveFrom="opacity-100"
-						leaveTo="opacity-0"
+			<Dialog
+				open={isOpen}
+				onClose={() => setIsOpen(false)}
+				initialFocus={dummyRef}
+			>
+				<div ref={dummyRef} className="hidden">
+					This is here to steal the horribly looking focus after the dialog
+					opens
+				</div>
+				<Dialog.Overlay className="fixed inset-0 flex flex-col bg-white z-10" />
+				<div className={styles.mobileNav}>
+					<div
+						className="absolute top-6 right-3.5"
+						onClick={() => setIsOpen(false)}
 					>
-						<Dialog.Overlay className="fixed inset-0 flex flex-col bg-white" />
-						<div className={styles.mobileNav}>
-							<div className="flex-1" />
+						<CloseIcon />
+					</div>
+					<div className="flex flex-col justify-center items-center h-full">
+						<div className="flex flex-col justify-center items-center grow">
 							<NavLinks
 								showMyOffers
 								myOffersStyle={styles.myOffers}
 								normalStyle={styles.mobileLink}
 								activeStyle={styles.activeMobileLink}
 							/>
-							<div className="flex-1" />
-							<SocialLinksNav className="items-end flex-1 gap-x-6" />
 						</div>
-					</Transition.Child>
-				</Dialog>
-			</Transition>
+						<SocialLinksNav className="grow-0" />
+					</div>
+				</div>
+			</Dialog>
 		</>
 	);
 };

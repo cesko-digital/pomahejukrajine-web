@@ -3,9 +3,9 @@ import { useTranslation } from "next-i18next";
 const Logo = ({ showText = true }) => {
 	const { t } = useTranslation();
 	return (
-		<div className="relative">
+		<div className="relative hover:opacity-70 transition duration-150">
 			{showText && (
-				<span className="text-ua-blue absolute whitespace-nowrap text-[12px] left-11 top-9 md:text-[16px] md:left-16 md:top-[3.3rem] tracking-wide">
+				<span className="text-ua-blue absolute whitespace-nowrap text-[14px] left-11 top-[2rem] md:text-[16px] md:left-16 md:top-[3.5rem] tracking-wide">
 					{t("header.logoText")}
 				</span>
 			)}
