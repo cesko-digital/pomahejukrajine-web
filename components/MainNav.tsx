@@ -83,7 +83,7 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div className="flex justify-end p-3 -mr-3 lg:hidden">
+			<div className="flex justify-end py-3 pl-5 lg:hidden">
 				<div onClick={() => setIsOpen(true)}>
 					<HamburgerIcon />
 				</div>
@@ -100,7 +100,7 @@ const HamburgerMenu = () => {
 				<Dialog.Overlay className="fixed inset-0 flex flex-col bg-white z-10" />
 				<div className={styles.mobileNav}>
 					<div
-						className="absolute top-6 right-3.5"
+						className="absolute top-6 right-4"
 						onClick={() => setIsOpen(false)}
 					>
 						<CloseIcon />

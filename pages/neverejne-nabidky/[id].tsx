@@ -28,7 +28,7 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 						{t("neverejneNabidky.title")}
 					</h2>
 					<Link href="/nabidky">
-						<a className="md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white transition duration-150">
+						<a className="text-xs flex items-center md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white transition duration-150">
 							{t("neverejneNabidky.linkToPublicOffers")}
 						</a>
 					</Link>
@@ -46,15 +46,15 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 							return (
 								<li
 									key={offerType.id}
-									className="flex flex-col h-full border border-ua-blue text-ua-blue bg-blue-very-light rounded-lg py-4 px-3"
+									className="flex flex-col h-full border border-ua-blue text-ua-blue bg-blue-very-light rounded-lg py-4 pt-3"
 								>
 									<div className="grow flex">
-										{icon}
-										<span className="text-smaller ml-2.5">
+										<span className="w-[56px] flex justify-center">{icon}</span>
+										<span className="text-smaller flex items-center">
 											{locale === CZECH ? offerType.name : offerType.nameUK}
 										</span>
 									</div>
-									<div className="mt-8">
+									<div className="mt-8 pl-3">
 										<span className="font-bold text-xl">
 											{offerType.paginateOffers.pageInfo.totalCount}
 										</span>{" "}
@@ -75,7 +75,9 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 						</p>
 						<Link href="/organizace">
 							<a className="text-white text-center bg-ua-blue rounded-md px-6 py-3.5 md:py-2 mt-10 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
-								{t("neverejneNabidky.box1Button")}
+								<span className="py-[1px]">
+									{t("neverejneNabidky.box1Button")}
+								</span>
 							</a>
 						</Link>
 					</div>
@@ -90,7 +92,9 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 							href="https://docs.google.com/forms/d/1YmKGhZgUAlq1zNBmBKHQeToaOpl41fCcXXA1uLCBGSk/viewform?edit_requested=true"
 							className="text-white text-center bg-ua-blue rounded-md px-6 py-3.5 md:py-2 mt-10 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150"
 						>
-							{t("neverejneNabidky.box2Button")}
+							<span className="py-[1px]">
+								{t("neverejneNabidky.box2Button")}
+							</span>
 						</a>
 					</div>
 				</div>

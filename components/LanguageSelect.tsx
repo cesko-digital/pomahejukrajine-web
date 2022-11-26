@@ -12,7 +12,7 @@ const LangageSelect = ({ className = "" }) => {
 	return (
 		<Menu
 			as="div"
-			className={`relative pr-4 text-xl font-normal lg:text-lg text-ua-blue lg:text-gray-600 ${className}`}
+			className={`relative pr-4 text-[21px] md:text-xl font-normal lg:text-lg text-ua-blue lg:text-gray-600 ${className} -mt-[3px]`}
 		>
 			{({ open }) => (
 				<>

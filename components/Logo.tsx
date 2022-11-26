@@ -1,14 +1,12 @@
 import { useTranslation } from "next-i18next";
 
-const Logo = ({ showText = true }) => {
+const Logo = () => {
 	const { t } = useTranslation();
 	return (
 		<div className="relative hover:opacity-70 transition duration-150">
-			{showText && (
-				<span className="text-ua-blue absolute whitespace-nowrap text-[14px] left-11 top-[2rem] md:text-[16px] md:left-16 md:top-[3.5rem] tracking-wide">
-					{t("header.logoText")}
-				</span>
-			)}
+			<span className="hidden md:block text-ua-blue absolute whitespace-nowrap text-[14px] left-11 top-[2rem] md:text-[16px] md:left-16 md:top-[3.5rem] tracking-wide">
+				{t("header.logoText")}
+			</span>
 			<svg
 				id="Layer_1"
 				data-name="Layer 1"

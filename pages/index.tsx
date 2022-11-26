@@ -75,8 +75,8 @@ const Home: NextPage = () => {
 		>
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="text-base max-w-7xl mx-auto pt-5 px-3 md:px-8">
-				<div className="grid gap-x-4 gap-y-3 grid-cols-1 md:grid-cols-2">
+			<div className="text-base max-w-7xl mx-auto pt-[18px] md:pt-5 px-3 md:px-8">
+				<div className="grid gap-x-4 gap-y-2 md:gap-y-3 grid-cols-1 md:grid-cols-2">
 					<div className="bg-ua-yellow rounded-lg px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidka">
 							<a className="text-white text-lg bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">

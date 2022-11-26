@@ -73,35 +73,37 @@ const Organizations: NextPage<Props> = ({
 	}
 
 	return (
-		<div className="antialiased text-gray-600">
+		<div className="antialiased text-black">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
-			<div className="px-4 py-4 overflow-hidden bg-white sm:px-6 lg:px-8 lg:py-8">
-				<div className="mt-2 text-center">
-					<h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-						{t("organizace.title")}
-					</h1>
-				</div>
+			<div className="bg-white px-4 py-4 overflow-hidden sm:px-6 lg:px-8 lg:py-8">
+				<main>
+					<div className="mt-2 text-center">
+						<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
+							{t("organizace.title")}
+						</h2>
+					</div>
 
-				<Search
-					allElements={organizations}
-					searchKeys={[
-						"name",
-						"address",
-						"identificationNumber",
-						"parentOrganization",
-						"organizationTypeName",
-					]}
-					onSearchResults={setOrganizationsAfterSearch}
-					placeholder={t("organizace.search")}
-				/>
+					<Search
+						allElements={organizations}
+						searchKeys={[
+							"name",
+							"address",
+							"identificationNumber",
+							"parentOrganization",
+							"organizationTypeName",
+						]}
+						onSearchResults={setOrganizationsAfterSearch}
+						placeholder={t("organizace.search")}
+					/>
 
-				<Filter
-					organizations={organizations}
-					onFiltered={setSelectedRegionDistrictPairs}
-				/>
+					<Filter
+						organizations={organizations}
+						onFiltered={setSelectedRegionDistrictPairs}
+					/>
 
-				<OrganizationList organizations={organizationsToShow} />
+					<OrganizationList organizations={organizationsToShow} />
+				</main>
 			</div>
 			<Footer />
 		</div>

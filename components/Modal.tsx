@@ -34,7 +34,10 @@ export const Modal = ({
 									</span>
 								</button>
 							</div>
-							<button onClick={onClose} className="rounded-full cursor-pointer">
+							<button
+								onClick={onClose}
+								className="rounded-full cursor-pointer hover:opacity-70"
+							>
 								<ModalCloseIcon />
 							</button>
 						</div>

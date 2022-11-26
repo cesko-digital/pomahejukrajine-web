@@ -120,9 +120,9 @@ export const OfferSearch = ({
 								placeholder={t("nabidky.search")}
 								classNames={{
 									input:
-										"w-full max-w-lg h-10 mx-auto text-sm text-gray-900 placeholder-black border-gray-300 rounded-md",
+										"w-full max-w-lg h-[50px] md:h-[44px] mx-auto text-gray-900 placeholder-black border-bg-ua-blue rounded-md",
 									submit:
-										"absolute right-0 top-0 text-white bg-ua-blue h-10 w-11 flex items-center justify-center rounded-r-md",
+										"absolute right-0 top-0 text-white bg-ua-blue hover:bg-ua-blue-dark h-[50px] md:h-[44px] w-[57px] md:w-[60px] flex items-center justify-center rounded-r-md",
 									submitIcon: "fill-current h-4 w-4",
 									loadingIcon: "hidden",
 									reset: "hidden",
@@ -226,20 +226,23 @@ export const OfferSearch = ({
 						classNames={{
 							list: `${
 								showFilters ? "lg:grid-cols-3" : "lg:grid-cols-4"
-							} mt-8 grid md:grid-cols-2 sm:grid-cols-1 gap-5`,
+							} mt-8 grid md:grid-cols-2 sm:grid-cols-1 gap-[18px] md:gap-5`,
 							item: "flex",
 						}}
 						hitComponent={(hit: any) => {
 							return (
 								<div
-									className="px-3 py-5 bg-grey-light flex flex-col grow"
+									className="px-3 pt-3.5 md:pt-3 pb-5 bg-grey-light flex flex-col grow"
 									key={hit.hit.objectID}
 								>
-									<h3 className="text-lg font-bold text-grey-text mb-8">
+									<h3 className="text-lg font-bold text-grey-text mb-6 md:mb-8">
 										{locale === CZECH ? offerType.name : offerType.nameUK}
 									</h3>
 									{listQuestion.map((question: any) => (
-										<div key={question.id} className="flex flex-col mt-2">
+										<div
+											key={question.id}
+											className="flex flex-col mt-2 text-black"
+										>
 											{hit.hit[`parameter_${question.id}`] && (
 												<>
 													<p className="text-sm font-bold">
@@ -247,7 +250,7 @@ export const OfferSearch = ({
 															? question.question
 															: question.questionUK}
 													</p>
-													<p className="text-sm">
+													<p className="text-[15px] md:text-[16px]">
 														<Highlight
 															attribute={`parameter${
 																locale === CZECH ? "" : "_uk"
@@ -262,15 +265,17 @@ export const OfferSearch = ({
 									<div className="grow" />
 									<div className="mt-7 flex justify-between items-end">
 										<a
-											className="px-4 py-2.5 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
+											className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
 											href="#"
 											onClick={() => setOpenedOffer(hit.hit)}
 										>
-											{t("nabidky.needThisHelp")}
+											<span className="md:pt-[1px]">
+												{t("nabidky.needThisHelp")}
+											</span>
 										</a>
-									</div>
-									<div className="mt-2 text-xs text-gray-400 font-bold">
-										<Highlight attribute="code" hit={hit.hit} />
+										<div className="mt-2 text-xs text-gray-400 font-bold">
+											<Highlight attribute="code" hit={hit.hit} />
+										</div>
 									</div>
 								</div>
 							);
