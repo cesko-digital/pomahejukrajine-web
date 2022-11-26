@@ -137,7 +137,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 		const disabled = submitting === "loading";
 		return (
 			<form
-				className="text-base grid grid-cols-1 gap-y-6 sm:gap-x-8"
+				className="text-base grid grid-cols-1 gap-y-4 md:gap-y-5"
 				onSubmit={submit}
 			>
 				{submitting === "success" && editing && (
@@ -157,7 +157,9 @@ export const RegisterForm = memo<RegisterFormProps>(
 						<p>{t("nabidka.error")}</p>
 					</div>
 				)}
-				<h3 className="text-xl font-bold">{t("nabidka.contactInfo")}</h3>
+				<h3 className="text-xl font-bold mb-[-17px]">
+					{t("nabidka.contactInfo")}
+				</h3>
 				{showFields && (
 					<>
 						<div>
@@ -280,7 +282,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 							</>
 						)}
 						<div>
-							<h3 className="block text-xl font-bold">
+							<h3 className="block text-xl font-bold mb-2">
 								{t("nabidka.contactMe")}
 							</h3>
 							<div className="mt-1 flex flex-col">
@@ -314,14 +316,14 @@ export const RegisterForm = memo<RegisterFormProps>(
 												setState({ ...state, contactHours: e.target.value })
 											}
 											placeholder={t("nabidka.kdy")}
-											className="mt-1 mb-4 py-1 px-2 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border border-gray-300 rounded-md"
+											className="mt-2 py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 										/>
 									</div>
 								)}
 							</div>
 						</div>
 						<div>
-							<h3 className="block text-xl font-bold">
+							<h3 className="block text-xl font-bold mb-2">
 								{t("nabidka.languages")}
 							</h3>
 							{errors.find((it) => it.input === "languages") && (
@@ -364,10 +366,14 @@ export const RegisterForm = memo<RegisterFormProps>(
 				)}
 				{!editing && (
 					<div className="mt-1">
-						<h3 className="block text-xl font-bold">
+						<h3 className="block text-xl font-bold mb-2">
 							{t("nabidka.optionsTitle")}
+							<span className="text-base font-normal">
+								{" "}
+								({t("nabidka.optionsText")}):
+							</span>
 						</h3>
-						<p>{t("nabidka.optionsText")}</p>
+
 						{errors.find((it) => it.input === "offer") && (
 							<div className="flex">
 								<div className="my-2 text-white bg-red-500 p-2 rounded-md">
@@ -401,7 +407,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 									</label>
 								</div>
 								{!!state.offers[offerType.id] && (
-									<div className="mt-2 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
+									<div className="mt-1 mb-4 ml-2 pl-4 border-l-4 border-indigo-500">
 										{uk
 											? offerType.infoTextUK && <p>{offerType.infoTextUK}</p>
 											: offerType.infoText && <p>{offerType.infoText}</p>}

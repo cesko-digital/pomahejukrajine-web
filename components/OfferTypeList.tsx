@@ -56,14 +56,14 @@ export const OfferTypeList = ({
 						>
 							<Link href={`/nabidky/${id}`}>
 								<a
-									className={`border border-ua-blue py-2.5 px-3.5 rounded-lg flex ${
+									className={`border border-ua-blue min-h-[48px] md:min-h-[44px] rounded-lg flex items-center ${
 										offerTypeId === id
 											? "bg-ua-blue text-white"
 											: "bg-blue-very-light text-ua-blue"
 									} hover:bg-ua-blue-dark hover:border-ua-blue-dark hover:text-white transition duration-150`}
 								>
-									{icon}
-									<span className="ml-4">
+									<span className="min-w-[56px] pl-3.5">{icon}</span>
+									<span>
 										{locale === CZECH ? name : nameUK}
 										<span className="text-grey-text md:hidden">
 											&nbsp;({totalCount})
@@ -88,7 +88,7 @@ export const OfferTypeList = ({
 				</InstantSearch>
 			</ul>
 			<div
-				className="md:hidden mb-5 flex items-center border border-ua-blue py-2.5 pl-3.5 pr-5 rounded-lg bg-blue-very-light text-ua-blue"
+				className="md:hidden min-h-[50px] mb-5 flex items-center border border-ua-blue py-2.5 pl-3.5 pr-5 rounded-lg bg-blue-very-light text-ua-blue"
 				onClick={() => setShowModal(true)}
 			>
 				{getOfferIcon(selectedType.name)}

@@ -18,7 +18,7 @@
 
 .nextPage,
 .previousPage {
-	width: 30px;
+	width: 36px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -40,6 +40,7 @@
 	content: url("../public/nextPage.svg");
 	position: relative;
 	top: 2px;
+	left: 1px;
 }
 
 .nextPage:hover::before {
@@ -54,6 +55,7 @@
 	content: url("../public/previousPage.svg");
 	position: relative;
 	top: 2px;
+	right: 1px;
 }
 
 .previousPage:hover::before {

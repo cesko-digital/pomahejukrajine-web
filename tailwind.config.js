@@ -23,7 +23,6 @@ module.exports = {
 				ptsant: ["PTSans", "sans-serif"],
 			},
 			fontSize: {
-				base: "17px",
 				footer: "0.8125rem",
 				smaller: "0.9rem",
 			},
