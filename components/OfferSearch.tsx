@@ -14,7 +14,7 @@ import React, { useState, useCallback, useMemo, useEffect } from "react";
 import styles from "./OfferSearch.module.css";
 import cx from "classnames";
 import FilterIcon from "./FilterIcon";
-import { CZECH } from "../utils/constants";
+import { CZECH, BREAKTPOINTS } from "../utils/constants";
 import { CreateReactionForm } from "./CreateReactionForm";
 import { Modal } from "./Modal";
 import Portal from "./Portal";
@@ -26,7 +26,7 @@ export type OfferSearchProps = {
 };
 
 const getInitShowFilters = (): boolean => {
-	return window.innerWidth > 768; // tailwind css breakpoint
+	return window.innerWidth > BREAKTPOINTS.MD;
 };
 
 export const OfferSearch = ({

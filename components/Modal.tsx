@@ -21,7 +21,7 @@ export const Modal = ({
 
 			<div className="fixed z-10 inset-0 overflow-y-auto">
 				<div className="flex flex-col items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-					<div className="bg-white rounded-md">
+					<div className="bg-grey-ligth2 rounded-md">
 						<div className="flex justify-between px-6 pt-6">
 							<div className="text-sm text-ua-blue flex justify-center items-start">
 								<button
@@ -29,7 +29,7 @@ export const Modal = ({
 									onClick={onClose}
 								>
 									<BackIcon />
-									<span className="pl-1 underline">
+									<span className="pl-1 underline mt-[-1px]">
 										{t("reagovat.backToOffers")}
 									</span>
 								</button>
@@ -42,7 +42,7 @@ export const Modal = ({
 							</button>
 						</div>
 						<div className="text-left overflow-hidden shadow-xl sm:w-full sm:max-w-xl pb-4">
-							<div className="bg-gray-50 px-4 sm:px-6 pt-3">{children}</div>
+							<div className="px-4 sm:px-6 pt-3">{children}</div>
 						</div>
 					</div>
 				</div>
