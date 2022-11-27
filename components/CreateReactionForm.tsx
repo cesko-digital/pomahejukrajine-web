@@ -3,6 +3,7 @@ import { FormEvent, memo, useCallback, useState } from "react";
 import { ReactionForm, ReactionPayload } from "../lib/reaction";
 import { FormError } from "../lib/shared";
 import { useTranslation } from "next-i18next";
+import { BREAKTPOINTS } from "../utils/constants";
 
 export const CreateReactionForm = memo<{
 	offerId: string;
@@ -56,7 +57,7 @@ export const CreateReactionForm = memo<{
 
 	if (submitting === "success") {
 		return (
-			<div className="sm:p-3 mb-6 mt-12 text-center md:h-96 flex justify-center flex-col text-black">
+			<div className="sm:p-3 my-[177px] md:my-[115px] text-center md:h-96 flex justify-center flex-col text-black">
 				<h2 className="text-3xl font-extrabold tracking-tightsm:text-3xl">
 					{t("reagovat.sent")}
 				</h2>
@@ -75,6 +76,8 @@ export const CreateReactionForm = memo<{
 	}
 
 	const disabled = submitting === "loading";
+	const isDesktop = window?.innerWidth > BREAKTPOINTS.MD ?? true;
+
 	return (
 		<form
 			className="grid grid-cols-1 gap-y-2 sm:gap-x-8 text-black"
@@ -83,7 +86,7 @@ export const CreateReactionForm = memo<{
 			<h2 className="text-3xl font-extrabold tracking-tight sm:text-3xl">
 				{t("reagovat.contactVolunteer")}
 			</h2>
-			<p className="text-gray-400 text-xs">ID pomoci: {code}</p>
+			<p className="text-gray-400 text-xs md:pb-16">ID pomoci: {code}</p>
 
 			{submitting === "error" && (
 				<div>
@@ -102,7 +105,7 @@ export const CreateReactionForm = memo<{
 						</div>
 					</div>
 				)}
-				<div className="mt-1">
+				<div className="mt-2">
 					<input
 						disabled={disabled}
 						type="email"
@@ -110,24 +113,7 @@ export const CreateReactionForm = memo<{
 						required
 						value={state.email}
 						onChange={(e) => setState({ ...state, email: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
-					/>
-				</div>
-			</div>
-
-			<div>
-				<label htmlFor="text" className="block text-sm font-medium">
-					{t("reagovat.text")}
-				</label>
-				<div className="mt-1">
-					<input
-						disabled={disabled}
-						type="text"
-						id="text"
-						required
-						value={state.text}
-						onChange={(e) => setState({ ...state, text: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
+						className="py-1.5 px-4 block w-9/12 shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
 					/>
 				</div>
 			</div>
@@ -143,7 +129,7 @@ export const CreateReactionForm = memo<{
 						</div>
 					</div>
 				)}
-				<div className="mt-1">
+				<div className="mt-2">
 					<input
 						disabled={disabled}
 						type="text"
@@ -152,13 +138,30 @@ export const CreateReactionForm = memo<{
 						minLength={9}
 						value={state.phone}
 						onChange={(e) => setState({ ...state, phone: e.target.value })}
-						className="py-3 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
+						className="py-1.5 px-4 block w-9/12 shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md"
+					/>
+				</div>
+			</div>
+
+			<div>
+				<label htmlFor="text" className="block text-sm font-medium">
+					{t("reagovat.text")}
+				</label>
+				<div className="mt-2">
+					<textarea
+						disabled={disabled}
+						id="text"
+						rows={isDesktop ? 7 : 5}
+						required
+						value={state.text}
+						onChange={(e) => setState({ ...state, text: e.target.value })}
+						className="py-1.5 px-4 block w-full shadow-sm focus:ring-ua-blue focus:border-ua-blue border-gray-300 rounded-md resize-none"
 					/>
 				</div>
 			</div>
 
 			<div className="text-grey-dark mt-8">
-				{t("reagovat.consent")}
+				{t("reagovat.consent")}{" "}
 				<a
 					className="underline underline-offset-2 hover:no-underline"
 					target="_blank"
