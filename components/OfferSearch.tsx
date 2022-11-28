@@ -49,6 +49,7 @@ export const OfferSearch = ({
 	const { locale } = useRouter();
 	const [openedOffer, setOpenedOffer] = useState<any>(null);
 	const closeModal = useCallback(() => setOpenedOffer(null), [setOpenedOffer]);
+	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 	// browser side default
 	useEffect(() => setShowFilters(getInitShowFilters()), []);
 
@@ -85,9 +86,10 @@ export const OfferSearch = ({
 								),
 						].join(",") + ",code",
 					num_typos: 0,
+					sort_by: `updatedAt:${sortOrder}`,
 				},
 			}),
-		[listQuestion, locale]
+		[listQuestion, locale, sortOrder]
 	);
 
 	return (
@@ -221,11 +223,31 @@ export const OfferSearch = ({
 					</div>
 				</div>
 				<div className={`w-full ${showFilters && "lg:w-3/4"}`}>
+					<div className="flex md:justify-end mb-3.5 mt-5 md:mt-0">
+						<button
+							className={`mr-2.5 ${
+								sortOrder === "desc" ? "" : "underline text-ua-blue"
+							}`}
+							disabled={sortOrder === "desc"}
+							onClick={() => setSortOrder("desc")}
+						>
+							{t("nabidky.sortDesc")}
+						</button>
+						<button
+							className={`${
+								sortOrder === "asc" ? "" : "underline text-ua-blue"
+							}`}
+							disabled={sortOrder === "asc"}
+							onClick={() => setSortOrder("asc")}
+						>
+							{t("nabidky.sortAsc")}
+						</button>
+					</div>
 					<Hits
 						classNames={{
 							list: `${
 								showFilters ? "lg:grid-cols-3" : "lg:grid-cols-4"
-							} mt-8 grid md:grid-cols-2 sm:grid-cols-1 gap-[18px] md:gap-5`,
+							} grid md:grid-cols-2 sm:grid-cols-1 gap-[18px] md:gap-5`,
 							item: "flex",
 						}}
 						hitComponent={(hit: any) => {
