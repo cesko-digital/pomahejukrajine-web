@@ -45,6 +45,8 @@
 	"nabidky.privateOffers": "Tyto nabídky jsou přístupné pouze registrovaným organizacím a institucím. Jsou ověřovány a jejich využití je koordinováno. Pokud chcete nabídky využít, obraťte se na krajské koordinační centrum, obec nebo místní pomáhající organizaci. Důvodem ověřování nabídek je bezpečnost příchozích.",
 	"nabidky.region": "Kraj",
 	"nabidky.district": "Okres",
+	"nabidky.sortAsc": "Od nejstarších",
+	"nabidky.sortDesc": "Od nejnovějších",
 	"nabidky.filters": "Filtry",
 	"nabidky.showFilers": "Zobrazit filtry",
 	"nabidky.hideFilers": "Schovat filtry",
