@@ -49,7 +49,6 @@ export const OfferSearch = ({
 	const { locale } = useRouter();
 	const [openedOffer, setOpenedOffer] = useState<any>(null);
 	const closeModal = useCallback(() => setOpenedOffer(null), [setOpenedOffer]);
-
 	// browser side default
 	useEffect(() => setShowFilters(getInitShowFilters()), []);
 
@@ -273,7 +272,18 @@ export const OfferSearch = ({
 												{t("nabidky.needThisHelp")}
 											</span>
 										</a>
-										<div className="mt-2 text-xs text-gray-400 font-bold">
+										<div className="mt-2 text-gray-400 flex flex-col items-end text-[13px] pl-2">
+											<div>
+												{hit.hit.updatedAt
+													? new Intl.DateTimeFormat(
+															locale === CZECH ? "cs" : "uk",
+															{
+																month: "long",
+																year: "numeric",
+															}
+													  ).format(new Date(hit.hit.updatedAt * 1000))
+													: ""}
+											</div>
 											<Highlight attribute="code" hit={hit.hit} />
 										</div>
 									</div>
