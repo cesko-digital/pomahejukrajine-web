@@ -13,7 +13,7 @@ export default function Header() {
 	return (
 		<header className="bg-grey-light sticky top-0 z-10 shadow-header">
 			<nav
-				className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 pt-3.5 pb-3.5"
+				className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-3.5 md:py-3"
 				aria-label="Top"
 			>
 				<div className="flex items-center justify-between w-full lg:items-start">
@@ -27,7 +27,7 @@ export default function Header() {
 					<div className="flex items-center justify-end lg:block">
 						<LangageSelect className="lg:hidden" />
 						<div
-							className="items-center justify-end hidden text-gray-600 gap-x-6 pb-7 lg:flex"
+							className="items-center justify-end hidden text-gray-600 gap-x-6 pb-3 lg:flex"
 							data-testid="social-links"
 						>
 							<LangageSelect />
