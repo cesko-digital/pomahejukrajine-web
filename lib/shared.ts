@@ -225,7 +225,8 @@ export const listVolunteerIds = async (
 
 	return tenantData.data.me.projects
 		.find(
-			(it: { project: { slug: string } }) => it.project.slug === "ukrajina-prod"
+			(it: { project: { slug: string } }) =>
+				it.project.slug === process.env.CONTEMBER_PROJECT_SLUG
 		)
 		?.memberships?.find((it: { role: string }) => it.role === "volunteer")
 		?.variables.find((it: { name: string }) => it.name === "volunteerId")
