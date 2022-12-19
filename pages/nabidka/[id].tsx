@@ -12,6 +12,8 @@ interface HomeProps extends PublicQueryResult {
 	offer?: {
 		id: string;
 		createdAt: string; // ISO 8601 timestamp
+		updatedAt: string; // ISO 8601 timestamp
+		code: string;
 		type: {
 			id: string;
 		};
@@ -47,6 +49,7 @@ const Home: NextPage<HomeProps> = ({
 	if (!offer) {
 		return <p>{t("nabidka.errorLoading")}</p>;
 	}
+
 	return (
 		<div className="antialiased text-gray-600">
 			<Meta title={t("meta.title")} description={t("meta.description")} />
@@ -75,6 +78,8 @@ const Home: NextPage<HomeProps> = ({
 								offerTypeId={offer.type.id}
 								offerId={offer.id}
 								offerCreatedAt={offer.createdAt}
+								offerUpdatedAt={offer.updatedAt}
+								offerCode={offer.code}
 								offerStatusType={offer.status?.type}
 								questions={Object.fromEntries(
 									offer.parameters.map((item) => [
@@ -120,6 +125,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 						offer: getOffer(by: {id: $id}) {
 							id
 							createdAt
+							updatedAt
+							code
 							type {
 								id
 							}

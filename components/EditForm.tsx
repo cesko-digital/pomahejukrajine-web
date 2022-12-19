@@ -12,6 +12,8 @@ interface RegisterFormProps extends PublicQueryResult {
 	offerId: string;
 	offerTypeId: string;
 	offerCreatedAt: string;
+	offerUpdatedAt: string;
+	offerCode: string;
 	offerStatusType: "outdated" | "capacity_exhausted" | "active";
 	questions: {
 		[id: string]: QuestionValue;
@@ -27,6 +29,8 @@ export const EditForm = memo<RegisterFormProps>(
 		offerTypes,
 		offerStatusType,
 		offerCreatedAt,
+		offerUpdatedAt,
+		offerCode,
 	}) => {
 		const offerType = offerTypes.find((o) => o.id === offerTypeId)!;
 		const [submitting, setSubmitting] = useState<
@@ -125,6 +129,7 @@ export const EditForm = memo<RegisterFormProps>(
 			capacity_exhausted: t("nabidka.capacityExhausted"),
 		};
 		const createdAt = new Date(offerCreatedAt);
+		const updatedAt = new Date(offerUpdatedAt);
 
 		return (
 			<form className="grid grid-cols-1 gap-y-6 sm:gap-x-8" onSubmit={submit}>
@@ -143,8 +148,16 @@ export const EditForm = memo<RegisterFormProps>(
 								{locale === CZECH ? offerType.name : offerType.nameUK}
 							</h3>
 							<span className="text-sm font-bold text-gray-400">
-								{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
+								{offerCode}
 							</span>
+						</div>
+						<div className="flex flex-col items-end text-gray-400">
+							<div>
+								{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
+							</div>
+							<div>
+								{t("mojeNabidky.updated")} {updatedAt.toLocaleDateString()}
+							</div>
 						</div>
 						<div className="pl-4 mt-2 mb-4 ml-2 border-l-4 border-blue-600">
 							<div>

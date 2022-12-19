@@ -271,7 +271,7 @@ export const OfferSearch = ({
 															? question.question
 															: question.questionUK}
 													</p>
-													<p className="text-[15px] md:text-[16px]">
+													<p className="text-[15px] md:text-[16px] break-all">
 														<Highlight
 															attribute={`parameter${
 																locale === CZECH ? "" : "_uk"
