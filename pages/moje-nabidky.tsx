@@ -71,6 +71,7 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 						};
 						const offerType = offerTypes.find((it) => it.id === offer.type.id)!;
 						const createdAt = new Date(offer.createdAt);
+						const updatedAt = new Date(offer.updatedAt);
 						return (
 							<div
 								key={offer.id}
@@ -81,8 +82,16 @@ const Home: NextPage<{ offers: Offers } & PublicQueryResult> = ({
 										{locale === CZECH ? offerType.name : offerType.nameUK}
 									</h3>
 									<span className="text-sm font-bold text-gray-400">
-										{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
+										{offer.code}
 									</span>
+								</div>
+								<div className="flex flex-col items-end text-gray-400 mb-4">
+									<div>
+										{t("mojeNabidky.created")} {createdAt.toLocaleDateString()}
+									</div>
+									<div>
+										{t("mojeNabidky.updated")} {updatedAt.toLocaleDateString()}
+									</div>
 								</div>
 								{offer.parameters.map((parameter) => {
 									const question = offerType.questions.find(
@@ -227,6 +236,8 @@ type OfferResponse = {
 	id: string;
 	volunteer: Volunteer;
 	createdAt: string;
+	updatedAt: string;
+	code: string;
 	type: {
 		id: string;
 	};
@@ -265,6 +276,8 @@ type OfferStatus = {
 type Offer = {
 	id: string;
 	createdAt: string; // ISO 8601 timestamp
+	updatedAt: string; // ISO 8601 timestamp
+	code: string;
 	allowReaction: boolean;
 	volunteer: Volunteer;
 	type: {
@@ -379,6 +392,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 					) {
 						id
 						createdAt
+						updatedAt
+						code
 						type {
 							id
 						}
@@ -447,6 +462,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 			allowReaction: !offerType.needsVerification,
 			volunteer: offer.volunteer,
 			createdAt: offer.createdAt,
+			updatedAt: offer.updatedAt,
+			code: offer.code,
 		};
 	});
 
