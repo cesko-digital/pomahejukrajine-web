@@ -51,26 +51,28 @@ const NavLinks: React.FC<{
 				}
 
 				return (
-					<Link href={key} key={key}>
-						<a
-							className={`${router.route === key ? activeStyle : normalStyle}${
-								key === router.route ? " active" : ""
-							}`}
-							target={key.startsWith("https://") ? "_blank" : "_self"}
-						>
-							{links[key]}
-							{key.startsWith("https://") && (
-								<span className="ml-1.5">
-									<Image
-										src="/newTabIcon.svg"
-										width={12}
-										height={12}
-										alt="otevrit v novem okne"
-									/>
-								</span>
-							)}
-						</a>
-					</Link>
+					<div
+						key={key}
+						className={`${router.route === key ? activeStyle : normalStyle}${
+							key === router.route ? " active" : ""
+						}`}
+					>
+						<Link href={key}>
+							<a target={key.startsWith("https://") ? "_blank" : "_self"}>
+								{links[key]}
+								{key.startsWith("https://") && (
+									<span className="ml-1.5">
+										<Image
+											src="/newTabIcon.svg"
+											width={12}
+											height={12}
+											alt="otevrit v novem okne"
+										/>
+									</span>
+								)}
+							</a>
+						</Link>
+					</div>
 				);
 			})}
 		</>
