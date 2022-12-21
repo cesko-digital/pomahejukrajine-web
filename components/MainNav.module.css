@@ -37,11 +37,26 @@
 
 .mobileLink {
 	padding: 20px 0;
-	@apply block w-full text-center;
+	@apply flex w-full text-center justify-center items-center
+    after:block
+    after:absolute
+    after:h-0.5
+    after:w-full;
+}
+
+.mobileLink a {
+	@apply block text-center w-fit
+    after:block
+    after:h-0.5
+    after:w-full;
 }
 
 .activeMobileLink {
 	composes: mobileLink;
+}
+
+.activeMobileLink a {
+	@apply after:bg-ua-yellow;
 }
 
 .myOffers {
