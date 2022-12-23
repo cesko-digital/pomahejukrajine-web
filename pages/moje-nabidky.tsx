@@ -381,7 +381,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 					offers: listOffer(
 						filter: {
-							exhausted: { eq: false }
+							exhausted: { eq: false }	
+							isDeleted: { eq: false }						
 							volunteer: {
 								id: { in: $volunteerId }
 								verified: { eq: true }
