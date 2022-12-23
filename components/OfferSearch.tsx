@@ -122,9 +122,8 @@ export const OfferSearch = ({
 								classNames={{
 									input:
 										"w-full max-w-lg h-[50px] md:h-[44px] mx-auto text-gray-900 placeholder-black border-bg-ua-blue rounded-md",
-									submit:
-										"absolute right-0 top-0 text-white bg-ua-blue hover:bg-ua-blue-dark h-[50px] md:h-[44px] w-[57px] md:w-[60px] flex items-center justify-center rounded-r-md",
-									submitIcon: "fill-current h-4 w-4",
+									submit: cx(styles.searchButton),
+									submitIcon: "hidden",
 									loadingIcon: "hidden",
 									reset: "hidden",
 									resetIcon: "hidden",

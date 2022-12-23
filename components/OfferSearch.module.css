@@ -62,6 +62,17 @@
 	content: url("../public/previousPageHover.svg");
 }
 
+.searchButton {
+	@apply absolute right-0 top-0 text-white bg-ua-blue hover:bg-ua-blue-dark h-[50px] md:h-[44px] w-[57px] md:w-[60px] flex items-center justify-center rounded-r-md;
+}
+
+.searchButton::before {
+	content: url("../public/searchIcon.svg");
+	position: relative;
+	top: 3px;
+	left: 1px;
+}
+
 @media screen and (max-width: 640px) {
 	.nextPage {
 		margin-right: 12px;
