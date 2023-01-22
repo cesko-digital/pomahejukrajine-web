@@ -28,7 +28,7 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 						{t("neverejneNabidky.title")}
 					</h2>
 					<Link href="/nabidky">
-						<a className="text-xs flex items-center md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md sm:underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white transition duration-150">
+						<a className="flex items-center md:absolute md:right-0 h-10 py-1.5 px-3 rounded-md underline md:no-underline md:border md:border-ua-blue text-ua-blue md:hover:bg-ua-blue-dark md:hover:text-white transition duration-150">
 							{t("neverejneNabidky.linkToPublicOffers")}
 						</a>
 					</Link>
@@ -50,7 +50,7 @@ const PrivateOffers = ({ listOfferType, locale }: PrivateOffersProps) => {
 								>
 									<div className="grow flex">
 										<span className="w-[56px] flex justify-center">{icon}</span>
-										<span className="text-smaller flex items-center">
+										<span className="flex">
 											{locale === CZECH ? offerType.name : offerType.nameUK}
 										</span>
 									</div>

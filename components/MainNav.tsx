@@ -9,6 +9,7 @@ import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
+import { route } from "next/dist/server/router";
 
 const NavLinks: React.FC<{
 	normalStyle: string;
@@ -21,7 +22,7 @@ const NavLinks: React.FC<{
 
 	const links: Record<string, string> = {
 		"/nabidka": t("header.offerHelp"),
-		"/nabidky/[id]": t("header.needHelp"),
+		"/nabidky/3a0731d3-2102-4a7b-a5c4-096e0876f10b": t("header.needHelp"),
 		"/faq": t("header.faq"),
 		"https://coda.io/d/Ukrajina_dzasdxTf153/Zakladni-odkazy-a-obecne-informace-k-podpore-uprchliku-z-Ukrajin_suDG4":
 			t("header.information"),
@@ -53,9 +54,12 @@ const NavLinks: React.FC<{
 				return (
 					<div
 						key={key}
-						className={`${router.route === key ? activeStyle : normalStyle}${
-							key === router.route ? " active" : ""
-						}`}
+						className={`${
+							router.route === key ||
+							(router.route === "/nabidky/[id]" && key.startsWith("/nabidky/"))
+								? activeStyle
+								: normalStyle
+						}${key === router.route ? " active" : ""}`}
 					>
 						<Link href={key}>
 							<a target={key.startsWith("https://") ? "_blank" : "_self"}>

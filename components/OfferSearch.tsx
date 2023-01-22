@@ -40,7 +40,7 @@ export const OfferSearch = ({
 	const { t } = useTranslation();
 	const refinementClassnames = {
 		item: "py-1",
-		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm",
+		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm hover:border-grey-hover",
 		label: "flex",
 		labelText: "flex-1",
 		count: "text-sm text-grey-text mt-0.5 ml-2",
@@ -139,10 +139,10 @@ export const OfferSearch = ({
 							{t("nabidky.filters")}
 						</div>
 						<div
-							className="mb-3 text-right text-ua-blue cursor-pointer"
+							className="mb-3 text-right text-ua-blue cursor-pointer underline hover:no-underline"
 							onClick={() => setShowFilters(false)}
 						>
-							{t("nabidky.hideFilers")}
+							{t("nabidky.hideFilters")}
 						</div>
 					</div>
 					<div className="refinements text-left">
@@ -225,7 +225,9 @@ export const OfferSearch = ({
 					<div className="flex md:justify-end mb-3.5 mt-5 md:mt-0">
 						<button
 							className={`mr-2.5 ${
-								sortOrder === "desc" ? "" : "underline text-ua-blue"
+								sortOrder === "desc"
+									? ""
+									: "underline text-ua-blue hover:no-underline"
 							}`}
 							disabled={sortOrder === "desc"}
 							onClick={() => setSortOrder("desc")}
@@ -234,7 +236,9 @@ export const OfferSearch = ({
 						</button>
 						<button
 							className={`${
-								sortOrder === "asc" ? "" : "underline text-ua-blue"
+								sortOrder === "asc"
+									? ""
+									: "underline text-ua-blue hover:no-underline"
 							}`}
 							disabled={sortOrder === "asc"}
 							onClick={() => setSortOrder("asc")}
@@ -265,12 +269,12 @@ export const OfferSearch = ({
 										>
 											{hit.hit[`parameter_${question.id}`] && (
 												<>
-													<p className="text-sm font-bold">
+													<p className="font-bold">
 														{locale === CZECH
 															? question.question
 															: question.questionUK}
 													</p>
-													<p className="text-[15px] md:text-[16px] break-all">
+													<p className="md:text-[16px] break-all">
 														<Highlight
 															attribute={`parameter${
 																locale === CZECH ? "" : "_uk"
@@ -285,7 +289,7 @@ export const OfferSearch = ({
 									<div className="grow" />
 									<div className="mt-7 flex justify-between items-end">
 										<a
-											className="px-4 py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
+											className="px-4 py-[10px] md:py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
 											href="#"
 											onClick={() => setOpenedOffer(hit.hit)}
 										>

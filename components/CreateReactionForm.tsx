@@ -95,7 +95,7 @@ export const CreateReactionForm = memo<{
 			)}
 
 			<div>
-				<label htmlFor="email" className="block text-sm font-medium">
+				<label htmlFor="email" className="block font-medium mt-2">
 					{t("reagovat.email")}
 				</label>
 				{errors.find((it) => it.input === "email") && (
@@ -119,7 +119,7 @@ export const CreateReactionForm = memo<{
 			</div>
 
 			<div>
-				<label htmlFor="phone" className="block text-sm font-medium">
+				<label htmlFor="phone" className="block font-medium">
 					{t("reagovat.phone")}
 				</label>
 				{errors.find((it) => it.input === "phone") && (
@@ -144,7 +144,7 @@ export const CreateReactionForm = memo<{
 			</div>
 
 			<div>
-				<label htmlFor="text" className="block text-sm font-medium">
+				<label htmlFor="text" className="block font-medium">
 					{t("reagovat.text")}
 				</label>
 				<div className="mt-2">
@@ -160,7 +160,7 @@ export const CreateReactionForm = memo<{
 				</div>
 			</div>
 
-			<div className="text-grey-dark mt-8">
+			<div className="text-grey-dark mt-5">
 				{t("reagovat.consent")}{" "}
 				<a
 					className="underline underline-offset-2 hover:no-underline"
