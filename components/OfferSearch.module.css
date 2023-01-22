@@ -13,7 +13,7 @@
 }
 
 .summary {
-	@apply font-bold cursor-pointer text-lg mb-1;
+	@apply font-bold cursor-pointer text-lg mb-1 hover:text-grey-hover;
 }
 
 .nextPage,
@@ -76,11 +76,11 @@
 @media screen and (max-width: 640px) {
 	.nextPage {
 		margin-right: 12px;
-		margin-left: 9px;
+		margin-left: 0px;
 	}
 
 	.previousPage {
 		margin-left: 12px;
-		margin-right: 9px;
+		margin-right: 0px;
 	}
 }

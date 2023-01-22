@@ -65,7 +65,11 @@ export const OfferTypeList = ({
 									<span className="min-w-[56px] pl-3.5">{icon}</span>
 									<span>
 										{locale === CZECH ? name : nameUK}
-										<span className="text-grey-text md:hidden">
+										<span
+											className={`md:hidden ${
+												offerTypeId === id ? "text-[#9BB6D3]" : "text-grey-text"
+											}`}
+										>
 											&nbsp;({totalCount})
 										</span>
 									</span>

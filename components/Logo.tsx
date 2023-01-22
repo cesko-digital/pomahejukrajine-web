@@ -4,14 +4,10 @@ const Logo = () => {
 	const { t } = useTranslation();
 	return (
 		<div className="relative hover:opacity-70 transition duration-150">
-			<span className="hidden md:block text-ua-blue absolute whitespace-nowrap text-[14px] md:text-[16px] md:left-[55px] md:top-[40px] tracking-wide">
+			<span className="hidden md:block text-ua-blue absolute whitespace-nowrap text-[14px] md:text-[16px] md:left-[50px] md:top-[40px] tracking-wide">
 				{t("header.logoText")}
 			</span>
-			<svg
-				viewBox="131.302 247.939 268.577 38.643"
-				width="268.577"
-				height="38.643"
-			>
+			<svg viewBox="131.302 247.939 268.577 38.643" width="245" height="38.643">
 				<path
 					d="M79.3457 41.7116V24.3047H85.6117C88.5096 24.3047 90.0825 24.7394 91.2194 25.6089C91.8658 26.1212 92.3805 26.7796 92.721 27.5297C93.0614 28.2798 93.2177 29.0999 93.177 29.9223C93.2104 30.7222 93.0651 31.5196 92.7517 32.2567C92.4383 32.9938 91.9645 33.6523 91.3647 34.1845C90.1594 35.216 88.4925 35.7018 85.5946 35.7018H82.9189V41.7286L79.3457 41.7116ZM82.9189 27.4928V32.4796H85.7484C86.7614 32.5739 87.781 32.3912 88.6976 31.9511C89.0232 31.7335 89.2845 31.433 89.4543 31.0807C89.6242 30.7285 89.6964 30.3373 89.6636 29.9479C89.6913 29.5985 89.627 29.2479 89.4771 28.931C89.3271 28.614 89.0968 28.3416 88.8088 28.1407C87.8714 27.6051 86.7884 27.3784 85.7142 27.4928H82.9189Z"
 					fill="#005BBB"

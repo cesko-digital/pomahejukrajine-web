@@ -23,17 +23,7 @@ export const Modal = ({
 				<div className="flex flex-col items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
 					<div className="bg-grey-ligth2 rounded-md">
 						<div className="flex justify-between px-6 pt-6">
-							<div className="text-sm text-ua-blue flex justify-center items-start">
-								<button
-									className="flex items-center cursor-pointer"
-									onClick={onClose}
-								>
-									<BackIcon />
-									<span className="pl-1 underline mt-[-1px]">
-										{t("reagovat.backToOffers")}
-									</span>
-								</button>
-							</div>
+							<div className="text-sm text-ua-blue flex justify-center items-start"></div>
 							<button
 								onClick={onClose}
 								className="rounded-full cursor-pointer hover:opacity-70"

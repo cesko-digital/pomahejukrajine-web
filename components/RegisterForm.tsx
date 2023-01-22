@@ -323,7 +323,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 							</div>
 						</div>
 						<div>
-							<h3 className="block text-xl font-bold mb-2">
+							<h3 className="block text-xl font-bold mb-2 mt-2">
 								{t("nabidka.languages")}
 							</h3>
 							{errors.find((it) => it.input === "languages") && (
