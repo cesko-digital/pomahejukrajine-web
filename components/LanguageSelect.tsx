@@ -16,12 +16,12 @@ const LangageSelect = ({ className = "" }) => {
 		>
 			{({ open }) => (
 				<div
-					className={`w-[45px] ${
-						open ? "bg-ua-blue text-white rounded-t" : ""
+					className={`w-[45px] h-[34px] ${
+						open ? "bg-ua-blue text-white rounded-t-[8px]" : ""
 					}`}
 				>
 					<Menu.Button as="div" className="cursor-pointer lg:hover:opacity-80">
-						<span className="pl-1">{locale}</span>
+						<span className="pl-1 relative top-[2px]">{locale}</span>
 						<i
 							className={cx(
 								styles.icon,
@@ -30,7 +30,7 @@ const LangageSelect = ({ className = "" }) => {
 						/>
 					</Menu.Button>
 
-					<Menu.Items className="w-[45px] rounded-b absolute flex flex-col items-start top-8 lg:top-6 focus:outline-none text-ua-blue bg-[#D9D9D9] z-50">
+					<Menu.Items className="w-[45px] h-[34px]  rounded-b-[8px] absolute flex flex-col items-start top-8 focus:outline-none text-ua-blue bg-[#D9D9D9] z-50 hover:bg-ua-blue hover:text-white">
 						{otherLocales.map((otherLocale) => {
 							const { pathname, query, asPath } = router;
 							return (
@@ -40,7 +40,9 @@ const LangageSelect = ({ className = "" }) => {
 										as={asPath}
 										locale={otherLocale}
 									>
-										<a className="lg:hover:opacity-80 pl-1">{otherLocale}</a>
+										<a className="lg:hover:opacity-80 pl-1 relative top-[2px]">
+											{otherLocale}
+										</a>
 									</Link>
 								</Menu.Item>
 							);

@@ -13,7 +13,7 @@
 }
 
 .summary {
-	@apply font-bold cursor-pointer text-lg mb-1 hover:text-grey-hover;
+	@apply font-bold cursor-pointer text-lg mb-1 hover:text-ua-blue;
 }
 
 .nextPage,

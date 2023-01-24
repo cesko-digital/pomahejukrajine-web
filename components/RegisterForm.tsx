@@ -282,7 +282,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 							</>
 						)}
 						<div>
-							<h3 className="block text-xl font-bold mb-2">
+							<h3 className="block text-xl font-bold mb-2  mt-4">
 								{t("nabidka.contactMe")}
 							</h3>
 							<div className="mt-1 flex flex-col">
@@ -323,7 +323,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 							</div>
 						</div>
 						<div>
-							<h3 className="block text-xl font-bold mb-2 mt-2">
+							<h3 className="block text-xl font-bold mb-2 mt-4">
 								{t("nabidka.languages")}
 							</h3>
 							{errors.find((it) => it.input === "languages") && (
@@ -366,7 +366,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 				)}
 				{!editing && (
 					<div className="mt-1">
-						<h3 className="block text-xl font-bold mb-2">
+						<h3 className="block text-xl font-bold mb-2  mt-4">
 							{t("nabidka.optionsTitle")}
 							<span className="text-base font-normal">
 								{" "}

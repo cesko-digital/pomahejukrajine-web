@@ -40,7 +40,7 @@ export const OfferSearch = ({
 	const { t } = useTranslation();
 	const refinementClassnames = {
 		item: "py-1",
-		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm hover:border-grey-hover",
+		checkbox: "w-4 h-4 mr-2 mt-1 border-2 rounded-sm hover:border-ua-blue",
 		label: "flex",
 		labelText: "flex-1",
 		count: "text-sm text-grey-text mt-0.5 ml-2",
@@ -274,7 +274,7 @@ export const OfferSearch = ({
 															? question.question
 															: question.questionUK}
 													</p>
-													<p className="md:text-[16px] break-all">
+													<p className="md:text-[16px] break-word">
 														<Highlight
 															attribute={`parameter${
 																locale === CZECH ? "" : "_uk"
@@ -289,13 +289,11 @@ export const OfferSearch = ({
 									<div className="grow" />
 									<div className="mt-7 flex justify-between items-end">
 										<a
-											className="px-4 py-[10px] md:py-2 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
+											className="px-4 py-[10px] md:py-2.5 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
 											href="#"
 											onClick={() => setOpenedOffer(hit.hit)}
 										>
-											<span className="md:pt-[1px]">
-												{t("nabidky.needThisHelp")}
-											</span>
+											<span>{t("nabidky.needThisHelp")}</span>
 										</a>
 										<div className="mt-2 text-gray-400 flex flex-col items-end text-[13px] pl-2">
 											<div>

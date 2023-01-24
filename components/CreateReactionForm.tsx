@@ -105,7 +105,7 @@ export const CreateReactionForm = memo<{
 						</div>
 					</div>
 				)}
-				<div className="mt-2">
+				<div className="mt-1">
 					<input
 						disabled={disabled}
 						type="email"
@@ -119,7 +119,7 @@ export const CreateReactionForm = memo<{
 			</div>
 
 			<div>
-				<label htmlFor="phone" className="block font-medium">
+				<label htmlFor="phone" className="block font-medium md:mt-2">
 					{t("reagovat.phone")}
 				</label>
 				{errors.find((it) => it.input === "phone") && (
@@ -129,7 +129,7 @@ export const CreateReactionForm = memo<{
 						</div>
 					</div>
 				)}
-				<div className="mt-2">
+				<div className="mt-1">
 					<input
 						disabled={disabled}
 						type="text"
@@ -144,10 +144,10 @@ export const CreateReactionForm = memo<{
 			</div>
 
 			<div>
-				<label htmlFor="text" className="block font-medium">
+				<label htmlFor="text" className="block font-medium md:mt-2">
 					{t("reagovat.text")}
 				</label>
-				<div className="mt-2">
+				<div className="mt-1">
 					<textarea
 						disabled={disabled}
 						id="text"
