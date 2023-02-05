@@ -6,12 +6,34 @@ import SocialLinksNav from "./SocialLinksNav";
 import UserIcon from "./userIcon";
 import { useTranslation } from "next-i18next";
 import LangageSelect from "./LanguageSelect";
+import { useCallback, useEffect, useState } from "react";
+import { BREAKTPOINTS } from "../utils/constants";
 
 export default function Header() {
 	const { t } = useTranslation();
+	const [scrollY, setScrollY] = useState(0);
+
+	const onScroll = useCallback(() => {
+		if (window.innerWidth > BREAKTPOINTS.MD) {
+			return;
+		}
+		if (scrollY > window.scrollY) {
+			document.getElementsByTagName("header")[0].classList.add("sticky");
+		} else {
+			document.getElementsByTagName("header")[0].classList.remove("sticky");
+		}
+		setScrollY(window.scrollY);
+	}, [scrollY]);
+
+	useEffect(() => {
+		window.addEventListener("scroll", onScroll);
+		return () => {
+			window.removeEventListener("scroll", onScroll);
+		};
+	}, [onScroll]);
 
 	return (
-		<header className="bg-grey-light sticky top-0 z-10 shadow-header">
+		<header className="bg-grey-light md:sticky top-0 z-10 shadow-header">
 			<nav
 				className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 py-3.5 md:py-3"
 				aria-label="Top"
