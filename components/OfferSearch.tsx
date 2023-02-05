@@ -166,6 +166,7 @@ export const OfferSearch = ({
 												}_region_facet`}
 												limit={20}
 												classNames={refinementClassnames}
+												sortBy={["name:asc"]}
 											/>
 										</details>
 									</div>
@@ -190,6 +191,7 @@ export const OfferSearch = ({
 												}_facet`}
 												limit={50}
 												classNames={refinementClassnames}
+												sortBy={["name:asc"]}
 											/>
 										</details>
 									</div>
@@ -216,6 +218,7 @@ export const OfferSearch = ({
 												question.id
 											}_facet`}
 											classNames={refinementClassnames}
+											sortBy={["name:asc"]}
 										/>
 									</details>
 								</div>
