@@ -8,6 +8,7 @@ import {
 	RefinementList,
 	SearchBox,
 	Configure,
+	ClearRefinements,
 } from "react-instantsearch-hooks-web";
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 import React, { useState, useCallback, useMemo, useEffect } from "react";
@@ -195,7 +196,7 @@ export const OfferSearch = ({
 								);
 							})}
 					</div>
-					<div className="refinements text-left">
+					<div className="refinements text-left border-b">
 						{/*ANOTHER CATEGORIES*/}
 						{listQuestion
 							.filter((it: any) => ["checkbox", "radio"].includes(it.type))
@@ -220,6 +221,16 @@ export const OfferSearch = ({
 								</div>
 							))}
 					</div>
+					<ClearRefinements
+						translations={{
+							resetButtonText: t("nabidky.resetFilters"),
+						}}
+						classNames={{
+							root: "pt-3.5",
+							button:
+								"text-ua-blue border border-ua-blue rounded-[7px] w-full h-[40px] text-[12px]",
+						}}
+					/>
 				</div>
 				<div className={`w-full ${showFilters && "lg:w-3/4"}`}>
 					<div className="flex md:justify-end mb-3.5 mt-5 md:mt-0">
