@@ -61,7 +61,8 @@ export const CreateReactionForm = memo<{
 				<h2 className="text-3xl font-extrabold tracking-tightsm:text-3xl">
 					{t("reagovat.sent")}
 				</h2>
-				<p className="mt-2">{t("reagovat.notice")}</p>
+				<p className="mt-2">{t("reagovat.noticeLine1")}</p>
+				<p className="mt-2">{t("reagovat.noticeLine2")}</p>
 				<div className="text-center mt-10">
 					<button
 						type="submit"
