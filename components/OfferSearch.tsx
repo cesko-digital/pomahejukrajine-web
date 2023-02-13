@@ -85,7 +85,7 @@ export const OfferSearch = ({
 									(question: any) =>
 										`parameter_${locale === CZECH ? "" : "uk_"}${question.id}`
 								),
-						].join(",") + ",code",
+						].join(",") + ",code,organization",
 					num_typos: 0,
 					sort_by: `updatedAt:${sortOrder}`,
 				},
@@ -300,6 +300,17 @@ export const OfferSearch = ({
 											)}
 										</div>
 									))}
+									{hit.hit.organization && (
+										<div
+											key="organization"
+											className="flex flex-col mt-2 text-black"
+										>
+											<p className="font-bold">{t("nabidky.organizace")}</p>
+											<p className="md:text-[16px] break-word">
+												<Highlight attribute="organization" hit={hit.hit} />
+											</p>
+										</div>
+									)}
 									<div className="grow" />
 									<div className="mt-7 flex justify-between items-end">
 										<a
