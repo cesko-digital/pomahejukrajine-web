@@ -231,7 +231,7 @@ export const OfferSearch = ({
 						classNames={{
 							root: "pt-3.5",
 							button:
-								"text-ua-blue border border-ua-blue rounded-[7px] w-full h-[40px] text-[12px]",
+								"px-4 py-[10px] md:py-2.5 bg-white border border-ua-blue text-ua-blue rounded-md text-sm hover:cursor-pointer hover:opacity-80 w-full",
 						}}
 					/>
 				</div>
