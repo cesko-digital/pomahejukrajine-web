@@ -35,6 +35,7 @@ export default async function handler(
 		offer: { connect: { id: data.offerId } },
 		email: data.email,
 		phone: data.phone === "+420" ? "" : data.phone,
+		text: data.text,
 	};
 
 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
