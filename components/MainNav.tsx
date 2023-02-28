@@ -89,7 +89,7 @@ const HamburgerMenu = () => {
 
 	return (
 		<>
-			<div className="flex justify-end py-3 pl-5 lg:hidden">
+			<div className="flex justify-end py-3 pl-3 md:pl-5 lg:hidden">
 				<div onClick={() => setIsOpen(true)}>
 					<HamburgerIcon />
 				</div>
