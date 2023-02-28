@@ -341,9 +341,9 @@ export const OfferSearch = ({
 					/>
 					<Pagination
 						classNames={{
-							list: "flex justify-center gap-1 mt-14",
+							list: "flex justify-center gap-0 xs:gap-1 mt-14",
 							selectedItem: "!bg-ua-blue !text-white",
-							item: "border border-ua-blue text-ua-blue bg-blue-very-light py-1 px-3 rounded-md hover:bg-ua-blue-dark hover:text-white transition duration-150",
+							item: "scale-90 xs:scale-100 border border-ua-blue text-ua-blue bg-blue-very-light py-1 px-3 rounded-md hover:bg-ua-blue-dark hover:text-white transition duration-150",
 							nextPageItem: cx(styles.nextPage),
 							previousPageItem: cx(styles.previousPage),
 						}}
