@@ -9,7 +9,7 @@ const Logo = () => {
 			</span>
 			<svg
 				viewBox="131.302 247.939 268.577 38.643"
-				className="w-[230px] md:w-[245px]"
+				className="w-[215px] xs:w-[230px] md:w-[245px]"
 				height="38.643"
 			>
 				<path
