@@ -1,6 +1,6 @@
 .icon {
 	position: absolute;
-	margin-left: 0.6rem;
+	margin-left: 11px;
 }
 
 .icon:before {
@@ -14,11 +14,11 @@
 }
 
 .arrowDown {
-	margin-top: 0.5rem;
+	margin-top: 7px;
 }
 
 .arrowUp {
-	margin-top: 0.9rem;
+	margin-top: 13px;
 }
 
 .arrowDown:before {
