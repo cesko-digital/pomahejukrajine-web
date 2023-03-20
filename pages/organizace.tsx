@@ -126,7 +126,7 @@ export const getServerSideProps: GetServerSideProps = async (
 						name
 						address
 						website
-						district {
+						districts {
 							name
 						}
 						region {
