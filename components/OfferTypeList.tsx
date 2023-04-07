@@ -7,6 +7,7 @@ import { CZECH } from "../utils/constants";
 import { useState } from "react";
 import CloseIcon from "./CloseIcon";
 import DropdownIcon from "./DropdownIcon";
+import { OffersCount } from "./OffersCount";
 
 export type OfferTypeListProps = {
 	listOfferType: any;
@@ -123,6 +124,7 @@ export const OfferTypeList = ({
 					</ul>
 				</div>
 			)}
+			<OffersCount count={selectedType.paginateOffers.pageInfo.totalCount} />
 		</>
 	);
 };

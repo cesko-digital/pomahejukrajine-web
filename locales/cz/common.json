@@ -210,5 +210,8 @@
 	"error.emailAlreadyExists": "Tento email je již zaregistrován",
 	"error.emailMismatch": "Emaily nejsou shodné",
 	"error.missingPhone": "Vyplňte prosím telefonní číslo",
-	"error.selectLanguage": "Musíte vybrat alespoň jeden jazyk"
+	"error.selectLanguage": "Musíte vybrat alespoň jeden jazyk",
+	"offers.count.offer": "nabídka",
+	"offers.count.offers": "nabídek",
+	"offers.count.correspondsToYourSearch": "odpovídá vašemu zadání"
 }
