@@ -210,5 +210,8 @@
 	"error.emailAlreadyExists": "Ця електронна адреса вже зареєстрована",
 	"error.emailMismatch": "Електронні адреси різні",
 	"error.missingPhone": "Будь ласка, заповніть номер телефону",
-	"error.selectLanguage": "Ви повинні вибрати принаймні одну мову"
+	"error.selectLanguage": "Ви повинні вибрати принаймні одну мову",
+	"offers.count.offer": "пропозиція",
+	"offers.count.offers": "пропозиції",
+	"offers.count.correspondsToYourSearch": "відповідає вашому призначенню"
 }
