@@ -29,38 +29,54 @@ export const HowItWorks = () => {
 
 const ZigZagGrid = () => {
 	return (
-		<div className="container mx-auto p-4">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-0 h-full">
-				<div className="order-1 md:order-2 h-full w-full">
-					<Icon stepNumber={1} zigZag="zag" />
-				</div>
-				<div className="order-2 md:order-1 h-full w-full">
-					<Text stepNumber={1} zigZag="zag" />
-				</div>
-				<div className="order-3 md:order-3 h-full w-full">
-					<Icon stepNumber={2} zigZag="zig" />
-				</div>
-				<div className="order-4 md:order-4 h-full w-full">
-					<Text stepNumber={2} zigZag="zig" />
-				</div>
-				<div className="order-5 md:order-6 h-full w-full">
-					<Icon stepNumber={3} zigZag="zag" />
-				</div>
-				<div className="order-6 md:order-5 h-full w-full">
-					<Text stepNumber={3} zigZag="zag" />
-				</div>
-				<div className="order-7 md:order-7 h-full w-full">
-					<Icon stepNumber={4} zigZag="zig" />
-				</div>
-				<div className="order-8 md:order-8 h-full w-full">
-					<Text stepNumber={4} zigZag="zig" />
-				</div>
-				<div className="order-9 md:order-10 h-full w-full">
-					<Icon stepNumber={5} zigZag="zag" />
-				</div>
-				<div className="order-10 md:order-9 h-full w-full">
-					<Text stepNumber={5} zigZag="zag" />
-				</div>
+		<div id="zigZagGrid" className="container mx-auto p-4">
+			<ZigZagItem stepNumber={1} zigZag="zag" />
+			<ZigZagItem stepNumber={2} zigZag="zig" />
+			<ZigZagItem stepNumber={3} zigZag="zag" />
+			<ZigZagItem stepNumber={4} zigZag="zig" />
+			<ZigZagItem stepNumber={5} zigZag="zag" />
+		</div>
+	);
+};
+
+const ZigZagItem = ({
+	stepNumber,
+	zigZag,
+}: {
+	stepNumber: number;
+	zigZag: "zig" | "zag";
+}) => {
+	const order =
+		zigZag === "zig"
+			? {
+					space: "order-1 md:order-1",
+					icon: "order-2 md:order-3",
+					stepHeader: "order-3 md:order-2",
+					stepText: "order-4 md:order-4",
+			  }
+			: {
+					space: "order-1 md:order-2",
+					icon: "order-2 md:order-4",
+					stepHeader: "order-3 md:order-1",
+					stepText: "order-4 md:order-3",
+			  };
+
+	return (
+		<div
+			key={stepNumber}
+			className="grid grid-cols-1 md:grid-cols-2 gap-0 h-full"
+		>
+			<div className={`${order.space} h-full w-full`}>
+				<Space stepNumber={stepNumber} zigZag={zigZag} />
+			</div>
+			<div className={`${order.icon} h-full w-full`}>
+				<Icon stepNumber={stepNumber} zigZag={zigZag} />
+			</div>
+			<div className={`${order.stepHeader} h-full w-full`}>
+				<StepHeader stepNumber={stepNumber} zigZag={zigZag} />
+			</div>
+			<div className={`${order.stepText} h-full w-full`}>
+				<StepText stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
 		</div>
 	);
@@ -90,7 +106,7 @@ const Icon = ({
 	);
 };
 
-const Text = ({
+const StepHeader = ({
 	stepNumber,
 	zigZag,
 }: {
@@ -115,6 +131,21 @@ const Text = ({
 					</div>
 				</div>
 			</div>
+		</div>
+	);
+};
+
+const StepText = ({
+	stepNumber,
+	zigZag,
+}: {
+	stepNumber: number;
+	zigZag: "zig" | "zag";
+}) => {
+	const { t } = useTranslation("ubytovani");
+
+	return (
+		<div className="border-gray-300 md:border-4 md:text-left h-full">
 			<p
 				className="leading-6"
 				dangerouslySetInnerHTML={{
@@ -123,4 +154,14 @@ const Text = ({
 			/>
 		</div>
 	);
+};
+
+const Space = ({
+	stepNumber,
+	zigZag,
+}: {
+	stepNumber: number;
+	zigZag: "zig" | "zag";
+}) => {
+	return <span>space</span>;
 };
