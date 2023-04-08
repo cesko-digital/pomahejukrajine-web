@@ -23,6 +23,7 @@ const NavLinks: React.FC<{
 	const links: Record<string, string> = {
 		"/nabidka": t("header.offerHelp"),
 		"/nabidky/3a0731d3-2102-4a7b-a5c4-096e0876f10b": t("header.needHelp"),
+		"/ubytovani": t("header.accommodation"),
 		"/faq": t("header.faq"),
 		"https://coda.io/d/Ukrajina_dzasdxTf153/Zakladni-odkazy-a-obecne-informace-k-podpore-uprchliku-z-Ukrajin_suDG4":
 			t("header.information"),
