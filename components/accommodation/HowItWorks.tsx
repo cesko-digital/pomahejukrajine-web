@@ -49,33 +49,35 @@ const ZigZagItem = ({
 	const order =
 		zigZag === "zig"
 			? {
-					space: "order-1 md:order-1",
-					icon: "order-2 md:order-3",
-					stepHeader: "order-3 md:order-2",
-					stepText: "order-4 md:order-4",
+					space: "order-1 md:order-1 md:border-r-2 ",
+					icon: "order-2 md:order-3 md:border-r-2 ",
+					stepHeader: "order-3 md:order-2 md:border-l-2 md:border-b-2",
+					stepText: "order-4 md:order-4 md:border-l-2 md:border-t-2",
 			  }
 			: {
-					space: "order-1 md:order-2",
-					icon: "order-2 md:order-4",
-					stepHeader: "order-3 md:order-1",
-					stepText: "order-4 md:order-3",
+					space: "order-1 md:order-2 md:border-l-2",
+					icon: "order-2 md:order-4 md:border-l-2",
+					stepHeader: "order-3 md:order-1 md:border-r-2 md:border-b-2",
+					stepText: "order-4 md:order-3 md:border-r-2 md:border-t-2",
 			  };
+
+	const common = "border-ua-blue";
 
 	return (
 		<div
 			key={stepNumber}
 			className="grid grid-cols-1 md:grid-cols-2 gap-0 h-full"
 		>
-			<div className={`${order.space} h-full w-full`}>
+			<div className={`${order.space} ${common} h-full w-full`}>
 				<Space stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
-			<div className={`${order.icon} h-full w-full`}>
+			<div className={`${order.icon} ${common} h-full w-full`}>
 				<Icon stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
-			<div className={`${order.stepHeader} h-full w-full`}>
+			<div className={`${order.stepHeader} ${common} h-full w-full`}>
 				<StepHeader stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
-			<div className={`${order.stepText} h-full w-full`}>
+			<div className={`${order.stepText} ${common} h-full w-full`}>
 				<StepText stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
 		</div>
@@ -93,9 +95,7 @@ const Icon = ({
 	const alignment = zigZag === "zig" ? "md:text-right" : "md:text-left";
 
 	return (
-		<div
-			className={`text-center ${alignment} border-gray-300 md:border-4 h-full`}
-		>
+		<div className={`text-center ${alignment}  h-full`}>
 			<Image
 				width={144}
 				height={131}
@@ -116,7 +116,7 @@ const StepHeader = ({
 	const { t } = useTranslation("ubytovani");
 
 	return (
-		<div className="border-gray-300 md:border-4 md:text-left">
+		<div className=" md:text-left">
 			<div className="container mx-auto p-4">
 				<div className="flex flex-col md:flex-row justify-center md:justify-start items-center space-y-4 md:space-y-0 md:space-x-4">
 					<div className="">
@@ -145,7 +145,7 @@ const StepText = ({
 	const { t } = useTranslation("ubytovani");
 
 	return (
-		<div className="border-gray-300 md:border-4 md:text-left h-full">
+		<div className=" md:text-left h-full">
 			<p
 				className="leading-6"
 				dangerouslySetInnerHTML={{
