@@ -1,0 +1,11 @@
+{
+	"name": "scripts",
+	"description": "",
+	"version": "1.0.0",
+	"devDependencies": {
+		"csv-parse": "^5.3.6"
+	},
+	"scripts": {
+		"csvLocalesToJson": "node csvLocalesToJson.js"
+	}
+}
