@@ -6,8 +6,8 @@ export const HowItWorks = () => {
 	const { t } = useTranslation("ubytovani");
 
 	return (
-		<section id="howItWorks" className="text-center pt-20 md:pt-28">
-			<div className="max-w-7xl mx-auto bg-gradient">
+		<section id="howItWorks" className="py-8 bg-gradient">
+			<div className="max-w-7xl mx-auto  text-center">
 				<h2 className="text-2xl inline-flex font-bold lg:text-3xl mb-4">
 					{t("ubytovani:howItWorks.title")}
 				</h2>
