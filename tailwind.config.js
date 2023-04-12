@@ -15,6 +15,7 @@ module.exports = {
 				"ua-blue": "#005BBB",
 				"ua-yellow": "#FFD500",
 				"ua-blue-dark": "#004495",
+				"ua-blue-lightest": "#F4F9FF",
 				"footer-grey": "#EDEDED",
 				"grey-dark": "#4F4F4F",
 				"blue-very-light": "#F4F9FF",
