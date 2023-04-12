@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import { BlueGradient } from "./Gradient";
 
 export const HowItWorks = () => {
 	const { t } = useTranslation("ubytovani");
 
 	return (
-		<section id="howItWorks" className="py-8 bg-gradient">
-			<div className="max-w-7xl mx-auto  text-center">
+		<section id="howItWorks" className="py-8 relative">
+			<BlueGradient />
+			<div className="max-w-7xl mx-auto text-center py-8">
 				<h2 className="text-2xl inline-flex font-bold lg:text-3xl mb-4">
 					{t("ubytovani:howItWorks.title")}
 				</h2>
@@ -19,7 +21,7 @@ export const HowItWorks = () => {
 			<div className="flex justify-center mb-[91px]">
 				<Link href="#offerAccommodation">
 					<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] py-4 mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
-						{t("ubytovani:box.button1")}
+						{t("ubytovani:howItWorks.button")}
 					</a>
 				</Link>
 			</div>
@@ -29,7 +31,7 @@ export const HowItWorks = () => {
 
 const ZigZagGrid = () => {
 	return (
-		<div id="zigZagGrid" className="container mx-auto p-4">
+		<div id="zigZagGrid" className="p-4">
 			<ZigZagItem stepNumber={1} zigZag="zag" />
 			<ZigZagItem stepNumber={2} zigZag="zig" />
 			<ZigZagItem stepNumber={3} zigZag="zag" />
@@ -46,7 +48,7 @@ const ZigZagItem = ({
 	stepNumber: number;
 	zigZag: "zig" | "zag";
 }) => {
-	const order =
+	const classNames =
 		zigZag === "zig"
 			? {
 					space: "order-1 md:order-1 md:border-r-2 ",
@@ -56,7 +58,7 @@ const ZigZagItem = ({
 			  }
 			: {
 					space: "order-1 md:order-2 md:border-l-2",
-					icon: "order-2 md:order-4 md:border-l-2",
+					icon: "order-2 md:order-4 md:border-l-2 ",
 					stepHeader: "order-3 md:order-1 md:border-r-2 md:border-b-2",
 					stepText: "order-4 md:order-3 md:border-r-2 md:border-t-2",
 			  };
@@ -68,16 +70,16 @@ const ZigZagItem = ({
 			key={stepNumber}
 			className="grid grid-cols-1 md:grid-cols-2 gap-0 h-full"
 		>
-			<div className={`${order.space} ${common} h-full w-full`}>
+			<div className={`${classNames.space} ${common} h-full w-full`}>
 				<Space stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
-			<div className={`${order.icon} ${common} h-full w-full`}>
+			<div className={`${classNames.icon} ${common} h-full w-full px-4`}>
 				<Icon stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
-			<div className={`${order.stepHeader} ${common} h-full w-full`}>
+			<div className={`${classNames.stepHeader} ${common} h-full w-full`}>
 				<StepHeader stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
-			<div className={`${order.stepText} ${common} h-full w-full`}>
+			<div className={`${classNames.stepText} ${common} h-full w-full p-4`}>
 				<StepText stepNumber={stepNumber} zigZag={zigZag} />
 			</div>
 		</div>
@@ -116,18 +118,18 @@ const StepHeader = ({
 	const { t } = useTranslation("ubytovani");
 
 	return (
-		<div className=" md:text-left">
-			<div className="container mx-auto p-4">
-				<div className="flex flex-col md:flex-row justify-center md:justify-start items-center space-y-4 md:space-y-0 md:space-x-4">
+		<div className="text-center md:text-left">
+			<div className=" p-4">
+				<div className="md:flex text-[19px]">
 					<div className="">
-						<span className="bg-ua-yellow inline-flex px-1 whitespace-nowrap">
-							{`${stepNumber}. ${t("ubytovani:step")}`}
+						<span className="bg-ua-yellow inline-flex px-1 whitespace-nowrap mr-2">
+							{t(`ubytovani:howItWorks.step${stepNumber}.number`)}
 						</span>
 					</div>
-					<div className="md:flex-grow">
-						<p className="text-[19px] font-bold mt-3 mb-7">
-							{t(`ubytovani:step${stepNumber}.title`)}
-						</p>
+					<div className="mt-4 md:mt-0 md:flex-grow">
+						<span className=" font-bold mt-3 mb-7">
+							{t(`ubytovani:howItWorks.step${stepNumber}.title`)}
+						</span>
 					</div>
 				</div>
 			</div>
@@ -149,7 +151,7 @@ const StepText = ({
 			<p
 				className="leading-6"
 				dangerouslySetInnerHTML={{
-					__html: t(`ubytovani:step${stepNumber}.text`),
+					__html: t(`ubytovani:howItWorks.step${stepNumber}.text`),
 				}}
 			/>
 		</div>
@@ -163,5 +165,5 @@ const Space = ({
 	stepNumber: number;
 	zigZag: "zig" | "zag";
 }) => {
-	return <span>space</span>;
+	return <span></span>;
 };

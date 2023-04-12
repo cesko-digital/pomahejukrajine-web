@@ -24,7 +24,7 @@ const Ubytovani = () => {
 			<HelpFindAccommodation />
 			<AccommodationReasons />
 			<HowItWorks />
-			<AccommodationSupport />
+			{/*<AccommodationSupport />*/}
 			<MakeItClear />
 			<ContactAndCommunication />
 			<Footer />
