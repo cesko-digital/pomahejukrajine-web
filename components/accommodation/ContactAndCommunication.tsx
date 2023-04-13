@@ -1,4 +1,3 @@
-import { BlueGradient } from "./Gradient";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
@@ -6,16 +5,18 @@ import Link from "next/link";
 export const ContactAndCommunication = () => {
 	const { t } = useTranslation("accommodation");
 	return (
-		<section id="contact-and-communication" className="relative">
-			<BlueGradient />
-
+		<section id="contact-and-communication">
 			<div className={"px-4 md:container md:mx-auto"}>
-				<div className="max-w-[1010px] px-3">
+				<div className=" px-3">
 					<div className="max-w-7xl mx-auto text-center py-8">
 						<h2 className="text-2xl inline-flex font-bold lg:text-3xl mb-4">
 							{t("ubytovani:contactAndCommunication.title")}
 						</h2>
-						<p>{t("ubytovani:contactAndCommunication.text")}</p>
+						<p
+							dangerouslySetInnerHTML={{
+								__html: t("ubytovani:contactAndCommunication.text"),
+							}}
+						/>
 					</div>
 				</div>
 
@@ -25,9 +26,12 @@ export const ContactAndCommunication = () => {
 							<h3 className="text-2xl font-bold">
 								{t(`ubytovani:contactAndCommunication.boxTitle`)}
 							</h3>
-							<p className={"pt-4"}>
-								{t(`ubytovani:contactAndCommunication.boxText1`)}
-							</p>
+							<p
+								className={"pt-4"}
+								dangerouslySetInnerHTML={{
+									__html: t(`ubytovani:contactAndCommunication.boxText1`),
+								}}
+							/>
 							<p
 								className={"pt-4"}
 								dangerouslySetInnerHTML={{
@@ -39,19 +43,32 @@ export const ContactAndCommunication = () => {
 							<h3 className="text-2xl font-bold">
 								{t(`ubytovani:contactAndCommunication.linksTitle`)}
 							</h3>
-							<p className={"pt-4"}>
-								{t(`ubytovani:contactAndCommunication.link1.text`)}
-							</p>
-							<p className={"pt-4"}>
-								{t(`ubytovani:contactAndCommunication.link2.text`)}
-							</p>
-							<p className={"pt-4"}>
-								{t(`ubytovani:contactAndCommunication.link3.text`)}
-							</p>
-							<p className={"pt-4"}>
-								{t(`ubytovani:contactAndCommunication.link4.text1`) +
-									t(`ubytovani:contactAndCommunication.link4.text2`)}
-							</p>
+							<p
+								className={"pt-4"}
+								dangerouslySetInnerHTML={{
+									__html: t(`ubytovani:contactAndCommunication.link1.text`),
+								}}
+							></p>
+							<p
+								className={"pt-4"}
+								dangerouslySetInnerHTML={{
+									__html: t(`ubytovani:contactAndCommunication.link2.text`),
+								}}
+							></p>
+							<p
+								className={"pt-4"}
+								dangerouslySetInnerHTML={{
+									__html: t(`ubytovani:contactAndCommunication.link3.text`),
+								}}
+							></p>
+							<p
+								className={"pt-4"}
+								dangerouslySetInnerHTML={{
+									__html:
+										t(`ubytovani:contactAndCommunication.link4.text1`) +
+										t(`ubytovani:contactAndCommunication.link4.text2`),
+								}}
+							></p>
 						</div>
 					</div>
 
@@ -59,29 +76,37 @@ export const ContactAndCommunication = () => {
 						<Tip
 							tipNumber={1}
 							buttonText={t(`ubytovani:contactAndCommunication.button.read`)}
-							buttonLink={"#aaa"}
+							buttonLink={
+								"https://mkc.cz/cz/e-knihovna/metodika-jak-pomahat-a-porozumet"
+							}
 						/>
 						<Tip
 							tipNumber={2}
 							buttonText={t(`ubytovani:contactAndCommunication.button.read`)}
-							buttonLink={"#aaa"}
+							buttonLink={
+								"https://www.upol.cz/fileadmin/userdata/UP/AKTUALITY_2022/PRIRUCKA_PRO_HOSTITELE_UPRCHLIKU.pdf"
+							}
 						/>
 						<Tip
 							tipNumber={3}
 							buttonText={t(`ubytovani:contactAndCommunication.button.visit`)}
-							buttonLink={"#aaa"}
+							buttonLink={"https://www.movapp.cz/"}
 						/>
 						<Tip
 							tipNumber={4}
 							buttonText={t(`ubytovani:contactAndCommunication.button.read`)}
-							buttonLink={"#aaa"}
+							buttonLink={
+								"https://www.opu.cz/wp-content/uploads/2022/03/Jak_mluvit_navod_0304C.pdf"
+							}
 						/>
 						<Tip
 							tipNumber={5}
 							buttonText={t(
 								`ubytovani:contactAndCommunication.button.moreInfo`
 							)}
-							buttonLink={"#aaa"}
+							buttonLink={
+								"https://www.opu.cz/wp-content/uploads/2022/03/Jak_mluvit_navod_0304C.pdf"
+							}
 						/>
 					</div>
 				</div>

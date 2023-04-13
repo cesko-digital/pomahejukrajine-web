@@ -12,10 +12,15 @@
 "makeItClear.box5.title": "Jak proběhne nastěhování?",
 "makeItClear.box5.text": "Nastěhování může být náročné pro obě strany. Požádejte pomáhající organizaci, ať nové nájemníky doprovodí a pomůže jim se zabydlet. Společně si pak můžete vyjít na procházku – ukažte jim, kde je obchod, zastávka, hřiště pro děti."
 }
-nabidnout ubytovani: https://docs.google.com/document/d/1Qpo48PaGEq-9du7ZGGKcbWUWNx388X1T/edit?usp=sharing&ouid=106922955143727043704&rtpof=true&sd=true
-Více o solidárním příspěvku: https://davkyuk.mpsv.cz/domacnost/info/podminky-naroku
+OK:
 
-    Kontakt a komunikace:
+- https://www.pomahejukrajine.cz/organizace
+- https://davkyuk.mpsv.cz/jazyk?url=%2Fdomacnost
+- nabidnout ubytovani: https://docs.google.com/document/d/1Qpo48PaGEq-9du7ZGGKcbWUWNx388X1T/edit?usp=sharing&ouid=106922955143727043704&rtpof=true&sd=true
+  je jen cesky:
+- Více o solidárním příspěvku: https://davkyuk.mpsv.cz/domacnost/info/podminky-naroku
+
+  Kontakt a komunikace:
 
 Na rychlé překlady je nejvhodnější Internetový překladač DeepL. S tlumočením Vám pomohou na asistenční infolince.
 https://www.deepl.com/translator
