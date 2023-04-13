@@ -32,7 +32,7 @@ export const HelpFindAccommodation = () => {
 					</Link>
 				</div>
 				<div className="mt-4 md:mt-7 mb-8 md:mb-0">
-					<Link href="#clarify">
+					<Link href="#makeItClear">
 						<a className="text-[16px] font-bold underline">
 							{t("ubytovani:helpFindAccommodation.link")}
 						</a>

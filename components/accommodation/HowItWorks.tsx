@@ -9,21 +9,24 @@ export const HowItWorks = () => {
 	return (
 		<section id="howItWorks" className="py-8 relative">
 			<BlueGradient />
-			<div className="max-w-7xl mx-auto text-center py-8">
-				<h2 className="text-2xl inline-flex font-bold lg:text-3xl mb-4">
-					{t("ubytovani:howItWorks.title")}
-				</h2>
-				<p>{t("ubytovani:howItWorks.text")}</p>
-			</div>
 
-			<ZigZagGrid />
+			<div className="md:container md:mx-auto">
+				<div className="max-w-7xl mx-auto text-center py-8">
+					<h2 className="text-2xl inline-flex font-bold lg:text-3xl mb-4">
+						{t("ubytovani:howItWorks.title")}
+					</h2>
+					<p>{t("ubytovani:howItWorks.text")}</p>
+				</div>
 
-			<div className="flex justify-center mb-[91px]">
-				<Link href="#offerAccommodation">
-					<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] py-4 mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
-						{t("ubytovani:howItWorks.button")}
-					</a>
-				</Link>
+				<ZigZagGrid />
+
+				<div className="flex justify-center mb-[91px]">
+					<Link href="#offerAccommodation">
+						<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] py-4 mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
+							{t("ubytovani:howItWorks.button")}
+						</a>
+					</Link>
+				</div>
 			</div>
 		</section>
 	);
