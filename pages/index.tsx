@@ -30,8 +30,8 @@ const Logos = [
 		href: "https://www.facebook.com/atlasoftodaysworld",
 		path: "/logos/atlasmigrace.jpg",
 	}, 
-	{ href: "https://dignityrh.org/", path: "/logos/dignity.jpg"}, 
-	{ href: "http://www.kalyna.cz/", path: "/logos/kalyna.png"}, 
+	{ href: "https://dignityrh.org/", path: "/logos/dignity.svg"}, 
+	{ href: "http://www.kalyna.cz/", path: "/logos/kalyna.svg"}, 
 	{ href: "https://czechdoc.cz/cs/", path: "/logos/czechdoc.png"}
 ] as const;
 
