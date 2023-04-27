@@ -20,10 +20,10 @@ export const ContactAndCommunication = () => {
 					</div>
 				</div>
 
-				<div className={"grid grid-cols-1 md:grid-cols-2 gap-4"}>
+				<div className={"mb-20 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-1"}>
 					<div>
-						<div className=" m-3 p-6 bg-yellow-lightest rounded-lg h-auto">
-							<h3 className="text-2xl font-bold">
+						<div className=" mx-1 my-5 px-8 py-8 bg-yellow-lightest rounded-lg h-auto">
+							<h3 className="h3 font-bold">
 								{t(`ubytovani:contactAndCommunication.boxTitle`)}
 							</h3>
 							<p
@@ -39,8 +39,8 @@ export const ContactAndCommunication = () => {
 								}}
 							/>
 						</div>
-						<div className=" m-3 p-6 bg-ua-blue-lightest rounded-lg h-auto">
-							<h3 className="text-2xl font-bold">
+						<div className=" mx-1 my-5 px-8 pt-9 pb-20 bg-ua-blue-lightest rounded-lg h-auto">
+							<h3 className="h3 font-bold">
 								{t(`ubytovani:contactAndCommunication.linksTitle`)}
 							</h3>
 							<p
@@ -131,7 +131,7 @@ const Tip = ({
 				<Image width={40} height={40} src={`/ubytovani/arrow2.svg`} />
 			</div>
 			<div className={"flex-grow relative"}>
-				<h3 className={"text-2xl font-bold"}>
+				<h3 className={"h3 font-bold"}>
 					{t(`ubytovani:contactAndCommunication.tip${tipNumber}.title`)}
 				</h3>
 				<p className={"py-2"}>
@@ -141,7 +141,7 @@ const Tip = ({
 				<Link href={buttonLink}>
 					<a
 						className="block text-ua-blue text-[18px] font-bold border-2 border-ua-blue rounded-md w-full text-center
-					 hover:bg-ua-blue-dark hover:text-white transition duration-150 p-1"
+					 hover:bg-ua-blue-dark hover:text-white transition duration-150 p-1.5"
 					>
 						{buttonText}
 					</a>

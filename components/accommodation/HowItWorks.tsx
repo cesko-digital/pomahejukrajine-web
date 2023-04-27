@@ -20,9 +20,9 @@ export const HowItWorks = () => {
 
 				<ZigZagGrid />
 
-				<div className="flex justify-center mb-[91px]">
+				<div className="flex justify-center mb-[45px] md:mb-[91px]">
 					<Link href="#offerAccommodation">
-						<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] py-4 mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
+						<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] py-4 mt-4 md:mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
 							{t("ubytovani:howItWorks.button")}
 						</a>
 					</Link>
@@ -54,8 +54,8 @@ const ZigZagItem = ({
 	const classNames =
 		zigZag === "zig"
 			? {
-					space: "order-1 md:order-1 md:border-r-2 ",
-					icon: "order-2 md:order-3 md:border-r-2 ",
+					space: "order-1 md:order-1 md:border-r-2",
+					icon: "order-2 md:order-3 md:border-r-2",
 					stepHeader: "order-3 md:order-2 md:border-l-2 md:border-b-2",
 					stepText: "order-4 md:order-4 md:border-l-2 md:border-t-2",
 			  }
@@ -100,7 +100,7 @@ const Icon = ({
 	const alignment = zigZag === "zig" ? "md:text-right" : "md:text-left";
 
 	return (
-		<div className={`text-center ${alignment}  h-full`}>
+		<div className={`text-center ${alignment} h-full`}>
 			<Image
 				width={144}
 				height={131}
@@ -122,7 +122,7 @@ const StepHeader = ({
 
 	return (
 		<div className="text-center md:text-left">
-			<div className=" p-4">
+			<div className="p-4 md:mt-10 mr-16">
 				<div className="md:flex text-[19px]">
 					<div className="">
 						<span className="bg-ua-yellow inline-flex px-1 whitespace-nowrap mr-2">
@@ -150,9 +150,9 @@ const StepText = ({
 	const { t } = useTranslation("ubytovani");
 
 	return (
-		<div className=" md:text-left h-full">
+		<div className="md:text-left h-full md:mb-20 w-80 md:w-auto">
 			<p
-				className="leading-6"
+				className="leading-6 text-[15px]"
 				dangerouslySetInnerHTML={{
 					__html: t(`ubytovani:howItWorks.step${stepNumber}.text`),
 				}}

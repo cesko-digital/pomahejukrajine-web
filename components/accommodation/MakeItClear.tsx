@@ -11,15 +11,15 @@ export const MakeItClear = () => {
 			id="makeItClear"
 			className="bg-yellow-lightest text-center py-6 md:py-11 justify-center w-full"
 		>
-			<div className="md:container md:mx-auto">
+			<div className="mb-10 md:mb-20 md:container md:mx-auto">
 				<div className=" w-full">
-					<h2 className="text-2xl inline-flex font-bold lg:text-3xl mb-6 md:mb-7">
+					<h2 className="text-2xl inline-flex font-bold lg:text-3xl mb-20 md:mb-22">
 						{t("ubytovani:makeItClear.title")}
 					</h2>
 				</div>
 
 				<div className=" w-full">
-					<div className="grid grid-cols-1 md:grid-cols-3 p-3">
+					<div className="grid grid-cols-1 md:grid-cols-3">
 						<div>
 							<Card boxNumber={1} />
 							<Card boxNumber={2} />
@@ -67,8 +67,8 @@ const Card = ({ boxNumber }: { boxNumber: number }) => {
 	const { t } = useTranslation("ubytovani");
 
 	return (
-		<div className=" m-3 p-6 bg-white rounded-lg h-auto">
-			<h3 className="text-2xl font-bold">
+		<div className="my-2.5 mx-3 md:mx-3 md:my-6 px-6 pt-10 pb-16 bg-white rounded-lg h-auto">
+			<h3 className="h3 font-bold mb-10 md: mb-8">
 				{t(`makeItClear.box${boxNumber}.title`)}
 			</h3>
 			<p>{t(`makeItClear.box${boxNumber}.text`)}</p>
