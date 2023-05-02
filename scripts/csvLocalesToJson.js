@@ -1,7 +1,7 @@
 const fs = require("fs");
 const csvParser = require("csv-parser");
 
-const inputFile = "translation.csv"; // Replace this with your CSV file path
+const inputFile = "./translations.csv"; // Replace this with your CSV file path
 
 const czJson = {};
 const uaJson = {};
