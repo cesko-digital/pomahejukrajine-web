@@ -23,7 +23,7 @@ export const ContactAndCommunication = () => {
 				<div className={"mb-20 md:mt-6 grid grid-cols-1 md:grid-cols-2 gap-1"}>
 					<div>
 						<div className=" mx-1 my-5 px-8 py-8 bg-yellow-lightest rounded-lg h-auto">
-							<h3 className="h3 font-bold">
+							<h3 className="font-bold">
 								{t(`ubytovani:contactAndCommunication.boxTitle`)}
 							</h3>
 							<p
