@@ -29,10 +29,10 @@ const Logos = [
 	{
 		href: "https://www.facebook.com/atlasoftodaysworld",
 		path: "/logos/atlasmigrace.jpg",
-	}, 
-	{ href: "https://dignityrh.org/", path: "/logos/dignity.svg"}, 
-	{ href: "http://www.kalyna.cz/", path: "/logos/kalyna.svg"}, 
-	{ href: "https://czechdoc.cz/cs/", path: "/logos/czechdoc.png"}
+	},
+	{ href: "https://dignityrh.org/", path: "/logos/dignity.svg" },
+	{ href: "http://www.kalyna.cz/", path: "/logos/kalyna.svg" },
+	{ href: "https://czechdoc.cz/cs/", path: "/logos/czechdoc.png" },
 ] as const;
 
 const PartnersLogos = [
@@ -79,8 +79,8 @@ const Home: NextPage = () => {
 			<Meta title={t("meta.title")} description={t("meta.description")} />
 			<Header />
 			<div className="text-base max-w-7xl mx-auto pt-[18px] md:pt-5 px-3 md:px-8">
-				<div className="grid gap-x-4 gap-y-2 md:gap-y-3 grid-cols-1 md:grid-cols-2">
-					<div className="bg-ua-yellow rounded-lg px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
+				<div className="grid gap-x-0 gap-y-0 md:gap-y-3 grid-cols-1 md:grid-cols-3">
+					<div className="bg-ua-yellow px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidka">
 							<a className="text-white text-lg bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
 								{t("frontPage.offerHelp")}
@@ -90,8 +90,18 @@ const Home: NextPage = () => {
 							{t("frontPage.offerHelpText")}
 						</p>
 					</div>
-					<div className="bg-ua-yellow rounded-lg px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
+					<div className="bg-ua-yellow px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidky">
+							<a className="text-white text-lg bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
+								{t("frontPage.needHelp")}
+							</a>
+						</Link>
+						<p className="text-center leading-6 pt-4 md:pt-6">
+							{t("frontPage.needHelpText")}
+						</p>
+					</div>
+					<div className="bg-ua-yellow px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
+						<Link href="/ubytovani">
 							<a className="text-white text-lg bg-ua-blue font-bold rounded-md w-56 py-4 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
 								{t("frontPage.needHelp")}
 							</a>
@@ -105,7 +115,7 @@ const Home: NextPage = () => {
 					<p className="font-bold max-w-3xl md:px-8 mx-auto pb-8 md:pb-12 leading-6">
 						{t("frontPage.organizationList")}{" "}
 						<Link href="/organizace">
-							<a className="overflow-hidden underline break-all underline-offset-2 hover:no-underline">
+							<a className="overflow-hidden underline break-all underline-offset-2 hover:no-underline text-ua-blue font-bold">
 								{t("frontPage.here")}
 							</a>
 						</Link>
@@ -115,7 +125,7 @@ const Home: NextPage = () => {
 					<p className="max-w-3xl mx-auto md:px-8 leading-6">
 						{t("frontPage.organizationText")}{" "}
 						<a
-							className="underline underline-offset-2 hover:no-underline"
+							className="underline underline-offset-2 hover:no-underline text-ua-blue font-bold"
 							target="_blank"
 							rel="noreferrer"
 							href="https://docs.google.com/forms/d/1YmKGhZgUAlq1zNBmBKHQeToaOpl41fCcXXA1uLCBGSk/viewform?edit_requested=true"
@@ -130,7 +140,7 @@ const Home: NextPage = () => {
 					<p className="max-w-3xl mx-auto md:px-8 md:pb-4 leading-6">
 						{t("frontPage.contactUsText")}{" "}
 						<a
-							className="underline underline-offset-2 hover:no-underline overflow-hidden"
+							className="underline underline-offset-2 hover:no-underline overflow-hidden text-ua-blue font-bold underline"
 							href="mailto:pomahejukrajine@migracnikonsorcium.cz?subject=PomáhejUkrajině"
 						>
 							pomahejukrajine@migracnikonsorcium.cz
