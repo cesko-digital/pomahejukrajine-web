@@ -41,7 +41,7 @@ export const AccommodationSupport = () => {
 				/>
 
 				<p
-					className="pb-4"
+					className="pt-4 pb-4"
 					dangerouslySetInnerHTML={{
 						__html: t(`ubytovani:accommodationSupport.text5`),
 					}}
