@@ -10,11 +10,10 @@ import {
 } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 import { useRouter } from "next/router";
-
 import { Required } from "./Required";
 import { CZECH } from "../utils/constants";
 
-type RegisterFormProps =
+export type RegisterFormProps =
 	| (PublicQueryResult & { volunteerData?: Volunteer; editing?: false })
 	| {
 			languages: Language[];

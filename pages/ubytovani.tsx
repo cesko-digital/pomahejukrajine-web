@@ -10,6 +10,21 @@ import { AccommodationSupport } from "../components/accommodation/AccommodationS
 import { MakeItClear } from "../components/accommodation/MakeItClear";
 import { ContactAndCommunication } from "../components/accommodation/ContactAndCommunication";
 import { HelpFindAccommodation } from "../components/accommodation/HelpFindAccommodation";
+import { RegisterForm, RegisterFormProps } from "../components/RegisterForm";
+import FormInput from "../components/FormInput";
+import { Language, PublicQueryResult, Volunteer } from "../lib/shared";
+
+let values:
+	| RegisterFormProps
+	| (PublicQueryResult & { volunteerData?: Volunteer; editing?: false })
+	| {
+			languages: Language[];
+			uk?: boolean;
+			volunteerData?: Volunteer;
+			editing: true;
+			offerTypes?: undefined;
+			districts?: undefined;
+	  };
 
 const Ubytovani = () => {
 	const { t } = useTranslation(["common", "ubytovani"]);
@@ -27,6 +42,32 @@ const Ubytovani = () => {
 			<AccommodationSupport />
 			<MakeItClear />
 			<ContactAndCommunication />
+			<FormInput />
+			<RegisterForm
+				{...values}
+				languages={[
+					{
+						id: "1",
+						name: t("ubytovani:registerForm.languageOption.cz"),
+						nameUK: t("ubytovani:registerForm.languageOption.cz"),
+					},
+					{
+						id: "2",
+						name: t("ubytovani:registerForm.languageOption.en"),
+						nameUK: t("ubytovani:registerForm.languageOption.en"),
+					},
+					{
+						id: "3",
+						name: t("ubytovani:registerForm.languageOption.ua"),
+						nameUK: t("ubytovani:registerForm.languageOption.ua"),
+					},
+					{
+						id: "4",
+						name: t("ubytovani:registerForm.languageOption.ru"),
+						nameUK: t("ubytovani:registerForm.languageOption.ru"),
+					},
+				]}
+			/>
 			<Footer />
 		</div>
 	);
