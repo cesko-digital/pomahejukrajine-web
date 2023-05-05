@@ -74,6 +74,7 @@ export const AccommodationSupport = () => {
 						__html: t(`ubytovani:accommodationSupport.text8`),
 					}}
 				/>
+				
 				<p
 					className="pb-4"
 					dangerouslySetInnerHTML={{
