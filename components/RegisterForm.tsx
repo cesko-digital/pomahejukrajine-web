@@ -4,6 +4,7 @@ import { FormEvent, memo, useCallback, useState } from "react";
 import {
 	FormError,
 	Language,
+	OfferType,
 	PublicQueryResult,
 	RegisterFormState,
 	Volunteer,
@@ -20,7 +21,7 @@ export type RegisterFormProps =
 			uk?: boolean;
 			volunteerData?: Volunteer;
 			editing: true;
-			offerTypes?: undefined;
+			offerTypes?: OfferType[];
 			districts?: undefined;
 	  };
 

@@ -12,7 +12,13 @@ import { ContactAndCommunication } from "../components/accommodation/ContactAndC
 import { HelpFindAccommodation } from "../components/accommodation/HelpFindAccommodation";
 import { RegisterForm, RegisterFormProps } from "../components/RegisterForm";
 import FormInput from "../components/FormInput";
-import { Language, PublicQueryResult, Volunteer } from "../lib/shared";
+import {
+	Language,
+	OfferType,
+	PublicQueryResult,
+	Volunteer,
+	publicQuery,
+} from "../lib/shared";
 
 let values:
 	| RegisterFormProps
@@ -22,11 +28,13 @@ let values:
 			uk?: boolean;
 			volunteerData?: Volunteer;
 			editing: true;
-			offerTypes?: undefined;
+			offerTypes?: OfferType[];
 			districts?: undefined;
 	  };
 
-const Ubytovani = () => {
+interface UbytovaniProps extends PublicQueryResult {}
+
+const Ubytovani = ({ offerTypes }: UbytovaniProps) => {
 	const { t } = useTranslation(["common", "ubytovani"]);
 
 	return (
@@ -43,35 +51,61 @@ const Ubytovani = () => {
 			<MakeItClear />
 			<ContactAndCommunication />
 			<FormInput />
-			<RegisterForm
-				{...values}
-				languages={[
-					{
-						id: "1",
-						name: t("ubytovani:registerForm.languageOption.cz"),
-						nameUK: t("ubytovani:registerForm.languageOption.cz"),
-					},
-					{
-						id: "2",
-						name: t("ubytovani:registerForm.languageOption.en"),
-						nameUK: t("ubytovani:registerForm.languageOption.en"),
-					},
-					{
-						id: "3",
-						name: t("ubytovani:registerForm.languageOption.ua"),
-						nameUK: t("ubytovani:registerForm.languageOption.ua"),
-					},
-					{
-						id: "4",
-						name: t("ubytovani:registerForm.languageOption.ru"),
-						nameUK: t("ubytovani:registerForm.languageOption.ru"),
-					},
-				]}
-			/>
+			<div className="grid justify-items-center mt-16">
+				<RegisterForm
+					{...values}
+					languages={[
+						{
+							id: "1",
+							name: t("ubytovani:registerForm.languageOption.cz"),
+							nameUK: t("ubytovani:registerForm.languageOption.cz"),
+						},
+						{
+							id: "2",
+							name: t("ubytovani:registerForm.languageOption.en"),
+							nameUK: t("ubytovani:registerForm.languageOption.en"),
+						},
+						{
+							id: "3",
+							name: t("ubytovani:registerForm.languageOption.ua"),
+							nameUK: t("ubytovani:registerForm.languageOption.ua"),
+						},
+						{
+							id: "4",
+							name: t("ubytovani:registerForm.languageOption.ru"),
+							nameUK: t("ubytovani:registerForm.languageOption.ru"),
+						},
+					]}
+					offerTypes={offerTypes}
+				/>
+			</div>
 			<Footer />
 		</div>
 	);
 };
+
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
+// 		method: "POST",
+// 		headers: {
+// 			"Content-Type": "application/json",
+// 			Authorization: `Bearer ${process.env.NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN}`,
+// 		},
+// 		body: JSON.stringify({
+// 			query: `{ ${publicQuery} }`,
+// 		}),
+// 	});
+
+// 	const json = await response.json();
+// 	const { data } = json;
+
+// 	return {
+// 		props: {
+// 			...data,
+// 			...(await serverSideTranslations(context.locale as string, ["common", "ubytovani"])),
+// 		},
+// 	};
+// }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
