@@ -82,9 +82,8 @@ const Home: NextPage = () => {
 				<h2 className="text-center text-[30px] font-bold pt-10 pb-4">
 					{t("welcomeText.Header")}
 				</h2>
-				<p className="text-center leading-8 pb-16">
-					{t("welcomeText.paragraph")}
-				</p>
+				<p className="text-center">{t("welcomeText.paragraph")}</p>
+				<p className="text-center pb-16">{t("welcomeText.paragraph2")}</p>
 			</div>
 			<div className="text-base max-w-7xl mx-auto">
 				<div className="grid gap-x-0 gap-y-0 md:gap-y-3 grid-cols-1 md:grid-cols-3">
