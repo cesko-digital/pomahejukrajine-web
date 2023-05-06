@@ -51,13 +51,13 @@ export type Districts = {
 export type Language = {
 	id: string;
 	name: string;
-	nameUK: string;
+	nameUK?: string;
 };
 
 export type OfferType = {
 	id: string;
 	name: string;
-	nameUK: string;
+	nameUK?: string;
 	infoText: string;
 	infoTextUK: string;
 	questions: QuestionDefinition[];
