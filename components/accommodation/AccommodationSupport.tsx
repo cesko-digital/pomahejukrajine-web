@@ -10,7 +10,11 @@ export const AccommodationSupport = () => {
 		<section id="howItWorks" className="py-8 relative">
 			<BlueGradient />
 
-			<div className={"mx:container mx-auto text-center md:ml-20 md:mr-20"}>
+			<div
+				className={
+					"mx:container mx-auto text-center md:ml-20 md:mr-20 lg:ml-40 lg:mr-40 2xl:ml-[600px] 2xl:mr-[600px]"
+				}
+			>
 				<h2 className="text-2xl inline-flex font-bold lg:text-3xl mt-8 mb-4 md:mt-6 md:mb-12">
 					{t("ubytovani:accommodationSupport.title")}
 				</h2>

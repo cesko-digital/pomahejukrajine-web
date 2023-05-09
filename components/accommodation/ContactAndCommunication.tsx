@@ -5,7 +5,10 @@ import Link from "next/link";
 export const ContactAndCommunication = () => {
 	const { t } = useTranslation("accommodation");
 	return (
-		<section id="contact-and-communication" className="md:ml-20 md:mr-20">
+		<section
+			id="contact-and-communication"
+			className="md:ml-20 md:mr-20 lg:ml-40 lg:mr-40 2xl:ml-[600px] 2xl:mr-[600px]"
+		>
 			<div className={"px-4 md:container md:mx-auto"}>
 				<div className=" px-3">
 					<div className="max-w-7xl mx-auto text-center py-8">
