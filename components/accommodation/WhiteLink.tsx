@@ -15,6 +15,7 @@ export const WhiteLink = ({
 	return (
 		<Link href={link}>
 			<a
+				target="_blank"
 				className={`text-ua-blue font-bold border-2 border-ua-blue rounded-md text-center
 	hover:bg-ua-blue-dark hover:text-white transition duration-150 ${classNames}`}
 			>
