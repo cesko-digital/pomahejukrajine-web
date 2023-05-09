@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetServerSidePropsContext, GetStaticProps } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Footer from "../components/footer";
@@ -84,38 +84,41 @@ const Ubytovani = ({ offerTypes }: UbytovaniProps) => {
 	);
 };
 
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-// 	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
-// 		method: "POST",
-// 		headers: {
-// 			"Content-Type": "application/json",
-// 			Authorization: `Bearer ${process.env.NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN}`,
-// 		},
-// 		body: JSON.stringify({
-// 			query: `{ ${publicQuery} }`,
-// 		}),
-// 	});
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const response = await fetch(process.env.NEXT_PUBLIC_CONTEMBER_CONTENT_URL!, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${process.env.NEXT_PUBLIC_CONTEMBER_PUBLIC_TOKEN}`,
+		},
+		body: JSON.stringify({
+			query: `{ ${publicQuery} }`,
+		}),
+	});
 
-// 	const json = await response.json();
-// 	const { data } = json;
+	const json = await response.json();
+	const { data } = json;
 
-// 	return {
-// 		props: {
-// 			...data,
-// 			...(await serverSideTranslations(context.locale as string, ["common", "ubytovani"])),
-// 		},
-// 	};
-// }
-
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
 	return {
 		props: {
-			...(await serverSideTranslations(locale as string, [
+			...data,
+			...(await serverSideTranslations(context.locale as string, [
 				"common",
 				"ubytovani",
 			])),
 		},
 	};
-};
+}
+
+// export const getStaticProps: GetStaticProps = async ({ locale }) => {
+// 	return {
+// 		props: {
+// 			...(await serverSideTranslations(locale as string, [
+// 				"common",
+// 				"ubytovani",
+// 			])),
+// 		},
+// 	};
+// };
 
 export default Ubytovani;
