@@ -61,7 +61,7 @@ export const AccommodationSupport = () => {
 
 				<WhiteLink
 					type={"button"}
-					link={"#aaa"}
+					link={"https://davkyuk.mpsv.cz/jazyk"}
 					text={t("ubytovani:accommodationSupport.button1")}
 				/>
 
