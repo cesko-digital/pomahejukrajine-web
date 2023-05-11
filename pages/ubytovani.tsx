@@ -38,7 +38,7 @@ const Ubytovani = ({ offerTypes }: UbytovaniProps) => {
 	const { t } = useTranslation(["common", "ubytovani"]);
 
 	return (
-		<div className="antialiased text-black">
+		<div className="antialiased text-black scroll-smooth">
 			<Meta
 				title={t("common:meta.title")}
 				description={t("common:meta.description")}
@@ -51,7 +51,7 @@ const Ubytovani = ({ offerTypes }: UbytovaniProps) => {
 			<MakeItClear />
 			<ContactAndCommunication />
 			<FormInput />
-			<div className="grid max-w-lg mx-auto mt-16">
+			<div id="offerAccommodation" className="grid max-w-lg mx-auto mt-16">
 				<RegisterForm
 					{...values}
 					languages={[
