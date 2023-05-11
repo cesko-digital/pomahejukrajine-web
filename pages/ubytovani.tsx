@@ -51,7 +51,7 @@ const Ubytovani = ({ offerTypes }: UbytovaniProps) => {
 			<MakeItClear />
 			<ContactAndCommunication />
 			<FormInput />
-			<div className="grid justify-items-center mt-16">
+			<div className="grid max-w-lg mx-auto mt-16">
 				<RegisterForm
 					{...values}
 					languages={[
