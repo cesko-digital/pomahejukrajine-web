@@ -19,6 +19,8 @@ import {
 	Volunteer,
 	publicQuery,
 } from "../lib/shared";
+import { useRouter } from "next/router";
+import { CZECH } from "../utils/constants";
 
 let values:
 	| RegisterFormProps
@@ -34,8 +36,9 @@ let values:
 
 interface UbytovaniProps extends PublicQueryResult {}
 
-const Ubytovani = ({ offerTypes }: UbytovaniProps) => {
+const Ubytovani = ({ offerTypes, languages }: UbytovaniProps) => {
 	const { t } = useTranslation(["common", "ubytovani"]);
+	const { locale } = useRouter();
 
 	return (
 		<div className="antialiased text-black scroll-smooth">
@@ -54,28 +57,8 @@ const Ubytovani = ({ offerTypes }: UbytovaniProps) => {
 			<div id="offerAccommodation" className="grid max-w-lg mx-auto mt-16">
 				<RegisterForm
 					{...values}
-					languages={[
-						{
-							id: "1",
-							name: t("ubytovani:registerForm.languageOption.cz"),
-							nameUK: t("ubytovani:registerForm.languageOption.cz"),
-						},
-						{
-							id: "2",
-							name: t("ubytovani:registerForm.languageOption.en"),
-							nameUK: t("ubytovani:registerForm.languageOption.en"),
-						},
-						{
-							id: "3",
-							name: t("ubytovani:registerForm.languageOption.ua"),
-							nameUK: t("ubytovani:registerForm.languageOption.ua"),
-						},
-						{
-							id: "4",
-							name: t("ubytovani:registerForm.languageOption.ru"),
-							nameUK: t("ubytovani:registerForm.languageOption.ru"),
-						},
-					]}
+					languages={languages}
+					uk={locale === CZECH ? false : true}
 					offerTypes={offerTypes}
 				/>
 			</div>
