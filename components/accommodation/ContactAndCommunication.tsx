@@ -7,7 +7,7 @@ export const ContactAndCommunication = () => {
 	return (
 		<section
 			id="contact-and-communication"
-			className="md:ml-20 md:mr-20 lg:ml-40 lg:mr-40 2xl:ml-[600px] 2xl:mr-[600px]"
+			className="md:ml-20 md:mr-20 lg:ml-40 lg:mr-40 2xl:ml-[300px] 2xl:mr-[300px]"
 		>
 			<div className={"px-4 md:container md:mx-auto"}>
 				<div className=" px-3">

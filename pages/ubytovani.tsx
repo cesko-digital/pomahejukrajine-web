@@ -110,15 +110,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	};
 }
 
-// export const getStaticProps: GetStaticProps = async ({ locale }) => {
-// 	return {
-// 		props: {
-// 			...(await serverSideTranslations(locale as string, [
-// 				"common",
-// 				"ubytovani",
-// 			])),
-// 		},
-// 	};
-// };
-
 export default Ubytovani;

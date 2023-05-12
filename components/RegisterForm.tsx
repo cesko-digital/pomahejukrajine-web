@@ -13,6 +13,7 @@ import { QuestionControl } from "./QuestionControl";
 import { useRouter } from "next/router";
 import { Required } from "./Required";
 import { CZECH } from "../utils/constants";
+import { off } from "process";
 
 export type RegisterFormProps =
 	| (PublicQueryResult & { volunteerData?: Volunteer; editing?: false })
@@ -37,7 +38,11 @@ export const RegisterForm = memo<RegisterFormProps>(
 			emailRepeat: volunteerData?.email ?? "",
 			phone: volunteerData?.phone ?? "+420",
 			expertise: volunteerData?.expertise ?? "",
-			offers: {},
+			offers: {
+				"58cfe4d1-2fa6-4342-8a6a-29407f4eae2c": {
+					questions: {},
+				},
+			},
 			languages: volunteerData?.languages.map((l: any) => l.language.id) ?? [],
 			contactHours: volunteerData?.contactHours ?? "",
 			organization: volunteerData?.organization ?? "",
