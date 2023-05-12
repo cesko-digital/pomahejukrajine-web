@@ -32,6 +32,8 @@ export const RegisterForm = memo<RegisterFormProps>(
 			false | "loading" | "error" | "success"
 		>(false);
 		const [errors, setErrors] = useState<FormError[]>([]);
+
+		const firstOfferType = offerTypes[0];
 		const [state, setState] = useState<RegisterFormState>({
 			name: volunteerData?.name ?? "",
 			email: volunteerData?.email ?? "",
@@ -39,7 +41,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 			phone: volunteerData?.phone ?? "+420",
 			expertise: volunteerData?.expertise ?? "",
 			offers: {
-				"58cfe4d1-2fa6-4342-8a6a-29407f4eae2c": {
+				[firstOfferType.id]: {
 					questions: {},
 				},
 			},
