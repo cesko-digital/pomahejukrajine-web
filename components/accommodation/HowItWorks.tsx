@@ -23,7 +23,7 @@ export const HowItWorks = () => {
 				<div className="flex justify-center mb-[45px] md:mb-[91px]">
 					<Link href="#offerAccommodation">
 						<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] py-4 mt-4 md:mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
-							{t("ubytovani:howItWorks.button")}
+							{t("ubytovani:helpFindAccommodation.button1")}
 						</a>
 					</Link>
 				</div>

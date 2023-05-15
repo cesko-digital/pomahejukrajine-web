@@ -143,6 +143,7 @@ const Tip = ({
 
 				<Link href={buttonLink}>
 					<a
+						target="_blank"
 						className="block text-ua-blue text-[18px] font-bold border-2 border-ua-blue rounded-md w-full text-center
 					 hover:bg-ua-blue-dark hover:text-white transition duration-150 p-1.5"
 					>
