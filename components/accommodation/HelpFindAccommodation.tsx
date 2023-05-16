@@ -22,7 +22,7 @@ export const HelpFindAccommodation = () => {
 				<div className="flex justify-center flex-col md:flex-row gap-3 mt-10 md:mt-14">
 					<Link href="#offerAccommodation">
 						<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-full md:w-[225px] py-4 flex mr-0 md:mr-4 justify-center items-center hover:bg-ua-blue-dark transition duration-150">
-							{t("ubytovani:helpFindAccommodation.button1")}
+							{t("ubytovani:howItWorks.button")}
 						</a>
 					</Link>
 					<Link href="#howItWorks">
