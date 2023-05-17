@@ -51,7 +51,7 @@ export const getOfferIcon = (offerType: string) => {
 			return <ZdravotniPece />;
 		case "Psychologická pomoc a terapie":
 			return <PsychologickaPomoc />;
-		case "Veterinární péče":
+		case "Veterinární péče a péče o zvířata":
 			return <VeterinarniPece />;
 		case "Učebnice a materiály k výuce":
 			return <Ucebnice />;
