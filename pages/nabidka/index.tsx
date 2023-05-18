@@ -33,6 +33,11 @@ const Home: NextPage<HomeProps> = ({
 							<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
 								{t("nabidka.title")}
 							</h2>
+							<p className="pt-4 pb-4">{t("nabidka.paragraph1")}</p>
+
+							<p className="pb-4">{t("nabidka.paragraph2")}</p>
+
+							<p>{t("nabidka.paragraph3")}</p>
 						</div>
 						<div
 							className={`mt-12 ${
