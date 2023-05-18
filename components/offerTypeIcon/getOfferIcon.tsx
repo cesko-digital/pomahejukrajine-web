@@ -38,6 +38,7 @@ export const getOfferIcon = (offerType: string) => {
 		case "Materiální pomoc":
 			return <MaterialniPomoc />;
 		case "Volnočasové aktivity":
+		case "Kroužky a zájmové aktivity":
 			return <VolnocasoveAktivity />;
 		case "Tlumočení":
 			return <Tlumoceni />;
