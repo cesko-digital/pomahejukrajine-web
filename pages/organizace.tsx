@@ -38,6 +38,7 @@ const Organizations: NextPage<Props> = ({
 				})),
 		[organizationsProps, t]
 	);
+
 	const [organizationsAfterSearch, setOrganizationsAfterSearch] =
 		useState<Organization[]>(organizations);
 	const [selectedRegionDistrictPairs, setSelectedRegionDistrictPairs] =
@@ -57,7 +58,7 @@ const Organizations: NextPage<Props> = ({
 					selectedRegionDistrictPairs.some(
 						([region, district]) =>
 							organization.region === region &&
-							district === organization.district
+							organization.districts.some((it) => it === district)
 					)
 				)
 			);
@@ -142,15 +143,16 @@ export const getServerSideProps: GetServerSideProps = async (
 	});
 
 	const json = await response.json();
+
 	const organizations = json.data.organizations.map(
 		(
 			organization: Organization & {
-				district: null | { name: string };
+				district: null | { name: string }[];
 				region: null | { name: string };
 			}
 		) => ({
 			...organization,
-			district: organization.district?.name ?? null,
+			districts: organization.districts?.map((item: any) => item.name) ?? null,
 			region: organization.region?.name ?? null,
 		})
 	);

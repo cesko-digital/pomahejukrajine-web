@@ -16,7 +16,7 @@ export type Organization = {
 	id: string;
 	name: string;
 	address: string | null;
-	district: string | null;
+	districts: string[];
 	region: string | null;
 	identificationNumber: string;
 	website: string;
