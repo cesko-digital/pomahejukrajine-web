@@ -15,17 +15,14 @@ const organizationsToRegionsAndDistricts = (
 	organizations: Organization[]
 ): Record<string, string[]> =>
 	organizations.reduce((acc: Record<string, string[]>, value: Organization) => {
-		const { region, district } = value;
+		const { region, districts } = value;
 		if (!region) return acc;
 		if (region in acc) {
-			if (district) {
-				acc[region] = uniq([...acc[region], district]);
-			}
+			acc[region] = acc[region].concat(
+				districts.filter((d) => !acc[region].includes(d))
+			);
 		} else {
-			return {
-				...acc,
-				[region]: district ? [district] : [],
-			};
+			acc[region] = districts;
 		}
 		return acc;
 	}, {});
