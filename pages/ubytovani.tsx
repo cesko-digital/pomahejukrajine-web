@@ -18,6 +18,7 @@ import {
 	PublicQueryResult,
 	Volunteer,
 	publicQuery,
+	Districts,
 } from "../lib/shared";
 import { useRouter } from "next/router";
 import { CZECH } from "../utils/constants";
@@ -31,12 +32,12 @@ let values:
 			volunteerData?: Volunteer;
 			editing: true;
 			offerTypes?: OfferType[];
-			districts?: undefined;
+			districts?: Districts;
 	  };
 
 interface UbytovaniProps extends PublicQueryResult {}
 
-const Ubytovani = ({ offerTypes, languages }: UbytovaniProps) => {
+const Ubytovani = ({ offerTypes, languages, districts }: UbytovaniProps) => {
 	const { t } = useTranslation(["common", "ubytovani"]);
 	const { locale } = useRouter();
 
@@ -60,6 +61,7 @@ const Ubytovani = ({ offerTypes, languages }: UbytovaniProps) => {
 					languages={languages}
 					uk={locale === CZECH ? false : true}
 					offerTypes={offerTypes}
+					districts={districts}
 				/>
 			</div>
 			<Footer />
