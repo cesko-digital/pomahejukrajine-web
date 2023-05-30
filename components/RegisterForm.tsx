@@ -8,6 +8,7 @@ import {
 	PublicQueryResult,
 	RegisterFormState,
 	Volunteer,
+	Districts,
 } from "../lib/shared";
 import { QuestionControl } from "./QuestionControl";
 import { useRouter } from "next/router";
@@ -23,7 +24,7 @@ export type RegisterFormProps =
 			volunteerData?: Volunteer;
 			editing: true;
 			offerTypes?: OfferType[];
-			districts?: undefined;
+			districts?: Districts;
 	  };
 
 export const RegisterForm = memo<RegisterFormProps>(
