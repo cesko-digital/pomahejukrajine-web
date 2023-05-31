@@ -45,9 +45,7 @@ const OrganizationList = ({
 			if (!firstValue) {
 				return 1;
 			}
-			if (!secondValue) {
-				return -1;
-			}
+
 			const comparisonResult = firstValue.localeCompare(secondValue, locale, {
 				ignorePunctuation: true,
 			});
