@@ -36,8 +36,12 @@ const OrganizationList = ({
 
 	const sort = () =>
 		organizations.sort((a, b) => {
-			const firstValue = a[sortColumn]?.trim();
-			const secondValue = b[sortColumn]?.trim();
+			const firstValue = Array.isArray(a[sortColumn])
+				? (a[sortColumn]?.[0] as string)?.trim()
+				: (a[sortColumn] as string)?.trim();
+			const secondValue = Array.isArray(b[sortColumn])
+				? (b[sortColumn]?.[0] as string)?.trim()
+				: (b[sortColumn] as string)?.trim();
 			if (!firstValue) {
 				return 1;
 			}
