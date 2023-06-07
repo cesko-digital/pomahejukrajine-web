@@ -38,6 +38,7 @@ export const OfferSearch = ({
 	const [showFilters, setShowFilters] = useState<boolean>(
 		true /* server side default */
 	);
+	console.log(offerType);
 	const { t } = useTranslation();
 	const refinementClassnames = {
 		item: "py-1",
