@@ -145,6 +145,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 		const disabled = submitting === "loading";
 		return (
 			<form
+				action=""
 				className="text-base grid grid-cols-1 gap-y-4 md:gap-y-5"
 				onSubmit={submit}
 			>

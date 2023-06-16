@@ -99,7 +99,7 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
-			<Configure hitsPerPage={showFilters ? 9 : 12} />
+			<Configure hitsPerPage={showFilters ? 12 : 15} />
 			<div
 				className={
 					showFilters
@@ -348,8 +348,8 @@ export const OfferSearch = ({
 							nextPageItem: cx(styles.nextPage),
 							previousPageItem: cx(styles.previousPage),
 						}}
-						showFirst={false}
-						showLast={false}
+						showFirst={true}
+						showLast={true}
 					/>
 					{openedOffer && (
 						<Modal onClose={closeModal}>
