@@ -32,33 +32,29 @@
 	margin-right: 21px;
 }
 
+.nextPage span,
 .nextPage a {
-	display: none;
-}
-
-.nextPage::before {
 	content: url("../public/nextPage.svg");
 	position: relative;
 	top: 2px;
 	left: 1px;
 }
 
-.nextPage:hover::before {
+.nextPage span:hover,
+.nextPage a:hover {
 	content: url("../public/nextPageHover.svg");
 }
 
+.previousPage a,
 .previousPage span {
-	display: none;
-}
-
-.previousPage::before {
 	content: url("../public/previousPage.svg");
 	position: relative;
 	top: 2px;
 	right: 1px;
 }
 
-.previousPage:hover::before {
+.previousPage a:hover,
+.previousPage span:hover {
 	content: url("../public/previousPageHover.svg");
 }
 
