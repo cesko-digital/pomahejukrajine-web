@@ -148,22 +148,34 @@ export const RegisterForm = memo<RegisterFormProps>(
 			} else
 				return (
 					<div className="p-2 sm:p-3 text-center text-lg">
-						<h2 className="text-2xl font-bold lg:text-2xl pb-3">
-							{t("nabidka.confirmation.Header")}
-						</h2>
-						<p
-							className="mx-3 font-medium"
-							dangerouslySetInnerHTML={{
-								__html: t("nabidka.confirmation"),
-							}}
-						/>
-
-						<p
-							className="mx-3 mt-3 font-medium"
-							dangerouslySetInnerHTML={{
-								__html: t("nabidka.confirmation.brackets"),
-							}}
-						/>
+						{type === null ? (
+							<>
+								<h2 className="text-2xl font-bold lg:text-2xl pb-3">
+									{t("nabidka.confirmation.Header")}
+								</h2>
+								<p
+									className="mx-3 font-medium"
+									dangerouslySetInnerHTML={{
+										__html: t("nabidka.confirmation"),
+									}}
+								/>
+								<p
+									className="mx-3 mt-3 font-medium"
+									dangerouslySetInnerHTML={{
+										__html: t("nabidka.confirmation.brackets"),
+									}}
+								/>
+							</>
+						) : (
+							<div className="mt-20 p-2 rounded-lg bg-indigo-600 shadow-lg sm:p-3 text-center whitespace-nowrap inline-block">
+								<p
+									className="mx-5 text-white text-sm"
+									dangerouslySetInnerHTML={{
+										__html: t("nabidka.confirmation.ubytovani"),
+									}}
+								/>
+							</div>
+						)}
 					</div>
 				);
 		}
@@ -171,18 +183,11 @@ export const RegisterForm = memo<RegisterFormProps>(
 		const disabled = submitting === "loading";
 		return (
 			<>
-				{type === "ubytovani" ? (
-					<FormInput
-						header={t("ubytovani:registerForm.header")}
-						text={t("ubytovani:registerForm.text")}
-					/>
-				) : (
-					<div className="text-center">
-						<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
-							{header}
-						</h2>
-					</div>
-				)}
+				<div className="text-center">
+					<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
+						{header}
+					</h2>
+				</div>
 
 				<form
 					className="grid max-w-lg mx-auto mt-16 gap-y-4 md:gap-y-5"

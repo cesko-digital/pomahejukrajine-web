@@ -54,6 +54,10 @@ const Ubytovani = ({ offerTypes, languages, districts }: UbytovaniProps) => {
 			<AccommodationSupport />
 			<MakeItClear />
 			<ContactAndCommunication />
+			<FormInput
+				header={t("ubytovani:registerForm.header")}
+				text={t("ubytovani:registerForm.text")}
+			/>
 			<div id="offerAccommodation" className="">
 				<RegisterForm
 					{...values}
