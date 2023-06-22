@@ -29,11 +29,6 @@ const Home: NextPage<HomeProps> = ({
 			<div className="bg-white py-4 px-4 overflow-hidden sm:px-6 lg:px-8 lg:py-6">
 				<div className="relative max-w-xl mx-auto">
 					<main>
-						<div className="text-center">
-							<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
-								{t("nabidka.title")}
-							</h2>
-						</div>
 						<div
 							className={`mt-12 ${
 								process.env.NEXT_TEMPORARY == "TEMPORARY" ? "hidden" : ""
@@ -44,6 +39,8 @@ const Home: NextPage<HomeProps> = ({
 								districts={districts}
 								languages={languages}
 								uk={locale !== CZECH}
+								header={t("nabidka.title")}
+								type={null}
 							/>
 						</div>
 					</main>
