@@ -157,6 +157,13 @@ export const RegisterForm = memo<RegisterFormProps>(
 								__html: t("nabidka.confirmation"),
 							}}
 						/>
+
+						<p
+							className="mx-3 mt-3 font-medium"
+							dangerouslySetInnerHTML={{
+								__html: t("nabidka.confirmation.brackets"),
+							}}
+						/>
 					</div>
 				);
 		}
