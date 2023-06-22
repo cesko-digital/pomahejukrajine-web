@@ -109,6 +109,7 @@
 	"nabidka.edited": "Nabídka byla upravena",
 	"nabidka.created": "Nabídka byla vytvořena. Pro její zobrazení znova načtěte stránku",
 	"nabidka.confirmation.Header": "Děkujeme za vložení nabídky!",
+	"nabidka.confirmation.brackets": "<i>(Upozornění: Na Ukrajině se používají emailové adresy, které na nás mohou působit nezvykle až neseriózně. Mezi Ukrajinci jsou ale běžně používané).</i>",
 	"nabidka.confirmation": "Na emailovou adresu jsme vám zaslali ověřovací email. Po jeho potvrzení bude vaše nabídka <strong>zpřístupněna v příslušné sekci</strong> platformy a vytvoří se Vám <strong>uživatelský účet</strong>, ve kterém budete moci svou nabídku upravovat. Pokud bude na Vaši nabídku pomoci kdokoliv reagovat, přijde Vám od nás do emailu <strong>zpráva</strong>, která bude obsahovat telefonní číslo dané osoby, její emailovou adresu a text s poptávkou po vaší pomoci. Dál už bude na Vás, abyste se <strong>zkontaktovali.</strong>",
 	"nabidka.error": "Omlouvám se, něco se pokazilo. Zkuste to prosím znovu.",
 	"nabidka.name": "Jméno",
