@@ -70,6 +70,9 @@ export interface PublicQueryResult {
 	districts: Districts;
 	languages: Language[];
 	uk?: boolean;
+	header?: string;
+	text?: any;
+	type: "ubytovani" | null;
 }
 
 export type OfferParameters = {

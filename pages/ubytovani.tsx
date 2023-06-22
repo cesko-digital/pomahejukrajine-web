@@ -54,14 +54,14 @@ const Ubytovani = ({ offerTypes, languages, districts }: UbytovaniProps) => {
 			<AccommodationSupport />
 			<MakeItClear />
 			<ContactAndCommunication />
-			<FormInput />
-			<div id="offerAccommodation" className="grid max-w-lg mx-auto mt-16">
+			<div id="offerAccommodation" className="">
 				<RegisterForm
 					{...values}
 					languages={languages}
 					uk={locale === CZECH ? false : true}
 					offerTypes={offerTypes}
 					districts={districts}
+					type="ubytovani"
 				/>
 			</div>
 			<Footer />
