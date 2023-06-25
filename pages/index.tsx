@@ -170,9 +170,9 @@ const Home: NextPage = () => {
 				</Link>
 			</div>
 
-			<div className="border-t-8 border-t-ua-blue border-b-8 border-b-ua-yellow" />
+			<Footer />
 
-			<div className="text-base max-w-7xl mx-auto px-3 md:px-8 pt-12">
+			<div className="text-base max-w-7xl mx-auto px-3 md:px-8 pt-[70px]">
 				<p className="text-center md:px-8 leading-6">
 					{t("frontPage.partnersText")}
 				</p>
@@ -217,14 +217,13 @@ const Home: NextPage = () => {
 						</div>
 					))}
 				</div>
-				<p className="pt-6 text-center text-grey-dark text-footer leading-relaxed max-w-3xl mx-auto">
+				<p className="pt-6 text-center text-grey-dark text-footer leading-relaxed max-w-3xl mx-auto pb-12">
 					Tento projekt je spolufinancován projektem Ministerstvem vnitra ČR v
 					rámci projektu „Poskytování informačního servisu institucím
 					prostřednictvím platformy Pomáhej Ukrajině a koordinace občanské
 					pomoci uprchlíkům z Ukrajiny“.
 				</p>
 			</div>
-			<Footer />
 		</div>
 	);
 };
