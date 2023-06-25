@@ -19,8 +19,6 @@
 	"frontPage.organizationList": "Список зареєстрованих органiзацiї, що надають допомогу, знайдете",
 	"frontPage.acommodation": "Проживання",
 	"frontPage.acommodationText": "Тут Ви знайдете важливу інформацію щодо пропозицій проживання для біженців з України. Також тут Ви можете запропонувати житло іншим або знайти організацію, яка допоможе Вам знайти житло.",
-	"footer.line1": "Керує Консорцiум неурядових органiзацiй,надаючих допомогу мiгрантам в ЧР, Lublaňská 5/57, 120 00 Прага 2-Виногради, ІЧ: 26620553",
-	"footer.line2": "Виготовлено за допомоги поатформи розробників Contember",
 	"header.logoText": "Центральне мicце для надання допомоги",
 	"header.myOffers": "Мої пропозиції",
 	"header.main": "Вступ",
@@ -213,5 +211,9 @@
 	"error.selectLanguage": "Ви повинні вибрати принаймні одну мову",
 	"offers.count.offer": "пропозиція",
 	"offers.count.offers": "пропозиції",
-	"offers.count.correspondsToYourSearch": "відповідає вашому призначенню"
+	"offers.count.correspondsToYourSearch": "відповідає вашому призначенню",
+	"footer.followUs": "Слідкуйте за нами в соціальних мережах",
+	"footer.navigation": "Швидка навігація",
+	"footer.forOrganization": "За допомогу організаціям",
+	"footer.contactUs": "У вас є питання? Ви зв'язуєтесь з нами"
 }

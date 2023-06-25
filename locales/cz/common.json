@@ -19,8 +19,6 @@
 	"frontPage.acommodation": "Ubytování",
 	"frontPage.acommodationText": "Zde najdete podstatné informace spojené s podporou ubytování uprchlíků z Ukrajiny. Odtud také můžete vložit svou nabídku ubytování, nebo najít pomáhající organizaci, která vám pomůže ubytování vyhledat.",
 	"frontPage.here": "zde",
-	"footer.line1": "Provozuje Konsorcium nevládních organizací pracujících s migranty v ČR, z.s., Lublaňská 5/57, 120 00 Praha 2-Vinohrady, IČO: 266 20 553.",
-	"footer.line2": "Vytvořeno za pomoci vývojářské platformy Contember.",
 	"header.logoText": "Centrální místo pro nabízení pomoci",
 	"header.myOffers": "Moje nabídky",
 	"header.main": "Úvod",
@@ -213,5 +211,9 @@
 	"error.selectLanguage": "Musíte vybrat alespoň jeden jazyk",
 	"offers.count.offer": "nabídka",
 	"offers.count.offers": "nabídek",
-	"offers.count.correspondsToYourSearch": "odpovídá vašemu zadání"
+	"offers.count.correspondsToYourSearch": "odpovídá vašemu zadání",
+	"footer.followUs": "Sledujte nás na sociálních sítích",
+	"footer.navigation": "Rychlá navigace",
+	"footer.forOrganization": "Pro pomáhající organizace",
+	"footer.contactUs": "Máte dotaz? Kontaktujete nás"
 }
