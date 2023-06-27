@@ -187,6 +187,28 @@ export const RegisterForm = memo<RegisterFormProps>(
 					<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
 						{header}
 					</h2>
+					{type === null ? (
+						<>
+							<p
+								className="mx-3 font-medium pt-3"
+								dangerouslySetInnerHTML={{
+									__html: t("nabidka.text.paragraph1"),
+								}}
+							/>
+							<p
+								className="mx-3 font-medium pt-2"
+								dangerouslySetInnerHTML={{
+									__html: t("nabidka.text.paragraph2"),
+								}}
+							/>
+							<p
+								className="mx-3 font-medium pt-2"
+								dangerouslySetInnerHTML={{
+									__html: t("nabidka.text.paragraph3"),
+								}}
+							/>
+						</>
+					) : null}
 				</div>
 
 				<form
