@@ -72,7 +72,7 @@ export interface PublicQueryResult {
 	uk?: boolean;
 	header?: string;
 	text?: any;
-	type: "ubytovani" | null;
+	type?: "ubytovani" | "nabidky" | null;
 }
 
 export type OfferParameters = {

@@ -23,7 +23,7 @@ export type RegisterFormProps =
 			header?: string;
 			text?: any;
 			uk?: boolean;
-			type: "ubytovani" | null;
+			type?: "ubytovani" | "nabidky" | null;
 			volunteerData?: Volunteer;
 			editing: true;
 			offerTypes?: OfferType[];
@@ -148,7 +148,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 			} else
 				return (
 					<div className="p-2 sm:p-3 text-center text-lg">
-						{type === null ? (
+						{type === "nabidky" ? (
 							<>
 								<h2 className="text-2xl font-bold lg:text-2xl pb-3">
 									{t("nabidka.confirmation.Header")}
@@ -187,7 +187,7 @@ export const RegisterForm = memo<RegisterFormProps>(
 					<h2 className="text-2xl inline-flex font-bold lg:text-3xl">
 						{header}
 					</h2>
-					{type === null ? (
+					{type === "nabidky" ? (
 						<>
 							<p
 								className="mx-3 font-medium pt-3"
