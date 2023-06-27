@@ -40,7 +40,7 @@ const Home: NextPage<HomeProps> = ({
 								languages={languages}
 								uk={locale !== CZECH}
 								header={t("nabidka.title")}
-								type={null}
+								type="nabidky"
 							/>
 						</div>
 					</main>
