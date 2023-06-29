@@ -25,7 +25,7 @@ export const AccommodationSupport = () => {
 				/>
 
 				<p
-					className="pt-20"
+					className="bg-ua-yellow inline-flex px-1 whitespace-nowrap mt-20 mr-2"
 					dangerouslySetInnerHTML={{
 						__html: t(`ubytovani:accommodationSupport.text2`),
 					}}
@@ -58,19 +58,20 @@ export const AccommodationSupport = () => {
 						__html: t(`ubytovani:accommodationSupport.text6`),
 					}}
 				/>
+				<div className="inline-grid">
+					<WhiteLink
+						type={"button"}
+						link={"https://davkyuk.mpsv.cz/jazyk"}
+						text={t("ubytovani:accommodationSupport.button1")}
+					/>
 
-				<WhiteLink
-					type={"button"}
-					link={"https://davkyuk.mpsv.cz/jazyk"}
-					text={t("ubytovani:accommodationSupport.button1")}
-				/>
-
-				<p
-					className="pt-20"
-					dangerouslySetInnerHTML={{
-						__html: t(`ubytovani:accommodationSupport.text7`),
-					}}
-				/>
+					<p
+						className="bg-ua-yellow inline-flex whitespace-nowrap mt-20 mr-2"
+						dangerouslySetInnerHTML={{
+							__html: t(`ubytovani:accommodationSupport.text7`),
+						}}
+					/>
+				</div>
 
 				<p
 					className="pt-4 pb-8"
@@ -78,7 +79,7 @@ export const AccommodationSupport = () => {
 						__html: t(`ubytovani:accommodationSupport.text8`),
 					}}
 				/>
-				
+
 				<p
 					className="pb-4"
 					dangerouslySetInnerHTML={{

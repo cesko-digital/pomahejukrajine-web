@@ -152,7 +152,7 @@ const StepText = ({
 	return (
 		<div className="md:text-left h-full md:mb-20 w-80 md:w-auto">
 			<p
-				className="leading-6 text-[15px]"
+				className="leading-6 text-[17px]"
 				dangerouslySetInnerHTML={{
 					__html: t(`ubytovani:howItWorks.step${stepNumber}.text`),
 				}}
