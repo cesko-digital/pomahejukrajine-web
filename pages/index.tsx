@@ -85,7 +85,7 @@ const Home: NextPage = () => {
 				<p className="text-center">{t("welcomeText.paragraph")}</p>
 				<p className="text-center pb-16">{t("welcomeText.paragraph2")}</p>
 			</div>
-			<div className="text-base max-w-7xl mx-auto">
+			<div className="text-base max-w-full mx-auto">
 				<div className="grid gap-x-0 gap-y-0 md:gap-y-3 grid-cols-1 md:grid-cols-3">
 					<div className="bg-ua-yellow px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidka">
