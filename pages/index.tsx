@@ -94,7 +94,7 @@ const Home: NextPage = () => {
 							</a>
 						</Link>
 						<p
-							className="text-center leading-6 pt-4 md:pt-6 mx-w-l 2xl:w-4/6"
+							className="text-center leading-6 pt-4 md:pt-6 mx-w-l"
 							dangerouslySetInnerHTML={{
 								__html: t("frontPage.offerHelpText"),
 							}}
@@ -107,7 +107,7 @@ const Home: NextPage = () => {
 							</a>
 						</Link>
 						<p
-							className="text-center leading-6 pt-4 md:pt-6 2xl:w-4/6"
+							className="text-center leading-6 pt-4 md:pt-6"
 							dangerouslySetInnerHTML={{
 								__html: t("frontPage.needHelpText"),
 							}}
@@ -120,7 +120,7 @@ const Home: NextPage = () => {
 							</a>
 						</Link>
 						<p
-							className="text-center leading-6 pt-4 md:pt-6 2xl:w-4/6"
+							className="text-center leading-6 pt-4 md:pt-6"
 							dangerouslySetInnerHTML={{
 								__html: t("frontPage.acommodationText"),
 							}}
