@@ -93,9 +93,12 @@ const Home: NextPage = () => {
 								{t("frontPage.offerHelp")}
 							</a>
 						</Link>
-						<p className="text-center leading-6	pt-4 md:pt-6">
-							{t("frontPage.offerHelpText")}
-						</p>
+						<p
+							className="text-center leading-6 pt-4 md:pt-6 mx-w-l 2xl:w-4/6"
+							dangerouslySetInnerHTML={{
+								__html: t("frontPage.offerHelpText"),
+							}}
+						/>
 					</div>
 					<div className="bg-ua-yellow px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/nabidky">
@@ -103,9 +106,12 @@ const Home: NextPage = () => {
 								{t("frontPage.needHelp")}
 							</a>
 						</Link>
-						<p className="text-center leading-6 pt-4 md:pt-6">
-							{t("frontPage.needHelpText")}
-						</p>
+						<p
+							className="text-center leading-6 pt-4 md:pt-6 2xl:w-4/6"
+							dangerouslySetInnerHTML={{
+								__html: t("frontPage.needHelpText"),
+							}}
+						/>
 					</div>
 					<div className="bg-ua-yellow px-5 py-10 md:px-20 md:pt-24 md:pb-16 flex flex-col items-center">
 						<Link href="/ubytovani">
@@ -113,9 +119,12 @@ const Home: NextPage = () => {
 								{t("frontPage.acommodation")}
 							</a>
 						</Link>
-						<p className="text-center leading-6 pt-4 md:pt-6">
-							{t("frontPage.acommodationText")}
-						</p>
+						<p
+							className="text-center leading-6 pt-4 md:pt-6 2xl:w-4/6"
+							dangerouslySetInnerHTML={{
+								__html: t("frontPage.acommodationText"),
+							}}
+						/>
 					</div>
 				</div>
 				<div className="text-center py-16 md:py-24">
