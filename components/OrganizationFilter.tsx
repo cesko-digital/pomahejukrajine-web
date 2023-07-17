@@ -18,6 +18,9 @@ const organizationsToRegionsAndDistricts = (
 		const { region, districts } = value;
 		if (!region) return acc;
 		if (region in acc) {
+			if (region === "Hlavní město Praha") {
+				acc[region] = ["Hlavní město Praha", "Praha-východ", "Praha-západ"];
+			}
 			acc[region] = acc[region].concat(
 				districts.filter((d) => !acc[region].includes(d))
 			);
@@ -37,6 +40,7 @@ const Filter = ({ organizations, onFiltered }: Props) => {
 		() => organizationsToRegionsAndDistricts(organizations),
 		[organizations]
 	);
+
 	const [selectedRegionDistrictPairs, setSelectedRegionDistrictPairs] =
 		useState<RegionDistrictPair[]>([]);
 	const onRegionClick = useCallback(
@@ -63,6 +67,7 @@ const Filter = ({ organizations, onFiltered }: Props) => {
 			regionsToDistricts,
 		]
 	);
+
 	const onDistrictClick = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
 			const [region, district] = event.currentTarget.value.split(SEPARATOR, 2);

@@ -46,7 +46,6 @@ const Organizations: NextPage<Props> = ({
 
 	const [organizationsToShow, setOrganizationsToShow] =
 		useState<Organization[]>(organizations);
-
 	// filters organizations from `organizationsAfterSearch` that fulfill `selectedRegionDistrictPairs` filter
 	useEffect(() => {
 		if (!selectedRegionDistrictPairs.length) {
