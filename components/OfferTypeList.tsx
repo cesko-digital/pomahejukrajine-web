@@ -19,7 +19,6 @@ export const OfferTypeList = ({
 	listOfferType,
 	offerTypeId,
 }: OfferTypeListProps) => {
-	console.log(listOfferType.id);
 	const { locale } = useRouter();
 	const [showModal, setShowModal] = useState(false);
 
