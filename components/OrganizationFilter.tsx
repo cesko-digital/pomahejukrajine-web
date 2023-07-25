@@ -17,7 +17,14 @@ const organizationsToRegionsAndDistricts = (
 	organizations.reduce((acc: Record<string, string[]>, value: Organization) => {
 		const { region, districts } = value;
 		if (!region) return acc;
+		// TODO: Remove next line
+		if (region === "Hlavní město Praha" && districts.length > 1)
+			console.log(value);
 		if (region in acc) {
+			// TODO: This should be fixed on backend
+			if (region === "Hlavní město Praha") {
+				acc[region] = ["Hlavní město Praha"]; // or districts[0]
+			}
 			acc[region] = acc[region].concat(
 				districts.filter((d) => !acc[region].includes(d))
 			);
@@ -37,6 +44,7 @@ const Filter = ({ organizations, onFiltered }: Props) => {
 		() => organizationsToRegionsAndDistricts(organizations),
 		[organizations]
 	);
+
 	const [selectedRegionDistrictPairs, setSelectedRegionDistrictPairs] =
 		useState<RegionDistrictPair[]>([]);
 	const onRegionClick = useCallback(
@@ -63,6 +71,7 @@ const Filter = ({ organizations, onFiltered }: Props) => {
 			regionsToDistricts,
 		]
 	);
+
 	const onDistrictClick = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
 			const [region, district] = event.currentTarget.value.split(SEPARATOR, 2);
