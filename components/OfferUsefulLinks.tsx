@@ -21,7 +21,6 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 				t("common:usefulLinks.volunteerHelp.link1"),
 				t("common:usefulLinks.volunteerHelp.link2"),
 				t("common:usefulLinks.volunteerHelp.text1"),
-				t("common:usefulLinks.volunteerHelp.text2"),
 			],
 			rightHalf: [],
 		},
@@ -29,13 +28,11 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 			header: t("common:usefulLinks.materialHelp.header"),
 			leftHalf: [
 				t("common:usefulLinks.materialHelp.link1"),
-				t("common:usefulLinks.materialHelp.text1"),
 				t("common:usefulLinks.materialHelp.link2"),
 				t("common:usefulLinks.materialHelp.link3"),
 			],
 			rightHalf: [
 				t("common:usefulLinks.materialHelp.link4"),
-				t("common:usefulLinks.materialHelp.text2"),
 				t("common:usefulLinks.materialHelp.link5"),
 				t("common:usefulLinks.materialHelp.link6"),
 				t("common:usefulLinks.materialHelp.link7"),
@@ -45,9 +42,7 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 			header: t("common:usefulLinks.transport.header"),
 			leftHalf: [
 				t("common:usefulLinks.transport.link1"),
-				t("common:usefulLinks.transport.text1"),
 				t("common:usefulLinks.transport.link2"),
-				t("common:usefulLinks.transport.text2"),
 			],
 			rightHalf: [],
 		},
@@ -55,7 +50,6 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 			header: t("common:usefulLinks.tutoring.header"),
 			leftHalf: [
 				t("common:usefulLinks.tutoring.link1"),
-				t("common:usefulLinks.tutoring.text1"),
 				t("common:usefulLinks.tutoring.link2"),
 				t("common:usefulLinks.tutoring.text2"),
 				t("common:usefulLinks.tutoring.text3"),
@@ -71,13 +65,10 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 			header: t("common:usefulLinks.czechLanguage.header"),
 			leftHalf: [
 				t("common:usefulLinks.czechLanguage.link1"),
-				t("common:usefulLinks.czechLanguage.text1"),
 				t("common:usefulLinks.czechLanguage.text2"),
 				t("common:usefulLinks.czechLanguage.subtitle1"),
 				t("common:usefulLinks.czechLanguage.link2"),
-				t("common:usefulLinks.czechLanguage.text3"),
 				t("common:usefulLinks.czechLanguage.link3"),
-				t("common:usefulLinks.czechLanguage.text4"),
 			],
 			rightHalf: [
 				t("common:usefulLinks.czechLanguage.subtitle2"),
@@ -93,7 +84,6 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 			header: t("common:usefulLinks.adaptation.header"),
 			leftHalf: [
 				t("common:usefulLinks.adaptation.link1"),
-				t("common:usefulLinks.adaptation.text1"),
 				t("common:usefulLinks.adaptation.text2"),
 			],
 			rightHalf: [],
@@ -115,12 +105,10 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 			header: t("common:usefulLinks.interpretation.header"),
 			leftHalf: [
 				t("common:usefulLinks.interpretation.link1"),
-				t("common:usefulLinks.interpretation.text1"),
 				t("common:usefulLinks.interpretation.text2"),
-				t("common:usefulLinks.interpretation.link2"),
 			],
 			rightHalf: [
-				t("common:usefulLinks.interpretation.text3"),
+				t("common:usefulLinks.interpretation.link2"),
 				t("common:usefulLinks.interpretation.text4"),
 				t("common:usefulLinks.interpretation.link3"),
 			],
@@ -181,14 +169,15 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 	const categoryObj = content[offerType.name];
 	return (
 		<div className="bg-[#FFF5D2] pl-10 mt-20 ml-5 mr-5 mb-10">
-			<p className="text-[#828282] font-bold text-[18px] leading-[27px] pt-3">
+			<p className="text-[#000000] font-bold text-[18px] leading-[27px] pt-3">
 				{categoryObj.header}
 			</p>
-			<div className="grid grid-cols-2 pt-10 pb-10 leading-10 font-bold text-[14px]">
+			<div className="grid grid-cols-2 pt-10 pb-10 text-[16px]">
 				<div>
 					{categoryObj.leftHalf.map((item) => {
 						return (
 							<p
+								className="mb-5"
 								key={Math.random() + 1}
 								dangerouslySetInnerHTML={{
 									__html: item,
@@ -201,6 +190,7 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 					{categoryObj.rightHalf.map((item) => {
 						return (
 							<p
+								className="mb-5"
 								key={Math.random() + 1}
 								dangerouslySetInnerHTML={{
 									__html: item,
