@@ -139,13 +139,7 @@ export const OfferTypeList = ({
 				</div>
 			)}
 			<OffersCount count={selectedType.paginateOffers.pageInfo.totalCount} />
-			{isCategorySelected && (
-				<OfferUsefulLinks
-					offerType={offerType}
-					isCategorySelected={isCategorySelected}
-					onClose={handleCloseModal}
-				/>
-			)}
+			{isCategorySelected && <OfferUsefulLinks offerType={offerType} />}
 		</>
 	);
 };

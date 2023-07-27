@@ -4,7 +4,7 @@ import ButtonBack from "./ButtonBack";
 
 interface OfferUsefulLinksProps {
 	offerType: Record<string, any>;
-	// onClose: () => void;
+	//onClose: () => void;
 }
 
 interface Category {
@@ -17,9 +17,9 @@ interface Content {
 	[category: string]: Category;
 }
 
-export const OfferUsefulLinks: OfferUsefulLinksProps = ({
+export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 	offerType,
-	// onClose,
+	//onClose,
 }) => {
 	const { t } = useTranslation();
 
