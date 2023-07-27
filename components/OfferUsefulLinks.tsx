@@ -1,5 +1,11 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "next-i18next";
+import ButtonBack from "./ButtonBack";
+
+interface OfferUsefulLinksProps {
+	offerType: Record<string, any>;
+	// onClose: () => void;
+}
 
 interface Category {
 	header: string;
@@ -11,7 +17,10 @@ interface Content {
 	[category: string]: Category;
 }
 
-export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
+export const OfferUsefulLinks: OfferUsefulLinksProps = ({
+	offerType,
+	// onClose,
+}) => {
 	const { t } = useTranslation();
 
 	const content: Content = {
@@ -166,13 +175,19 @@ export const OfferUsefulLinks = ({ offerType }: Record<string, any>) => {
 			rightHalf: [],
 		},
 	};
+
 	const categoryObj = content[offerType.name];
+
 	return (
-		<div className="bg-[#FFF5D2] pl-10 mt-20 ml-5 mr-5 mb-10">
-			<p className="text-[#000000] font-bold text-[18px] leading-[27px] pt-3">
+		<div className="absolute w-full md:w-auto top-0 md:relative rounded-[10px] md:rounded-none mt-20 md:pl-10 md:mx-5 md:mb-10 px-10 py-5 bg-[#FFF5D2]">
+			<div className="flex justify-end md:hidden">
+				{/*TODO*/}
+				{/* <ButtonBack onClick={onClose} /> */}
+			</div>
+			<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
 				{categoryObj.header}
 			</p>
-			<div className="grid grid-cols-2 pt-10 pb-10 text-[16px]">
+			<div className="grid md:grid-cols-2 pt-10 pb-10 text-[16px]">
 				<div>
 					{categoryObj.leftHalf.map((item) => {
 						return (

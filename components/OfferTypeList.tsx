@@ -8,19 +8,32 @@ import { useState } from "react";
 import CloseIcon from "./CloseIcon";
 import DropdownIcon from "./DropdownIcon";
 import { OffersCount } from "./OffersCount";
+import { OfferUsefulLinks } from "./OfferUsefulLinks";
 
 export type OfferTypeListProps = {
+	offerType: object;
 	listOfferType: any;
 	offerTypeId: string;
 	locale: string;
 };
 
 export const OfferTypeList = ({
+	offerType,
 	listOfferType,
 	offerTypeId,
 }: OfferTypeListProps) => {
 	const { locale } = useRouter();
 	const [showModal, setShowModal] = useState(false);
+	const [isCategorySelected, setIsCategorySelected] = useState(false);
+
+	const handleIsSelected = () => {
+		setIsCategorySelected(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsCategorySelected(false);
+		console.log(isCategorySelected);
+	};
 
 	const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
 		server: {
@@ -57,6 +70,7 @@ export const OfferTypeList = ({
 						>
 							<Link href={`/nabidky/${id}`}>
 								<a
+									onClick={handleIsSelected}
 									className={`border border-ua-blue min-h-[48px] md:min-h-[44px] rounded-lg flex items-center ${
 										offerTypeId === id
 											? "bg-ua-blue text-white"
@@ -125,6 +139,13 @@ export const OfferTypeList = ({
 				</div>
 			)}
 			<OffersCount count={selectedType.paginateOffers.pageInfo.totalCount} />
+			{isCategorySelected && (
+				<OfferUsefulLinks
+					offerType={offerType}
+					isCategorySelected={isCategorySelected}
+					onClose={handleCloseModal}
+				/>
+			)}
 		</>
 	);
 };
