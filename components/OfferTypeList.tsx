@@ -26,15 +26,6 @@ export const OfferTypeList = ({
 	const [showModal, setShowModal] = useState(false);
 	const [isCategorySelected, setIsCategorySelected] = useState(false);
 
-	const handleIsSelected = () => {
-		setIsCategorySelected(true);
-	};
-
-	const handleCloseModal = () => {
-		setIsCategorySelected(false);
-		console.log(isCategorySelected);
-	};
-
 	const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
 		server: {
 			apiKey: process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_ONLY_API_KEY!,
@@ -70,7 +61,6 @@ export const OfferTypeList = ({
 						>
 							<Link href={`/nabidky/${id}`}>
 								<a
-									onClick={handleIsSelected}
 									className={`border border-ua-blue min-h-[48px] md:min-h-[44px] rounded-lg flex items-center ${
 										offerTypeId === id
 											? "bg-ua-blue text-white"

@@ -4,7 +4,6 @@ import ButtonBack from "./ButtonBack";
 
 interface OfferUsefulLinksProps {
 	offerType: Record<string, any>;
-	//onClose: () => void;
 }
 
 interface Category {
@@ -19,7 +18,6 @@ interface Content {
 
 export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 	offerType,
-	//onClose,
 }) => {
 	const { t } = useTranslation();
 
@@ -182,7 +180,7 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 		<div className="absolute w-full md:w-auto top-0 md:relative rounded-[10px] md:rounded-none mt-20 md:pl-10 md:mx-5 md:mb-10 px-10 py-5 bg-[#FFF5D2]">
 			<div className="flex justify-end md:hidden">
 				{/*TODO*/}
-				{/* <ButtonBack onClick={onClose} /> */}
+				{/* <ButtonBack */}
 			</div>
 			<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
 				{categoryObj.header}
