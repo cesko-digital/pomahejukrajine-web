@@ -1,5 +1,6 @@
-const ButtonBack = () => (
+const ButtonBack = ({ handleOverlay }) => (
 	<svg
+		onClick={handleOverlay}
 		width="40"
 		height="41"
 		viewBox="0 0 35 36"

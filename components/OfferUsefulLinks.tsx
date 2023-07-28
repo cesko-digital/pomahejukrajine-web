@@ -21,6 +21,12 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 }) => {
 	const { t } = useTranslation();
 
+	const [isOverlayShown, setIsOverlayShown] = useState(true);
+
+	const handleOverlay = () => {
+		setIsOverlayShown(!isOverlayShown);
+	};
+
 	const content: Content = {
 		"Dobrovolnická pomoc": {
 			header: t("common:usefulLinks.volunteerHelp.header"),
@@ -177,42 +183,82 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 	const categoryObj = content[offerType.name];
 
 	return (
-		<div className="absolute w-full md:w-auto top-0 md:relative rounded-[10px] md:rounded-none mt-20 md:pl-10 md:mx-5 md:mb-10 px-10 py-5 bg-[#FFF5D2]">
-			<div className="flex justify-end md:hidden">
-				{/*TODO*/}
-				{/* <ButtonBack */}
-			</div>
-			<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
-				{categoryObj.header}
-			</p>
-			<div className="grid md:grid-cols-2 pt-10 pb-10 text-[16px]">
-				<div>
-					{categoryObj.leftHalf.map((item) => {
-						return (
-							<p
-								className="mb-5"
-								key={Math.random() + 1}
-								dangerouslySetInnerHTML={{
-									__html: item,
-								}}
-							/>
-						);
-					})}
+		<div>
+			{/*Verze pro desktop*/}
+			<div className="hidden md:block w-auto mt-20 md:pl-10 md:mx-5 md:mb-10 bg-[#FFF5D2]">
+				<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
+					{categoryObj.header}
+				</p>
+				<div className="grid pt-10 pb-10 text-[16px]">
+					<div>
+						{categoryObj.leftHalf.map((item) => {
+							return (
+								<p
+									className="mb-5"
+									key={Math.random() + 1}
+									dangerouslySetInnerHTML={{
+										__html: item,
+									}}
+								/>
+							);
+						})}
+					</div>
+					<div>
+						{categoryObj.rightHalf.map((item) => {
+							return (
+								<p
+									className="mb-5"
+									key={Math.random() + 1}
+									dangerouslySetInnerHTML={{
+										__html: item,
+									}}
+								/>
+							);
+						})}
+					</div>
 				</div>
-				<div>
-					{categoryObj.rightHalf.map((item) => {
-						return (
-							<p
-								className="mb-5"
-								key={Math.random() + 1}
-								dangerouslySetInnerHTML={{
-									__html: item,
-								}}
-							/>
-						);
-					})}
-				</div>
 			</div>
+
+			{/*Verze pro mobilni zarizeni*/}
+			{isOverlayShown && (
+				<div className="absolute top-0 block w-full md:hidden mt-20 px-10 py-5 rounded-[10px] bg-[#FFF5D2]">
+					<div className="flex justify-end">
+						{/*TODO*/}
+						<ButtonBack handleOverlay={handleOverlay} />
+					</div>
+					<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
+						{categoryObj.header}
+					</p>
+					<div className="grid md:grid-cols-2 pt-10 pb-10 text-[16px]">
+						<div>
+							{categoryObj.leftHalf.map((item) => {
+								return (
+									<p
+										className="mb-5"
+										key={Math.random() + 1}
+										dangerouslySetInnerHTML={{
+											__html: item,
+										}}
+									/>
+								);
+							})}
+						</div>
+						<div>
+							{categoryObj.rightHalf.map((item) => {
+								return (
+									<p
+										className="mb-5"
+										key={Math.random() + 1}
+										dangerouslySetInnerHTML={{
+											__html: item,
+										}}
+									/>
+								);
+							})}
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

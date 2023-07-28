@@ -24,7 +24,6 @@ export const OfferTypeList = ({
 }: OfferTypeListProps) => {
 	const { locale } = useRouter();
 	const [showModal, setShowModal] = useState(false);
-	const [isCategorySelected, setIsCategorySelected] = useState(false);
 
 	const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
 		server: {
@@ -61,6 +60,7 @@ export const OfferTypeList = ({
 						>
 							<Link href={`/nabidky/${id}`}>
 								<a
+									onClick={() => setCategorySelected(true)}
 									className={`border border-ua-blue min-h-[48px] md:min-h-[44px] rounded-lg flex items-center ${
 										offerTypeId === id
 											? "bg-ua-blue text-white"
@@ -129,7 +129,6 @@ export const OfferTypeList = ({
 				</div>
 			)}
 			<OffersCount count={selectedType.paginateOffers.pageInfo.totalCount} />
-			{isCategorySelected && <OfferUsefulLinks offerType={offerType} />}
 		</>
 	);
 };
