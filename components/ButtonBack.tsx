@@ -1,6 +1,6 @@
-const ButtonBack = ({ handleOverlay }) => (
+const ButtonBack = ({ onModalClose }: any) => (
 	<svg
-		onClick={handleOverlay}
+		onClick={onModalClose}
 		width="40"
 		height="41"
 		viewBox="0 0 35 36"

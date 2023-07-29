@@ -4,6 +4,8 @@ import ButtonBack from "./ButtonBack";
 
 interface OfferUsefulLinksProps {
 	offerType: Record<string, any>;
+	isOverlayShown: boolean;
+	onModalClose: any;
 }
 
 interface Category {
@@ -18,14 +20,10 @@ interface Content {
 
 export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 	offerType,
+	isOverlayShown,
+	onModalClose,
 }) => {
 	const { t } = useTranslation();
-
-	const [isOverlayShown, setIsOverlayShown] = useState(true);
-
-	const handleOverlay = () => {
-		setIsOverlayShown(!isOverlayShown);
-	};
 
 	const content: Content = {
 		"Dobrovolnická pomoc": {
@@ -181,7 +179,6 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 	};
 
 	const categoryObj = content[offerType.name];
-
 	return (
 		<div>
 			{/*Verze pro desktop*/}
@@ -220,11 +217,11 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 			</div>
 
 			{/*Verze pro mobilni zarizeni*/}
-			{isOverlayShown && (
+			{!isOverlayShown && (
 				<div className="absolute top-0 block w-full md:hidden mt-20 px-10 py-5 rounded-[10px] bg-[#FFF5D2]">
 					<div className="flex justify-end">
 						{/*TODO*/}
-						<ButtonBack handleOverlay={handleOverlay} />
+						<ButtonBack onModalClose={onModalClose} />
 					</div>
 					<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
 						{categoryObj.header}

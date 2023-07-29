@@ -15,12 +15,14 @@ export type OfferTypeListProps = {
 	listOfferType: any;
 	offerTypeId: string;
 	locale: string;
+	onModalOpen: any;
 };
 
 export const OfferTypeList = ({
 	offerType,
 	listOfferType,
 	offerTypeId,
+	onModalOpen,
 }: OfferTypeListProps) => {
 	const { locale } = useRouter();
 	const [showModal, setShowModal] = useState(false);
@@ -60,7 +62,7 @@ export const OfferTypeList = ({
 						>
 							<Link href={`/nabidky/${id}`}>
 								<a
-									onClick={() => setCategorySelected(true)}
+									onClick={onModalOpen}
 									className={`border border-ua-blue min-h-[48px] md:min-h-[44px] rounded-lg flex items-center ${
 										offerTypeId === id
 											? "bg-ua-blue text-white"
