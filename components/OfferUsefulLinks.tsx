@@ -186,7 +186,7 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 				<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
 					{categoryObj.header}
 				</p>
-				<div className="grid pt-10 pb-10 text-[16px]">
+				<div className="grid grid-cols-2 pt-10 pb-10 text-[16px]">
 					<div>
 						{categoryObj.leftHalf.map((item) => {
 							return (
@@ -226,7 +226,7 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 					<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
 						{categoryObj.header}
 					</p>
-					<div className="grid md:grid-cols-2 pt-10 pb-10 text-[16px]">
+					<div className="grid pt-10 pb-10 text-[16px]">
 						<div>
 							{categoryObj.leftHalf.map((item) => {
 								return (
