@@ -188,11 +188,11 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 				</p>
 				<div className="grid grid-cols-2 pt-10 pb-10 text-[16px]">
 					<div>
-						{categoryObj.leftHalf.map((item) => {
+						{categoryObj.leftHalf.map((item, index) => {
 							return (
 								<p
 									className="mb-5"
-									key={Math.random() + 1}
+									key={index}
 									dangerouslySetInnerHTML={{
 										__html: item,
 									}}
@@ -201,11 +201,11 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 						})}
 					</div>
 					<div>
-						{categoryObj.rightHalf.map((item) => {
+						{categoryObj.rightHalf.map((item, index) => {
 							return (
 								<p
 									className="mb-5"
-									key={Math.random() + 1}
+									key={index}
 									dangerouslySetInnerHTML={{
 										__html: item,
 									}}
