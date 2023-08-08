@@ -217,7 +217,7 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 			</div>
 
 			{/*Verze pro mobilni zarizeni*/}
-			{!isOverlayShown && (
+			{isOverlayShown && (
 				<div className="absolute top-0 block w-full md:hidden mt-20 px-10 py-5 rounded-[10px] bg-[#FFF5D2]">
 					<div className="flex justify-end">
 						{/*TODO*/}

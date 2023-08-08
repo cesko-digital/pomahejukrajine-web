@@ -16,10 +16,12 @@ const Offers = (props: any) => {
 
 	const [isOverlayShown, setIsOverlayShown] = useState(true);
 
+	// Function for closing an overlay
 	const handleOverlay = () => {
 		setIsOverlayShown(false);
 	};
 
+	// Function for
 	const handleOverlayShown = () => {
 		setIsOverlayShown(true);
 	};
