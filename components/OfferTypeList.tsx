@@ -8,18 +8,22 @@ import { useState } from "react";
 import CloseIcon from "./CloseIcon";
 import DropdownIcon from "./DropdownIcon";
 import { OffersCount } from "./OffersCount";
+import { OfferUsefulLinks } from "./OfferUsefulLinks";
 
 export type OfferTypeListProps = {
+	offerType: object;
 	listOfferType: any;
 	offerTypeId: string;
 	locale: string;
+	onModalOpen: any;
 };
 
 export const OfferTypeList = ({
+	offerType,
 	listOfferType,
 	offerTypeId,
+	onModalOpen,
 }: OfferTypeListProps) => {
-	console.log(listOfferType.id);
 	const { locale } = useRouter();
 	const [showModal, setShowModal] = useState(false);
 
@@ -58,6 +62,7 @@ export const OfferTypeList = ({
 						>
 							<Link href={`/nabidky/${id}`}>
 								<a
+									onClick={onModalOpen}
 									className={`border border-ua-blue min-h-[48px] md:min-h-[44px] rounded-lg flex items-center ${
 										offerTypeId === id
 											? "bg-ua-blue text-white"

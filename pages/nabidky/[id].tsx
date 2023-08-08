@@ -1,18 +1,30 @@
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next/types";
-import * as React from "react";
+import React, { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
 import Header from "../../components/header";
 import { Meta } from "../../components/Meta";
 import { OfferEmpty } from "../../components/OfferEmpty";
 import { OfferSearch } from "../../components/OfferSearch";
 import { OfferTypeList } from "../../components/OfferTypeList";
+import { OfferUsefulLinks } from "../../components/OfferUsefulLinks";
 import Footer from "../../components/footer";
 import Link from "next/link";
 
 const Offers = (props: any) => {
 	const { t } = useTranslation();
+
+	const [isOverlayShown, setIsOverlayShown] = useState(true);
+
+	// Function for closing an overlay
+	const handleOverlay = () => {
+		setIsOverlayShown(false);
+	};
+
+	// Function for
+	const handleOverlayShown = () => {
+		setIsOverlayShown(true);
+	};
 
 	return (
 		<div className="antialiased text-black">
@@ -30,7 +42,7 @@ const Offers = (props: any) => {
 					</Link>
 				</div>
 				<div id="offer-search" />
-				<OfferTypeList {...props} />
+				<OfferTypeList {...props} onModalOpen={handleOverlayShown} />
 				{!props.listQuestion.length ? (
 					<OfferEmpty />
 				) : (
@@ -43,6 +55,11 @@ const Offers = (props: any) => {
 					</>
 				)}
 			</div>
+
+			{isOverlayShown && (
+				<OfferUsefulLinks {...props} onModalClose={handleOverlay} />
+			)}
+
 			<Footer />
 		</div>
 	);
