@@ -99,7 +99,7 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 			],
 			rightHalf: [],
 		},
-		"Učebnice a materiály k výuce": {
+		"Učebnice a materiály k výuce ": {
 			header: t("common:usefulLinks.teachingMaterials.header"),
 			leftHalf: [
 				t("common:usefulLinks.teachingMaterials.link1"),
@@ -182,39 +182,41 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 	return (
 		<div>
 			{/*Verze pro desktop*/}
-			<div className="hidden md:block w-auto mt-20 md:pl-10 md:mx-5 md:mb-10 bg-[#FFF5D2]">
-				<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
-					{categoryObj.header}
-				</p>
-				<div className="grid grid-cols-2 pt-10 pb-10 text-[16px]">
-					<div>
-						{categoryObj.leftHalf.map((item, index) => {
-							return (
-								<p
-									className="mb-5"
-									key={index}
-									dangerouslySetInnerHTML={{
-										__html: item,
-									}}
-								/>
-							);
-						})}
-					</div>
-					<div>
-						{categoryObj.rightHalf.map((item, index) => {
-							return (
-								<p
-									className="mb-5"
-									key={index}
-									dangerouslySetInnerHTML={{
-										__html: item,
-									}}
-								/>
-							);
-						})}
+			{typeof categoryObj !== "undefined" && (
+				<div className="hidden md:block w-auto mt-20 md:pl-10 md:mx-5 md:mb-10 bg-[#FFF5D2]">
+					<p className="pt-3 text-[#000000] font-bold text-[18px] leading-[27px]">
+						{categoryObj.header}
+					</p>
+					<div className="grid grid-cols-2 pt-10 pb-10 text-[16px]">
+						<div>
+							{categoryObj.leftHalf.map((item, index) => {
+								return (
+									<p
+										className="mb-5"
+										key={index}
+										dangerouslySetInnerHTML={{
+											__html: item,
+										}}
+									/>
+								);
+							})}
+						</div>
+						<div>
+							{categoryObj.rightHalf.map((item, index) => {
+								return (
+									<p
+										className="mb-5"
+										key={index}
+										dangerouslySetInnerHTML={{
+											__html: item,
+										}}
+									/>
+								);
+							})}
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
 
 			{/*Verze pro mobilni zarizeni*/}
 			{isOverlayShown && (
