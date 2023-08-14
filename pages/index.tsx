@@ -62,9 +62,14 @@ const PartnersLogos = [
 		height: 28,
 	},
 	{
-		href: "https://www.mvcr.cz/ministerstvo-vnitra-ceske-republiky.aspx",
-		path: "/logos/mvcr.svg",
-		height: 40,
+		href: "https://www.unicef.cz/",
+		path: "/logos/unicef.svg",
+		height: 45,
+	},
+	{
+		href: "https://www.praha.eu/jnp/cz/o_meste/magistrat/index.html",
+		path: "/logos/praha.svg",
+		height: 55,
 	},
 ] as const;
 
@@ -227,10 +232,7 @@ const Home: NextPage = () => {
 					))}
 				</div>
 				<p className="pt-6 text-center text-grey-dark text-footer leading-relaxed max-w-3xl mx-auto pb-12">
-					Tento projekt je spolufinancován projektem Ministerstvem vnitra ČR v
-					rámci projektu „Poskytování informačního servisu institucím
-					prostřednictvím platformy Pomáhej Ukrajině a koordinace občanské
-					pomoci uprchlíkům z Ukrajiny“.
+					Projekt je realizován s finanční podporou hlavního města Prahy.
 				</p>
 			</div>
 		</div>
