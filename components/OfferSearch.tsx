@@ -145,7 +145,10 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
-			<Configure hitsPerPage={showFilters ? 12 : 15} />
+			<Configure
+				// @ts-ignore
+				hitsPerPage={showFilters ? 12 : 15}
+			/>
 
 			<div
 				className={
