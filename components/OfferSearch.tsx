@@ -34,7 +34,7 @@ const getValues = (value: any) => {
 	const valueType = typeof value;
 
 	if (valueType !== "string") {
-		return value.map((val: any, index: any) => (
+		return value.map((val: string, index: number) => (
 			<div key={index}>{handleHighlightLink(val)}</div>
 		));
 	} else {
@@ -42,19 +42,17 @@ const getValues = (value: any) => {
 	}
 };
 
-const handleWebLinks = (text: any) => {
-	const regExp = /(?:https?:\/\/|www\.)[^\s/$.?#].[^\s]*/g;
-	return regExp.test(text);
-};
+const handleHighlightLink = (content: string) => {
+	const reqExp = /(?:https?:\/\/|www\.)[^\s\$.?#].[^\s]*/g;
+	const isMatch = reqExp.test(content);
 
-const handleHighlightLink = (content: any) => {
 	const lines = content.split("\n");
 
 	return (
 		<div>
 			{lines.map((line: any, index: any) => {
-				if (handleWebLinks(line)) {
-					const link = line.match(/(https?:\/\/[^\s]+)/);
+				if (isMatch) {
+					const link = line.match(reqExp);
 					if (link) {
 						const parts = line.split(link[0]);
 						return (
@@ -67,7 +65,7 @@ const handleHighlightLink = (content: any) => {
 									className={"text-ua-blue underline font-bold"}
 								>
 									{link[0]}
-								</a>{" "}
+								</a>
 								{parts[1]}
 							</p>
 						);
@@ -148,6 +146,7 @@ export const OfferSearch = ({
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
 			<Configure hitsPerPage={showFilters ? 12 : 15} />
+
 			<div
 				className={
 					showFilters
@@ -338,6 +337,7 @@ export const OfferSearch = ({
 															: question.questionUK}
 													</p>
 
+													{/* TODO: */}
 													<p className="md:text-[16px] break-word">
 														{/* <Highlight
 															attribute={`parameter${
@@ -346,6 +346,9 @@ export const OfferSearch = ({
 															hit={hit.hit}
 														/> */}
 														{getValues(hit.hit[`parameter_${question.id}`])}
+														{console.log(
+															typeof hit.hit[`parameter_${question.id}`]
+														)}
 													</p>
 												</>
 											)}
