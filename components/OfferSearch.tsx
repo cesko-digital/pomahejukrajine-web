@@ -30,6 +30,55 @@ const getInitShowFilters = (): boolean => {
 	return window.innerWidth > BREAKTPOINTS.MD;
 };
 
+const getValues = (value: any) => {
+	const valueType = typeof value;
+
+	if (valueType !== "string") {
+		return value.map((val: any, index: any) => (
+			<div key={index}>{handleHighlightLink(val)}</div>
+		));
+	} else {
+		return handleHighlightLink(value);
+	}
+};
+
+const handleWebLinks = (text: any) => {
+	const regExp = /(?:https?:\/\/|www\.)[^\s/$.?#].[^\s]*/g;
+	return regExp.test(text);
+};
+
+const handleHighlightLink = (content: any) => {
+	const lines = content.split("\n");
+
+	return (
+		<div>
+			{lines.map((line: any, index: any) => {
+				if (handleWebLinks(line)) {
+					const link = line.match(/(https?:\/\/[^\s]+)/);
+					if (link) {
+						const parts = line.split(link[0]);
+						return (
+							<p key={index}>
+								{parts[0]}
+								<a
+									href={link[0]}
+									rel="noreferrer"
+									target="_blank"
+									className={"text-ua-blue underline font-bold"}
+								>
+									{link[0]}
+								</a>{" "}
+								{parts[1]}
+							</p>
+						);
+					}
+				}
+				return <p key={index}>{line}</p>;
+			})}
+		</div>
+	);
+};
+
 export const OfferSearch = ({
 	listQuestion,
 	offerTypeId,
@@ -288,13 +337,15 @@ export const OfferSearch = ({
 															? question.question
 															: question.questionUK}
 													</p>
+
 													<p className="md:text-[16px] break-word">
-														<Highlight
+														{/* <Highlight
 															attribute={`parameter${
 																locale === CZECH ? "" : "_uk"
 															}_${question.id}`}
 															hit={hit.hit}
-														/>
+														/> */}
+														{getValues(hit.hit[`parameter_${question.id}`])}
 													</p>
 												</>
 											)}
