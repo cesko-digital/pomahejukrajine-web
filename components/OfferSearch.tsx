@@ -349,9 +349,6 @@ export const OfferSearch = ({
 															hit={hit.hit}
 														/> */}
 														{getValues(hit.hit[`parameter_${question.id}`])}
-														{console.log(
-															typeof hit.hit[`parameter_${question.id}`]
-														)}
 													</p>
 												</>
 											)}
