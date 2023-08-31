@@ -87,6 +87,7 @@ export const OfferSearch = ({
 	const [showFilters, setShowFilters] = useState<boolean>(
 		true /* server side default */
 	);
+
 	const { t } = useTranslation();
 	const refinementClassnames = {
 		item: "py-1",
@@ -358,7 +359,7 @@ export const OfferSearch = ({
 																: question.questionUK}
 														</p>
 
-														{/* TODO: */}
+														{/* TODO: Highlight component */}
 														<p className="md:text-[16px] break-word">
 															{/* <Highlight
 															attribute={`parameter${
@@ -379,7 +380,8 @@ export const OfferSearch = ({
 											>
 												<p className="font-bold">{t("nabidky.organizace")}</p>
 												<p className="md:text-[16px] break-word">
-													<Highlight attribute="organization" hit={hit.hit} />
+													{/* <Highlight attribute="organization" hit={hit.hit} /> */}
+													{getValues(hit.hit.organization)}
 												</p>
 											</div>
 										)}
