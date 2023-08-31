@@ -30,6 +30,53 @@ const getInitShowFilters = (): boolean => {
 	return window.innerWidth > BREAKTPOINTS.MD;
 };
 
+const getValues = (value: any) => {
+	const valueType = typeof value;
+
+	if (valueType !== "string") {
+		return value.map((val: string, index: number) => (
+			<div key={index}>{handleHighlightLink(val)}</div>
+		));
+	} else {
+		return handleHighlightLink(value);
+	}
+};
+
+const handleHighlightLink = (content: string) => {
+	const reqExp = /(?:https?:\/\/|www\.)[^\s\$.?#].[^\s]*/g;
+	const isMatch = reqExp.test(content);
+
+	const lines = content.split("\n");
+
+	return (
+		<div>
+			{lines.map((line: any, index: any) => {
+				if (isMatch) {
+					const link = line.match(reqExp);
+					if (link) {
+						const parts = line.split(link[0]);
+						return (
+							<p key={index}>
+								{parts[0]}
+								<a
+									href={link[0]}
+									rel="noreferrer"
+									target="_blank"
+									className={"text-ua-blue underline font-bold"}
+								>
+									{link[0]}
+								</a>
+								{parts[1]}
+							</p>
+						);
+					}
+				}
+				return <p key={index}>{line}</p>;
+			})}
+		</div>
+	);
+};
+
 export const OfferSearch = ({
 	listQuestion,
 	offerTypeId,
@@ -98,7 +145,11 @@ export const OfferSearch = ({
 			indexName={`offers_${offerTypeId}`}
 			searchClient={typesenseInstantsearchAdapter.searchClient}
 		>
-			<Configure hitsPerPage={showFilters ? 12 : 15} />
+			<Configure
+				// @ts-ignore
+				hitsPerPage={showFilters ? 12 : 15}
+			/>
+
 			<div
 				className={
 					showFilters
@@ -288,13 +339,16 @@ export const OfferSearch = ({
 															? question.question
 															: question.questionUK}
 													</p>
+
+													{/* TODO: */}
 													<p className="md:text-[16px] break-word">
-														<Highlight
+														{/* <Highlight
 															attribute={`parameter${
 																locale === CZECH ? "" : "_uk"
 															}_${question.id}`}
 															hit={hit.hit}
-														/>
+														/> */}
+														{getValues(hit.hit[`parameter_${question.id}`])}
 													</p>
 												</>
 											)}
