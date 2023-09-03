@@ -18,13 +18,7 @@ interface Content {
 	[category: string]: Category;
 }
 
-export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
-	offerType,
-	isOverlayShown,
-	onModalClose,
-}) => {
-	const { t } = useTranslation();
-
+export const getUsefulLinksContent = (t: any) => {
 	const content: Content = {
 		"Dobrovolnická pomoc": {
 			header: t("common:usefulLinks.volunteerHelp.header"),
@@ -177,6 +171,16 @@ export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
 			rightHalf: [],
 		},
 	};
+	return content;
+};
+
+export const OfferUsefulLinks: React.FC<OfferUsefulLinksProps> = ({
+	offerType,
+	isOverlayShown,
+	onModalClose,
+}) => {
+	const { t } = useTranslation();
+	const content = getUsefulLinksContent(t);
 
 	const categoryObj = content[offerType.name];
 	return (
