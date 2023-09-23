@@ -388,7 +388,7 @@ export const OfferSearch = ({
 										<div className="grow" />
 										<div className="mt-7 flex justify-between items-end">
 											<a
-												className="px-4 py-[10px] md:py-2.5 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
+												className="px-4 py-[10px] md:py-2.5 bg-ua-blue hover:bg-ua-blue-dark text-white text-center rounded-md text-sm transition duration-150"
 												href="#"
 												onClick={() => setOpenedOffer(hit.hit)}
 											>
@@ -401,7 +401,7 @@ export const OfferSearch = ({
 																locale === CZECH ? "cs" : "uk",
 																{
 																	month: "long",
-																	year: "numeric",
+																	year: "2-digit",
 																}
 														  ).format(new Date(hit.hit.updatedAt * 1000))
 														: ""}
