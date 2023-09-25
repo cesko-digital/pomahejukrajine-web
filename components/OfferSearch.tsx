@@ -394,7 +394,7 @@ export const OfferSearch = ({
 											>
 												<span>{t("nabidky.needThisHelp")}</span>
 											</a>
-											<div className="mt-2 text-gray-400 flex flex-col items-end text-[13px] pl-2">
+											<div className="mt-2 text-gray-400 flex flex-col items-end text-[13px] pl-2 whitespace-nowrap">
 												<div>
 													{hit.hit.updatedAt
 														? new Intl.DateTimeFormat(
