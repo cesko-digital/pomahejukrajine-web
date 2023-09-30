@@ -401,7 +401,8 @@ export const OfferSearch = ({
 																locale === CZECH ? "cs" : "uk",
 																{
 																	month: "long",
-																	year: "2-digit",
+																	year:
+																		locale === CZECH ? "numeric" : "2-digit",
 																}
 														  ).format(new Date(hit.hit.updatedAt * 1000))
 														: ""}
