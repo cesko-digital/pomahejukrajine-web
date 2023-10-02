@@ -40,7 +40,7 @@ export const MakeItClear = () => {
 
 				<div className="justify-center hidden md:flex">
 					<Link href="#offerAccommodation">
-						<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] py-4 mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
+						<a className="text-white text-[18px] bg-ua-blue font-bold rounded-md w-[225px] p-4 mt-9 flex justify-center items-center hover:bg-ua-blue-dark transition duration-150">
 							{t("ubytovani:howItWorks.button")}
 						</a>
 					</Link>
@@ -50,7 +50,7 @@ export const MakeItClear = () => {
 					{isCollapsed && (
 						<button
 							className={
-								"text-ua-blue text-[18px] font-bold border-2 border-ua-blue rounded-md w-full md:w-[225px] py-4 flex justify-center items-center hover:bg-ua-blue-dark hover:text-white transition duration-150"
+								"text-ua-blue text-[18px] font-bold border-2 border-ua-blue rounded-md w-full md:w-[225px] px-4 flex justify-center items-center hover:bg-ua-blue-dark hover:text-white transition duration-150"
 							}
 							onClick={() => setCollapsed(false)}
 						>

@@ -388,20 +388,21 @@ export const OfferSearch = ({
 										<div className="grow" />
 										<div className="mt-7 flex justify-between items-end">
 											<a
-												className="px-4 py-[10px] md:py-2.5 bg-ua-blue hover:bg-ua-blue-dark text-white rounded-md text-sm transition duration-150"
+												className="px-4 py-[10px] md:py-2.5 bg-ua-blue hover:bg-ua-blue-dark text-white text-center rounded-md text-sm transition duration-150"
 												href="#"
 												onClick={() => setOpenedOffer(hit.hit)}
 											>
 												<span>{t("nabidky.needThisHelp")}</span>
 											</a>
-											<div className="mt-2 text-gray-400 flex flex-col items-end text-[13px] pl-2">
+											<div className="mt-2 text-gray-400 flex flex-col items-end text-[13px] pl-2 whitespace-nowrap">
 												<div>
 													{hit.hit.updatedAt
 														? new Intl.DateTimeFormat(
 																locale === CZECH ? "cs" : "uk",
 																{
 																	month: "long",
-																	year: "numeric",
+																	year:
+																		locale === CZECH ? "numeric" : "2-digit",
 																}
 														  ).format(new Date(hit.hit.updatedAt * 1000))
 														: ""}
