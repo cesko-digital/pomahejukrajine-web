@@ -50,7 +50,7 @@
 		"eslint-config-prettier": "^8.5.0",
 		"husky": "^7.0.4",
 		"lint-staged": "^12.3.7",
-		"postcss": "^8.4.12",
+		"postcss": "^8.4.31",
 		"prettier": "^2.6.0",
 		"react-instantsearch-dom": "^6.39.0",
 		"react-instantsearch-hooks-web": "^6.39.2",
