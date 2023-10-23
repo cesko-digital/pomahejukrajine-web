@@ -33,6 +33,10 @@ const Logos = [
 	{ href: "https://dignityrh.org/", path: "/logos/dignity.svg" },
 	{ href: "http://www.kalyna.cz/", path: "/logos/kalyna.svg" },
 	{ href: "https://czechdoc.cz/cs/", path: "/logos/czechdoc.png" },
+	{
+		href: "https://ufal.mff.cuni.cz/ufal-ukraine",
+		path: "/logos/charlesTranslator.png",
+	},
 ] as const;
 
 const PartnersLogos = [
