@@ -71,6 +71,11 @@ const PartnersLogos = [
 		path: "/logos/praha.svg",
 		height: 55,
 	},
+	{
+		href: "https://ufal.mff.cuni.cz/ufal-ukraine",
+		path: "/logos/charlesTranslator.png",
+		height: 55,
+	},
 ] as const;
 
 const Home: NextPage = () => {
